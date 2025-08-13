@@ -1,0 +1,141 @@
+# Distributed under the OSI-approved BSD 3-Clause License.
+# See accompanying file LICENSE-BSD for details.
+
+name: ci-check-pr-status
+
+on:
+  pull_request:
+    branches:
+      - main
+      - l10n
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  before-check:
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name   == 'pull_request' ) &&
+              ( github.base_ref     == 'main' ||
+                github.base_ref     == 'l10n' ) &&
+              ( github.event.action == 'opened' ||
+                github.event.action == 'synchronize' ||
+                github.event.action == 'reopened' ) ) }}
+    runs-on: ubuntu-latest
+    outputs:
+      WORKFLOW_CHANGE: ${{ steps.filter.outputs.workflow }}
+      DOCUMENT_CHANGE: ${{ steps.filter.outputs.document }}
+      SCRIPT_CHANGE: ${{ steps.filter.outputs.script }}
+    steps:
+      - name: Print Contexts/Inputs/Variables/Secrets
+        shell: bash
+        run: |
+          echo "[Contexts]"
+          echo "github.job = ${{ github.job }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.event.action = ${{ github.event.action }}"
+          echo "github.event.number = ${{ github.event.number }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "github.event.pull_request.base.ref = ${{ github.event.pull_request.base.ref }}"
+          echo "github.event.pull_request.head.ref = ${{ github.event.pull_request.head.ref }}"
+          echo "github.base_ref = ${{ github.base_ref }}"
+          echo "github.head_ref = ${{ github.head_ref }}"
+          echo "github.event.before = ${{ github.event.before }}"
+          echo "github.sha = ${{ github.sha }}"
+          echo "[Variables]"
+          echo "vars.RUNNER = ${{ vars.RUNNER }}"
+          echo "vars.ACTOR_NAME = ${{ vars.ACTOR_NAME }}"
+          echo "vars.ACTOR_EMAIL = ${{ vars.ACTOR_EMAIL }}"
+          echo "vars.CROWDIN_PROJECT_ID = ${{ vars.CROWDIN_PROJECT_ID }}"
+          echo "vars.CROWDIN_BASE_URL = ${{ vars.CROWDIN_BASE_URL }}"
+          echo "vars.GPG_FINGERPRINT = ${{ vars.GPG_FINGERPRINT }}"
+          echo "[Secrets]"
+          echo "secrets.ACTOR_GITHUB_TOKEN = ${{ secrets.ACTOR_GITHUB_TOKEN }}"
+          echo "secrets.CROWDIN_PERSONAL_TOKEN = ${{ secrets.CROWDIN_PERSONAL_TOKEN }}"
+          echo "secrets.GPG_PRIVATE_KEY = ${{ secrets.GPG_PRIVATE_KEY }}"
+          echo "secrets.GPG_PASSPHRASE = ${{ secrets.GPG_PASSPHRASE }}"
+      - name: Checkout to '${{ github.ref }}'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: Filter Changes in the Pull Request
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          token: ${{ secrets.ACTOR_GITHUB_TOKEN }}
+          filters: |
+            workflow:
+              - '.github/workflows/*.yml'
+            document:
+              - 'README.md'
+            script:
+              - 'cmake/custom/**/*'
+              - 'cmake/targets/*.cmake'
+              - 'CMakeLists.txt'
+              - 'CMakePresets.json'
+              - 'languages.json'
+              - 'versions.json'
+      - name: Check Outputs of paths-filter
+        shell: bash
+        run: |
+          echo "steps.filter.outputs.workflow = ${{ steps.filter.outputs.workflow }}"
+          echo "steps.filter.outputs.document = ${{ steps.filter.outputs.document }}"
+          echo "steps.filter.outputs.script   = ${{ steps.filter.outputs.script }}"
+          echo "steps.filter.outputs.workflow_count = ${{ steps.filter.outputs.workflow_count }}"
+          echo "steps.filter.outputs.document_count = ${{ steps.filter.outputs.document_count }}"
+          echo "steps.filter.outputs.script_count   = ${{ steps.filter.outputs.script_count }}"
+
+  check-crowdin-update-docs:
+    needs: [ 'before-check' ]
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name   == 'pull_request' ) &&
+              ( github.base_ref     == 'main' ||
+                github.base_ref     == 'l10n' ) &&
+              ( github.event.action == 'opened' ||
+                github.event.action == 'synchronize' ||
+                github.event.action == 'reopened' ) ) }}
+    uses: localizethedocs/ci-common/.github/workflows/use-crowdin-update-docs.yml@main
+    with:
+      ENABLE: ${{ needs.before-check.outputs.DOCUMENT_CHANGE == 'true' }}
+      RUNNER: ${{ vars.RUNNER }}
+      CHECKOUT: ${{ github.ref }}
+      VERSION: 'check'
+      LANGUAGE: 'all'
+      LANGUAGE_SOURCE: 'en_US'
+      ACTOR_NAME: ${{ vars.ACTOR_NAME }}
+      ACTOR_EMAIL: ${{ vars.ACTOR_EMAIL }}
+      CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
+      CROWDIN_BASE_URL: ${{ vars.CROWDIN_BASE_URL }}
+      GPG_FINGERPRINT: ${{ vars.GPG_FINGERPRINT }}
+    secrets:
+      ACTOR_GITHUB_TOKEN: ${{ secrets.ACTOR_GITHUB_TOKEN }}
+      CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  check-sphinx-build-docs:
+    needs: [ 'before-check' ]
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name   == 'pull_request' ) &&
+              ( github.base_ref     == 'main' ||
+                github.base_ref     == 'l10n' ) &&
+              ( github.event.action == 'opened' ||
+                github.event.action == 'synchronize' ||
+                github.event.action == 'reopened' ) ) }}
+    uses: localizethedocs/ci-common/.github/workflows/use-sphinx-build-docs.yml@main
+    with:
+      ENABLE: ${{ needs.before-check.outputs.SCRIPT_CHANGE == 'true' }}
+      RUNNER: ${{ vars.RUNNER }}
+      CHECKOUT: ${{ github.ref }}
+      VERSION: 'rolling'
+      LANGUAGE: 'all'
+      MODE_OF_UPDATE: 'COMPARE'
+      BASEURL_HREF: ${{ vars.BASEURL_HREF }}
+      SPHINX_BUILDER: 'html'
+      DEPLOY_PAGES: false
+      ACTOR_NAME: ${{ vars.ACTOR_NAME }}
+      ACTOR_EMAIL: ${{ vars.ACTOR_EMAIL }}
+    secrets:
+      ACTOR_GITHUB_TOKEN: ${{ secrets.ACTOR_GITHUB_TOKEN }}

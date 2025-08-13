@@ -1,0 +1,141 @@
+# Distributed under the OSI-approved BSD 3-Clause License.
+# See accompanying file LICENSE-BSD for details.
+
+name: ci-crowdin-update-docs
+
+on:
+  # Triggers the workflow when README changes are pushed to the 'main' branch.
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'README.md'
+      - 'crowdin.yml'
+      - 'languages.json'
+  # Triggers the workflow based on a schedule.
+  schedule:
+    - cron: '0 0 * * 1'
+  # Triggers the workflow manually through the GitHub UI.
+  workflow_dispatch:
+    inputs:
+      LANGUAGE:
+        description: 'LANGUAGE input'
+        required: true
+        type: string
+        default: 'all'
+
+jobs:
+  precondition:
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name == 'push' ) ||
+              ( github.event_name == 'schedule' ) ||
+              ( github.event_name == 'workflow_dispatch' ) ) }}
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Print Contexts/Inputs/Variables/Secrets
+        shell: bash
+        run: |
+          echo "[Contexts]"
+          echo "github.job = ${{ github.job }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "github.event.schedule = ${{ github.event.schedule }}"
+          echo "[Inputs]"
+          echo "inputs.LANGUAGE = ${{ inputs.LANGUAGE }}"
+          echo "[Variables]"
+          echo "vars.RUNNER = ${{ vars.RUNNER }}"
+          echo "vars.ACTOR_NAME = ${{ vars.ACTOR_NAME }}"
+          echo "vars.ACTOR_EMAIL = ${{ vars.ACTOR_EMAIL }}"
+          echo "vars.CROWDIN_PROJECT_ID = ${{ vars.CROWDIN_PROJECT_ID }}"
+          echo "vars.CROWDIN_BASE_URL = ${{ vars.CROWDIN_BASE_URL }}"
+          echo "vars.GPG_FINGERPRINT = ${{ vars.GPG_FINGERPRINT }}"
+          echo "[Secrets]"
+          echo "secrets.ACTOR_GITHUB_TOKEN = ${{ secrets.ACTOR_GITHUB_TOKEN }}"
+          echo "secrets.CROWDIN_PERSONAL_TOKEN = ${{ secrets.CROWDIN_PERSONAL_TOKEN }}"
+          echo "secrets.GPG_PRIVATE_KEY = ${{ secrets.GPG_PRIVATE_KEY }}"
+          echo "secrets.GPG_PASSPHRASE = ${{ secrets.GPG_PASSPHRASE }}"
+      - name: Check Required Variables
+        shell: bash
+        run: |
+          REQUIRED_VARIABLES_EXIST=true
+          if [[ -z "${{ vars.RUNNER }}" ]]; then
+            echo "vars.RUNNER is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.ACTOR_NAME }}" ]]; then
+            echo "vars.ACTOR_NAME is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.ACTOR_EMAIL }}" ]]; then
+            echo "vars.ACTOR_EMAIL is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.CROWDIN_PROJECT_ID }}" ]]; then
+            echo "vars.CROWDIN_PROJECT_ID is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.CROWDIN_BASE_URL }}" ]]; then
+            echo "vars.CROWDIN_BASE_URL is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.GPG_FINGERPRINT }}" ]]; then
+            echo "vars.GPG_FINGERPRINT is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ "${REQUIRED_VARIABLES_EXIST}" == "false" ]]; then
+            echo "Error: Some variables are missing." >&2
+            exit 1
+          fi
+      - name: Check Required Secrets
+        shell: bash
+        run: |
+          REQUIRED_SECRETS_EXIST=true
+          if [[ -z "${{ secrets.ACTOR_GITHUB_TOKEN }}" ]]; then
+            echo "secrets.ACTOR_GITHUB_TOKEN is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ -z "${{ secrets.CROWDIN_PERSONAL_TOKEN }}" ]]; then
+            echo "secrets.CROWDIN_PERSONAL_TOKEN is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ -z "${{ secrets.GPG_PRIVATE_KEY }}" ]]; then
+            echo "secrets.GPG_PRIVATE_KEY is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ -z "${{ secrets.GPG_PASSPHRASE }}" ]]; then
+            echo "secrets.GPG_PASSPHRASE is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ "${REQUIRED_SECRETS_EXIST}" == "false" ]]; then
+            echo "Error: Some secrets are missing." >&2
+            exit 1
+          fi
+
+  caller:
+    needs: [ 'precondition' ]
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name == 'push' ) ||
+              ( github.event_name == 'schedule' ) ||
+              ( github.event_name == 'workflow_dispatch' ) ) }}
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
+    uses: localizethedocs/ci-common/.github/workflows/use-crowdin-update-docs.yml@main
+    with:
+      ENABLE: true
+      RUNNER: ${{ vars.RUNNER }}
+      CHECKOUT: ${{ github.ref }}
+      VERSION: 'docs'
+      LANGUAGE: ${{ inputs.LANGUAGE || 'all' }}
+      LANGUAGE_SOURCE: 'en_US'
+      ACTOR_NAME: ${{ vars.ACTOR_NAME }}
+      ACTOR_EMAIL: ${{ vars.ACTOR_EMAIL }}
+      CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
+      CROWDIN_BASE_URL: ${{ vars.CROWDIN_BASE_URL }}
+      GPG_FINGERPRINT: ${{ vars.GPG_FINGERPRINT }}
+    secrets:
+      ACTOR_GITHUB_TOKEN: ${{ secrets.ACTOR_GITHUB_TOKEN }}
+      CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
