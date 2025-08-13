@@ -1,0 +1,326 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation iron\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:8
+msgid "Working with multiple ROS 2 middleware implementations"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:14
+msgid ""
+"This page explains the default RMW implementation and how to specify an "
+"alternative."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:17
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:19
+msgid ""
+"You should have already read the :doc:`DDS and ROS middleware "
+"implementations page <../Concepts/Intermediate/About-Different-Middleware-"
+"Vendors>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:22
+msgid "Specifying RMW implementations"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:24
+msgid ""
+"To have multiple RMW implementations available for use you must have "
+"installed the ROS 2 binaries and any additional dependencies for specific "
+"RMW implementations, or built ROS 2 from source with multiple RMW "
+"implementations in the workspace (the RMW implementations are included in "
+"the build by default if their compile-time dependencies are met). See :doc:"
+"`Install DDS implementations <../Installation/DDS-Implementations>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:28
+msgid ""
+"Both C++ and Python nodes support an environment variable "
+"``RMW_IMPLEMENTATION`` that allows the user to select the RMW implementation "
+"to use when running ROS 2 applications."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:30
+msgid ""
+"The user may set this variable to a specific implementation identifier, such "
+"as ``rmw_cyclonedds_cpp``, ``rmw_fastrtps_cpp``, ``rmw_connextdds``, or "
+"``rmw_gurumdds_cpp``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:32
+msgid ""
+"For example, to run the talker demo using the C++ talker and Python listener "
+"with the Connext RMW implementation:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:36
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:38
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:47
+msgid ""
+"RMW_IMPLEMENTATION=rmw_connextdds ros2 run demo_nodes_cpp talker\n"
+"\n"
+"# Run in another terminal\n"
+"RMW_IMPLEMENTATION=rmw_connextdds ros2 run demo_nodes_py listener"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:45
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:54
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:56
+msgid ""
+"set RMW_IMPLEMENTATION=rmw_connextdds\n"
+"ros2 run demo_nodes_cpp talker\n"
+"\n"
+"REM run in another terminal\n"
+"set RMW_IMPLEMENTATION=rmw_connextdds\n"
+"ros2 run demo_nodes_py listener"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:66
+msgid "Adding RMW implementations to your workspace"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:68
+msgid ""
+"Suppose that you have built your ROS 2 workspace with only Fast DDS "
+"installed and therefore only the Fast DDS RMW implementation built. The last "
+"time your workspace was built, any other RMW implementation packages, "
+"``rmw_connextdds`` for example, were probably unable to find installations "
+"of the relevant DDS implementations. If you then install an additional DDS "
+"implementation, Connext for example, you will need to re-trigger the check "
+"for a Connext installation that occurs when the Connext RMW implementation "
+"is being built. You can do this by specifying the ``--cmake-clean-cache`` "
+"flag on your next workspace build, and you should see that the RMW "
+"implementation package then gets built for the newly installed DDS "
+"implementation."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:73
+msgid ""
+"It is possible to run into a problem when \"rebuilding\" the workspace with "
+"an additional RMW implementation using the ``--cmake-clean-cache`` option "
+"where the build complains about the default RMW implementation changing. To "
+"resolve this, you can either set the default implementation to what is was "
+"before with the ``RMW_IMPLEMENTATION`` CMake argument or you can delete the "
+"build folder for packages that complain and continue the build with ``--"
+"packages-start <package name>``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:77
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:80
+msgid "Checking the Current RMW"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:82
+msgid ""
+"To check the RMW that is currently in use you simply check the "
+"``RMW_IMPLEMENTATION`` environment variable. On Linux systems ``printenv`` "
+"prints the full list of environment variables. Other operating systems will "
+"have other procedures for viewing environment variables. If "
+"``RMW_IMPLEMENTATION`` is not in the environment it is safe to assume you "
+"are using the default for your ROS distro, otherwise the current RMW is the "
+"value listed. The default RMW for each ROS Distro can be found in `REP-2000 "
+"<https://www.ros.org/reps/rep-2000.html#platforms-by-distribution>`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:88
+msgid "Ensuring use of a particular RMW implementation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:90
+msgid ""
+"If the ``RMW_IMPLEMENTATION`` environment variable is set to an RMW "
+"implementation for which support is not installed, you will see an error "
+"message similar to the following if you have only one implementation "
+"installed:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:92
+msgid ""
+"Expected RMW implementation identifier of 'rmw_connextdds' but instead found "
+"'rmw_fastrtps_cpp', exiting with 102."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:96
+msgid ""
+"If you have support for multiple RMW implementations installed and you "
+"request use of one that is not installed, you will see something similar to:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:98
+msgid ""
+"Error getting RMW implementation identifier / RMW implementation not "
+"installed (expected identifier of 'rmw_connextdds'), exiting with 1."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:102
+msgid ""
+"If this occurs, double check that your ROS 2 installation includes support "
+"for the RMW implementation that you have specified in the "
+"``RMW_IMPLEMENTATION`` environment variable."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:104
+msgid ""
+"If you want to switch between RMW implementations, verify that the ROS 2 "
+"daemon process is not running with the previous RMW implementation to avoid "
+"any issues between nodes and command line tools such as ``ros2 node``. For "
+"example, if you run:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:107
+msgid "RMW_IMPLEMENTATION=rmw_connextdds ros2 run demo_nodes_cpp talker"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:111
+msgid "and"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:113
+msgid "ros2 node list"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:117
+msgid "it will generate a daemon with a Fast DDS implementation:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:119
+msgid ""
+"21318 22.0  0.6 535896 55044 pts/8    Sl   16:14   0:00 /usr/bin/python3 /"
+"opt/ros/rolling/bin/_ros2_daemon --rmw-implementation rmw_fastrtps_cpp --ros-"
+"domain-id 0"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:123
+msgid ""
+"Even if you run the command line tool again with the correct RMW "
+"implementation, the daemon's RMW implementation will not change and the ROS "
+"2 command line tools will fail."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:125
+msgid "To solve this, simply stop the daemon process:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:127
+msgid "ros2 daemon stop"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:131
+msgid ""
+"and rerun the ROS 2 command line tool with the correct RMW implementation."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:134
+msgid ""
+"RTI Connext on OSX: Failure due to insufficient shared memory kernel settings"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:136
+msgid ""
+"If you receive an error message similar to below when running RTI Connext on "
+"OSX:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:138
+msgid ""
+"[D0062|"
+"ENABLE]DDS_DomainParticipantPresentation_reserve_participant_index_entryports:!"
+"enable reserve participant index\n"
+"[D0062|ENABLE]DDS_DomainParticipant_reserve_participant_index_entryports:"
+"Unusable shared memory transport. For a more in-   depth explanation of the "
+"possible problem and solution, please visit https://community.rti.com/kb/"
+"osx510."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:143
+msgid ""
+"This error is caused by an insufficient number or size of shared memory "
+"segments allowed by the operating system. As a result, the "
+"``DomainParticipant`` is unable to allocate enough resources and calculate "
+"its participant index which causes the error."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:145
+msgid ""
+"You can increase the shared memory resources of your machine either "
+"temporarily or permanently."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:147
+msgid ""
+"To increase the settings temporarily, you can run the following commands as "
+"user root:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:149
+msgid ""
+"/usr/sbin/sysctl -w kern.sysv.shmmax=419430400\n"
+"/usr/sbin/sysctl -w kern.sysv.shmmin=1\n"
+"/usr/sbin/sysctl -w kern.sysv.shmmni=128\n"
+"/usr/sbin/sysctl -w kern.sysv.shmseg=1024\n"
+"/usr/sbin/sysctl -w kern.sysv.shmall=262144"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:157
+msgid ""
+"To increase the settings permanently, you will need to edit or create the "
+"file ``/etc/sysctl.conf``. Creating or editing this file will require root "
+"permissions. Either add to your existing ``etc/sysctl.conf`` file or create "
+"``/etc/sysctl.conf`` with the following lines:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:159
+msgid ""
+"kern.sysv.shmmax=419430400\n"
+"kern.sysv.shmmin=1\n"
+"kern.sysv.shmmni=128\n"
+"kern.sysv.shmseg=1024\n"
+"kern.sysv.shmall=262144"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:167
+msgid ""
+"You will need to reboot the machine after modifying this file to have the "
+"changes take effect."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Working-with-multiple-RMW-implementations.rst:169
+msgid ""
+"This solution is edited from the RTI Connext community forum. See the "
+"`original post <https://community.rti.com/kb/osx510>`__ for more detailed "
+"explanation."
+msgstr ""
