@@ -1,0 +1,780 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:2
+msgid "Using Callback Groups"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:4
+msgid ""
+"When running a node in a Multi-Threaded Executor, ROS 2 offers callback "
+"groups as a tool for controlling the execution of different callbacks. This "
+"page is meant as a guide on how to use callback groups efficiently. It is "
+"assumed that the reader has a basic understanding about the concept of :doc:"
+"`executors <../Concepts/Intermediate/About-Executors>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:11
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:14
+msgid "Basics of callback groups"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:16
+msgid ""
+"When running a node in a Multi-Threaded Executor, ROS 2 offers two different "
+"types of callback groups for controlling execution of callbacks:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:20
+msgid "Mutually Exclusive Callback Group"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:21
+msgid "Reentrant Callback Group"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:23
+msgid ""
+"These callback groups restrict the execution of their callbacks in different "
+"ways. In short:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:27
+msgid ""
+"Mutually Exclusive Callback Group prevents its callbacks from being executed "
+"in parallel - essentially making it as if the callbacks in the group were "
+"executed by a SingleThreadedExecutor."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:30
+msgid ""
+"Reentrant Callback Group allows the executor to schedule and execute the "
+"group's callbacks in any way it sees fit, without restrictions. This means "
+"that, in addition to different callbacks being run parallel to each other, "
+"different instances of the same callback may also be executed concurrently."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:35
+msgid ""
+"Callbacks belonging to different callback groups (of any type) can always be "
+"executed parallel to each other."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:38
+msgid ""
+"It is also important to keep in mind that different ROS 2 entities relay "
+"their callback group to all callbacks they spawn. For example, if one "
+"assigns a callback group to an action client, all callbacks created by the "
+"client will be assigned to that callback group."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:43
+msgid ""
+"Callback groups can be created by a node's ``create_callback_group`` "
+"function in rclcpp and by calling the constructor of the group in rclpy. The "
+"callback group can then be passed as argument/option when creating a "
+"subscription, timer, etc. A reference to the callback group should be "
+"retained, otherwise the callback associated with the callback group will not "
+"be called by the executor."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:51
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:198
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:284
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:450
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:504
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:527
+msgid "C++"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:53
+msgid ""
+"my_callback_group = create_callback_group(rclcpp::CallbackGroupType::"
+"MutuallyExclusive);\n"
+"\n"
+"rclcpp::SubscriptionOptions options;\n"
+"options.callback_group = my_callback_group;\n"
+"\n"
+"my_subscription = create_subscription<Int32>(\"/topic\", rclcpp::"
+"SensorDataQoS(),\n"
+"                                              callback, options);"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:63
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:250
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:349
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:457
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:511
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:555
+msgid "Python"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:65
+msgid ""
+"my_callback_group = MutuallyExclusiveCallbackGroup()\n"
+"my_subscription = self.create_subscription(Int32, \"/topic\", self.callback, "
+"qos_profile=1,\n"
+"                                            callback_group=my_callback_group)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:71
+msgid ""
+"If the user does not specify any callback group when creating a "
+"subscription, timer, etc., this entity will be assigned to the node's "
+"default callback group. The default callback group is a Mutually Exclusive "
+"Callback Group and it can be queried via ``NodeBaseInterface::"
+"get_default_callback_group()`` in rclcpp and via ``Node."
+"default_callback_group`` in rclpy."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:78
+msgid "About callbacks"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:80
+msgid ""
+"In the context of ROS 2 and executors, a callback means a function whose "
+"scheduling and execution is handled by an executor. Examples of callbacks in "
+"this context are"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:84
+msgid "subscription callbacks (receiving and handling data from a topic),"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:85
+msgid "timer callbacks,"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:86
+msgid "service callbacks (for executing service requests in a server),"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:87
+msgid "different callbacks in action servers and clients,"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:88
+msgid "done-callbacks of Futures."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:90
+msgid ""
+"Below are a couple important points about callbacks that should be kept in "
+"mind when working with callback groups."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:93
+msgid ""
+"Almost everything in ROS 2 is a callback! Every function that is run by an "
+"executor is, by definition, a callback. The non-callback functions in a ROS "
+"2 system are found mainly at the edge of the system (user and sensor inputs "
+"etc)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:97
+msgid ""
+"Sometimes the callbacks are hidden and their presence may not be obvious "
+"from the user/developer API. This is the case especially with any kind of "
+"\"synchronous\" call to a service or an action (in rclpy). For example, the "
+"synchronous call ``Client.call(request)`` to a service adds a Future's done-"
+"callback that needs to be executed during the execution of the function "
+"call, but this callback is not directly visible to the user."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:108
+msgid "Controlling execution"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:110
+msgid ""
+"In order to control execution with callback groups, one can consider the "
+"following guidelines."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:113
+msgid "For the interaction of an individual callback with itself:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:115
+msgid ""
+"Register it to a Reentrant Callback Group if it should be executed in "
+"parallel to itself. An example case could be an action/service server that "
+"needs to be able to process several action calls in parallel to each other."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:119
+msgid ""
+"Register it to a Mutually Exclusive Callback Group if it should **never** be "
+"executed in parallel to itself. An example case could be a timer callback "
+"that runs a control loop that publishes control commands."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:122
+msgid "For the interaction of different callbacks with each other:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:124
+msgid ""
+"Register them to the same Mutually Exclusive Callback Group if they should "
+"**never** be executed in parallel. An example case could be that the "
+"callbacks are accessing shared critical and non-thread-safe resources."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:127
+msgid ""
+"If they should be executed in parallel, you have two options, depending on "
+"whether the individual callbacks should be able to overlap themselves or not:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:130
+msgid ""
+"Register them to different Mutually Exclusive Callback Groups (no overlap of "
+"the individual callbacks)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:132
+msgid ""
+"Register them to a Reentrant Callback Group (overlap of the individual "
+"callbacks)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:134
+msgid ""
+"An example case of running different callbacks in parallel is a Node that "
+"has a synchronous service client and a timer calling this service. See the "
+"detailed example below."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:139
+msgid "Avoiding deadlocks"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:141
+msgid ""
+"Setting up callback groups of a node incorrectly can lead to deadlocks (or "
+"other unwanted behavior), especially if one desires to use synchronous calls "
+"to services or actions. Indeed, even the API documentation of ROS 2 mentions "
+"that synchronous calls to actions or services should not be done in "
+"callbacks, because it can lead to deadlocks. While using asynchronous calls "
+"is indeed safer in this regard, synchronous calls can also be made to work. "
+"On the other hand, synchronous calls also have their advantages, such as "
+"making the code simpler and easier to understand. Hence, this section "
+"provides some guidelines on how to set up a node's callback groups correctly "
+"in order to avoid deadlocks."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:154
+msgid ""
+"First thing to note here is that every node's default callback group is a "
+"Mutually Exclusive Callback Group. If the user does not specify any other "
+"callback group when creating a timer, subscription, client etc., any "
+"callbacks created then or later by these entities will use the node's "
+"default callback group. Furthermore, if everything in a node uses the same "
+"Mutually Exclusive Callback Group, that node essentially acts as if it was "
+"handled by a Single-Threaded Executor, even if a multi-threaded one is "
+"specified! Thus, whenever one decides to use a Multi-Threaded Executor, some "
+"callback group(s) should always be specified in order for the executor "
+"choice to make sense."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:166
+msgid ""
+"With the above in mind, here are a couple guidelines to help avoid deadlocks:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:168
+msgid ""
+"If you make a synchronous call in any type of a callback, this callback and "
+"the client making the call need to belong to"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:171
+msgid "different callback groups (of any type), or"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:172
+msgid "a Reentrant Callback Group."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:174
+msgid ""
+"If the above configuration is not possible due to other requirements - such "
+"as thread-safety and/or blocking of other callbacks while waiting for the "
+"result (or if you want to make absolutely sure that there is never a "
+"possibility of a deadlock), use asynchronous calls."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:179
+msgid ""
+"Failing the first point will always cause a deadlock. An example of such a "
+"case would be making a synchronous service call in a timer callback (see the "
+"next section for an example)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:185
+msgid "Examples"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:187
+msgid ""
+"Let us look at some simple examples of different callback group setups. The "
+"following demo code considers calling a service synchronously in a timer "
+"callback."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:192
+msgid "Demo code"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:194
+msgid "We have two nodes - one providing a simple service:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:200
+msgid ""
+"#include <memory>\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_srvs/srv/empty.hpp\"\n"
+"\n"
+"using namespace std::placeholders;\n"
+"\n"
+"namespace cb_group_demo\n"
+"{\n"
+"class ServiceNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"    ServiceNode() : Node(\"service_node\")\n"
+"    {\n"
+"        auto service_callback = [this](\n"
+"            const std::shared_ptr<rmw_request_id_t> request_header,\n"
+"            const std::shared_ptr<std_srvs::srv::Empty::Request> request,\n"
+"            const std::shared_ptr<std_srvs::srv::Empty::Response> response)\n"
+"        {\n"
+"            (void)request_header;\n"
+"            (void)request;\n"
+"            (void)response;\n"
+"            RCLCPP_INFO(this->get_logger(), \"Received request, responding..."
+"\");\n"
+"        };\n"
+"        service_ptr_ = this->create_service<std_srvs::srv::Empty>(\n"
+"                \"test_service\",\n"
+"                service_callback\n"
+"        );\n"
+"    }\n"
+"\n"
+"private:\n"
+"    rclcpp::Service<std_srvs::srv::Empty>::SharedPtr service_ptr_;\n"
+"\n"
+"};  // class ServiceNode\n"
+"}   // namespace cb_group_demo\n"
+"\n"
+"int main(int argc, char* argv[])\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"    auto service_node = std::make_shared<cb_group_demo::ServiceNode>();\n"
+"\n"
+"    RCLCPP_INFO(service_node->get_logger(), \"Starting server node, shut "
+"down with CTRL-C\");\n"
+"    rclcpp::spin(service_node);\n"
+"    RCLCPP_INFO(service_node->get_logger(), \"Keyboard interrupt, shutting "
+"down.\\n\");\n"
+"\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:252
+msgid ""
+"import rclpy\n"
+"from rclpy.node import Node\n"
+"from std_srvs.srv import Empty\n"
+"\n"
+"class ServiceNode(Node):\n"
+"    def __init__(self):\n"
+"        super().__init__('service_node')\n"
+"        self.srv = self.create_service(Empty, 'test_service', callback=self."
+"service_callback)\n"
+"\n"
+"    def service_callback(self, request, result):\n"
+"        self.get_logger().info('Received request, responding...')\n"
+"        return result\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    rclpy.init()\n"
+"    node = ServiceNode()\n"
+"    try:\n"
+"        node.get_logger().info(\"Starting server node, shut down with CTRL-"
+"C\")\n"
+"        rclpy.spin(node)\n"
+"    except KeyboardInterrupt:\n"
+"        node.get_logger().info('Keyboard interrupt, shutting down.\\n')\n"
+"    node.destroy_node()\n"
+"    rclpy.shutdown()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:279
+msgid ""
+"and another containing a client to the service along with a timer for making "
+"service calls:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:286
+msgid ""
+"*Note:* The API of service client in rclcpp does not offer a synchronous "
+"call method similar to the one in rclpy, so we wait on the future object to "
+"simulate the effect of a synchronous call."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:291
+msgid ""
+"#include <chrono>\n"
+"#include <memory>\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_srvs/srv/empty.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"namespace cb_group_demo\n"
+"{\n"
+"class DemoNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"    DemoNode() : Node(\"client_node\")\n"
+"    {\n"
+"        client_cb_group_ = nullptr;\n"
+"        timer_cb_group_ = nullptr;\n"
+"        client_ptr_ = this->create_client<std_srvs::srv::"
+"Empty>(\"test_service\", rmw_qos_profile_services_default,\n"
+"                                                                client_cb_group_);\n"
+"\n"
+"        auto timer_callback = [this](){\n"
+"            RCLCPP_INFO(this->get_logger(), \"Sending request\");\n"
+"            auto request = std::make_shared<std_srvs::srv::Empty::"
+"Request>();\n"
+"            auto result_future = client_ptr_->async_send_request(request);\n"
+"            std::future_status status = result_future.wait_for(10s);  // "
+"timeout to guarantee a graceful finish\n"
+"            if (status == std::future_status::ready) {\n"
+"                RCLCPP_INFO(this->get_logger(), \"Received response\");\n"
+"            }\n"
+"        };\n"
+"\n"
+"        timer_ptr_ = this->create_wall_timer(1s, timer_callback, "
+"timer_cb_group_);\n"
+"    }\n"
+"\n"
+"private:\n"
+"    rclcpp::CallbackGroup::SharedPtr client_cb_group_;\n"
+"    rclcpp::CallbackGroup::SharedPtr timer_cb_group_;\n"
+"    rclcpp::Client<std_srvs::srv::Empty>::SharedPtr client_ptr_;\n"
+"    rclcpp::TimerBase::SharedPtr timer_ptr_;\n"
+"\n"
+"};  // class DemoNode\n"
+"}   // namespace cb_group_demo\n"
+"\n"
+"int main(int argc, char* argv[])\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"    auto client_node = std::make_shared<cb_group_demo::DemoNode>();\n"
+"    rclcpp::executors::MultiThreadedExecutor executor;\n"
+"    executor.add_node(client_node);\n"
+"\n"
+"    RCLCPP_INFO(client_node->get_logger(), \"Starting client node, shut down "
+"with CTRL-C\");\n"
+"    executor.spin();\n"
+"    RCLCPP_INFO(client_node->get_logger(), \"Keyboard interrupt, shutting "
+"down.\\n\");\n"
+"\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:351
+msgid ""
+"import rclpy\n"
+"from rclpy.executors import MultiThreadedExecutor\n"
+"from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, "
+"ReentrantCallbackGroup\n"
+"from rclpy.node import Node\n"
+"from std_srvs.srv import Empty\n"
+"\n"
+"\n"
+"class CallbackGroupDemo(Node):\n"
+"    def __init__(self):\n"
+"        super().__init__('client_node')\n"
+"\n"
+"        client_cb_group = None\n"
+"        timer_cb_group = None\n"
+"        self.client = self.create_client(Empty, 'test_service', "
+"callback_group=client_cb_group)\n"
+"        self.call_timer = self.create_timer(1, self._timer_cb, "
+"callback_group=timer_cb_group)\n"
+"\n"
+"    def _timer_cb(self):\n"
+"        self.get_logger().info('Sending request')\n"
+"        _ = self.client.call(Empty.Request())\n"
+"        self.get_logger().info('Received response')\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    rclpy.init()\n"
+"    node = CallbackGroupDemo()\n"
+"    executor = MultiThreadedExecutor()\n"
+"    executor.add_node(node)\n"
+"\n"
+"    try:\n"
+"        node.get_logger().info('Beginning client, shut down with CTRL-C')\n"
+"        executor.spin()\n"
+"    except KeyboardInterrupt:\n"
+"        node.get_logger().info('Keyboard interrupt, shutting down.\\n')\n"
+"    node.destroy_node()\n"
+"    rclpy.shutdown()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:389
+msgid ""
+"The client node's constructor contains options for setting the callback "
+"groups of the service client and the timer. With the default setting above "
+"(both being ``nullptr`` / ``None``), both the timer and the client will use "
+"the node's default Mutually Exclusive Callback Group."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:396
+msgid "The problem"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:398
+msgid ""
+"Since we are making service calls with a 1 second timer, the expected "
+"outcome is that the service gets called once a second, the client always "
+"gets a response and prints ``Received response``. If we try running the "
+"server and client nodes in terminals, we get the following outputs."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:406
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:469
+msgid "Client"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:408
+msgid ""
+"[INFO] [1653034371.758739131] [client_node]: Starting client node, shut down "
+"with CTRL-C\n"
+"[INFO] [1653034372.755865649] [client_node]: Sending request\n"
+"^C[INFO] [1653034398.161674869] [client_node]: Keyboard interrupt, shutting "
+"down."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:414
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:484
+msgid "Server"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:416
+msgid ""
+"[INFO] [1653034355.308958238] [service_node]: Starting server node, shut "
+"down with CTRL-C\n"
+"[INFO] [1653034372.758197320] [service_node]: Received request, "
+"responding...\n"
+"^C[INFO] [1653034416.021962246] [service_node]: Keyboard interrupt, shutting "
+"down."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:422
+msgid ""
+"So, it turns out that instead of the service being called repeatedly, the "
+"response of the first call is never received, after which the client node "
+"seemingly gets stuck and does not make further calls. That is, the execution "
+"stopped at a deadlock!"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:427
+msgid ""
+"The reason for this is that the timer callback and the client are using the "
+"same Mutually Exclusive Callback Group (the node's default). When the "
+"service call is made, the client then passes its callback group to the "
+"Future object (hidden inside the call-method in the Python version) whose "
+"done-callback needs to execute for the result of the service call to be "
+"available. But because this done-callback and the timer callback are in the "
+"same Mutually Exclusive group and the timer callback is still executing "
+"(waiting for the result of the service call), the done-callback never gets "
+"to execute. The stuck timer callback also blocks any other executions of "
+"itself, so the timer does not fire for a second time."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:441
+msgid "Solution"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:443
+msgid ""
+"We can fix this easily - for example - by assigning the timer and client to "
+"different callback groups. Thus, let us change the first two lines of the "
+"client node's constructor to be as follows (everything else shall stay the "
+"same):"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:452
+msgid ""
+"client_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"MutuallyExclusive);\n"
+"timer_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"MutuallyExclusive);"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:459
+msgid ""
+"client_cb_group = MutuallyExclusiveCallbackGroup()\n"
+"timer_cb_group = MutuallyExclusiveCallbackGroup()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:464
+msgid ""
+"Now we get the expected result, i.e. the timer fires repeatedly and each "
+"service call gets the result as it should:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:471
+msgid ""
+"[INFO] [1653067523.431731177] [client_node]: Starting client node, shut down "
+"with CTRL-C\n"
+"[INFO] [1653067524.431912821] [client_node]: Sending request\n"
+"[INFO] [1653067524.433230445] [client_node]: Received response\n"
+"[INFO] [1653067525.431869330] [client_node]: Sending request\n"
+"[INFO] [1653067525.432912803] [client_node]: Received response\n"
+"[INFO] [1653067526.431844726] [client_node]: Sending request\n"
+"[INFO] [1653067526.432893954] [client_node]: Received response\n"
+"[INFO] [1653067527.431828287] [client_node]: Sending request\n"
+"[INFO] [1653067527.432848369] [client_node]: Received response\n"
+"^C[INFO] [1653067528.400052749] [client_node]: Keyboard interrupt, shutting "
+"down."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:486
+msgid ""
+"[INFO] [1653067522.052866001] [service_node]: Starting server node, shut "
+"down with CTRL-C\n"
+"[INFO] [1653067524.432577720] [service_node]: Received request, "
+"responding...\n"
+"[INFO] [1653067525.432365009] [service_node]: Received request, "
+"responding...\n"
+"[INFO] [1653067526.432300261] [service_node]: Received request, "
+"responding...\n"
+"[INFO] [1653067527.432272441] [service_node]: Received request, "
+"responding...\n"
+"^C[INFO] [1653034416.021962246] [service_node]: KeyboardInterrupt, shutting "
+"down."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:495
+msgid ""
+"One might consider if just avoiding the node's default callback group is "
+"enough. This is not the case: replacing the default group by a different "
+"Mutually Exclusive group changes nothing. Thus, the following configuration "
+"also leads to the previously discovered deadlock."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:506
+msgid ""
+"client_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"MutuallyExclusive);\n"
+"timer_cb_group_ = client_cb_group_;"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:513
+msgid ""
+"client_cb_group = MutuallyExclusiveCallbackGroup()\n"
+"timer_cb_group = client_cb_group"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:518
+msgid ""
+"In fact, the exact condition with which everything works in this case is "
+"that the timer and client must not belong to the same Mutually Exclusive "
+"group. Hence, all of the following configurations (and some others as well) "
+"produce the desired outcome where the timer fires repeatedly and service "
+"calls are completed."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:529
+msgid ""
+"client_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"Reentrant);\n"
+"timer_cb_group_ = client_cb_group_;"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:534
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:541
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:548
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:562
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:569
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:576
+msgid "or"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:536
+msgid ""
+"client_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"MutuallyExclusive);\n"
+"timer_cb_group_ = nullptr;"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:543
+msgid ""
+"client_cb_group_ = nullptr;\n"
+"timer_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"MutuallyExclusive);"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:550
+msgid ""
+"client_cb_group_ = this->create_callback_group(rclcpp::CallbackGroupType::"
+"Reentrant);\n"
+"timer_cb_group_ = nullptr;"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:557
+msgid ""
+"client_cb_group = ReentrantCallbackGroup()\n"
+"timer_cb_group = client_cb_group"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:564
+msgid ""
+"client_cb_group = MutuallyExclusiveCallbackGroup()\n"
+"timer_cb_group = None"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:571
+msgid ""
+"client_cb_group = None\n"
+"timer_cb_group = MutuallyExclusiveCallbackGroup()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Using-callback-groups.rst:578
+msgid ""
+"client_cb_group = ReentrantCallbackGroup()\n"
+"timer_cb_group = None"
+msgstr ""
