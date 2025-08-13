@@ -1,0 +1,392 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:2
+msgid "Reading from a bag file (Python)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:4
+msgid "**Goal:** Read data from a bag file to your own Python node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:6
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:8
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:12
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:15
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:17
+msgid ""
+"``rosbag2`` doesn't just provide the ``ros2 bag`` command line tool. It also "
+"provides a Python API for reading from and writing to a bag from your own "
+"source code. This allows you to read the contents from a bag without having "
+"to play the bag, which can sometimes be useful."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:22
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:24
+msgid ""
+"You should have the ``rosbag2`` packages installed as part of your regular "
+"ROS 2 setup."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:26
+msgid ""
+"If you need to install ROS 2, see the :doc:`Installation instructions <../../"
+"Installation>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:28
+msgid ""
+"You should have already completed the :doc:`basic ROS 2 bag tutorial <../"
+"Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-"
+"Back-Data>`, and we will be using the ``subset`` bag you created there."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:31
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:34
+msgid "1 Create a Package"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:36
+msgid ""
+"Open a new terminal and :doc:`source your ROS 2 installation <../Beginner-"
+"CLI-Tools/Configuring-ROS2-Environment>` so that ``ros2`` commands will work."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:38
+msgid ""
+"In a new or existing :ref:`workspace <new-directory>`, navigate to the "
+"``src`` directory and create a new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:41
+msgid ""
+"$ ros2 pkg create --build-type ament_python --license Apache-2.0 "
+"bag_reader_node_py --dependencies rclpy rosbag2_py std_msgs"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:45
+msgid ""
+"Your terminal will return a message verifying the creation of your package "
+"``bag_reader_node_py`` and all its necessary files and folders. The ``--"
+"dependencies`` argument will automatically add the necessary dependency "
+"lines to ``package.xml``. In this case, the package will use the "
+"``rosbag2_py`` package as well as the ``rclpy`` package. A dependency on the "
+"``std_msgs`` package is also required for message definitions."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:51
+msgid "1.1 Update ``package.xml`` and ``setup.py``"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:53
+msgid ""
+"Because you used the ``--dependencies`` option during package creation, you "
+"don't have to manually add dependencies to ``package.xml``. As always, "
+"though, make sure to add the description, maintainer email and name, and "
+"license information to ``package.xml``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:56
+msgid ""
+"<description>Python bag reading tutorial</description>\n"
+"<maintainer email=\"you@email.com\">Your Name</maintainer>\n"
+"<license>Apache-2.0</license>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:62
+msgid "Also be sure to add this information to the ``setup.py`` file as well."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:64
+msgid ""
+"maintainer='Your Name',\n"
+"maintainer_email='you@email.com',\n"
+"description='Python bag reading tutorial',\n"
+"license='Apache-2.0',"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:72
+msgid "2 Write the Python Reader"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:74
+msgid ""
+"Inside the ``ros2_ws/src/bag_reader_node_py/bag_reader_node_py`` directory, "
+"create a new file called ``simple_bag_reader.py`` and paste the following "
+"code into it."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:76
+msgid ""
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from rclpy.node import Node\n"
+"import rosbag2_py\n"
+"from std_msgs.msg import String\n"
+"\n"
+"\n"
+"class SimpleBagReader(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('simple_bag_reader')\n"
+"        self.reader = rosbag2_py.SequentialReader()\n"
+"        storage_options = rosbag2_py.StorageOptions(\n"
+"            uri='my_bag',\n"
+"            storage_id='mcap')\n"
+"        converter_options = rosbag2_py.ConverterOptions('', '')\n"
+"        self.reader.open(storage_options, converter_options)\n"
+"\n"
+"        self.publisher = self.create_publisher(String, 'chatter', 10)\n"
+"        self.timer = self.create_timer(0.1, self.timer_callback)\n"
+"\n"
+"    def timer_callback(self):\n"
+"        while self.reader.has_next():\n"
+"            msg = self.reader.read_next()\n"
+"            if msg[0] != 'chatter':\n"
+"                continue\n"
+"            self.publisher.publish(msg[1])\n"
+"            self.get_logger().info('Publish serialized data to ' + msg[0])\n"
+"            break\n"
+"\n"
+"\n"
+"def main(args=None):\n"
+"    try:\n"
+"        with rclpy.init(args=args):\n"
+"            sbr = SimpleBagReader()\n"
+"            rclpy.spin(sbr)\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:122
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:124
+msgid ""
+"The ``import`` statements at the top are the package dependencies. Note the "
+"importation of the ``rosbag2_py`` package for the functions and structures "
+"necessary to work with bag files."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:127
+msgid ""
+"In the class constructor, we begin by creating the bag reader object that we "
+"will use to read from the bag. We are creating a ``SequentialReader``, which "
+"reads messages from the bag in the order they are stored. Other readers with "
+"different behaviors may be available in `rosbag2_py reader <https://github."
+"com/ros2/rosbag2/tree/rolling/rosbag2_py/rosbag2_py/_reader.pyi>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:131
+msgid "self.reader = rosbag2_py.SequentialReader()"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:135
+msgid ""
+"Now that we have a bag reader object, we can open the bag using it. We "
+"specify the URI of the bag and the format (``mcap``), leaving other options "
+"at their defaults. The default conversion options are used, which will "
+"perform no conversion and store the messages in the serialization format "
+"they are received in."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:139
+msgid ""
+"storage_options = rosbag2_py.StorageOptions(\n"
+"    uri='my_bag',\n"
+"    storage_id='mcap')\n"
+"converter_options = rosbag2_py.ConverterOptions('', '')\n"
+"self.reader.open(storage_options, converter_options)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:147
+msgid ""
+"Next, we create a publisher and a timer to publish the data that reader "
+"object reads from the bag file."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:149
+msgid ""
+"self.publisher = self.create_publisher(String, 'chatter', 10)\n"
+"self.timer = self.create_timer(0.1, self.timer_callback)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:154
+msgid ""
+"The timer callback publishes all messages from the bag file only to the "
+"``chatter`` topic as long as it can read out the data."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:156
+msgid ""
+"def timer_callback(self):\n"
+"    while self.reader.has_next():\n"
+"        msg = self.reader.read_next()\n"
+"        if msg[0] != 'chatter':\n"
+"            continue\n"
+"        self.publisher.publish(msg[1])\n"
+"        self.get_logger().info('Publish serialized data to ' + msg[0])"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:166
+msgid ""
+"Finally, it finishes with the ``main`` function used to create an instance "
+"of the node and start ROS processing it."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:168
+msgid ""
+"def main(args=None):\n"
+"    try:\n"
+"        with rclpy.init(args=args):\n"
+"            sbr = SimpleBagReader()\n"
+"            rclpy.spin(sbr)\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:179
+msgid "2.2 Add executable"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:181
+msgid ""
+"Open the ``setup.py`` file in the ``bag_reader_node_py`` package and add an "
+"entry point for your node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:183
+msgid ""
+"entry_points={\n"
+"    'console_scripts': [\n"
+"        'simple_bag_reader = bag_reader_node_py.simple_bag_reader:main',\n"
+"    ],\n"
+"},"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:192
+msgid "3 Build and run"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:194
+msgid ""
+"Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
+"package."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:198
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:220
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:200
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:206
+msgid "$ colcon build --packages-select bag_reader_node_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:204
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:226
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:210
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:232
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:212
+msgid "$ colcon build --merge-install --packages-select bag_reader_node_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:216
+msgid ""
+"Open a new terminal, navigate to ``ros2_ws``, and source the setup files."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:222
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:228
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:234
+msgid "$ call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:238
+msgid "Now run the node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:240
+msgid "$ ros2 run bag_reader_node_py simple_bag_reader"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:244
+msgid ""
+"This will start publishing data on the ``chatter`` topic from the ``my_bag`` "
+"bag file. If the ``my_bag`` directory does not exists, ``simple_bag_reader`` "
+"will return failure since it can not open the bag file."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:247
+msgid "Open a second terminal and run the ``listener`` example node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:249
+msgid "$ ros2 run demo_nodes_py listener"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:253
+msgid ""
+"This will start receiving data on the ``chatter`` topic, published by "
+"``simple_bag_reader`` from the bag file."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:256
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Reading-From-A-Bag-File-Python.rst:258
+msgid ""
+"You created a Python node that reads data from a bag. You tested reading a "
+"bag using the node, and publishing the data by playing back the bag. This "
+"approach can be used to read and publish the data with additional data from "
+"the bag file, for example modifying the original data stored in the bag file."
+msgstr ""
