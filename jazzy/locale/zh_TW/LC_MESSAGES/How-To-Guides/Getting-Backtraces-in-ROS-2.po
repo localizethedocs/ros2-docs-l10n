@@ -1,0 +1,679 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:2
+msgid "Getting Backtraces in ROS 2"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:5
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:7
+msgid "**Goal:** Show various methods for getting backtraces in ROS 2"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:9
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:11
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:13
+msgid ""
+"The following steps show ROS 2 users how to get backtraces when they "
+"encounter a problem."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:16
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:18
+msgid "**What is a Backtrace ?**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:20
+msgid ""
+"Imagine your program is like a stack of pancakes where each pancake "
+"represents a function it's currently executing. A backtrace is like a photo "
+"of the collapsed pancake stack, showing you the order they were in, "
+"revealing how the program ended up with the failure."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:22
+msgid ""
+"It lists out the sequence of functions that were called, one on top of the "
+"other, leading up to the point of failure."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:24
+msgid "**Why is it Useful?**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:26
+msgid ""
+"**Pinpoints the Problem:** Instead of guessing where in your code an error "
+"occurred, the backtrace shows you the exact line number responsible for the "
+"crash."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:27
+msgid ""
+"**Reveals Context:** You can see the chain of events (functions calling "
+"other functions) that ultimately triggered the failure. This helps you "
+"understand not just where things went wrong, but also why."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:30
+msgid "**Visual Analogy**:  Stack of Pancakes"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:32
+msgid ""
+"Each Pancake is a Function: Imagine each pancake in a stack represents a "
+"function that your program is currently executing. The pancake at the bottom "
+"is your main() function, where it all begins."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:35
+msgid ""
+"Adding Pancakes: Every time a function calls another function, a new pancake "
+"is placed on top of the stack."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:37
+msgid ""
+"The Crash: A crash is like the plate slipping out from the bottom of the "
+"stack – something went disastrously wrong in the function currently "
+"executing."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:39
+msgid ""
+"The Backtrace: The backtrace is like a photo of that fallen pancake stack. "
+"It shows the order of pancakes (functions) from top to bottom, revealing how "
+"you ended up at the crash site."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:43
+msgid "**Code Example:**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:45
+msgid ""
+"void functionC() {\n"
+"  // Something bad happens here, causing a crash\n"
+"}\n"
+"\n"
+"void functionB() {\n"
+"    functionC();\n"
+"}\n"
+"\n"
+"void functionA() {\n"
+"    functionB();\n"
+"}\n"
+"\n"
+"int main() {\n"
+"    functionA();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:64
+msgid "**Backtrace from the Crash:**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:66
+msgid ""
+"#0  functionC() at file.cpp:3 // Crash occurred here\n"
+"#1  functionB() at file.cpp:8\n"
+"#2  functionA() at file.cpp:13\n"
+"#3  main() at file.cpp:18"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:73
+msgid "**How the Backtrace Helps:**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:75
+msgid ""
+"**Crash Origin:** Shows you the exact line in ``functionC()`` that triggered "
+"the crash."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:76
+msgid ""
+"**Call Sequence:** Reveals that ``main()`` called ``functionA()``, which "
+"called ``functionB()``, which ultimately led to the error in ``functionC()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:78
+msgid ""
+"The above example gave us a clear picture of what is a backtrace and how it "
+"can be useful. Now, the following steps show ROS 2 users how to get traces "
+"from specific nodes when they encounter a problem. This tutorial applies to "
+"both simulated and physical robots."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:82
+msgid ""
+"This will cover how to get a backtrace from a specific node using ``ros2 "
+"run``, from a launch file representing a single node using ``ros2 launch``, "
+"and from a more complex orchestration of nodes. By the end of this tutorial, "
+"you should be able to get a backtrace when you notice a node crashing in ROS "
+"2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:86
+msgid "Preliminaries"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:88
+msgid ""
+"GDB is the most popular debugger for C/C++ on Unix systems. It can be used "
+"to determine the reason for a crash and track threads. It may also be used "
+"to add breakpoints in your code to check values in memory at particular "
+"points in your software."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:92
+msgid ""
+"Using GDB is a critical skill for all software developers working on C/C++. "
+"While many IDEs have some kind of debugger or profiler built in, it is "
+"important to understand how to use these raw tools you have available rather "
+"than relying on an IDE to provide them. Understanding these tools is a "
+"fundamental skill of C/C++ development and leaving it up to your IDE can be "
+"problematic if you change roles and no longer have access to it or are doing "
+"development on the fly through an ssh session to a remote asset."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:96
+msgid ""
+"Using GDB luckily is fairly simple after you have the basics under your "
+"belt. Here's how to ensure your ROS2 code is ready for debugging:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:99
+msgid ""
+"By using ``--cmake-args``: The easiest way to include debug symbols is by "
+"adding ``--cmake-args -DCMAKE_BUILD_TYPE=Debug`` to your ``colcon build`` "
+"command:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:101
+msgid ""
+"$ colcon build --packages-up-to <package_name> --cmake-args -"
+"DCMAKE_BUILD_TYPE=Debug"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:105
+msgid ""
+"By editing ``CMakeLists.txt`` : Another way is to add ``-g`` to your "
+"compiler flags for the ROS package you want to profile / debug. This flag "
+"builds debug symbols that GDB can read to tell you specific lines of code in "
+"your project are failing and why. If you do not set this flag, you can still "
+"get backtraces but it will not provide line numbers for failures."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:109
+msgid ""
+"Now you're ready to debug your code! If this was a non-ROS project, at this "
+"point you might do something like below. Here we're launching a GDB session "
+"and telling our program to immediately run. Once your program crashes, it "
+"will return a gdb session prompt denoted by ``(gdb)``. At this prompt you "
+"can access the information you're interested in. However, since this is a "
+"ROS project with lots of node configurations and other things going on, this "
+"isn't a great option for beginners or those that don't like tons of "
+"commandline work and understanding the filesystem."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:116
+msgid "$ gdb ex run --args /path/to/exe/program"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:120
+msgid ""
+"Below are sections to describe the three major situations you could run into "
+"with ROS 2-based systems. Read the section that best describes the problem "
+"you're attempting to solve."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:124
+msgid "Debugging a specific node with GDB"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:126
+msgid ""
+"To easily set up a GDB session before launching a ROS 2 node, leverage the "
+"``--prefix`` option to easily set up a GDB session before launching a ROS 2 "
+"node. For GDB debugging, use it as follows:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:131
+msgid ""
+"Keep in mind that a ROS 2 executable might contain multiple nodes. The ``--"
+"prefix`` approach ensures you're debugging the correct node within the "
+"process."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:134
+msgid "**Why Direct GDB Usage Can Be Tricky**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:136
+msgid ""
+"``--prefix`` will execute some bits of code before our ROS 2 command "
+"allowing us to insert some information. If you attempted to do ``gdb ex run "
+"--args ros2 run <pkg> <node>`` as analog to our example in the "
+"preliminaries, you'd find that it couldn't find the ``ros2`` command. "
+"Additionally, trying to source your workspace within GDB would fail for "
+"similar reasons. This is because GDB, when launched this way, lacks the "
+"environment setup that normally makes the ``ros2`` command available."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:141
+msgid "**Simplifying the Process with --prefix**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:143
+msgid ""
+"Rather than having to revert to finding the install path of the executable "
+"and typing it all out, we can instead use ``--prefix``. This allows us to "
+"use the same ``ros2 run`` syntax you're used to without having to worry "
+"about some of the GDB details."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:146
+msgid ""
+"$ ros2 run --prefix 'gdb -ex run --args' <pkg> <node> --all-other-launch "
+"arguments"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:150
+msgid "**The GDB Experience**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:152
+msgid ""
+"Just as before, this prefix will launch a GDB session and run the node you "
+"requested with all the additional command-line arguments. You should now "
+"have your node running and should be chugging along with some debug printing."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:156
+msgid "Reading the Stack Trace"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:158
+msgid "After you obtain a backtrace using GDB, here's how to interpret it:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:160
+msgid ""
+"Start at the Bottom: Backtraces list function calls in reverse chronological "
+"order. The function at the bottom is where the crash originates."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:163
+msgid ""
+"Follow the Stack Upwards: Each line above represents the function that "
+"called the function below it. Trace upwards until you reach a line of code "
+"within your own project. This often reveals where the problem initiated."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:167
+msgid ""
+"Debugging Clues: Function names and their arguments can provide valuable "
+"clues about what went wrong."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:169
+msgid "**How to Debug once your Node Crashes**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:171
+msgid ""
+"Once your node crashes, you'll see a prompt like below. At this point you "
+"can get a backtrace."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:174
+msgid "(gdb)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:178
+msgid ""
+"In this session, type ``backtrace`` and it will provide you with a "
+"backtrace. Copy this for your needs."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:182
+msgid "**Example backtrace**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:184
+msgid ""
+"(gdb) backtrace\n"
+"#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50\n"
+"#1  0x00007ffff79cc859 in __GI_abort () at abort.c:79\n"
+"#2  0x00007ffff7c52951 in ?? () from /usr/lib/x86_64-linux-gnu/libstdc++."
+"so.6\n"
+"#3  0x00007ffff7c5e47c in ?? () from /usr/lib/x86_64-linux-gnu/libstdc++."
+"so.6\n"
+"#4  0x00007ffff7c5e4e7 in std::terminate() () from /usr/lib/x86_64-linux-gnu/"
+"libstdc++.so.6\n"
+"#5  0x00007ffff7c5e799 in __cxa_throw () from /usr/lib/x86_64-linux-gnu/"
+"libstdc++.so.6\n"
+"#6  0x00007ffff7c553eb in ?? () from /usr/lib/x86_64-linux-gnu/libstdc++."
+"so.6\n"
+"#7  0x000055555555936c in std::vector<int, std::allocator<int> >::"
+"_M_range_check (\n"
+"    this=0x5555555cfdb0, __n=100) at /usr/include/c++/9/bits/stl_vector."
+"h:1070\n"
+"#8  0x0000555555558e1d in std::vector<int, std::allocator<int> >::at "
+"(this=0x5555555cfdb0,\n"
+"    __n=100) at /usr/include/c++/9/bits/stl_vector.h:1091\n"
+"#9  0x000055555555828b in GDBTester::VectorCrash (this=0x5555555cfb40)\n"
+"    at /home/steve/Documents/nav2_ws/src/gdb_test_pkg/src/gdb_test_node."
+"cpp:44\n"
+"#10 0x0000555555559cfc in main (argc=1, argv=0x7fffffffc108)\n"
+"    at /home/steve/Documents/nav2_ws/src/gdb_test_pkg/src/main.cpp:25"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:203
+msgid ""
+"In this example you should read this in the following way, starting at the "
+"bottom:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:205
+msgid "In the main function, on line 25 we call a function VectorCrash."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:207
+msgid ""
+"In VectorCrash, on line 44, we crashed in the Vector's ``at()`` method with "
+"input ``100``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:209
+msgid ""
+"It crashed in ``at()`` on STL vector line 1091 after throwing an exception "
+"from a range check failure."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:211
+msgid ""
+"These traces take some time to get used to reading, but in general, start at "
+"the bottom and follow it up the stack until you see the line it crashed on. "
+"Then you can deduce why it crashed. When you are done with GDB, type "
+"``quit`` and it will exit the session and kill any processes still up. It "
+"may ask you if you want to kill some threads at the end, say yes."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:217
+msgid "From a Launch File"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:219
+msgid ""
+"Just as in our non-ROS example, we need to setup a GDB session before "
+"launching our ROS 2 launch file. While we could set this up through the "
+"commandline, we can instead make use of the same mechanics that we did in "
+"the ``ros2 run`` node example, now using a launch file."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:222
+msgid ""
+"In your launch file, find the node that you're interested in debugging. For "
+"this section, we assume that your launch file contains only a single node "
+"(and potentially other information as well). The ``Node`` function used in "
+"the ``launch_ros`` package will take in a field prefix taking a list of "
+"prefix arguments. We will insert the GDB snippet here."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:227
+msgid "**Consider the following approaches, depending on your setup:**"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:229
+msgid ""
+"**Local Debugging with GUI :**  If you are debugging locally and have a GUI "
+"system available, use:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:231
+msgid "prefix=['xterm -e gdb -ex run --args']"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:235
+msgid ""
+"This will provide a more interactive debugging experience. Example usecase "
+"for debugging building upon ``'start_sync_slam_toolbox_node'`` -"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:238
+msgid ""
+"start_sync_slam_toolbox_node = Node(\n"
+"  parameters=[\n"
+"      get_package_share_directory(\"slam_toolbox\") + '/config/"
+"mapper_params_online_sync.yaml',\n"
+"      {'use_sim_time': use_sim_time}\n"
+"  ],\n"
+"  package='slam_toolbox',\n"
+"  executable='sync_slam_toolbox_node',\n"
+"  name='slam_toolbox',\n"
+"  prefix=['xterm -e gdb -ex run --args'],  # For interactive GDB in a "
+"separate window/GUI\n"
+"  output='screen')"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:251
+msgid ""
+"**Remote Debugging (without GUI):** If debugging without GUI, omit ``xterm -"
+"e`` :"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:253
+msgid "prefix=['gdb -ex run --args']"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:257
+msgid ""
+"GDB's output and interaction will happen within the terminal session where "
+"you launched the ROS 2 application. Here's an similar example for the "
+"``'start_sync_slam_toolbox_node'`` -"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:260
+msgid ""
+"start_sync_slam_toolbox_node = Node(\n"
+"  parameters=[\n"
+"      get_package_share_directory(\"slam_toolbox\") + '/config/"
+"mapper_params_online_sync.yaml',\n"
+"      {'use_sim_time': use_sim_time}\n"
+"  ],\n"
+"  package='slam_toolbox',\n"
+"  executable='sync_slam_toolbox_node',\n"
+"  name='slam_toolbox',\n"
+"  prefix=['gdb -ex run --args'],  # For GDB within the launch terminal\n"
+"  output='screen')"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:273
+msgid ""
+"Just as before, this prefix will launch a GDB session, now in ``xterm`` and "
+"run the launch file you requested with all the additional launch arguments "
+"defined."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:275
+msgid ""
+"Once your node crashes, you'll see a prompt like below, now in the ``xterm`` "
+"session. At this point you can now get a backtrace, and read it using the "
+"instructions in `Reading the Stack Trace`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:279
+msgid "From a Large Project"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:280
+msgid ""
+"Working with launch files with multiple nodes is a little different so you "
+"can interact with your GDB session without being bogged down by other "
+"logging in the same terminal. For this reason, when working with larger "
+"launch files, it is a good idea to pull out the specific node you're "
+"interested in and launch it separately."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:283
+msgid ""
+"If your node of interest is being launched from a nested launch file (e.g. "
+"an included launch file) you may want to do the following:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:285
+msgid "Comment out the launch file inclusion from the parent launch file"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:287
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:297
+msgid "Recompile the package of interest with ``-g`` flag for debug symbols"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:289
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:299
+msgid "Launch the parent launch file in a terminal"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:291
+msgid ""
+"Launch the node's launch file in another terminal following the instructions "
+"in `From a Launch File`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:293
+msgid ""
+"Alternatively, if your node of interest is being launched in these files "
+"directly (e.g. you see a ``Node``, ``LifecycleNode``, or inside a "
+"``ComponentContainer``), you will need to separate this from the others:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:295
+msgid "Comment out the node's inclusion from the parent launch file"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:301
+msgid ""
+"Launch the node in another terminal following the instructions in `Debugging "
+"a specific node with GDB`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:305
+msgid ""
+"In this case you may need to remap or provide parameter files to this node "
+"if it was previously provided by the launch file. Using ``--ros-args`` you "
+"can give it the path to the new parameters file, remaps, or names. See :doc:"
+"`this tutorial <../../How-To-Guides/Node-arguments>` for the commandline "
+"arguments required."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:309
+msgid ""
+"We understand this can be a pain, so it might encourage you to rather have "
+"each node possible as a separately included launch file to make debugging "
+"easier. An example set of arguments might be ``--ros-args -r __node:"
+"=<node_name> --params-file /absolute/path/to/params.yaml`` (as a template)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:312
+msgid ""
+"Once your node crashes, you'll see a prompt like below in the terminal of "
+"the specific node. At this point you can now get a backtrace, and read it "
+"using the instructions in `Reading the Stack Trace`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:316
+msgid "Debugging tests with GDB"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:318
+msgid ""
+"If a C++ test is failing, GDB can be used directly on the test executable in "
+"the build directory. Ensure to build the code in debug mode. Since the "
+"previous build type may be cached by CMake, clean the cache and rebuild."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:322
+msgid "$ colcon build --cmake-clean-cache --mixin debug"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:326
+msgid ""
+"In order for GDB to load debug symbols for any shared libraries called, make "
+"sure to source your environment. This configures the value of "
+"``LD_LIBRARY_PATH``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:329
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:333
+msgid "Finally, run the test directly through GDB. For example:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:336
+msgid "$ gdb -ex run ./build/rcl/test/test_logging"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:340
+msgid ""
+"If the code is throwing an unhandled exception, you can catch it in GDB "
+"before gtest handles it."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:342
+msgid ""
+"$ gdb ./build/rcl/test/test_logging\n"
+"$ catch throw\n"
+"$ run"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:349
+msgid "Automatic backtrace on crash"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:351
+msgid ""
+"The `backward-cpp <https://github.com/pal-robotics/backward_ros>`_ library "
+"provides beautiful stack traces, and the `backward_ros <https://github.com/"
+"pal-robotics/backward_ros>`_ wrapper simplifies its integration."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst:353
+msgid ""
+"Just add it as a dependency and ``find_package`` it in your CMakeLists and "
+"the backward libraries will be injected in all your executables and "
+"libraries."
+msgstr ""

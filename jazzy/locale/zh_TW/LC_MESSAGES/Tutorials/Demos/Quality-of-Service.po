@@ -1,0 +1,292 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:7
+msgid "Using quality-of-service settings for lossy networks"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:11
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:14
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:16
+msgid ""
+"Please read the documentation page `about QoS settings <../../Concepts/"
+"Intermediate/About-Quality-of-Service-Settings>` for background information "
+"on available support in ROS 2."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:18
+msgid ""
+"In this demo, we will spawn a node that publishes a camera image and another "
+"that subscribes to the image and shows it on the screen. We will then "
+"simulate a lossy network connection between them and show how different "
+"quality of service settings handle the bad link."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:23
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:24
+msgid ""
+"This tutorial assumes you have a :doc:`working ROS 2 installation <../../"
+"Installation>` and OpenCV. See the `OpenCV documentation <http://docs.opencv."
+"org/doc/tutorials/introduction/table_of_content_introduction/"
+"table_of_content_introduction.html#table-of-content-introduction>`__ for its "
+"installation instructions. You will also need the ROS package "
+"``image_tools``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:30
+msgid "Linux Binaries"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:32
+msgid "$ sudo apt-get install ros-rolling-image-tools"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:36
+msgid "From Source"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:38
+msgid ""
+"Clone and build the demos repo using the branch that matches your "
+"installation."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:40
+msgid "$ git clone https://github.com/ros2/demos.git -b rolling"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:46
+msgid "Run the demo"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:48
+msgid ""
+"Before running the demo, make sure you have a working webcam connected to "
+"your computer."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:50
+msgid "Once you've installed ROS 2, source your setup file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:54
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:56
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:62
+msgid "$ . <path to ROS 2 install space>/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:60
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:66
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:68
+msgid "$ call <path to ROS 2 install space>/local_setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:72
+msgid "Then run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:74
+msgid "$ ros2 run image_tools showimage"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:78
+msgid ""
+"Nothing will happen yet. ``showimage`` is a subscriber node that is waiting "
+"for a publisher on the ``image`` topic."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:81
+msgid ""
+"Note: you have to close the ``showimage`` process with ``Ctrl-C`` later. You "
+"can't just close the window."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:84
+msgid ""
+"In a separate terminal, source the install file and run the publisher node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:86
+msgid "$ ros2 run image_tools cam2image"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:90
+msgid ""
+"This will publish an image from your webcam. In case you don't have a camera "
+"attached to your computer, there is a commandline option which publishes "
+"predefined images."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:94
+msgid ""
+"$ ros2 run image_tools cam2image --ros-args -p burger_mode:=True\n"
+"[INFO] [1715662452.055277255] [cam2image]: Publishing image #1\n"
+"[INFO] [1715662452.119336061] [cam2image]: Publishing image #2\n"
+"[INFO] [1715662452.187315139] [cam2image]: Publishing image #3\n"
+"..."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:102
+msgid ""
+"A window will pop up with the title \"view\" showing your camera feed. In "
+"the first window, you'll see output from the subscriber:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:105
+msgid ""
+"[INFO] [1715662452.188906764] [showimage]: Received image #camera_frame\n"
+"Received image #camera_frame\n"
+"[INFO] [1715662452.252836919] [showimage]: Received image #camera_frame\n"
+"Received image #camera_frame\n"
+"[INFO] [1715662452.320878578] [showimage]: Received image #camera_frame\n"
+"Received image #camera_frame\n"
+"..."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:117
+msgid ""
+"macOS users: If these examples do not work or you receive an error like "
+"``ddsi_conn_write failed -1`` then you'll need to increase your system wide "
+"UDP packet size:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:119
+msgid ""
+"$ sudo sysctl -w net.inet.udp.recvspace=209715\n"
+"$ sudo sysctl -w net.inet.udp.maxdgram=65500"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:124
+msgid ""
+"These changes will not persist a reboot. If you want the changes to persist, "
+"add these lines to ``/etc/sysctl.conf`` (create the file if it doesn't exist "
+"already):"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:127
+msgid ""
+"net.inet.udp.recvspace=209715\n"
+"net.inet.udp.maxdgram=65500"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:133
+msgid "Command line options"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:135
+msgid "In one of your terminals, add a -h flag to the original command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:138
+msgid "$ ros2 run image_tools showimage -h"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:145
+msgid "Add network traffic"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:149
+msgid ""
+"This section of the demo won't work on RTI's Connext DDS and Fast-DDS. When "
+"running multiple nodes in the same host, those DDS implementations use "
+"shared memory along with the loopback interface. Degrading the loopback "
+"interface throughput won't affect shared memory, thus traffic between the "
+"two nodes won't be affected."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:155
+msgid "This next section is Linux-specific."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:157
+msgid ""
+"However, for macOS and Windows you can achieve a similar effect with the "
+"utilities \"Network Link Conditioner\" (part of the xcode tool suite) and "
+"`\"Clumsy\" <http://jagt.github.io/clumsy/index.html>`_, respectively, but "
+"they will not be covered in this tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:159
+msgid ""
+"We are going to use the Linux network traffic control utility, ``tc`` (`man "
+"page <http://linux.die.net/man/8/tc>`_) ."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:161
+msgid "$ sudo tc qdisc add dev lo root netem loss 5%"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:165
+msgid ""
+"This magical incantation will simulate 5% packet loss over the local "
+"loopback device. If you use a higher resolution of the images (e.g. ``--ros-"
+"args -p width:=640 -p height:=480``) you might want to try a lower packet "
+"loss rate (e.g. ``1%``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:168
+msgid ""
+"Next we start the ``cam2image`` and ``showimage``, and we'll soon notice "
+"that both programs seem to have slowed down the rate at which images are "
+"transmitted. This is caused by the behavior of the default QoS settings. "
+"Enforcing reliability on a lossy channel means that the publisher (in this "
+"case, ``cam2image``) will resend the network packets until it receives "
+"acknowledgement from the consumer (i.e. ``showimage``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:172
+msgid ""
+"Let's now try running both programs, but with more suitable settings. First "
+"of all, we'll use the ``-p reliability:=best_effort`` option to enable best "
+"effort communication. The publisher will now just attempt to deliver the "
+"network packets, and don't expect acknowledgement from the consumer. We see "
+"now that some of the frames on the ``showimage`` side were dropped, so the "
+"frame numbers in the shell running ``showimage`` won't be consecutive "
+"anymore:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:-1
+msgid "Best effort image transfer"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:183
+msgid "When you're done, remember to delete the queueing discipline:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Quality-of-Service.rst:185
+msgid "$ sudo tc qdisc delete dev lo root netem loss 5%"
+msgstr ""
