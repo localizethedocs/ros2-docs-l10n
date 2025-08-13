@@ -1,0 +1,992 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:7
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:38
+msgid "Using substitutions"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:9
+msgid "**Goal:** Learn about substitutions in ROS 2 launch files."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:11
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:13
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:17
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:20
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:22
+msgid ""
+"Launch files are used to start nodes, services and execute processes. This "
+"set of actions may have arguments, which affect their behavior. "
+"Substitutions can be used in arguments to provide more flexibility when "
+"describing reusable launch files. Substitutions are variables that are only "
+"evaluated during execution of the launch description and can be used to "
+"acquire specific information like a launch configuration, an environment "
+"variable, or to evaluate an arbitrary Python expression."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:27
+msgid ""
+"This tutorial shows usage examples of substitutions in ROS 2 launch files."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:30
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:32
+msgid ""
+"This tutorial uses the :doc:`turtlesim <../../Beginner-CLI-Tools/Introducing-"
+"Turtlesim/Introducing-Turtlesim>` package. This tutorial also assumes you "
+"are familiar with :doc:`creating packages <../../Beginner-Client-Libraries/"
+"Creating-Your-First-ROS2-Package>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:35
+msgid ""
+"As always, don't forget to source ROS 2 in :doc:`every new terminal you open "
+"<../../Beginner-CLI-Tools/Configuring-ROS2-Environment>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:41
+msgid "1 Create and setup the package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:43
+msgid "First, create a new package with the name ``launch_tutorial``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:47
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:89
+msgid "Python package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:49
+msgid "Create a new package of build_type ``ament_python``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:51
+msgid ""
+"$ ros2 pkg create --build-type ament_python --license Apache-2.0 "
+"launch_tutorial"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:55
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:110
+msgid "C++ package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:57
+msgid "Create a new package of build_type ``ament_cmake``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:59
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 "
+"launch_tutorial"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:63
+msgid "Inside of that package, create a directory called ``launch``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:67
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:69
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:75
+msgid "$ mkdir launch_tutorial/launch"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:73
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:79
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:81
+msgid "$ md launch_tutorial/launch"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:85
+msgid "Finally, make sure to install the launch files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:91
+msgid "Add in following changes to the ``setup.py`` of the package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:93
+msgid ""
+"import os\n"
+"from glob import glob\n"
+"from setuptools import find_packages, setup\n"
+"\n"
+"package_name = 'launch_tutorial'\n"
+"\n"
+"setup(\n"
+"    # Other parameters ...\n"
+"    data_files=[\n"
+"        # ... Other data files\n"
+"        # Include all launch files.\n"
+"        (os.path.join('share', package_name, 'launch'), glob('launch/*'))\n"
+"    ]\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:112
+msgid ""
+"Append following code to the ``CMakeLists.txt`` just before "
+"``ament_package()``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:114
+msgid ""
+"install(DIRECTORY\n"
+"        launch\n"
+"        DESTINATION share/${PROJECT_NAME}/\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:124
+msgid "2 Parent launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:126
+msgid ""
+"Let's create a launch file that will call and pass arguments to another "
+"launch file. This launch file can either be in YAML, XML, or in Python."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:129
+msgid ""
+"To do this, create following file in the ``launch`` folder of the "
+"``launch_tutorial`` package."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:133
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:224
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:367
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:400
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:446
+msgid "XML"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:135
+msgid ""
+"Copy and paste the complete code into the ``launch/example_main_launch.xml`` "
+"file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:137
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<launch>\n"
+"  <let name=\"background_r\" value=\"200\" />\n"
+"  <include file=\"$(find-pkg-share launch_tutorial)/launch/"
+"example_substitutions_launch.xml\">\n"
+"    <arg name=\"turtlesim_ns\" value=\"turtlesim2\" />\n"
+"    <arg name=\"use_provided_red\" value=\"True\" />\n"
+"    <arg name=\"new_background_r\" value=\"$(var background_r)\" />\n"
+"  </include>\n"
+"</launch>\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:140
+msgid ""
+"The ``$(find-pkg-share launch_tutorial)`` substitution is used to find the "
+"path to the ``launch_tutorial`` package. The path substitution is then "
+"joined with the ``example_substitutions_launch.xml`` file name."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:143
+msgid ""
+"  <include file=\"$(find-pkg-share launch_tutorial)/launch/"
+"example_substitutions_launch.xml\">\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:147
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:168
+msgid ""
+"The ``background_r`` variable with ``turtlesim_ns`` and ``use_provided_red`` "
+"arguments is passed to the ``include`` action. The ``$(var background_r)`` "
+"substitution is used to define the ``new_background_r`` argument with the "
+"value of the ``background_r`` variable."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:150
+msgid ""
+"    <arg name=\"turtlesim_ns\" value=\"turtlesim2\" />\n"
+"    <arg name=\"use_provided_red\" value=\"True\" />\n"
+"    <arg name=\"new_background_r\" value=\"$(var background_r)\" />\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:154
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:264
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:361
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:391
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:440
+msgid "YAML"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:156
+msgid ""
+"Copy and paste the complete code into the ``launch/example_main_launch."
+"yaml`` file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:158
+msgid ""
+"%YAML 1.2\n"
+"---\n"
+"launch:\n"
+"  - let:\n"
+"      name: \"background_r\"\n"
+"      value: \"200\"\n"
+"  - include:\n"
+"      file: \"$(find-pkg-share launch_tutorial)/launch/"
+"example_substitutions_launch.yaml\"\n"
+"      arg:\n"
+"        - name: \"turtlesim_ns\"\n"
+"          value: \"turtlesim2\"\n"
+"        - name: \"use_provided_red\"\n"
+"          value: \"True\"\n"
+"        - name: \"new_background_r\"\n"
+"          value: \"$(var background_r)\"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:161
+msgid ""
+"The ``$(find-pkg-share launch_tutorial)`` substitution is used to find the "
+"path to the ``launch_tutorial`` package. The path substitution is then "
+"joined with the ``example_substitutions_launch.yaml`` file name."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:164
+msgid ""
+"      file: \"$(find-pkg-share launch_tutorial)/launch/"
+"example_substitutions_launch.yaml\"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:171
+msgid ""
+"      arg:\n"
+"        - name: \"turtlesim_ns\"\n"
+"          value: \"turtlesim2\"\n"
+"        - name: \"use_provided_red\"\n"
+"          value: \"True\"\n"
+"        - name: \"new_background_r\"\n"
+"          value: \"$(var background_r)\"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:176
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:304
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:373
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:409
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:452
+msgid "Python"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:178
+msgid ""
+"Copy and paste the complete code into the ``launch/example_main_launch.py`` "
+"file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:180
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch.actions import IncludeLaunchDescription\n"
+"from launch.substitutions import PathJoinSubstitution\n"
+"from launch_ros.substitutions import FindPackageShare\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    colors = {\n"
+"        'background_r': '200'\n"
+"    }\n"
+"\n"
+"    return LaunchDescription([\n"
+"        IncludeLaunchDescription(\n"
+"            PathJoinSubstitution([\n"
+"                FindPackageShare('launch_tutorial'),\n"
+"                'launch',\n"
+"                'example_substitutions_launch.py'\n"
+"            ]),\n"
+"            launch_arguments={\n"
+"                'turtlesim_ns': 'turtlesim2',\n"
+"                'use_provided_red': 'True',\n"
+"                'new_background_r': colors['background_r'],\n"
+"            }.items()\n"
+"        )\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:183
+msgid ""
+"The ``FindPackageShare`` substitution is used to find the path to the "
+"``launch_tutorial`` package. The ``PathJoinSubstitution`` substitution is "
+"then used to join the path to that package path with the "
+"``example_substitutions_launch.py`` file name."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:186
+msgid ""
+"            PathJoinSubstitution([\n"
+"                FindPackageShare('launch_tutorial'),\n"
+"                'launch',\n"
+"                'example_substitutions_launch.py'\n"
+"            ]),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:192
+msgid ""
+"A list of substitutions or strings gets concatenated into a single string. "
+"This generally applies to anything that supports substitutions."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:195
+msgid ""
+"For example, with ``PathJoinSubstitution``, if the file name prefix depended "
+"on a launch argument named ``file``, a list of substitutions and strings "
+"could be used to create the file name:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:197
+msgid ""
+"# Make sure to import LaunchConfiguration:\n"
+"# from launch.substitutions import LaunchConfiguration\n"
+"\n"
+"PathJoinSubstitution([\n"
+"    FindPackageShare('launch_tutorial'),\n"
+"    'launch',\n"
+"    [LaunchConfiguration('file', default='example_substitutions'), "
+"'_launch', '.py']\n"
+"])"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:208
+msgid ""
+"In this case, by default, the last path component provided to "
+"``PathJoinSubstitution`` would resolve to ``example_substitutions_launch."
+"py`` and would then be joined with the other path components."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:210
+msgid ""
+"The ``launch_arguments`` dictionary with ``turtlesim_ns`` and "
+"``use_provided_red`` arguments is passed to the ``IncludeLaunchDescription`` "
+"action."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:212
+msgid ""
+"            launch_arguments={\n"
+"                'turtlesim_ns': 'turtlesim2',\n"
+"                'use_provided_red': 'True',\n"
+"                'new_background_r': colors['background_r'],\n"
+"            }.items()\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:218
+msgid "3 Substitutions example launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:220
+msgid "Now create the substitution launch file in the same folder:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:226
+msgid ""
+"Create the file ``launch/example_substitutions_launch.xml`` and insert the "
+"following code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:228
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<launch>\n"
+"  <arg name=\"turtlesim_ns\" default=\"turtlesim1\" />\n"
+"  <arg name=\"use_provided_red\" default=\"False\" />\n"
+"  <arg name=\"new_background_r\" default=\"200\" />\n"
+"\n"
+"  <node pkg=\"turtlesim\" namespace=\"$(var turtlesim_ns)\" "
+"exec=\"turtlesim_node\" name=\"sim\" />\n"
+"  <executable cmd=\"ros2 service call $(var turtlesim_ns)/spawn "
+"turtlesim_msgs/srv/Spawn '{x: 5, y: 2, theta: 0.2}'\" />\n"
+"  <executable cmd=\"ros2 param set $(var turtlesim_ns)/sim background_r "
+"120\" />\n"
+"  <timer period=\"2.0\">\n"
+"    <executable cmd=\"ros2 param set $(var turtlesim_ns)/sim background_r "
+"$(var new_background_r)\"\n"
+"      if=\"$(eval '$(var new_background_r) == 200 and $(var "
+"use_provided_red)')\" />\n"
+"  </timer>\n"
+"</launch>\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:231
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:271
+msgid ""
+"The ``turtlesim_ns``, ``use_provided_red``, and ``new_background_r`` launch "
+"configurations are defined. They are used to store values of launch "
+"arguments in the above variables and to pass them to required actions. The "
+"launch configuration arguments can later be used with the ``$(var <name>)`` "
+"substitution to acquire the value of the launch argument in any part of the "
+"launch description."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:235
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:275
+msgid ""
+"The ``arg`` tag is used to define the launch argument that can be passed "
+"from the above launch file or from the console."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:237
+msgid ""
+"  <arg name=\"turtlesim_ns\" default=\"turtlesim1\" />\n"
+"  <arg name=\"use_provided_red\" default=\"False\" />\n"
+"  <arg name=\"new_background_r\" default=\"200\" />\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:241
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:281
+msgid ""
+"The ``turtlesim_node`` node with the ``namespace`` set to the "
+"``turtlesim_ns`` launch configuration value using the ``$(var <name>)`` "
+"substitution is defined."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:243
+msgid ""
+"  <node pkg=\"turtlesim\" namespace=\"$(var turtlesim_ns)\" "
+"exec=\"turtlesim_node\" name=\"sim\" />\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:247
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:287
+msgid ""
+"Afterwards, an ``executable`` action is defined with the corresponding "
+"``cmd`` tag. This command makes a call to the spawn service of the turtlesim "
+"node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:250
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:290
+msgid ""
+"Additionally, the ``$(var <name>)`` substitution is used to get the value of "
+"the ``turtlesim_ns`` launch argument to construct a command string."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:252
+msgid ""
+"  <executable cmd=\"ros2 service call $(var turtlesim_ns)/spawn "
+"turtlesim_msgs/srv/Spawn '{x: 5, y: 2, theta: 0.2}'\" />\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:256
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:296
+msgid ""
+"The same approach is used for the ``ros2 param`` ``executable`` actions that "
+"change the turtlesim background's red color parameter. The difference is "
+"that the second action inside of the timer is only executed if the provided "
+"``new_background_r`` argument equals ``200`` and the ``use_provided_red`` "
+"launch argument is set to ``True``. The evaluation of the ``if`` predicate "
+"is done using the ``$(eval <python-expression>)`` substitution."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:260
+msgid ""
+"  <executable cmd=\"ros2 param set $(var turtlesim_ns)/sim background_r "
+"120\" />\n"
+"  <timer period=\"2.0\">\n"
+"    <executable cmd=\"ros2 param set $(var turtlesim_ns)/sim background_r "
+"$(var new_background_r)\"\n"
+"      if=\"$(eval '$(var new_background_r) == 200 and $(var "
+"use_provided_red)')\" />\n"
+"  </timer>\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:266
+msgid ""
+"Create the file ``launch/example_substitutions_launch.yaml`` and insert the "
+"following code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:268
+msgid ""
+"%YAML 1.2\n"
+"---\n"
+"launch:\n"
+"  - arg:\n"
+"      name: \"turtlesim_ns\"\n"
+"      default: \"turtlesim1\"\n"
+"  - arg:\n"
+"      name: \"use_provided_red\"\n"
+"      default: \"False\"\n"
+"  - arg:\n"
+"      name: \"new_background_r\"\n"
+"      default: \"200\"\n"
+"\n"
+"  - node:\n"
+"      pkg: \"turtlesim\"\n"
+"      namespace: \"$(var turtlesim_ns)\"\n"
+"      exec: \"turtlesim_node\"\n"
+"      name: \"sim\"\n"
+"  - executable:\n"
+"      cmd: 'ros2 service call $(var turtlesim_ns)/spawn turtlesim_msgs/srv/"
+"Spawn \"{x: 5, y: 2, theta: 0.2}\"'\n"
+"  - executable:\n"
+"      cmd: \"ros2 param set $(var turtlesim_ns)/sim background_r 120\"\n"
+"  - timer:\n"
+"      period: 2.0\n"
+"      children:\n"
+"        - executable:\n"
+"            cmd: \"ros2 param set $(var turtlesim_ns)/sim background_r $(var "
+"new_background_r)\"\n"
+"            if: '$(eval \"$(var new_background_r) == 200 and $(var "
+"use_provided_red)\")'\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:277
+msgid ""
+"  - arg:\n"
+"      name: \"turtlesim_ns\"\n"
+"      default: \"turtlesim1\"\n"
+"  - arg:\n"
+"      name: \"use_provided_red\"\n"
+"      default: \"False\"\n"
+"  - arg:\n"
+"      name: \"new_background_r\"\n"
+"      default: \"200\"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:283
+msgid ""
+"  - node:\n"
+"      pkg: \"turtlesim\"\n"
+"      namespace: \"$(var turtlesim_ns)\"\n"
+"      exec: \"turtlesim_node\"\n"
+"      name: \"sim\"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:292
+msgid ""
+"  - executable:\n"
+"      cmd: \"ros2 param set $(var turtlesim_ns)/sim background_r 120\"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:300
+msgid ""
+"  - executable:\n"
+"      cmd: \"ros2 param set $(var turtlesim_ns)/sim background_r 120\"\n"
+"  - timer:\n"
+"      period: 2.0\n"
+"      children:\n"
+"        - executable:\n"
+"            cmd: \"ros2 param set $(var turtlesim_ns)/sim background_r $(var "
+"new_background_r)\"\n"
+"            if: '$(eval \"$(var new_background_r) == 200 and $(var "
+"use_provided_red)\")'\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:306
+msgid ""
+"Create the file ``launch/example_substitutions_launch.py`` and insert the "
+"following code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:308
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch.actions import DeclareLaunchArgument, ExecuteProcess, "
+"TimerAction\n"
+"from launch.conditions import IfCondition\n"
+"from launch.substitutions import LaunchConfiguration, PythonExpression\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    turtlesim_ns = LaunchConfiguration('turtlesim_ns')\n"
+"    use_provided_red = LaunchConfiguration('use_provided_red')\n"
+"    new_background_r = LaunchConfiguration('new_background_r')\n"
+"\n"
+"    return LaunchDescription([\n"
+"        DeclareLaunchArgument(\n"
+"            'turtlesim_ns',\n"
+"            default_value='turtlesim1'\n"
+"        ),\n"
+"        DeclareLaunchArgument(\n"
+"            'use_provided_red',\n"
+"            default_value='False'\n"
+"        ),\n"
+"        DeclareLaunchArgument(\n"
+"            'new_background_r',\n"
+"            default_value='200'\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtlesim',\n"
+"            namespace=turtlesim_ns,\n"
+"            executable='turtlesim_node',\n"
+"            name='sim'\n"
+"        ),\n"
+"        ExecuteProcess(\n"
+"            cmd=[[\n"
+"                'ros2 service call ',\n"
+"                turtlesim_ns,\n"
+"                '/spawn ',\n"
+"                'turtlesim_msgs/srv/Spawn ',\n"
+"                '\"{x: 2, y: 2, theta: 0.2}\"'\n"
+"            ]],\n"
+"            shell=True\n"
+"        ),\n"
+"        ExecuteProcess(\n"
+"            cmd=[[\n"
+"                'ros2 param set ',\n"
+"                turtlesim_ns,\n"
+"                '/sim background_r ',\n"
+"                '120'\n"
+"            ]],\n"
+"            shell=True\n"
+"        ),\n"
+"        TimerAction(\n"
+"            period=2.0,\n"
+"            actions=[\n"
+"                ExecuteProcess(\n"
+"                    condition=IfCondition(\n"
+"                        PythonExpression([\n"
+"                            new_background_r,\n"
+"                            ' == 200',\n"
+"                            ' and ',\n"
+"                            use_provided_red\n"
+"                        ])\n"
+"                    ),\n"
+"                    cmd=[[\n"
+"                        'ros2 param set ',\n"
+"                        turtlesim_ns,\n"
+"                        '/sim background_r ',\n"
+"                        new_background_r\n"
+"                    ]],\n"
+"                    shell=True\n"
+"                ),\n"
+"            ],\n"
+"        )\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:311
+msgid ""
+"The ``turtlesim_ns``, ``use_provided_red``, and ``new_background_r`` launch "
+"configurations are defined. They are used to represent values of launch "
+"arguments in the above variables and to pass them to required actions. These "
+"``LaunchConfiguration`` substitutions allow us to acquire the value of the "
+"launch argument in any part of the launch description."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:315
+msgid ""
+"``DeclareLaunchArgument`` is used to define the launch argument that can be "
+"passed from the above launch file or from the console."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:317
+msgid ""
+"        DeclareLaunchArgument(\n"
+"            'turtlesim_ns',\n"
+"            default_value='turtlesim1'\n"
+"        ),\n"
+"        DeclareLaunchArgument(\n"
+"            'use_provided_red',\n"
+"            default_value='False'\n"
+"        ),\n"
+"        DeclareLaunchArgument(\n"
+"            'new_background_r',\n"
+"            default_value='200'\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:321
+msgid ""
+"The ``turtlesim_node`` node with the ``namespace`` set to ``turtlesim_ns`` "
+"``LaunchConfiguration`` substitution is defined."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:323
+msgid ""
+"        Node(\n"
+"            package='turtlesim',\n"
+"            namespace=turtlesim_ns,\n"
+"            executable='turtlesim_node',\n"
+"            name='sim'\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:327
+msgid ""
+"The next action, ``ExecuteProcess``,  is defined with the corresponding "
+"``cmd`` argument to call the spawn service of the turtlesim node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:329
+msgid ""
+"Additionally, the ``LaunchConfiguration`` substitution is used to provide "
+"the value of the ``turtlesim_ns`` launch argument in the command string."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:331
+msgid ""
+"        ExecuteProcess(\n"
+"            cmd=[[\n"
+"                'ros2 service call ',\n"
+"                turtlesim_ns,\n"
+"                '/spawn ',\n"
+"                'turtlesim_msgs/srv/Spawn ',\n"
+"                '\"{x: 2, y: 2, theta: 0.2}\"'\n"
+"            ]],\n"
+"            shell=True\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:335
+msgid ""
+"The same approach is used for the ``change_background_r`` and "
+"``change_background_r_conditioned`` actions that change the turtlesim "
+"background's red color parameter. The difference is that the next action is "
+"only executed if the provided ``new_background_r`` argument equals ``200`` "
+"and the ``use_provided_red`` launch argument is set to ``True``. The "
+"evaluation inside the ``IfCondition`` is done using the ``PythonExpression`` "
+"substitution."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:339
+msgid ""
+"        TimerAction(\n"
+"            period=2.0,\n"
+"            actions=[\n"
+"                ExecuteProcess(\n"
+"                    condition=IfCondition(\n"
+"                        PythonExpression([\n"
+"                            new_background_r,\n"
+"                            ' == 200',\n"
+"                            ' and ',\n"
+"                            use_provided_red\n"
+"                        ])\n"
+"                    ),\n"
+"                    cmd=[[\n"
+"                        'ros2 param set ',\n"
+"                        turtlesim_ns,\n"
+"                        '/sim background_r ',\n"
+"                        new_background_r\n"
+"                    ]],\n"
+"                    shell=True\n"
+"                ),\n"
+"            ],\n"
+"        )\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:344
+msgid "4 Build the package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:346
+msgid "Go to the root of the workspace, and build the package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:348
+msgid "$ colcon build"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:352
+msgid "Also remember to source the workspace after building."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:355
+msgid "Launching example"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:357
+msgid "Now you can launch using the ``ros2 launch`` command."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:363
+msgid "$ ros2 launch launch_tutorial example_main_launch.yaml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:369
+msgid "$ ros2 launch launch_tutorial example_main_launch.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:375
+msgid "$ ros2 launch launch_tutorial example_main_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:379
+msgid "This will do the following:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:381
+msgid "Start a turtlesim node with a blue background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:382
+msgid "Spawn the second turtle"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:383
+msgid "Change the color to purple"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:384
+msgid ""
+"Change the color to pink after two seconds if the provided ``background_r`` "
+"argument is ``200`` and ``use_provided_red`` argument is ``True``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:387
+msgid "Modifying launch arguments"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:393
+msgid ""
+"If you want to change the provided launch arguments, you can either update "
+"the ``background_r`` variable in the ``example_main_launch.yaml`` or launch "
+"the ``example_substitutions_launch.yaml`` with preferred arguments. To see "
+"arguments that may be given to the launch file, run the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:396
+msgid ""
+"$ ros2 launch launch_tutorial example_substitutions_launch.yaml --show-args"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:402
+msgid ""
+"If you want to change the provided launch arguments, you can either update "
+"the ``background_r`` variable in the ``example_main_launch.xml`` or launch "
+"the ``example_substitutions_launch.xml`` with preferred arguments. To see "
+"arguments that may be given to the launch file, run the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:405
+msgid ""
+"$ ros2 launch launch_tutorial example_substitutions_launch.xml --show-args"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:411
+msgid ""
+"If you want to change the provided launch arguments, you can either update "
+"them in ``launch_arguments`` dictionary in the ``example_main_launch.py`` or "
+"launch the ``example_substitutions_launch.py`` with preferred arguments. To "
+"see arguments that may be given to the launch file, run the following "
+"command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:414
+msgid ""
+"$ ros2 launch launch_tutorial example_substitutions_launch.py --show-args"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:418
+msgid ""
+"This will show the arguments that may be given to the launch file and their "
+"default values."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:420
+msgid ""
+"Arguments (pass arguments as '<name>:=<value>'):\n"
+"\n"
+"    'turtlesim_ns':\n"
+"        no description given\n"
+"        (default: 'turtlesim1')\n"
+"\n"
+"    'use_provided_red':\n"
+"        no description given\n"
+"        (default: 'False')\n"
+"\n"
+"    'new_background_r':\n"
+"        no description given\n"
+"        (default: '200')"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:436
+msgid "Now you can pass the desired arguments to the launch file as follows:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:442
+msgid ""
+"$ ros2 launch launch_tutorial example_substitutions_launch.yaml turtlesim_ns:"
+"='turtlesim3' use_provided_red:='True' new_background_r:=200"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:448
+msgid ""
+"$ ros2 launch launch_tutorial example_substitutions_launch.xml turtlesim_ns:"
+"='turtlesim3' use_provided_red:='True' new_background_r:=200"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:454
+msgid ""
+"$ ros2 launch launch_tutorial example_substitutions_launch.py turtlesim_ns:"
+"='turtlesim3' use_provided_red:='True' new_background_r:=200"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:459
+msgid "Documentation"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:461
+msgid ""
+"`The launch documentation <https://docs.ros.org/en/rolling/p/launch/"
+"architecture.html>`_ provides detailed information about available "
+"substitutions."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:464
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:466
+msgid ""
+"In this tutorial, you learned about using substitutions in launch files. You "
+"learned about their possibilities and capabilities to create reusable launch "
+"files."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Substitutions.rst:469
+msgid ""
+"You can now learn more about :doc:`using event handlers in launch files <./"
+"Using-Event-Handlers>` which are used to define a complex set of rules which "
+"can be used to dynamically modify the launch file."
+msgstr ""

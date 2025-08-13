@@ -1,0 +1,551 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:2
+msgid "Building a Custom RViz Panel"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:4
+msgid ""
+"This tutorial is for people who would like to work within the RViz "
+"environment to either display or interact with some data in a two-"
+"dimensional environment."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:6
+msgid "In this tutorial you will learn how to do three things within RViz:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:8
+msgid "Create a new QT panel within RViz."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:9
+msgid ""
+"Create a topic subscriber within RViz that can monitor messages published on "
+"that topic and display them within the RViz panel."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:10
+msgid ""
+"Create a topic publisher such button presses within RViz publish to an "
+"output topic in ROS."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:12
+msgid ""
+"All of the code for this tutorial can be found in `this repository <https://"
+"github.com/MetroRobots/rviz_panel_tutorial>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:15
+msgid "Boilerplate Code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:18
+msgid "Header File"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:20
+msgid "Here are the contents of ``demo_panel.hpp``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:22
+msgid ""
+"#ifndef RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_\n"
+"#define RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_\n"
+"\n"
+"#include <rviz_common/panel.hpp>\n"
+"\n"
+"namespace rviz_panel_tutorial\n"
+"{\n"
+"class DemoPanel\n"
+"  : public rviz_common::Panel\n"
+"{\n"
+"  Q_OBJECT\n"
+"public:\n"
+"  explicit DemoPanel(QWidget * parent = 0);\n"
+"  ~DemoPanel() override;\n"
+"};\n"
+"}  // namespace rviz_panel_tutorial\n"
+"\n"
+"#endif  // RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:43
+msgid ""
+"We're extending the `rviz_common::Panel <https://github.com/ros2/rviz/"
+"blob/9a94bdf2f5f92ccdac4037c9268b95940845d609/rviz_common/include/"
+"rviz_common/panel.hpp#L46>`__ class."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:44
+msgid ""
+"`For reasons outside the scope of this tutorial <https://doc.qt.io/qt-5/moc."
+"html>`__, you need the ``Q_OBJECT`` macro in there to get the QT parts of "
+"the GUI to work."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:45
+msgid ""
+"We start by declaring just a constructor and destructor, implemented in the "
+"cpp file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:48
+msgid "Source File"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:50
+msgid "``demo_panel.cpp``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:52
+msgid ""
+"#include <rviz_panel_tutorial/demo_panel.hpp>\n"
+"\n"
+"namespace rviz_panel_tutorial\n"
+"{\n"
+"DemoPanel::DemoPanel(QWidget* parent) : Panel(parent)\n"
+"{\n"
+"}\n"
+"\n"
+"DemoPanel::~DemoPanel() = default;\n"
+"}  // namespace rviz_panel_tutorial\n"
+"\n"
+"#include <pluginlib/class_list_macros.hpp>\n"
+"PLUGINLIB_EXPORT_CLASS(rviz_panel_tutorial::DemoPanel, rviz_common::Panel)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:68
+msgid ""
+"Overriding the constructor and deconstructor are not strictly necessary, but "
+"we can do more with them later."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:69
+msgid ""
+"In order for RViz to find our plugin, we need this ``PLUGINLIB`` invocation "
+"in our code (as well as other things below)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:72
+msgid "package.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:74
+msgid "We need the following dependencies in our package.xml:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:76
+msgid ""
+"<depend>pluginlib</depend>\n"
+"<depend>rviz_common</depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:82
+msgid "rviz_common_plugins.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:84
+msgid ""
+"<library path=\"demo_panel\">\n"
+"  <class type=\"rviz_panel_tutorial::DemoPanel\" "
+"base_class_type=\"rviz_common::Panel\">\n"
+"    <description></description>\n"
+"  </class>\n"
+"</library>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:92
+msgid "This is standard ``pluginlib`` code."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:94
+msgid ""
+"The library ``path`` is the name of the library we'll assign in the CMake."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:95
+msgid "The class should match the ``PLUGINLIB`` invocation from above."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:97
+msgid "We'll come back to the description later, I promise."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:100
+msgid "CMakeLists.txt"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:102
+msgid "Add the following lines to the top of the standard boilerplate."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:104
+msgid ""
+"find_package(ament_cmake_ros REQUIRED)\n"
+"find_package(pluginlib REQUIRED)\n"
+"find_package(rviz_common REQUIRED)\n"
+"\n"
+"set(CMAKE_AUTOMOC ON)\n"
+"qt5_wrap_cpp(MOC_FILES\n"
+"  include/rviz_panel_tutorial/demo_panel.hpp\n"
+")\n"
+"\n"
+"add_library(demo_panel src/demo_panel.cpp ${MOC_FILES})\n"
+"target_include_directories(demo_panel PUBLIC\n"
+"  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>\n"
+"  $<INSTALL_INTERFACE:include>\n"
+")\n"
+"target_link_libraries(demo_panel PUBLIC\n"
+"  pluginlib::pluginlib\n"
+"  rviz_common::rviz_common\n"
+")\n"
+"install(TARGETS demo_panel\n"
+"        EXPORT export_rviz_panel_tutorial\n"
+"        ARCHIVE DESTINATION lib\n"
+"        LIBRARY DESTINATION lib\n"
+"        RUNTIME DESTINATION bin\n"
+")\n"
+"install(DIRECTORY include/\n"
+"        DESTINATION include\n"
+")\n"
+"install(FILES rviz_common_plugins.xml\n"
+"        DESTINATION share/${PROJECT_NAME}\n"
+")\n"
+"ament_export_include_directories(include)\n"
+"ament_export_targets(export_rviz_panel_tutorial)\n"
+"pluginlib_export_plugin_description_file(rviz_common rviz_common_plugins.xml)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:141
+msgid "To generate the proper Qt files, we need to"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:143
+msgid "Turn ``CMAKE_AUTOMOC`` on."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:144
+msgid ""
+"Wrap the headers by calling ``qt5_wrap_cpp`` with each header that has "
+"``Q_OBJECT`` in it."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:145
+msgid "Include the ``MOC_FILES`` in the library alongside our other cpp files."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:147
+msgid ""
+"A lot of the other code ensures that the plugin portion works. Namely, "
+"calling ``pluginlib_export_plugin_description_file`` is essential to getting "
+"RViz to find your new plugin."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:151
+msgid "Testing it out"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:153
+msgid "Compile your code, source your workspace and run ``rviz2``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:155
+msgid ""
+"In the top Menu bar, there should be a \"Panels\" menu. Select \"Add New "
+"Panel\" from that menu."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "screenshot of Add New Panel dialog"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:162
+msgid ""
+"A dialog will pop up showing all the panels accessible in your ROS "
+"environment, grouped into folders based on their ROS package. Create a new "
+"instance of your panel by either double clicking on its name, or selecting "
+"it and clicking OK."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:165
+msgid ""
+"This should create a new panel in your RViz window, albeit with nothing but "
+"a title bar with the name of your panel."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "screenshot of the whole RViz window showing the new simple panel"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:172
+msgid "Filling in the Panel"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:173
+msgid ""
+"We're going to update our panel with some very basic ROS/QT interaction. "
+"What we will do, roughly, is access the ROS node from within RViz that can "
+"both subscribe and publish to ROS topics. We will use our subscriber to "
+"monitor an ``/input`` topic within ROS and display the published ``String`` "
+"values in the widget. We use our publisher to map button presses within RViz "
+"to messages published on a ROS topic named ``/output`` ."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:179
+msgid "Updated Header File"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:181
+msgid ""
+"Update ``demo_panel.hpp`` to include the following includes and class Body."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:183
+msgid ""
+"#include <rviz_common/panel.hpp>\n"
+"#include <rviz_common/ros_integration/ros_node_abstraction_iface.hpp>\n"
+"#include <std_msgs/msg/string.hpp>\n"
+"#include <QLabel>\n"
+"#include <QPushButton>\n"
+"\n"
+"namespace rviz_panel_tutorial\n"
+"{\n"
+"class DemoPanel : public rviz_common::Panel\n"
+"{\n"
+"  Q_OBJECT\n"
+"public:\n"
+"  explicit DemoPanel(QWidget * parent = 0);\n"
+"  ~DemoPanel() override;\n"
+"\n"
+"  void onInitialize() override;\n"
+"\n"
+"protected:\n"
+"  std::shared_ptr<rviz_common::ros_integration::RosNodeAbstractionIface> "
+"node_ptr_;\n"
+"  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;\n"
+"  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;\n"
+"\n"
+"  void topicCallback(const std_msgs::msg::String & msg);\n"
+"\n"
+"  QLabel* label_;\n"
+"  QPushButton* button_;\n"
+"\n"
+"private Q_SLOTS:\n"
+"  void buttonActivated();\n"
+"};\n"
+"}  // namespace rviz_panel_tutorial"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:217
+msgid ""
+"On the ROS side, we declare an abstract node pointer, which we will use to "
+"create interfaces to the wider ROS ecosystem. We have a subscriber which "
+"will allow us to take information from ROS and use it in RViz. The publisher "
+"allows us to publish information/events from within RViz and make them "
+"available in ROS. We also have methods an initialization method for setting "
+"up the ROS components (``onInitialize``) and a callback for the subscriber "
+"(``topicCallback``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:221
+msgid ""
+"On the QT side, we declare a label and a button, as well as a callback for "
+"the button (``buttonActivated``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:224
+msgid "Updated Source File"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:226
+msgid "Update ``demo_panel.cpp`` to have the following contents:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:228
+msgid ""
+"#include <rviz_panel_tutorial/demo_panel.hpp>\n"
+"#include <QVBoxLayout>\n"
+"#include <rviz_common/display_context.hpp>\n"
+"\n"
+"namespace rviz_panel_tutorial\n"
+"{\n"
+"\n"
+"DemoPanel::DemoPanel(QWidget* parent) : Panel(parent)\n"
+"{\n"
+"  // Create a label and a button, displayed vertically (the V in VBox means "
+"vertical)\n"
+"  const auto layout = new QVBoxLayout(this);\n"
+"  // Create a button and a label for the button\n"
+"  label_ = new QLabel(\"[no data]\");\n"
+"  button_ = new QPushButton(\"GO!\");\n"
+"  // Add those elements to the GUI layout\n"
+"  layout->addWidget(label_);\n"
+"  layout->addWidget(button_);\n"
+"\n"
+"  // Connect the event of when the button is released to our callback,\n"
+"  // so pressing the button results in the buttonActivated callback being "
+"called.\n"
+"  QObject::connect(button_, &QPushButton::released, this, &DemoPanel::"
+"buttonActivated);\n"
+"}\n"
+"\n"
+"DemoPanel::~DemoPanel() = default;\n"
+"\n"
+"void DemoPanel::onInitialize()\n"
+"{\n"
+"  // Access the abstract ROS Node and\n"
+"  // in the process lock it for exclusive use until the method is done.\n"
+"  node_ptr_ = getDisplayContext()->getRosNodeAbstraction().lock();\n"
+"\n"
+"  // Get a pointer to the familiar rclcpp::Node for making subscriptions/"
+"publishers\n"
+"  // (as per normal rclcpp code)\n"
+"  rclcpp::Node::SharedPtr node = node_ptr_->get_raw_node();\n"
+"\n"
+"  // Create a String publisher for the output\n"
+"  publisher_ = node->create_publisher<std_msgs::msg::String>(\"/output\", "
+"10);\n"
+"\n"
+"  // Create a String subscription and bind it to the topicCallback inside "
+"this class.\n"
+"  subscription_ = node->create_subscription<std_msgs::msg::String>(\"/"
+"input\", 10, std::bind(&DemoPanel::topicCallback, this, std::placeholders::"
+"_1));\n"
+"}\n"
+"\n"
+"// When the subscriber gets a message, this callback is triggered,\n"
+"// and then we copy its data into the widget's label\n"
+"void DemoPanel::topicCallback(const std_msgs::msg::String & msg)\n"
+"{\n"
+"  label_->setText(QString(msg.data.c_str()));\n"
+"}\n"
+"\n"
+"// When the widget's button is pressed, this callback is triggered,\n"
+"// and then we publish a new message on our topic.\n"
+"void DemoPanel::buttonActivated()\n"
+"{\n"
+"  auto message = std_msgs::msg::String();\n"
+"  message.data = \"Button clicked!\";\n"
+"  publisher_->publish(message);\n"
+"}\n"
+"\n"
+"}  // namespace rviz_panel_tutorial\n"
+"\n"
+"#include <pluginlib/class_list_macros.hpp>\n"
+"\n"
+"PLUGINLIB_EXPORT_CLASS(rviz_panel_tutorial::DemoPanel, rviz_common::Panel)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:295
+msgid "Testing with ROS"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:296
+msgid ""
+"Compile and launch RViz2 with your panel again. You should see your label "
+"and button in the panel now."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "screenshot of the RViz panel in its default state"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:303
+msgid ""
+"To change the label, we simply have to publish a message on the ``/input`` "
+"topic, which you can do with this command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:305
+msgid ""
+"$ ros2 topic pub /input std_msgs/msg/String \"{data: 'Please be kind.'}\""
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:309
+msgid ""
+"Since the widget is subscribed to this topic, it will trigger the callback "
+"and change the text of the label."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "screenshot of the RViz panel with custom string message displayed"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:316
+msgid ""
+"Pressing the button will publish a message, which you can see by echoing the "
+"``/output`` topic, like with this command."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:318
+msgid "$ ros2 topic echo /output"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:324
+msgid "Cleanup"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:326
+msgid ""
+"Now its time to clean it up a bit. This makes things look nicer and be a "
+"little easier to use, but aren't strictly required."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:329
+msgid ""
+"First, you should update the description of your plugin in "
+"``rviz_common_plugins.xml``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:331
+msgid ""
+"We also add an icon for the plugin at ``icons/classes/DemoPanel.png``. The "
+"folder is hardcoded, and the filename should match the name from the plugin "
+"declaration (or the name of the class if not specified)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:334
+msgid "We need to install the image file in the CMake."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:336
+msgid ""
+"install(FILES icons/classes/DemoPanel.png\n"
+"        DESTINATION share/${PROJECT_NAME}/icons/classes\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:342
+msgid ""
+"Now when you add the panel, it should show up with an icon and description."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "screenshot of Add New Panel dialog with our custom icon and description"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:348
+msgid "The panel will also have an updated icon."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "screenshot of the RViz panel with custom icon"
+msgstr ""
