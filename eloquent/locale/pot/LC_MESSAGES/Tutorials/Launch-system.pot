@@ -1,0 +1,246 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation eloquent\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Launch-system.rst:6
+msgid "Launching/monitoring multiple nodes with Launch"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:9
+msgid "ROS 2 launch system"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:11
+msgid ""
+"The launch system in ROS 2 is responsible for helping the user describe the "
+"configuration of their system and then execute it as described. The "
+"configuration of the system includes what programs to run, where to run "
+"them, what arguments to pass them, and ROS specific conventions which make "
+"it easy to reuse components throughout the system by giving them each "
+"different configurations. It is also responsible for monitoring the state of "
+"the processes launched, and reporting and/or reacting to changes in the "
+"state of those processes."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:15
+msgid ""
+"Launch files written in Python can start and stop different nodes as well as "
+"trigger and act on various events. The package providing this framework is "
+"``launch_ros``, which uses the non-ROS-specific ``launch`` framework "
+"underneath."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:18
+msgid ""
+"The `design document <https://design.ros2.org/articles/roslaunch.html>`__ "
+"details the goal of the design of ROS 2's launch system (not all "
+"functionality is currently available)."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:21
+msgid "Writing a ROS 2 launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:23
+msgid ""
+"If you haven't already, make sure you go through the quickstart tutorial on "
+"how to create a ROS 2 package. One way to create launch files in ROS 2 is "
+"using a Python file, which are executed by the ROS 2 CLI tool, ``ros2 "
+"launch``. We start by creating a ROS 2 package using ``ros2 pkg create <pkg-"
+"name> --dependencies [deps]`` in our workspace and creating a new ``launch`` "
+"directory."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:28
+msgid "Python Packages"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:30
+msgid "For Python packages, your directory should look like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:32
+msgid ""
+"src/\n"
+"    my_package/\n"
+"        launch/\n"
+"        setup.py\n"
+"        setup.cfg\n"
+"        package.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:41
+msgid ""
+"In order for colcon to find the launch files, we need to inform Python's "
+"setup tools of our launch files using the ``data_files`` parameter of "
+"``setup``."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:43
+msgid "Inside our ``setup.py`` file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:45
+msgid ""
+"import os\n"
+"from glob import glob\n"
+"from setuptools import setup\n"
+"\n"
+"package_name = 'my_package'\n"
+"\n"
+"setup(\n"
+"    # Other parameters ...\n"
+"    data_files=[\n"
+"        # ... Other data files\n"
+"        # Include all launch files. This is the most important line here!\n"
+"        (os.path.join('share', package_name), glob('launch/*.launch.py'))\n"
+"    ]\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:63
+msgid "C++ Packages"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:65
+msgid ""
+"If you are creating a C++ package, we will only be adjusting the "
+"``CMakeLists.txt`` file by adding:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:67
+msgid ""
+"# Install launch files.\n"
+"install(DIRECTORY\n"
+"  launch\n"
+"  DESTINATION share/${PROJECT_NAME}/\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:75
+msgid "to the end of the file (but before ``ament_package()``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:78
+msgid "Writing the launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:80
+msgid ""
+"Inside your launch directory, create a new launch file with the ``.launch."
+"py`` suffix. For example ``my_script.launch.py``."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:83
+msgid ""
+"``.launch.py`` is not specifically required as the file suffix for launch "
+"files. Another popular option is ``_launch.py``, used in the :ref:`beginner "
+"level launch files tutorial <ROS2Launch>`. If you do change the suffix, make "
+"sure to adjust the ``glob()`` argument in your ``setup.py`` file accordingly."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:87
+msgid ""
+"Your launch file should define the ``generate_launch_description()`` which "
+"returns a ``launch.LaunchDescription()`` to be used by the ``ros2 launch`` "
+"verb."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:89
+msgid ""
+"import launch\n"
+"import launch.actions\n"
+"import launch.substitutions\n"
+"import launch_ros.actions\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    return launch.LaunchDescription([\n"
+"        launch.actions.DeclareLaunchArgument(\n"
+"            'node_prefix',\n"
+"            default_value=[launch.substitutions.EnvironmentVariable('USER'), "
+"'_'],\n"
+"            description='Prefix for node names'),\n"
+"        launch_ros.actions.Node(\n"
+"            package='demo_nodes_cpp', node_executable='talker', "
+"output='screen',\n"
+"            node_name=[launch.substitutions."
+"LaunchConfiguration('node_prefix'), 'talker']),\n"
+"    ])"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:109
+msgid "Usage"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:111
+msgid ""
+"While launch files can be written as standalone scripts, the typical usage "
+"in ROS is to have launch files invoked by ROS 2 tools."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:113
+msgid ""
+"After running ``colcon build`` and sourcing your workspace, you should be "
+"able to launch the launch file as follows:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:115
+msgid "ros2 launch my_package script.launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:120
+msgid "Example of ROS 2 launch concepts"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:122
+msgid ""
+"The launch file in `this example <https://github.com/ros2/launch_ros/blob/"
+"eloquent/launch_ros/examples/lifecycle_pub_sub_launch.py>`__ launches two "
+"nodes, one of which is a node with a `managed lifecycle <Managed-Nodes>` (a "
+"\"lifecycle node\"). Lifecycle nodes launched through ``launch_ros`` "
+"automatically emit *events* when they transition between states. The events "
+"can then be acted on through the launch framework. For example, by emitting "
+"other events (such as requesting another state transition, which lifecycle "
+"nodes launched through ``launch_ros`` automatically have event handlers for) "
+"or triggering other *actions* (e.g. starting another node)."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:128
+msgid ""
+"In the aforementioned example, various transition requests are requested of "
+"the ``talker`` lifecycle node, and its transition events are reacted to by, "
+"for example, launching a ``listener`` node when the lifecycle talker reaches "
+"the appropriate state."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:131
+msgid "Documentation"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:133
+msgid ""
+"`The launch documentation <https://github.com/ros2/launch/blob/eloquent/"
+"launch/doc/source/architecture.rst>`__ provides more details on concepts "
+"that are also used in ``launch_ros``."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-system.rst:135
+msgid ""
+"Additional documentation/examples of capabilities are forthcoming. See `the "
+"source code <https://github.com/ros2/launch>`__ in the meantime."
+msgstr ""
