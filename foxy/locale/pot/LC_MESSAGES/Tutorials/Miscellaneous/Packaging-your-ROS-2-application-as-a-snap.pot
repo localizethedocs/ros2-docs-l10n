@@ -1,0 +1,362 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation foxy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:2
+msgid "Packaging your ROS 2 application as a snap [community-contributed]"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:6
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:9
+msgid "What are snaps?"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:11
+msgid ""
+"`Snaps <https://snapcraft.io/docs/robotics>`_ are containers that bundle an "
+"application and all its dependencies. They offer several features that "
+"address important concerns as one gets closer to shipping a robotic platform:"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:14
+msgid ""
+"**Container solution**: Snaps bundle your application along with all the "
+"necessary dependencies (including ROS 2) and assets in one package. Your "
+"application is then easily installable on dozens of Linux distributions and "
+"across distro versions."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:15
+msgid ""
+"**Strict confinement**: Snaps are designed to be `secure and isolated "
+"<https://snapcraft.io/docs/snap-confinement>`_ from the underlying system "
+"and other applications, with `dedicated interfaces <https://snapcraft.io/"
+"docs/supported-interfaces>`_ to access the host machine."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:16
+msgid ""
+"**Managing updates**: Snaps can update `automatically and transactionally "
+"<https://snapcraft.io/docs/keeping-snaps-up-to-date>`_, making sure your "
+"robot is never broken and always up-to-date."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:17
+msgid ""
+"**Release management**: Snaps' `multiple release channels <https://snapcraft."
+"io/docs/channels>`_ allow you to have role-based access controls and "
+"application versioning, making A/B testing easy and releasing fixes faster."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:20
+msgid "Creating a snap"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:22
+msgid ""
+"This tutorial will demonstrate how to use `snapcraft <https://github.com/"
+"snapcore/snapcraft>`_ to package your ROS 2 application as a snap, and then "
+"how to use it."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:24
+msgid "First, let us install snapcraft."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:26
+msgid "sudo snap install --classic snapcraft"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:30
+msgid ""
+"(Note that the snapcraft debian package from the apt repositories is largely "
+"deprecated. One should use the snap package.)"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:32
+msgid "Snapcraft has built-in support for ``Colcon``."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:34
+msgid ""
+"For your example, you will use the ``demo_nodes_cpp`` package from the "
+"`ros2_demos <https://github.com/ros2/demos/tree/rolling>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:36
+msgid "Initialize a new snapcraft project here:"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:38
+msgid ""
+"mkdir ~/demo_nodes_cpp_snap\n"
+"cd ~/demo_nodes_cpp_snap\n"
+"snapcraft init"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:44
+msgid "This will create a file in a subdirectory ``snap/snapcraft.yaml``."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:47
+msgid "The snapcraft file"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:49
+msgid ""
+"Open the freshly created ``snap/snapcraft.yaml`` file and copy over the "
+"following:"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:51
+msgid ""
+"name: ros2-talker-listener\n"
+"version: '0.1'\n"
+"summary: ROS 2 Talker/Listener example\n"
+"description: |\n"
+"  This example launches a ROS 2 talker and listener.\n"
+"\n"
+"confinement: devmode\n"
+"base: core20\n"
+"\n"
+"parts:\n"
+"  ros-demos:\n"
+"    plugin: colcon\n"
+"    source: https://github.com/ros2/demos.git\n"
+"    source-branch: rolling\n"
+"    colcon-packages: [demo_nodes_cpp]\n"
+"    build-packages: [make, gcc, g++]\n"
+"    stage-packages: [ros-rolling-ros2launch]\n"
+"\n"
+"apps:\n"
+"  ros2-talker-listener:\n"
+"    command: opt/ros/rolling/bin/ros2 launch demo_nodes_cpp talker_listener."
+"launch.py\n"
+"    extensions: [ros2-rolling]"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:76
+msgid "Let's break it down."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:79
+msgid "Metadata"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:81
+msgid ""
+"name: ros2-talker-listener\n"
+"version: '0.1'\n"
+"summary: ROS 2 Talker/Listener example\n"
+"description: |\n"
+"  This example launches a ROS 2 talker and listener."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:89
+msgid ""
+"This is the basic `metadata <https://snapcraft.io/docs/snapcraft-top-level-"
+"metadata>`_ that all snaps require. These fields are fairly self-explanatory "
+"but note that the name must be globally unique across all snaps."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:93
+msgid "Base"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:95
+msgid "base: core20"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:99
+msgid ""
+"The `base <https://snapcraft.io/docs/base-snaps>`_ keyword defines a special "
+"kind of snap that provides a run-time environment with a minimal set of "
+"libraries that are common to most applications. `Core20 <https://snapcraft."
+"io/core20>`_ is the current standard base for snap building and is based on "
+"`Ubuntu 20.04 LTS <http://releases.ubuntu.com/20.04/>`_. It is, therefore, "
+"the base used for rolling."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:104
+msgid "Security model"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:106
+msgid "confinement: devmode"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:110
+msgid ""
+"To get started, you won't confine this application. Unconfined applications, "
+"specified with ``devmode``, can only be released to the ``edge`` channel of "
+"the snapcraft store. For more information about snaps Security model, please "
+"refer to the `online documentation <https://snapcraft.io/docs/choosing-a-"
+"security-model>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:116
+msgid "Parts"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:118
+msgid ""
+"parts:\n"
+"  ros-demos:\n"
+"    plugin: colcon\n"
+"    source: https://github.com/ros2/demos.git\n"
+"    source-branch: rolling\n"
+"    colcon-packages: [demo_nodes_cpp]\n"
+"    build-packages: [make, gcc, g++]\n"
+"    stage-packages: [ros-rolling-ros2launch]"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:129
+msgid ""
+"Parts define how to build the app. In this case, you have one: ``ros-"
+"demos``. Parts can point to local directories, remote git repositories, or "
+"tarballs. Here, you specify your source as a GitHub repository at a specific "
+"branch. You also specifically tell ``Colcon`` to build the "
+"``demo_nodes_cpp`` package. Furthermore you tell snapcraft that packages "
+"such as ``make`` are necessary at build time while the package ``ros-rolling-"
+"ros2launch`` is necessary at run time. For more information about the plugin "
+"and its options, please refer to the `online documentation <https://"
+"snapcraft.io/docs/the-colcon-plugin>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:138
+msgid "Apps"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:140
+msgid ""
+"apps:\n"
+"  ros2-talker-listener:\n"
+"    command: opt/ros/rolling/bin/ros2 launch demo_nodes_cpp talker_listener."
+"launch.py\n"
+"    extensions: [ros2-rolling]"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:147
+msgid ""
+"Apps are the commands exposed to end users. Each key under apps is the "
+"command name that should be made available on users' systems. The "
+"``command`` keyword specifies the command to be run as its name suggests. "
+"Finally, the extensions `ros2-rolling <https://snapcraft.io/docs/ros2-"
+"extension>`__ essentially sets up the ROS 2 apt package repository together "
+"with the necessary environment variables."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:153
+msgid "Building the snap"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:155
+msgid "Now that you are all set up, let's build the snap:"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:157
+msgid ""
+"cd ~/demo_nodes_cpp_snap\n"
+"snapcraft --enable-experimental-extensions"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:162
+msgid "Giving:"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:164
+msgid ""
+"*EXPERIMENTAL* extensions enabled.\n"
+"Launching a VM.\n"
+"Launched: snapcraft-ros2-talker-listener\n"
+"[...]\n"
+"This part is missing libraries that cannot be satisfied with any available "
+"stage-packages known to snapcraft:\n"
+"libnddsc.so\n"
+"libnddscore.so\n"
+"libnddscpp.so\n"
+"librosidl_typesupport_connext_c.so\n"
+"librosidl_typesupport_connext_cpp.so\n"
+"librticonnextmsgcpp.so\n"
+"Snapped ros2-talker-listener_0.1_amd64.snap"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:180
+msgid ""
+"The warnings regarding the missing libraries are false positives. These "
+"libraries are build time dependencies only. This will be fixed in a future "
+"release of ``snapcraft``."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:182
+msgid ""
+"That will take a few minutes. From the logs, and among other things, you can "
+"see snapcraft using `rosdep <http://docs.ros.org/independent/api/rosdep/html/"
+">`_ to pull the dependencies for your example but also ``Colcon`` building "
+"the application."
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:186
+msgid "Testing the snap"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:188
+msgid ""
+"This snap is completely standalone: it includes ROS 2 and your application, "
+"meaning that one doesn't even need to install ROS 2 on the host system. "
+"Let's test it out:"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:191
+msgid "sudo snap install ros2-talker-listener_0.1_amd64.snap --devmode"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:195
+msgid ""
+"Note that you use ``--devmode`` here because the snap confinement is set as "
+"``devmode``. The moment of truth, will it run?"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:198
+msgid "ros2-talker-listener"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:202
+msgid ""
+"[talker-1] [INFO] [1646934735.523191674] [talker]: Publishing: 'Hello World: "
+"1'\n"
+"[listener-2] [INFO] [1646934735.524428480] [listener]: I heard: [Hello "
+"World: 1]\n"
+"[talker-1] [INFO] [1646934736.523025881] [talker]: Publishing: 'Hello World: "
+"2'\n"
+"[listener-2] [INFO] [1646934736.523614075] [listener]: I heard: [Hello "
+"World: 2]"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:209
+msgid "It does! You see the expected output!"
+msgstr ""
+
+#: ../../../source/Tutorials/Miscellaneous/Packaging-your-ROS-2-application-as-a-snap.rst:211
+msgid ""
+"You can find more information about snap on the `snapcraft documentation "
+"<https://snapcraft.io/docs>`_ and `ROS 2 snap page <https://snapcraft.io/"
+"docs/ros2-applications>`_."
+msgstr ""
