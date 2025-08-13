@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation foxy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:2
+msgid "Using ROS 2 launch to launch composable nodes"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:6
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:8
+msgid ""
+"In the :doc:`Composition tutorial <../Tutorials/Intermediate/Composition>`, "
+"you learned about composable nodes and how to use them from the command-"
+"line. In the :doc:`Launch tutorials <../Tutorials/Intermediate/Launch/Launch-"
+"Main>`, you learned about launch files and how to use them to manage "
+"multiple nodes."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:11
+msgid ""
+"This guide will combine the above two topics and teach you how to write "
+"launch files for composable nodes."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:14
+msgid "Setup"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:16
+msgid ""
+"See the :doc:`installation instructions <../Installation>` for details on "
+"installing ROS 2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:18
+msgid ""
+"If you've installed ROS 2 from packages, ensure that you have ``ros-rolling-"
+"image-tools`` installed. If you downloaded the archive or built ROS 2 from "
+"source, it will already be part of the installation."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:22
+msgid "Launch file examples"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:24
+msgid ""
+"Below is a launch file that launches composable nodes in Python, XML, and "
+"YAML. The launch files all do the following:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:27
+msgid ""
+"Instantiate a cam2image composable node with remappings, custom parameters, "
+"and extra arguments"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:28
+msgid ""
+"Instantiate a showimage composable node with remappings, custom parameters, "
+"and extra arguments"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:32
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:81
+msgid "Python"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:34
+msgid ""
+"import launch\n"
+"from launch_ros.actions import ComposableNodeContainer\n"
+"from launch_ros.descriptions import ComposableNode\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    \"\"\"Generate launch description with multiple components.\"\"\"\n"
+"    container = ComposableNodeContainer(\n"
+"            name='image_container',\n"
+"            namespace='',\n"
+"            package='rclcpp_components',\n"
+"            executable='component_container',\n"
+"            composable_node_descriptions=[\n"
+"                ComposableNode(\n"
+"                    package='image_tools',\n"
+"                    plugin='image_tools::Cam2Image',\n"
+"                    name='cam2image',\n"
+"                    remappings=[('/image', '/burgerimage')],\n"
+"                    parameters=[{'width': 320, 'height': 240, 'burger_mode': "
+"True, 'history': 'keep_last'}],\n"
+"                    extra_arguments=[{'use_intra_process_comms': True}]),\n"
+"                ComposableNode(\n"
+"                    package='image_tools',\n"
+"                    plugin='image_tools::ShowImage',\n"
+"                    name='showimage',\n"
+"                    remappings=[('/image', '/burgerimage')],\n"
+"                    parameters=[{'history': 'keep_last'}],\n"
+"                    extra_arguments=[{'use_intra_process_comms': True}])\n"
+"            ],\n"
+"            output='both',\n"
+"    )\n"
+"\n"
+"    return launch.LaunchDescription([container])"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:72
+msgid "Loading composable nodes into an existing container"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:74
+msgid ""
+"Containers can sometimes be launched by other launch files or from a "
+"commandline. In that case, you need to add your components to an existing "
+"container. For this, you may use ``LoadComposableNodes`` to load components "
+"into a given container. The below example launches the same nodes as above."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:83
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch_ros.actions import LoadComposableNodes, Node\n"
+"from launch_ros.descriptions import ComposableNode\n"
+"\n"
+"def generate_launch_description():\n"
+"    container = Node(\n"
+"        name='image_container',\n"
+"        package='rclcpp_components',\n"
+"        executable='component_container',\n"
+"        output='both',\n"
+"    )\n"
+"\n"
+"    load_composable_nodes = LoadComposableNodes(\n"
+"        target_container='image_container',\n"
+"        composable_node_descriptions=[\n"
+"            ComposableNode(\n"
+"                 package='image_tools',\n"
+"                plugin='image_tools::Cam2Image',\n"
+"                name='cam2image',\n"
+"                remappings=[('/image', '/burgerimage')],\n"
+"                parameters=[{'width': 320, 'height': 240, 'burger_mode': "
+"True, 'history': 'keep_last'}],\n"
+"                extra_arguments=[{'use_intra_process_comms': True}],\n"
+"            ),\n"
+"            ComposableNode(\n"
+"                package='image_tools',\n"
+"                plugin='image_tools::ShowImage',\n"
+"                name='showimage',\n"
+"                remappings=[('/image', '/burgerimage')],\n"
+"                parameters=[{'history': 'keep_last'}],\n"
+"                extra_arguments=[{'use_intra_process_comms': True}]\n"
+"            ),\n"
+"        ],\n"
+"    )\n"
+"\n"
+"    return LaunchDescription([container, load_composable_nodes])"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:123
+msgid "Using the Launch files from the command-line"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:125
+msgid ""
+"Any of the launch files above can be run with ``ros2 launch``. Copy the data "
+"into a local file, and then run:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:128
+msgid "ros2 launch <path_to_launch_file>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:133
+msgid "Intra-process communications"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Launching-composable-nodes.rst:135
+msgid ""
+"All of the above examples use an extra argument to setup intra-process "
+"communication between the nodes. For more information on what intra-process "
+"communications are, see the :doc:`intra-process comms tutorial <../Tutorials/"
+"Demos/Intra-Process-Communication>`."
+msgstr ""
