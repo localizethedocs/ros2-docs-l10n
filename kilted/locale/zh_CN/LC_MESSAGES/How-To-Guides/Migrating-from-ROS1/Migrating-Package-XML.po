@@ -1,0 +1,223 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:2
+msgid "Migrating your package.xml to format 2"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:6
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:8
+msgid ""
+"ROS 2 requires ``package.xml`` files to use at least `format 2 <https://ros."
+"org/reps/rep-0140.html>`__. This guide shows how to migrate a ``package."
+"xml`` from format 1 to format 2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:11
+msgid ""
+"If the ``<package>`` tag at the start of your ``package.xml`` looks like "
+"either of the following, then it is using format 1 and you must migrate it."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:13
+msgid "<package>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:17
+msgid "<package format=\"1\">"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:23
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:25
+msgid ""
+"You should have a working ROS 1 installation. This enables you to check that "
+"the converted ``package.xml`` is valid by building and testing the package, "
+"since ROS 1 supports all ``package.xml`` format versions."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:29
+msgid "Migrate from format 1 to 2"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:31
+msgid ""
+"Format 1 and format 2 differ in how they specify dependencies. Read the "
+"`compatibility section in REP-0140 <https://www.ros.org/reps/rep-0140."
+"html#compatibility>`__ for a summary of the differences."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:35
+msgid "Add ``format`` attribute to ``<package>``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:37
+msgid ""
+"Add or set the ``format`` attribute to ``2`` to indicate that the ``package."
+"xml`` uses format 2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:39
+msgid "<package format=\"2\">"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:44
+msgid "Replace ``<run_depend>``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:46
+msgid ""
+"The ``<run_depend>`` tag is no longer allowed. If you have a dependency "
+"specified like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:49
+msgid "<run_depend>foo</run_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:53
+msgid "then replace it with one or both of these tags:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:55
+msgid ""
+"<build_export_depend>foo</build_export_depend>\n"
+"<exec_depend>foo</exec_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:60
+msgid ""
+"If the dependency is needed when something in your package is executed, then "
+"use the ``<exec_depend>`` tag. If packages that depend on your package need "
+"the dependency when they are built, then use the ``<build_export_depend>`` "
+"tag. Use both tags if you are unsure."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:65
+msgid "Convert some ``<build_depend>`` to ``<test_depend>``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:67
+msgid ""
+"In format 1 ``<test_depend>`` declares dependencies that are needed when "
+"running your package's tests. It still does that in format 2, but it "
+"additionally declares dependencies that are needed when building your "
+"package's tests."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:70
+msgid ""
+"Because of the limitations of this tag in format 1, your package may have a "
+"test-only dependency specified as a ``<build_depend>`` like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:72
+msgid "<build_depend>testfoo</build_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:76
+msgid "If so, change it to a ``<test_depend>``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:78
+msgid "<test_depend>testfoo</test_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:84
+msgid ""
+"If you are using CMake, then make sure your test dependencies are only "
+"referenced within a ``if(BUILD_TESTING)`` block:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:86
+msgid ""
+"if (BUILD_TESTING)\n"
+"    find_package(testfoo REQUIRED)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:93
+msgid "Begin using ``<doc_depend>``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:95
+msgid ""
+"Use the new ``<doc_depend>`` tag to declare dependencies needed for building "
+"your package's documentation. For example, C++ packages might have this "
+"dependency:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:98
+msgid "<doc_depend>doxygen</doc_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:102
+msgid "while Python packages might have this one:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:104
+msgid "<doc_depend>python3-sphinx</doc_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:108
+msgid ""
+"See :doc:`the guide on documenting ROS 2 packages <../Documenting-a-ROS-2-"
+"Package>` for more information."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:111
+msgid "Simplify dependencies with ``<depend>``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:113
+msgid ""
+"``<depend>`` is a new tag that makes ``package.xml`` files more concise. If "
+"your ``package.xml`` has these three tags for the same dependency:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:116
+msgid ""
+"<build_depend>foo</build_depend>\n"
+"<build_export_depend>foo</build_export_depend>\n"
+"<exec_depend>foo</exec_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:122
+msgid "then replace them with a single ``<depend>`` like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:124
+msgid "<depend>foo</depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:129
+msgid "Test your new ``package.xml``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.rst:131
+msgid ""
+"Build and test your package as you normally do using ``catkin_make``, "
+"``cakin_make_isolated``, or the ``catkin`` build tool. If everything "
+"succeeds, then your ``package.xml`` is valid."
+msgstr ""
