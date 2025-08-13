@@ -1,0 +1,415 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation crystal\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:2
+msgid "Building ROS 2 on Linux"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:7
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:10
+msgid "System requirements"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:11
+msgid ""
+"Target platforms for Crystal Clemmys are (see `REP 2000 <https://www.ros.org/"
+"reps/rep-2000.html>`__):"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:13
+msgid "Tier 1: Ubuntu Linux - Bionic Beaver (18.04) 64-bit"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:14
+msgid "Tier 2: Ubuntu Linux - Xenial Xerus (16.04) 64-bit"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:16
+msgid "Tier 3 platforms (not actively tested or supported) include:"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:18
+msgid "Debian Linux - Stretch (9)"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:19
+msgid "Fedora 26, see `alternate instructions <Fedora-Development-Setup>`"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:20
+msgid ""
+"Arch Linux, see `alternate instructions <https://wiki.archlinux.org/index."
+"php/ROS#ROS_2>`__"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:21
+msgid ""
+"OpenEmbedded / webOS OSE, see `alternate instructions <https://github.com/"
+"ros/meta-ros/wiki/OpenEmbedded-Build-Instructions>`__"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:24
+msgid "System setup"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:27
+msgid "Set locale"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:28
+msgid ""
+"Make sure to set a locale that supports UTF-8. If you are in a minimal "
+"environment such as a Docker container, the locale may be set to something "
+"minimal like POSIX."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:31
+msgid ""
+"The following is an example for setting locale. However, it should be fine "
+"if you're using a different UTF-8 supported locale."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:34
+msgid ""
+"sudo locale-gen en_US en_US.UTF-8\n"
+"sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8\n"
+"export LANG=en_US.UTF-8"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:41
+msgid "Add the ROS 2 apt repository"
+msgstr ""
+
+#: ../../../source/Installation/_Apt-Repositories.rst:1
+msgid ""
+"You will need to add the ROS 2 apt repositories to your system. To do so, "
+"first authorize our GPG key with apt like this:"
+msgstr ""
+
+#: ../../../source/Installation/_Apt-Repositories.rst:4
+msgid ""
+"sudo apt update && sudo apt install curl gnupg2 lsb-release\n"
+"curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | "
+"sudo apt-key add -"
+msgstr ""
+
+#: ../../../source/Installation/_Apt-Repositories.rst:9
+msgid "And then add the repository to your sources list:"
+msgstr ""
+
+#: ../../../source/Installation/_Apt-Repositories.rst:11
+msgid ""
+"sudo sh -c 'echo \"deb [arch=$(dpkg --print-architecture)] http://packages."
+"ros.org/ros2/ubuntu $(lsb_release -cs) main\" > /etc/apt/sources.list.d/ros2-"
+"latest.list'"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:45
+msgid "Install development tools and ROS tools"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:47
+msgid ""
+"sudo apt update && sudo apt install -y \\\n"
+"  build-essential \\\n"
+"  cmake \\\n"
+"  git \\\n"
+"  python3-colcon-common-extensions \\\n"
+"  python3-lark-parser \\\n"
+"  python3-pip \\\n"
+"  python-rosdep \\\n"
+"  python3-vcstool \\\n"
+"  wget\n"
+"# install some pip packages needed for testing\n"
+"python3 -m pip install -U \\\n"
+"  argcomplete \\\n"
+"  flake8 \\\n"
+"  flake8-blind-except \\\n"
+"  flake8-builtins \\\n"
+"  flake8-class-newline \\\n"
+"  flake8-comprehensions \\\n"
+"  flake8-deprecated \\\n"
+"  flake8-docstrings \\\n"
+"  flake8-import-order \\\n"
+"  flake8-quotes \\\n"
+"  pytest-repeat \\\n"
+"  pytest-rerunfailures \\\n"
+"  pytest \\\n"
+"  pytest-cov \\\n"
+"  pytest-runner \\\n"
+"  setuptools\n"
+"# install Fast-RTPS dependencies\n"
+"sudo apt install --no-install-recommends -y \\\n"
+"  libasio-dev \\\n"
+"  libtinyxml2-dev"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:85
+msgid "Get ROS 2 code"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:87
+msgid "Create a workspace and clone all repos:"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:89
+msgid ""
+"mkdir -p ~/ros2_crystal/src\n"
+"cd ~/ros2_crystal\n"
+"wget https://raw.githubusercontent.com/ros2/ros2/crystal/ros2.repos\n"
+"vcs import src < ros2.repos"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:99
+msgid "Install dependencies using rosdep"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:101
+msgid ""
+"sudo rosdep init\n"
+"rosdep update\n"
+"# [Ubuntu 18.04]\n"
+"rosdep install --from-paths src --ignore-src --rosdistro crystal -y --skip-"
+"keys \"console_bridge fastcdr fastrtps libopensplice67 libopensplice69 rti-"
+"connext-dds-5.3.1 urdfdom_headers\"\n"
+"# [Ubuntu 16.04]\n"
+"rosdep install --from-paths src --ignore-src --rosdistro crystal -y --skip-"
+"keys \"console_bridge fastcdr fastrtps libopensplice67 libopensplice69 "
+"python3-lark-parser rti-connext-dds-5.3.1 urdfdom_headers\"\n"
+"python3 -m pip install -U lark-parser"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:112
+msgid "Install additional DDS implementations (optional)"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:114
+msgid ""
+"If you would like to use another DDS or RTPS vendor besides the default, "
+"eProsima's Fast RTPS, you can find instructions `here <DDS-Implementations>`."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:117
+msgid "Build the code in the workspace"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:119
+msgid ""
+"Note: to build the ROS 1 bridge, read the `ros1_bridge instructions <https://"
+"github.com/ros2/ros1_bridge/blob/master/README.md#building-the-bridge-from-"
+"source>`__."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:121
+msgid ""
+"More info on working with a ROS workspace can be found in `this tutorial </"
+"Tutorials/Colcon-Tutorial>`."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:123
+msgid ""
+"cd ~/ros2_crystal/\n"
+"# On Ubuntu Linux Bionic Beaver 18.04\n"
+"colcon build --symlink-install\n"
+"# On Ubuntu Linux Xenial Xerus 16.04\n"
+"colcon build --symlink-install --packages-ignore qt_gui_cpp rqt_gui_cpp"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:131
+msgid ""
+"Note: if you are having trouble compiling all examples and this is "
+"preventing you from completing a successful build, you can use "
+"``AMENT_IGNORE`` in the same manner as `CATKIN_IGNORE <https://github.com/"
+"ros-infrastructure/rep/blob/master/rep-0128.rst>`__ to ignore the subtree or "
+"remove the folder from the workspace. Take for instance: you would like to "
+"avoid installing the large OpenCV library. Well then simply ``$ touch "
+"AMENT_IGNORE`` in the ``cam2image`` demo directory to leave it out of the "
+"build process."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:135
+msgid ""
+"Optionally install all packages into a combined directory (rather than each "
+"package in a separate subdirectory). On Windows due to limitations of the "
+"length of environment variables you should use this option when building "
+"workspaces with many (~ >> 100 packages)."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:138
+msgid ""
+"Also, if you have already installed ROS 2 from Debian make sure that you run "
+"the ``build`` command in a fresh environment. You may want to make sure that "
+"you do not have ``source /opt/ros/${ROS_DISTRO}/setup.bash`` in your ``."
+"bashrc``."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:141
+msgid "colcon build --symlink-install --merge-install"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:145
+msgid "Afterwards source the ``local_setup.*`` from the ``install`` folder."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:148
+msgid "Environment setup"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:151
+msgid "Source the setup script"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:153
+msgid "Set up your environment by sourcing the following file."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:155
+msgid ". ~/ros2_crystal/install/setup.bash"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:160
+msgid "Install argcomplete (optional)"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:162
+msgid "ROS 2 command line tools use argcomplete to autocompletion."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:164
+msgid "So if you want autocompletion, installing argcomplete is necessary."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:166
+msgid "sudo apt install python3-argcomplete"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:173
+msgid "Try some examples"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:175
+msgid ""
+"In one terminal, source the setup file and then run a C++ ``talker``\\ :"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:177
+msgid ""
+". ~/ros2_crystal/install/local_setup.bash\n"
+"ros2 run demo_nodes_cpp talker"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:182
+msgid ""
+"In another terminal source the setup file and then run a Python "
+"``listener``\\ :"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:184
+msgid ""
+". ~/ros2_crystal/install/local_setup.bash\n"
+"ros2 run demo_nodes_py listener"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:189
+msgid ""
+"You should see the ``talker`` saying that it's ``Publishing`` messages and "
+"the ``listener`` saying ``I heard`` those messages. This verifies both the C+"
+"+ and Python APIs are working properly. Hooray!"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:193
+msgid "See the `tutorials and demos </Tutorials>` for other things to try."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:196
+msgid "Alternate compilers"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:198
+msgid ""
+"Using a different compiler besides gcc to compile ROS 2 is easy. If you set "
+"the environment variables ``CC`` and ``CXX`` to executables for a working C "
+"and C++ compiler, respectively, and retrigger CMake configuration (by using "
+"``--force-cmake-config`` or by deleting the packages you want to be "
+"affected), CMake will reconfigure and use the different compiler."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:201
+msgid "Clang"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:203
+msgid "To configure CMake to detect and use Clang:"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:205
+msgid ""
+"sudo apt install clang\n"
+"export CC=clang\n"
+"export CXX=clang++\n"
+"colcon build --cmake-force-configure"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:212
+msgid "TODO: using ThreadSanitizer, MemorySanitizer"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:215
+msgid "Stay up to date"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:217
+msgid ""
+"See :ref:`MaintainingSource` to periodically refresh your source "
+"installation."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:220
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:222
+msgid ""
+"Troubleshooting techniques can be found :ref:`here <linux-troubleshooting>`."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:225
+msgid "Uninstall"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:227
+msgid ""
+"If you installed your workspace with colcon as instructed above, "
+"\"uninstalling\" could be just a matter of opening a new terminal and not "
+"sourcing the workspace's ``setup`` file. This way, your environment will "
+"behave as though there is no Crystal install on your system."
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:230
+msgid ""
+"If you're also trying to free up space, you can delete the entire workspace "
+"directory with:"
+msgstr ""
+
+#: ../../../source/Installation/Linux-Development-Setup.rst:232
+msgid "rm -rf ~/ros2_crystal"
+msgstr ""

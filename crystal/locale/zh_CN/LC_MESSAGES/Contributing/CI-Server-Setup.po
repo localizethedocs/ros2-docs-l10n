@@ -1,0 +1,415 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation crystal\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:6
+msgid "How to setup the Jenkins master"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:10
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:13
+msgid "Installing"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:15
+msgid ""
+"Install the latest LTS release from http://pkg.jenkins-ci.org/debian-stable/"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:18
+msgid "Running on port 80"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:20
+msgid "Use this SO answer to setup a subdomain to a port:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:22
+msgid "http://serverfault.com/a/140161/186748"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:24
+msgid "(Removed the ``hudson`` in each of the lines that contained it.)"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:27
+msgid "Temporary rewrite for changed job name"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:29
+msgid ""
+"We renamed some of the jobs, so here are some rewrite rules in Apache (``/"
+"etc/apache2/sites-enabled/ci.ros2.org.conf``):"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:31
+msgid ""
+"# Temporary rewrite rule because we changed the Windows job name.\n"
+"RewriteEngine On\n"
+"RewriteRule ^(.*)/ros2_batch_ci_linux/(.*)$ $1/ci_linux/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_osx/(.*)$ $1/ci_osx/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows/(.*)$ $1/ci_windows_opensplice/$2 "
+"[R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows_opensplice/(.*)$ $1/"
+"ci_windows_opensplice/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows_connext_static/(.*)$ $1/"
+"ci_windows_connext_static/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows_connext_dynamic/(.*)$ $1/"
+"ci_windows_connext_dynamic/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ci_windows_opensplice/(.*)$ $1/ci_windows/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ci_windows_connext_static/(.*)$ $1/"
+"old_windows_connext_static/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ci_windows_connext_dynamic/(.*)$ $1/"
+"old_windows_connext_dynamic/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ci_windows_fastrtps/(.*)$ $1/old_windows_fastrtps/$2 "
+"[R=301,L]\n"
+"\n"
+"RewriteRule ^(.*)/ros2_batch_ci_linux_nightly/(.*)$ $1/nightly_linux/$2 "
+"[R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_osx_nightly/(.*)$ $1/nightly_osx/$2 [R=301,"
+"L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows_opensplice_nightly/(.*)$ $1/"
+"nightly_windows_opensplice/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows_connext_static_nightly/(.*)$ $1/"
+"nightly_windows_connext_static/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_batch_ci_windows_connext_dynamic_nightly/(.*)$ $1/"
+"nightly_windows_connext_dynamic/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/nightly_windows_opensplice/(.*)$ $1/nightly_windows/$2 "
+"[R=301,L]\n"
+"RewriteRule ^(.*)/nightly_windows_connext_static/(.*)$ $1/"
+"old_night_windows_connext_static/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/nightly_windows_connext_dynamic/(.*)$ $1/"
+"old_night_windows_connext_dynamic/$2 [R=301,L]\n"
+"\n"
+"RewriteRule ^(.*)/ros2_packaging_linux/(.*)$ $1/packaging_linux/$2 [R=301,"
+"L]\n"
+"RewriteRule ^(.*)/ros2_packaging_osx/(.*)$ $1/packaging_osx/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/ros2_packaging_windows_opensplice/(.*)$ $1/"
+"packaging_windows_opensplice/$2 [R=301,L]\n"
+"RewriteRule ^(.*)/packaging_windows_opensplice/(.*)$ $1/packaging_windows/$2 "
+"[R=301,L]"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:61
+msgid "Install stuff (needed on master and slaves)"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:63
+msgid ""
+"sudo apt update\n"
+"sudo apt install -y git\n"
+"# Your java version will vary depending on your OS:\n"
+"#sudo apt install openjdk-7-jre-headless\n"
+"#sudo apt install openjdk-8-jre-headless\n"
+"# For ARM native servers, we need the tomcat native libs to support ssh-"
+"agent\n"
+"# (https://issues.jenkins-ci.org/browse/JENKINS-30746)\n"
+"#sudo apt install libtcnative-1\n"
+"# qemu and vcs are required for ARM builds\n"
+"sudo apt install -y qemu-user-static\n"
+"sudo bash -c 'echo \"deb http://repositories.ros.org/ubuntu/testing/ "
+"`lsb_release -cs` main\" > /etc/apt/sources.list.d/ros-latest.list'\n"
+"sudo bash -c 'curl --silent https://raw.githubusercontent.com/ros/rosdistro/"
+"master/ros.asc |sudo apt-key add -'\n"
+"# Or, on aarch64:\n"
+"#sudo apt install docker.io\n"
+"sudo apt update\n"
+"sudo apt install -y python-vcstool\n"
+"curl -fsSL https://get.docker.com/ | sh\n"
+"sudo adduser --disabled-password jenkins\n"
+"sudo usermod -aG docker jenkins\n"
+"sudo service docker start"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:87
+msgid "Adding a Linux slave to the farm"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:89
+msgid "Approximately:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:92
+msgid ""
+"Shell into the master (``ci.ros2.org``), copy ``/var/lib/jenkins/.ssh/id_rsa."
+"pub`` and paste it into ``/home/jenkins/.ssh/authorized_keys`` on the new "
+"machine."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:93
+msgid ""
+"Copy config from the ``linux 2`` machine, rename and otherwise modify as "
+"needed (e.g., change the IP/host)."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:94
+msgid ""
+"Copy ``/etc/ssh/ssh_host_rsa_key.pub`` from the new machine and add it as an "
+"entry in ``/var/lib/jenkins/.ssh/known_hosts`` (with the new machine's IP) "
+"on the master, then re-hash that file on the master: ``ssh-keygen -H``."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:97
+msgid "Configuring Jenkins"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:99
+msgid "First update all the preinstalled plugins."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:102
+msgid "Authentication"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:104
+msgid ""
+"Setup authentication with the ``github-oauth`` plugin. Install and follow "
+"their setup instructions:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:107
+msgid "https://wiki.jenkins-ci.org/display/JENKINS/Github+OAuth+Plugin"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:109
+msgid "Create an application entry on the ros2 GitHub organization:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:111
+msgid "https://github.com/organizations/ros2/settings/applications/215300"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:113
+msgid "Tune the permissions in ``Manage Jenkins->Configure Global Security``."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:116
+msgid "Plugins"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:118
+msgid "Install these plugins:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:121
+msgid "``ansicolor``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:122
+msgid "``description-setter``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:123
+msgid "``github`` (other git* plugins are deps of the ``github-oauth`` plugin)"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:124
+msgid "``greenballs``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:125
+msgid "``groovy``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:126
+msgid "``parameterized-trigger``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:127
+msgid "``PrioritySorter``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:128
+msgid "``jobrequeue``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:129
+msgid "``ssh-agent``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:130
+msgid "``warnings``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:131
+msgid "``xunit``"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:134
+msgid "Adding an ssh key"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:136
+msgid ""
+"Jenkins needs a valid ssh key in order to pull from some of our private "
+"repositories, for example to get the rti deb files."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:138
+msgid "So, let's create an ssh key for the jenkins user on the webserver:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:140
+msgid ""
+"sudo su jenkins\n"
+"cd\n"
+"mkdir .ssh\n"
+"ssh-keygen -t rsa"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:147
+msgid ""
+"Now add to the jenkins credentials as an \"From the jenkins master ~/.ssh\" "
+"with the user id of ``ros2-buildfarm``."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:149
+msgid ""
+"Add this key to a \"machine\" GitHub account created for this farm and add "
+"that user, ``ros2-buildfarm``, to the ``ros2``, ``ament``, and ``osrf`` "
+"organizations."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:152
+msgid "Creating Jobs"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:154
+msgid "Clone the ``ros2/ci`` repository to the default branch (``master``):"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:156
+msgid "git clone https://github.com/ros2/ci.git"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:160
+msgid "Clone the ``ros_buildfarm`` repository:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:162
+msgid "git clone https://github.com/ros-infrastructure/ros_buildfarm.git"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:166
+msgid "Install the ``jenkinsapi`` and ``EmPy`` Python packages:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:168
+msgid ""
+"sudo apt install python3-pip\n"
+"sudo -H python3 -m pip install -U pip\n"
+"sudo -H python3 -m pip install jenkinsapi EmPy"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:174
+msgid "Then setup auth:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:176
+msgid ""
+"mkdir -p ~/.buildfarm\n"
+"vim ~/.buildfarm/jenkins.ini"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:181
+msgid "Put this in the ``jenkins.ini`` file:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:183
+msgid ""
+"[http://ci.ros2.org]\n"
+"username=wjwwood\n"
+"password=<your application token>"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:189
+msgid ""
+"Now, you should first login with GitHub on Jenkins if you haven't already. "
+"Then put your GitHub username in and for the application token, browse to "
+"the configuration of your user on Jenkins:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:192
+msgid "https://ci.ros2.org/user/wjwwood/configure"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:194
+msgid ""
+"In those settings there should be a field called API Token. Copy that field "
+"for your password."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:197
+msgid "Now you can create the jobs:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:199
+msgid ""
+"$ PYTHONPATH=`pwd`/../ros_buildfarm ./create_jenkins_job.py -u http://ci."
+"ros2.org\n"
+"Connecting to Jenkins 'http://ci.ros2.org'\n"
+"Connected to Jenkins version '1.617'\n"
+"Creating job 'ros2_batch_ci_windows'\n"
+"The Jenkins master does not require a crumb\n"
+"Creating job 'ros2_batch_ci_osx'\n"
+"Creating job 'ros2_batch_ci_linux'\n"
+"Creating job 'ros2_batch_ci_launcher'"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:211
+msgid "Tuning Auto-generated Jobs"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:213
+msgid ""
+"The final step is to fine tune the jobs. For each job you'll want to check "
+"the ssh key being used for the git clone (only on Linux) and the ssh-agent. "
+"It should be set to the ssh key setup in the previous steps for the jenkins "
+"user."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:217
+msgid ""
+"I also updated the slaves which the jobs will run on to make sure they "
+"matched the names of the slaves  added for Linux, macOS and Windows."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:220
+msgid "Disk space"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:222
+msgid "Over time docker images and particularly containers will pile up."
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:224
+msgid "To clean up use:"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:226
+msgid ""
+"docker rm $(docker ps -a -q)\n"
+"docker rmi $(docker images -q -f dangling=true)"
+msgstr ""
+
+#: ../../../source/Contributing/CI-Server-Setup.rst:231
+msgid "from https://www.calazan.com/docker-cleanup-commands/"
+msgstr ""
