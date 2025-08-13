@@ -1,0 +1,1004 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:8
+msgid "Creating custom msg and srv files"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:10
+msgid ""
+"**Goal:** Define custom interface files (``.msg`` and ``.srv``) and use them "
+"with Python and C++ nodes."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:12
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:14
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:23
+msgid ""
+"In previous tutorials you utilized message and service interfaces to learn "
+"about :doc:`topics <../Beginner-CLI-Tools/Understanding-ROS2-Topics/"
+"Understanding-ROS2-Topics>`, :doc:`services <../Beginner-CLI-Tools/"
+"Understanding-ROS2-Services/Understanding-ROS2-Services>`, and simple "
+"publisher/subscriber (:doc:`C++ <./Writing-A-Simple-Cpp-Publisher-And-"
+"Subscriber>`/:doc:`Python<./Writing-A-Simple-Py-Publisher-And-Subscriber>`) "
+"and service/client (:doc:`C++ <./Writing-A-Simple-Cpp-Service-And-Client>`/:"
+"doc:`Python<./Writing-A-Simple-Py-Service-And-Client>`) nodes. The "
+"interfaces you used were predefined in those cases."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:26
+msgid ""
+"While it's good practice to use predefined interface definitions, you will "
+"probably need to define your own messages and services sometimes as well. "
+"This tutorial will introduce you to the simplest method of creating custom "
+"interface definitions."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:30
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:32
+msgid ""
+"You should have a :doc:`ROS 2 workspace <./Creating-A-Workspace/Creating-A-"
+"Workspace>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:34
+msgid ""
+"This tutorial also uses the packages created in the publisher/subscriber (:"
+"doc:`C++ <./Writing-A-Simple-Cpp-Publisher-And-Subscriber>` and :doc:"
+"`Python<./Writing-A-Simple-Py-Publisher-And-Subscriber>`) and service/"
+"client  (:doc:`C++ <./Writing-A-Simple-Cpp-Service-And-Client>` and :doc:"
+"`Python<./Writing-A-Simple-Py-Service-And-Client>`) tutorials to try out the "
+"new custom messages."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:37
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:40
+msgid "1 Create a new package"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:42
+msgid ""
+"For this tutorial you will be creating custom ``.msg`` and ``.srv`` files in "
+"their own package, and then utilizing them in a separate package. Both "
+"packages should be in the same workspace."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:45
+msgid ""
+"Since we will use the pub/sub and service/client packages created in earlier "
+"tutorials, make sure you are in the same workspace as those packages "
+"(``ros2_ws/src``), and then run the following command to create a new "
+"package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:47
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 "
+"tutorial_interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:51
+msgid ""
+"``tutorial_interfaces`` is the name of the new package. Note that it is, and "
+"can only be, an ament_cmake package, but this doesn't restrict in which type "
+"of packages you can use your messages and services. You can create your own "
+"custom interfaces in an ament_cmake package, and then use it in a C++ or "
+"Python node, which will be covered in the last section."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:55
+msgid ""
+"The ``.msg`` and ``.srv`` files are required to be placed in directories "
+"called ``msg`` and ``srv`` respectively. Create the directories in ``ros2_ws/"
+"src/tutorial_interfaces``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:58
+msgid "$ mkdir msg srv"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:63
+msgid "2 Create custom definitions"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:66
+msgid "2.1 msg definition"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:68
+msgid ""
+"In the ``tutorial_interfaces/msg`` directory you just created, make a new "
+"file called ``Num.msg`` with one line of code declaring its data structure:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:70
+msgid "int64 num"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:74
+msgid ""
+"This is a custom message that transfers a single 64-bit integer called "
+"``num``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:76
+msgid ""
+"Also in the ``tutorial_interfaces/msg`` directory you just created, make a "
+"new file called ``Sphere.msg`` with the following content:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:78
+msgid ""
+"geometry_msgs/Point center\n"
+"float64 radius"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:83
+msgid ""
+"This custom message uses a message from another message package "
+"(``geometry_msgs/Point`` in this case)."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:86
+msgid "2.2 srv definition"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:88
+msgid ""
+"Back in the ``tutorial_interfaces/srv`` directory you just created, make a "
+"new file called ``AddThreeInts.srv`` with the following request and response "
+"structure:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:90
+msgid ""
+"int64 a\n"
+"int64 b\n"
+"int64 c\n"
+"---\n"
+"int64 sum"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:98
+msgid ""
+"This is your custom service that requests three integers named ``a``, ``b``, "
+"and ``c``, and responds with an integer called ``sum``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:101
+msgid "3 ``CMakeLists.txt``"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:103
+msgid ""
+"To convert the interfaces you defined into language-specific code (like C++ "
+"and Python) so that they can be used in those languages, add the following "
+"lines to ``CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:105
+msgid ""
+"find_package(geometry_msgs REQUIRED)\n"
+"find_package(rosidl_default_generators REQUIRED)\n"
+"\n"
+"rosidl_generate_interfaces(${PROJECT_NAME}\n"
+"  \"msg/Num.msg\"\n"
+"  \"msg/Sphere.msg\"\n"
+"  \"srv/AddThreeInts.srv\"\n"
+"  DEPENDENCIES geometry_msgs # Add packages that above messages depend on, "
+"in this case geometry_msgs for Sphere.msg\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:119
+msgid ""
+"The first argument (library name) in the ``rosidl_generate_interfaces`` must "
+"start with the name of the package, e.g., simply ``${PROJECT_NAME}`` or "
+"``${PROJECT_NAME}_suffix``. See https://github.com/ros2/rosidl/"
+"issues/441#issuecomment-591025515."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:123
+msgid "4 ``package.xml``"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:125
+msgid ""
+"Because the interfaces rely on ``rosidl_default_generators`` for generating "
+"language-specific code, you need to declare a build tool dependency on it. "
+"``rosidl_default_runtime`` is a runtime or execution-stage dependency, "
+"needed to be able to use the interfaces later. The "
+"``rosidl_interface_packages`` is the name of the dependency group that your "
+"package, ``tutorial_interfaces``, should be associated with, declared using "
+"the ``<member_of_group>`` tag."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:129
+msgid ""
+"Add the following lines within the ``<package>`` element of ``package.xml``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:131
+msgid ""
+"<depend>geometry_msgs</depend>\n"
+"<buildtool_depend>rosidl_default_generators</buildtool_depend>\n"
+"<exec_depend>rosidl_default_runtime</exec_depend>\n"
+"<member_of_group>rosidl_interface_packages</member_of_group>"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:139
+msgid "5 Build the ``tutorial_interfaces`` package"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:141
+msgid ""
+"Now that all the parts of your custom interfaces package are in place, you "
+"can build the package. In the root of your workspace (``~/ros2_ws``), run "
+"the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:146
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:173
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:148
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:154
+msgid "$ colcon build --packages-select tutorial_interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:152
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:179
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:158
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:185
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:160
+msgid "$ colcon build --merge-install --packages-select tutorial_interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:164
+msgid "Now the interfaces will be discoverable by other ROS 2 packages."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:167
+msgid "6 Confirm msg and srv creation"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:169
+msgid ""
+"In a new terminal, run the following command from within your workspace "
+"(``ros2_ws``) to source it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:175
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:181
+msgid "$ . install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:187
+msgid "$ call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:191
+msgid ""
+"Now you can confirm that your interface creation worked by using the ``ros2 "
+"interface show`` command. The output you see in your terminal should look "
+"similar to the following:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:194
+msgid ""
+"$ ros2 interface show tutorial_interfaces/msg/Num\n"
+"int64 num"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:199
+msgid ""
+"$ ros2 interface show tutorial_interfaces/msg/Sphere\n"
+"geometry_msgs/Point center\n"
+"        float64 x\n"
+"        float64 y\n"
+"        float64 z\n"
+"float64 radius"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:208
+msgid ""
+"$ ros2 interface show tutorial_interfaces/srv/AddThreeInts\n"
+"int64 a\n"
+"int64 b\n"
+"int64 c\n"
+"---\n"
+"int64 sum"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:218
+msgid "7 Test the new interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:220
+msgid ""
+"For this step you can use the packages you created in previous tutorials. A "
+"few simple modifications to the nodes, ``CMakeLists.txt`` and ``package."
+"xml`` files will allow you to use your new interfaces."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:224
+msgid "7.1 Testing ``Num.msg`` with pub/sub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:226
+msgid ""
+"With a few modifications to the publisher/subscriber package created in a "
+"previous tutorial (:doc:`C++ <./Writing-A-Simple-Cpp-Publisher-And-"
+"Subscriber>` or :doc:`Python <./Writing-A-Simple-Py-Publisher-And-"
+"Subscriber>`), you can see ``Num.msg`` in action. Since you'll be changing "
+"the standard string msg to a numerical one, the output will be slightly "
+"different."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:229
+msgid "**Publisher**"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:233
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:322
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:431
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:448
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:480
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:519
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:592
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:717
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:734
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:767
+msgid "C++"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:235
+msgid ""
+"#include <chrono>\n"
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tutorial_interfaces/msg/num."
+"hpp\"                                            // CHANGE\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class MinimalPublisher : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  MinimalPublisher()\n"
+"  : Node(\"minimal_publisher\"), count_(0)\n"
+"  {\n"
+"    publisher_ = this->create_publisher<tutorial_interfaces::msg::"
+"Num>(\"topic\", 10);  // CHANGE\n"
+"\n"
+"    auto timer_callback = [this](){\n"
+"      auto message = tutorial_interfaces::msg::"
+"Num();                                   // CHANGE\n"
+"      message.num = this->count_+"
+"+;                                                     // CHANGE\n"
+"      RCLCPP_INFO_STREAM(this->get_logger(), \"Publishing: '\" << message."
+"num << \"'\");    // CHANGE\n"
+"      publisher_->publish(message);\n"
+"    };\n"
+"    timer_ = this->create_wall_timer(500ms, timer_callback);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"  rclcpp::Publisher<tutorial_interfaces::msg::Num>::SharedPtr "
+"publisher_;             // CHANGE\n"
+"  size_t count_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<MinimalPublisher>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:276
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:359
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:437
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:462
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:490
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:552
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:640
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:723
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:749
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:777
+msgid "Python"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:278
+msgid ""
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from rclpy.node import Node\n"
+"\n"
+"from tutorial_interfaces.msg import Num                            # CHANGE\n"
+"\n"
+"\n"
+"class MinimalPublisher(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('minimal_publisher')\n"
+"        self.publisher_ = self.create_publisher(Num, 'topic', 10)  # CHANGE\n"
+"        timer_period = 0.5  # seconds\n"
+"        self.timer = self.create_timer(timer_period, self.timer_callback)\n"
+"        self.i = 0\n"
+"\n"
+"    def timer_callback(self):\n"
+"        msg = Num()                                                # CHANGE\n"
+"        msg.num = self.i                                           # CHANGE\n"
+"        self.publisher_.publish(msg)\n"
+"        self.get_logger().info('Publishing: \"%d\"' % msg.num)       # "
+"CHANGE\n"
+"        self.i += 1\n"
+"\n"
+"\n"
+"def main(args=None):\n"
+"    try:\n"
+"        with rclpy.init(args=args):\n"
+"            minimal_publisher = MinimalPublisher()\n"
+"\n"
+"            rclpy.spin(minimal_publisher)\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:318
+msgid "**Subscriber**"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:324
+msgid ""
+"#include <functional>\n"
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tutorial_interfaces/msg/num."
+"hpp\"                                       // CHANGE\n"
+"\n"
+"using std::placeholders::_1;\n"
+"\n"
+"class MinimalSubscriber : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  MinimalSubscriber()\n"
+"  : Node(\"minimal_subscriber\")\n"
+"  {\n"
+"    auto topic_callback = [this](const tutorial_interfaces::msg::Num & msg)"
+"{     // CHANGE\n"
+"      RCLCPP_INFO_STREAM(this->get_logger(), \"I heard: '\" << msg.num << "
+"\"'\");    // CHANGE\n"
+"    };\n"
+"    subscription_ = this->create_subscription<tutorial_interfaces::msg::"
+"Num>(    // CHANGE\n"
+"      \"topic\", 10, topic_callback);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Subscription<tutorial_interfaces::msg::Num>::SharedPtr "
+"subscription_;  // CHANGE\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<MinimalSubscriber>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:361
+msgid ""
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from rclpy.node import Node\n"
+"\n"
+"from tutorial_interfaces.msg import Num                        # CHANGE\n"
+"\n"
+"\n"
+"class MinimalSubscriber(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('minimal_subscriber')\n"
+"        self.subscription = self.create_subscription(\n"
+"            Num,                                               # CHANGE\n"
+"            'topic',\n"
+"            self.listener_callback,\n"
+"            10)\n"
+"        self.subscription  # prevent unused variable warning\n"
+"\n"
+"    def listener_callback(self, msg):\n"
+"        self.get_logger().info('I heard: \"%d\"' % msg.num)  # CHANGE\n"
+"\n"
+"\n"
+"def main(args=None):\n"
+"    try:\n"
+"        with rclpy.init(args=args):\n"
+"            minimal_subscriber = MinimalSubscriber()\n"
+"\n"
+"            rclpy.spin(minimal_subscriber)\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:399
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:685
+msgid "**CMakeLists.txt**"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:401
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:687
+msgid "Add the following lines (C++ only):"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:403
+msgid ""
+"#...\n"
+"\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(tutorial_interfaces REQUIRED)                      # CHANGE\n"
+"\n"
+"add_executable(talker src/publisher_member_function.cpp)\n"
+"target_link_libraries(talker PUBLIC rclcpp::rclcpp "
+"${tutorial_interfaces_TARGETS})    # CHANGE\n"
+"\n"
+"add_executable(listener src/subscriber_member_function.cpp)\n"
+"target_link_libraries(listener PUBLIC rclcpp::rclcpp "
+"${tutorial_interfaces_TARGETS})  # CHANGE\n"
+"\n"
+"install(TARGETS\n"
+"  talker\n"
+"  listener\n"
+"  DESTINATION lib/${PROJECT_NAME})\n"
+"\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:425
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:711
+msgid "**package.xml**"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:427
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:713
+msgid "Add the following line:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:433
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:719
+msgid "<depend>tutorial_interfaces</depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:439
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:725
+msgid "<exec_depend>tutorial_interfaces</exec_depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:444
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:730
+msgid ""
+"After making the above edits and saving all the changes, build the package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:450
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:464
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:736
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:751
+msgid "On Linux/macOS:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:452
+msgid "$ colcon build --packages-select cpp_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:456
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:470
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:742
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:757
+msgid "On Windows:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:458
+msgid "$ colcon build --merge-install --packages-select cpp_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:466
+msgid "$ colcon build --packages-select py_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:472
+msgid "$ colcon build --merge-install --packages-select py_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:476
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:763
+msgid "Then open two new terminals, source ``ros2_ws`` in each, and run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:482
+msgid "$ ros2 run cpp_pubsub talker"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:486
+msgid "$ ros2 run cpp_pubsub listener"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:492
+msgid "$ ros2 run py_pubsub talker"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:496
+msgid "$ ros2 run py_pubsub listener"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:500
+msgid ""
+"Since ``Num.msg`` relays only an integer, the talker should only be "
+"publishing integer values, as opposed to the string it published previously:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:502
+msgid ""
+"[INFO] [minimal_publisher]: Publishing: '0'\n"
+"[INFO] [minimal_publisher]: Publishing: '1'\n"
+"[INFO] [minimal_publisher]: Publishing: '2'"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:510
+msgid "7.2 Testing ``AddThreeInts.srv`` with service/client"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:512
+msgid ""
+"With a few modifications to the service/client package created in a previous "
+"tutorial (:doc:`C++ <./Writing-A-Simple-Cpp-Service-And-Client>` or :doc:"
+"`Python <./Writing-A-Simple-Py-Service-And-Client>`), you can see "
+"``AddThreeInts.srv`` in action. Since you'll be changing the original two "
+"integer request srv to a three integer request srv, the output will be "
+"slightly different."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:515
+msgid "**Service**"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:521
+msgid ""
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tutorial_interfaces/srv/add_three_ints."
+"hpp\"                                        // CHANGE\n"
+"\n"
+"#include <memory>\n"
+"\n"
+"void add(const std::shared_ptr<tutorial_interfaces::srv::AddThreeInts::"
+"Request> request,     // CHANGE\n"
+"          std::shared_ptr<tutorial_interfaces::srv::AddThreeInts::"
+"Response>       response)  // CHANGE\n"
+"{\n"
+"  response->sum = request->a + request->b + request-"
+">c;                                      // CHANGE\n"
+"  RCLCPP_INFO(rclcpp::get_logger(\"rclcpp\"), \"Incoming request\\na: %ld\" "
+"\" b: %ld\" \" c: %ld\",  // CHANGE\n"
+"                request->a, request->b, request-"
+">c);                                         // CHANGE\n"
+"  RCLCPP_INFO(rclcpp::get_logger(\"rclcpp\"), \"sending back response: "
+"[%ld]\", (long int)response->sum);\n"
+"}\n"
+"\n"
+"int main(int argc, char **argv)\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"\n"
+"  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::"
+"make_shared(\"add_three_ints_server\");   // CHANGE\n"
+"\n"
+"  rclcpp::Service<tutorial_interfaces::srv::AddThreeInts>::SharedPtr service "
+"=               // CHANGE\n"
+"    node->create_service<tutorial_interfaces::srv::"
+"AddThreeInts>(\"add_three_ints\",  &add);   // CHANGE\n"
+"\n"
+"  RCLCPP_INFO(rclcpp::get_logger(\"rclcpp\"), \"Ready to add three ints."
+"\");                     // CHANGE\n"
+"\n"
+"  rclcpp::spin(node);\n"
+"  rclcpp::shutdown();\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:554
+msgid ""
+"from tutorial_interfaces.srv import "
+"AddThreeInts                                                           # "
+"CHANGE\n"
+"\n"
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from rclpy.node import Node\n"
+"\n"
+"\n"
+"class MinimalService(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('minimal_service')\n"
+"        self.srv = self.create_service(AddThreeInts, 'add_three_ints', self."
+"add_three_ints_callback)       # CHANGE\n"
+"\n"
+"    def add_three_ints_callback(self, request, response):\n"
+"        response.sum = request.a + request.b + request."
+"c                                                   # CHANGE\n"
+"        self.get_logger().info('Incoming request\\na: %d b: %d c: %d' % "
+"(request.a, request.b, request.c))  # CHANGE\n"
+"\n"
+"        return response\n"
+"\n"
+"def main(args=None):\n"
+"    try:\n"
+"        with rclpy.init(args=args):\n"
+"            minimal_service = MinimalService()\n"
+"\n"
+"            rclpy.spin(minimal_service)\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:588
+msgid "**Client**"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:594
+msgid ""
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tutorial_interfaces/srv/add_three_ints."
+"hpp\"                                       // CHANGE\n"
+"\n"
+"#include <chrono>\n"
+"#include <cstdlib>\n"
+"#include <memory>\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"int main(int argc, char **argv)\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"\n"
+"  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::"
+"make_shared(\"add_three_ints_client\");  // CHANGE\n"
+"  rclcpp::Client<tutorial_interfaces::srv::AddThreeInts>::SharedPtr client "
+"=                // CHANGE\n"
+"    node->create_client<tutorial_interfaces::srv::"
+"AddThreeInts>(\"add_three_ints\");          // CHANGE\n"
+"\n"
+"  auto request = std::make_shared<tutorial_interfaces::srv::AddThreeInts::"
+"Request>();       // CHANGE\n"
+"  request->a = 41;\n"
+"  request->b = 1;\n"
+"  request->c = "
+"1;                                                                           // "
+"CHANGE\n"
+"\n"
+"  while (!client->wait_for_service(1s)) {\n"
+"    if (!rclcpp::ok()) {\n"
+"      RCLCPP_ERROR(rclcpp::get_logger(\"rclcpp\"), \"Interrupted while "
+"waiting for the service. Exiting.\");\n"
+"      return 0;\n"
+"    }\n"
+"    RCLCPP_INFO(rclcpp::get_logger(\"rclcpp\"), \"service not available, "
+"waiting again...\");\n"
+"  }\n"
+"\n"
+"  auto result = client->async_send_request(request);\n"
+"  // Wait for the result.\n"
+"  if (rclcpp::spin_until_future_complete(node, result) ==\n"
+"    rclcpp::FutureReturnCode::SUCCESS)\n"
+"  {\n"
+"    RCLCPP_INFO(rclcpp::get_logger(\"rclcpp\"), \"Sum: %ld\", result.get()-"
+">sum);\n"
+"  } else {\n"
+"    RCLCPP_ERROR(rclcpp::get_logger(\"rclcpp\"), \"Failed to call service "
+"add_three_ints\");    // CHANGE\n"
+"  }\n"
+"\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:642
+msgid ""
+"from tutorial_interfaces.srv import AddThreeInts                            "
+"# CHANGE\n"
+"\n"
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from rclpy.node import Node\n"
+"\n"
+"\n"
+"class MinimalClientAsync(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('minimal_client_async')\n"
+"        self.cli = self.create_client(AddThreeInts, 'add_three_ints')       "
+"# CHANGE\n"
+"        while not self.cli.wait_for_service(timeout_sec=1.0):\n"
+"            self.get_logger().info('service not available, waiting "
+"again...')\n"
+"        self.req = AddThreeInts.Request()                                   "
+"# CHANGE\n"
+"\n"
+"    def send_request(self):\n"
+"        self.req.a = 41\n"
+"        self.req.b = 1\n"
+"        self.req.c = 1                                                      "
+"# CHANGE\n"
+"        return self.cli.call_async(self.req)\n"
+"\n"
+"\n"
+"def main(args=None):\n"
+"    try:\n"
+"        with rclpy.init(args=args):\n"
+"            minimal_client = MinimalClientAsync()\n"
+"            future = minimal_client.send_request()\n"
+"            rclpy.spin_until_future_complete(minimal_client, future)\n"
+"            response = future.result()\n"
+"            minimal_client.get_logger().info(\n"
+"                'Result of add_three_ints: for %d + %d + %d = %d' "
+"%                                # CHANGE\n"
+"                (minimal_client.req.a, minimal_client.req.b, minimal_client."
+"req.c, response.sum))  # CHANGE\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:689
+msgid ""
+"#...\n"
+"\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(tutorial_interfaces REQUIRED)         # CHANGE\n"
+"\n"
+"add_executable(server src/add_two_ints_server.cpp)\n"
+"target_link_libraries(server PUBLIC rclcpp::rclcpp "
+"${tutorial_interfaces_TARGETS})  # CHANGE\n"
+"\n"
+"add_executable(client src/add_two_ints_client.cpp)\n"
+"target_link_libraries(client PUBLIC rclcpp::rclcpp "
+"${tutorial_interfaces_TARGETS})\n"
+"\n"
+"install(TARGETS\n"
+"  server\n"
+"  client\n"
+"  DESTINATION lib/${PROJECT_NAME})\n"
+"\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:738
+msgid "$ colcon build --packages-select cpp_srvcli"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:744
+msgid "$ colcon build --merge-install --packages-select cpp_srvcli"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:753
+msgid "$ colcon build --packages-select py_srvcli"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:759
+msgid "$ colcon build --merge-install --packages-select py_srvcli"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:769
+msgid "$ ros2 run cpp_srvcli server"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:773
+msgid "$ ros2 run cpp_srvcli client"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:779
+msgid "$ ros2 run py_srvcli service"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:783
+msgid "$ ros2 run py_srvcli client"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:789
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:791
+msgid ""
+"In this tutorial, you learned how to create custom interfaces in their own "
+"package and how to utilize those interfaces in other packages."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:793
+msgid ""
+"This tutorial only scratches the surface about defining custom interfaces. "
+"You can learn more about it in :doc:`About ROS 2 interfaces <../../Concepts/"
+"Basic/About-Interfaces>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:797
+msgid "Next steps"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.rst:799
+msgid ""
+"The :doc:`next tutorial <./Single-Package-Define-And-Use-Interface>` covers "
+"more ways to use interfaces in ROS 2."
+msgstr ""

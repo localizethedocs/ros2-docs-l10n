@@ -1,0 +1,462 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:8
+msgid "Using URDF with ``robot_state_publisher`` (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:10
+msgid "**Goal:** Simulate a walking robot modeled in URDF and view it in Rviz."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:12
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:14
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:23
+msgid ""
+"This tutorial will show you how to model a walking robot, publish the state "
+"as a tf2 message and view the simulation in Rviz. First, we create the URDF "
+"model describing the robot assembly. Next we write a node which simulates "
+"the motion and publishes the JointState and transforms. We then use "
+"``robot_state_publisher`` to publish the entire robot state to ``/tf2``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:31
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:33
+msgid "`rviz2 <https://index.ros.org/p/rviz2/>`__"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:35
+msgid ""
+"As always, don't forget to source ROS 2 in :doc:`every new terminal you open "
+"<../../Beginner-CLI-Tools/Configuring-ROS2-Environment>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:38
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:41
+msgid "1 Create a package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:43
+msgid ""
+"Go to your ROS 2 workplace and create a package names ``urdf_tutorial_cpp``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:45
+msgid ""
+"$ cd src\n"
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 "
+"urdf_tutorial_cpp --dependencies rclcpp\n"
+"$ cd urdf_tutorial_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:51
+msgid ""
+"You should now see a ``urdf_tutorial_cpp`` folder. Next you will make "
+"several changes to it."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:55
+msgid "2 Create the URDF File"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:57
+msgid "Create the directory where we will store some assets:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:61
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:279
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:63
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:69
+msgid "$ mkdir -p urdf"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:67
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:285
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:73
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:291
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:75
+msgid "$ md urdf"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:79
+msgid ""
+"Download the :download:`URDF file <documents/r2d2.urdf.xml>` and save it as "
+"``urdf_tutorial_cpp/urdf/r2d2.urdf.xml``. Download the :download:`Rviz "
+"configuration file <documents/r2d2.rviz>` and save it as ``urdf_tutorial_cpp/"
+"urdf/r2d2.rviz``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:83
+msgid "3 Publish the state"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:85
+msgid "Now we need a method for specifying what state the robot is in."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:87
+msgid ""
+"To do this, we must specify all three joints and the overall robot geometry."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:89
+msgid "Fire up your favorite editor and paste the following code into"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:91
+msgid "``urdf_tutorial_cpp/src/urdf_tutorial.cpp``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:93
+msgid ""
+"#include <rclcpp/rclcpp.hpp>\n"
+"#include <geometry_msgs/msg/quaternion.hpp>\n"
+"#include <sensor_msgs/msg/joint_state.hpp>\n"
+"#include <tf2_ros/transform_broadcaster.h>\n"
+"#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>\n"
+"#include <cmath>\n"
+"#include <thread>\n"
+"#include <chrono>\n"
+"\n"
+"using namespace std::chrono;\n"
+"\n"
+"class StatePublisher : public rclcpp::Node{\n"
+"    public:\n"
+"\n"
+"    StatePublisher(rclcpp::NodeOptions options=rclcpp::NodeOptions()):\n"
+"        Node(\"state_publisher\",options){\n"
+"            joint_pub_ = this->create_publisher<sensor_msgs::msg::"
+"JointState>(\"joint_states\",10);\n"
+"            // create a publisher to tell robot_state_publisher the "
+"JointState information.\n"
+"            // robot_state_publisher will deal with this transformation\n"
+"            broadcaster = std::make_shared<tf2_ros::"
+"TransformBroadcaster>(this);\n"
+"            // create a broadcaster to tell the tf2 state information\n"
+"            // this broadcaster will determine the position of coordinate "
+"system 'axis' in coordinate system 'odom'\n"
+"            RCLCPP_INFO(this->get_logger(),\"Starting state publisher\");\n"
+"\n"
+"            loop_rate_=std::make_shared<rclcpp::Rate>(33ms);\n"
+"\n"
+"            timer_=this->create_wall_timer(33ms,std::bind(&StatePublisher::"
+"publish,this));\n"
+"        }\n"
+"\n"
+"        void publish();\n"
+"    private:\n"
+"    rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_pub_;\n"
+"    std::shared_ptr<tf2_ros::TransformBroadcaster> broadcaster;\n"
+"    rclcpp::Rate::SharedPtr loop_rate_;\n"
+"    rclcpp::TimerBase::SharedPtr timer_;\n"
+"\n"
+"    //Robot state variables\n"
+"    // degree means one degree\n"
+"    const double degree=M_PI/180.0;\n"
+"    double tilt = 0.;\n"
+"    double tinc = degree;\n"
+"    double swivel = 0.;\n"
+"    double angle = 0.;\n"
+"    double height = 0.;\n"
+"    double hinc = 0.005;\n"
+"};\n"
+"\n"
+"void StatePublisher::publish(){\n"
+"    // create the necessary messages\n"
+"    geometry_msgs::msg::TransformStamped t;\n"
+"    sensor_msgs::msg::JointState joint_state;\n"
+"\n"
+"    // add time stamp\n"
+"    joint_state.header.stamp=this->get_clock()->now();\n"
+"    // Specify joints' name which are defined in the r2d2.urdf.xml and their "
+"content\n"
+"    joint_state.name={\"swivel\",\"tilt\",\"periscope\"};\n"
+"    joint_state.position={swivel,tilt,height};\n"
+"\n"
+"    // add time stamp\n"
+"    t.header.stamp=this->get_clock()->now();\n"
+"    // specify the father and child frame\n"
+"\n"
+"    // odom is the base coordinate system of tf2\n"
+"    t.header.frame_id=\"odom\";\n"
+"    // axis is defined in r2d2.urdf.xml file and it is the base coordinate "
+"of model\n"
+"    t.child_frame_id=\"axis\";\n"
+"\n"
+"    // add translation change\n"
+"    t.transform.translation.x=cos(angle)*2;\n"
+"    t.transform.translation.y=sin(angle)*2;\n"
+"    t.transform.translation.z=0.7;\n"
+"    tf2::Quaternion q;\n"
+"    // euler angle into Quanternion and add rotation change\n"
+"    q.setRPY(0,0,angle+M_PI/2);\n"
+"    t.transform.rotation.x=q.x();\n"
+"    t.transform.rotation.y=q.y();\n"
+"    t.transform.rotation.z=q.z();\n"
+"    t.transform.rotation.w=q.w();\n"
+"\n"
+"    // update state for next time\n"
+"    tilt+=tinc;\n"
+"    if (tilt<-0.5 || tilt>0.0){\n"
+"        tinc*=-1;\n"
+"    }\n"
+"    height+=hinc;\n"
+"    if (height>0.2 || height<0.0){\n"
+"        hinc*=-1;\n"
+"    }\n"
+"    swivel+=degree;  // Increment by 1 degree (in radians)\n"
+"    angle+=degree;    // Change angle at a slower pace\n"
+"\n"
+"    // send message\n"
+"    broadcaster->sendTransform(t);\n"
+"    joint_pub_->publish(joint_state);\n"
+"\n"
+"    RCLCPP_INFO(this->get_logger(),\"Publishing joint state\");\n"
+"}\n"
+"\n"
+"int main(int argc, char * argv[]){\n"
+"    rclcpp::init(argc,argv);\n"
+"    rclcpp::spin(std::make_shared<StatePublisher>());\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:200
+msgid ""
+"This file will send ``joint_state`` values  to ``robot_state_publisher`` "
+"which in turn will tell tf2 how to place model."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:202
+msgid ""
+"The code file will also tell ``tf2`` how to place the whole model using the  "
+"``transform_broadcaster``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:205
+msgid "4 Create a launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:207
+msgid ""
+"Create a new ``urdf_tutorial_cpp/launch`` folder. Open your editor and paste "
+"the following code, saving it as ``urdf_tutorial_cpp/launch/launch.py``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:210
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch.actions import DeclareLaunchArgument\n"
+"from launch.substitutions import FileContent, LaunchConfiguration, "
+"PathJoinSubstitution\n"
+"from launch_ros.actions import Node\n"
+"from launch_ros.substitutions import FindPackageShare\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    # ''use_sim_time'' is used to have ros2 use /clock topic for the time "
+"source\n"
+"    use_sim_time = LaunchConfiguration('use_sim_time', default='false')\n"
+"\n"
+"    urdf = FileContent(\n"
+"        PathJoinSubstitution([FindPackageShare('urdf_tutorial_cpp'), 'urdf', "
+"'r2d2.urdf.xml']))\n"
+"\n"
+"    return LaunchDescription([\n"
+"        DeclareLaunchArgument(\n"
+"            'use_sim_time',\n"
+"            default_value='false',\n"
+"            description='Use simulation (Gazebo) clock if true'),\n"
+"        Node(\n"
+"            package='robot_state_publisher',\n"
+"            executable='robot_state_publisher',\n"
+"            name='robot_state_publisher',\n"
+"            output='screen',\n"
+"            parameters=[{'use_sim_time': use_sim_time, 'robot_description': "
+"urdf}],\n"
+"            arguments=[urdf]),\n"
+"        Node(\n"
+"            package='urdf_tutorial_cpp',\n"
+"            executable='urdf_tutorial_cpp',\n"
+"            name='urdf_tutorial_cpp',\n"
+"            output='screen'),\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:215
+msgid "5 Edit the CMakeLists.txt file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:217
+msgid ""
+"You must tell the **colcon** build tool how to install your cpp package. "
+"Edit the ``CMakeLists.txt`` file as follows:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:220
+msgid ""
+"cmake_minimum_required(VERSION 3.8)\n"
+"project(urdf_tutorial_cpp)\n"
+"\n"
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()\n"
+"\n"
+"# find dependencies\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(geometry_msgs REQUIRED)\n"
+"find_package(sensor_msgs REQUIRED)\n"
+"find_package(tf2_ros REQUIRED)\n"
+"find_package(tf2_geometry_msgs REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"\n"
+"add_executable(urdf_tutorial_cpp src/urdf_tutorial.cpp)\n"
+"\n"
+"target_link_libraries(urdf_tutorial_cpp PUBLIC\n"
+"  ${geometry_msgs_TARGETS}\n"
+"  ${sensor_msgs_TARGETS}\n"
+"  tf2_ros::tf2_ros\n"
+"  ${tf2_geometry_msgs_TARGETS}\n"
+"  rclcpp::rclcpp\n"
+")\n"
+"\n"
+"install(TARGETS\n"
+"  urdf_tutorial_cpp\n"
+"  DESTINATION lib/${PROJECT_NAME}\n"
+")\n"
+"\n"
+"install(DIRECTORY\n"
+"  launch\n"
+"  DESTINATION share/${PROJECT_NAME}\n"
+")\n"
+"\n"
+"install(DIRECTORY\n"
+"  urdf\n"
+"  DESTINATION share/${PROJECT_NAME}\n"
+")\n"
+"\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:264
+msgid ""
+"we use ``install`` command to put the ``r2d2.rviz`` into ``install`` dir"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:267
+msgid "6 Install the package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:269
+msgid ""
+"To visualize the results you will need to open a new terminal and run RViz "
+"using your RViz configuration file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:271
+msgid "$ colcon build --symlink-install --packages-select urdf_tutorial_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:275
+msgid "Source the setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:281
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:287
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:293
+msgid "$ call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:299
+msgid "7 View the results"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:301
+msgid "To launch your new package run the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:303
+msgid "$ ros2 launch urdf_tutorial_cpp launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:307
+msgid ""
+"To visualize your results you will need to open a new terminal and run Rviz "
+"using your rviz configuration file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:309
+msgid ""
+"$ rviz2 -d install/urdf_tutorial_cpp/share/urdf_tutorial_cpp/urdf/r2d2.rviz"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:313
+msgid ""
+"See the `User Guide <http://wiki.ros.org/rviz/UserGuide>`__ for details on "
+"how to use Rviz."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:315
+msgid ""
+"``install/urdf_tutorial_cpp/share/urdf_tutorial_cpp/urdf/r2d2.rviz`` is the "
+"dir where the ``r2d2.rviz`` stored."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:318
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.rst:320
+msgid ""
+"Congratulations! You have created a ``JointState`` publisher node and "
+"coupled it with ``robot_state_publisher`` to simulate a walking robot."
+msgstr ""

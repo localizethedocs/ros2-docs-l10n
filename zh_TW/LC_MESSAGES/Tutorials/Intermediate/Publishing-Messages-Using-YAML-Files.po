@@ -1,0 +1,197 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:2
+msgid "Publishing messages using YAML files"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:4
+msgid "**Goal:** Record and replay topics using YAML files."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:8
+msgid "**Time:** 5 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:15
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:17
+msgid ""
+"Publishing ROS 2 messages via CLI is straightforward for simple types like "
+"`std_msgs/msg/Bool <https://docs.ros.org/en/rolling/p/std_msgs/msg/Bool."
+"html>`_ or `std_msgs/msg/String <https://docs.ros.org/en/rolling/p/std_msgs/"
+"msg/String.html>`_. However, it becomes tedious for complex message "
+"structures. This tutorial demonstrates how to use ``ros2 echo`` and ``ros2 "
+"pub`` with YAML files to record, edit, and replay topic data efficiently."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:22
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:24
+msgid ""
+"This tutorial uses concepts like ROS 2 topics and CLI tools covered in the "
+"following tutorial:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:26
+msgid ""
+":doc:`Understanding topics <../Beginner-CLI-Tools/Understanding-ROS2-Topics/"
+"Understanding-ROS2-Topics>`"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:29
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:31
+msgid ""
+"We assume that an entity is publishing a `geometry_msgs/msg/Twist <https://"
+"docs.ros.org/en/rolling/p/geometry_msgs/msg/Twist.html>`_ message through a "
+"topic named ``cmd_vel`` and we want to capture the message, edit it and "
+"publish it to a topic. We can use the ``echo`` verb to capture the message "
+"and save it in a YAML file ``cmd_vel.yaml`` using the output redirection "
+"operator ``>``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:34
+msgid "$ ros2 topic echo --once  /cmd_vel > cmd_vel.yaml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:38
+msgid ""
+"This creates a ``cmd_vel.yaml`` file with the following content in the "
+"directory the command was executed:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:40
+msgid ""
+"linear:\n"
+"    x: 1.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"angular:\n"
+"    x: 0.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"---"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:52
+msgid ""
+"To publish a message, we utilize the ``--yaml-file`` option available with "
+"the ``pub`` verb of the ``ros2 topic`` command. First, we specify the target "
+"topic—in this case, ``/cmd_vel``, followed by the message type "
+"`geometry_msgs/msg/Twist <https://docs.ros.org/en/rolling/p/geometry_msgs/"
+"msg/Twist.html>`_. Lastly, we specify the YAML file containing the message "
+"data. The following command will publish the message contained in the "
+"``YAML`` file to the designated ``topic`` once."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:57
+msgid ""
+"$ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist --yaml-file cmd_vel.yaml\n"
+"publisher: beginning loop\n"
+"publishing geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=1.0, "
+"y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:63
+msgid ""
+"You can also publish more than once by adding more data to the YAML file as "
+"demonstrated in the example below. In this case two messages where added to "
+"the YAML file with different values."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:66
+msgid ""
+"linear:\n"
+"    x: 1.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"angular:\n"
+"    x: 0.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"---\n"
+"linear:\n"
+"    x: 2.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"angular:\n"
+"    x: 0.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"---\n"
+"linear:\n"
+"    x: 3.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"angular:\n"
+"    x: 0.0\n"
+"    y: 0.0\n"
+"    z: 0.0\n"
+"---"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:96
+msgid ""
+"By executing the same command as before, we publish three different messages "
+"to the ``/cmd_vel`` topic."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:98
+msgid ""
+"$ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist --yaml-file cmd_vel.yaml\n"
+"publisher: beginning loop\n"
+"publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg."
+"Vector3(x=1.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, "
+"y=0.0, z=0.0))\n"
+"\n"
+"publishing #2: geometry_msgs.msg.Twist(linear=geometry_msgs.msg."
+"Vector3(x=3.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, "
+"y=0.0, z=0.0))\n"
+"\n"
+"publishing #3: geometry_msgs.msg.Twist(linear=geometry_msgs.msg."
+"Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, "
+"y=0.0, z=0.0))"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:109
+msgid "Next steps"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.rst:111
+msgid ""
+"If you are interested in publishing multiple topics using the CLI, you can "
+"take a look at the :doc:`Recording and playing back data <../Beginner-CLI-"
+"Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data>` "
+"tutorial."
+msgstr ""
