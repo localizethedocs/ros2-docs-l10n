@@ -1,0 +1,173 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:2
+msgid "Building ROS 2 with tracing instrumentation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:6
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:8
+msgid ""
+"This guide shows you how to build ROS 2 with the tracing instrumentation "
+"provided by ``ros2_tracing``. For more information, see `the repository "
+"<https://github.com/ros2/ros2_tracing>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:11
+msgid ""
+"Instrumentation is included in the ROS 2 source code. However, if using the "
+"binaries or when building from source, the instrumentation does not actually "
+"trigger tracepoints by default. To get the tracepoints, the LTTng tracer "
+"needs to be installed, and then part of ROS 2 needs to be (re)built from "
+"source."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:17
+msgid ""
+"This guide only applies to Linux systems and assumes that Ubuntu is used."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:20
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:22
+msgid ""
+"Set up your system to build ROS 2 from source. See :doc:`the source "
+"installation page <../Installation/Alternatives/Ubuntu-Development-Setup>` "
+"for more information."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:26
+msgid "Installing the tracer"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:28
+msgid ""
+"Install the `LTTng tracer <https://lttng.org/docs>`__ and related tools and "
+"dependencies."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:30
+msgid ""
+"sudo apt-get update\n"
+"sudo apt-get install -y lttng-tools liblttng-ust-dev python3-lttng python3-"
+"babeltrace babeltrace"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:35
+msgid ""
+"This only installs the LTTng userspace tracer, and not the LTTng kernel "
+"tracer, since it is not needed to trace ROS 2 applications."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:38
+msgid "Building"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:40
+msgid ""
+"This step depends on whether you are building ROS 2 from source or using ROS "
+"2 binaries."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:43
+msgid "With source installation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:45
+msgid ""
+"If you have already :doc:`built ROS 2 from source <../Installation/"
+"Alternatives/Ubuntu-Development-Setup>` before installing LTTng, you will "
+"need to re-build at least up to the ``tracetools`` package:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:47
+msgid ""
+"cd ~/ws\n"
+"colcon build --packages-up-to tracetools --cmake-force-configure"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:53
+msgid "With binary installation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:55
+msgid ""
+"If you rely on the ROS 2 binaries (:doc:`deb packages <../Installation/"
+"Ubuntu-Install-Debs>` or :doc:`\"fat\" archive <../Installation/Alternatives/"
+"Ubuntu-Install-Binary>`), you will need to clone the ``ros2_tracing`` "
+"repository into your workspace and build at least up to the ``tracetools`` "
+"package:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:57
+msgid ""
+"cd ~/ws/src\n"
+"git clone https://github.com/ros2/ros2_tracing.git\n"
+"cd ../\n"
+"colcon build --packages-up-to tracetools"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:65
+msgid "Validating"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:67
+msgid "Source and validate that tracing is enabled:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:69
+msgid ""
+"cd ~/ws\n"
+"source install/setup.bash\n"
+"ros2 run tracetools status"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:75
+msgid "It should print out:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:77
+msgid "Tracing enabled"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:81
+msgid "If something else is printed, then something went wrong."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:84
+msgid "Disabling tracing"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:86
+msgid ""
+"If the LTTng userspace tracer is installed and found when building "
+"``tracetools``, tracing will be automatically enabled. Alternatively, to "
+"build and completely remove both the tracepoints and the tracing "
+"instrumentation from ROS 2, set the ``TRACETOOLS_DISABLED`` CMake option to "
+"``ON``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.rst:89
+msgid "colcon build --cmake-args -DTRACETOOLS_DISABLED=ON --no-warn-unused-cli"
+msgstr ""

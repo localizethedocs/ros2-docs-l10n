@@ -1,0 +1,623 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:2
+msgid "Migrating a C++ Package Example"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:6
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:8
+msgid ""
+"This example shows how to migrate an example C++ package from ROS 1 to ROS 2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:11
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:13
+msgid ""
+"You need a working ROS 2 installation, such as :doc:`ROS rolling <../../"
+"Installation>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:16
+msgid "The ROS 1 code"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:18
+msgid ""
+"Say you have a ROS 1 package called ``talker`` that uses ``roscpp`` in one "
+"node, called ``talker``. This package is in a catkin workspace, located at "
+"``~/ros1_talker``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:21
+msgid "Your ROS 1 workspace has the following directory layout:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:23
+msgid ""
+"$ cd ~/ros1_talker\n"
+"$ find .\n"
+".\n"
+"./src\n"
+"./src/talker\n"
+"./src/talker/package.xml\n"
+"./src/talker/CMakeLists.txt\n"
+"./src/talker/talker.cpp"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:34
+msgid "The files have the following content:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:36
+msgid "``src/talker/package.xml``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:38
+msgid ""
+"<?xml version=\"1.0\"?>\n"
+"<?xml-model href=\"http://download.ros.org/schema/package_format2.xsd\" "
+"schematypens=\"http://www.w3.org/2001/XMLSchema\"?>\n"
+"<package format=\"2\">\n"
+"  <name>talker</name>\n"
+"  <version>0.0.0</version>\n"
+"  <description>talker</description>\n"
+"  <maintainer email=\"gerkey@example.com\">Brian Gerkey</maintainer>\n"
+"  <license>Apache-2.0</license>\n"
+"  <buildtool_depend>catkin</buildtool_depend>\n"
+"  <depend>roscpp</depend>\n"
+"  <depend>std_msgs</depend>\n"
+"</package>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:53
+msgid "``src/talker/CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:55
+msgid ""
+"cmake_minimum_required(VERSION 2.8.3)\n"
+"project(talker)\n"
+"find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)\n"
+"catkin_package()\n"
+"include_directories(${catkin_INCLUDE_DIRS})\n"
+"add_executable(talker talker.cpp)\n"
+"target_link_libraries(talker ${catkin_LIBRARIES})\n"
+"install(TARGETS talker\n"
+"  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:67
+msgid "``src/talker/talker.cpp``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:69
+msgid ""
+"#include <sstream>\n"
+"#include \"ros/ros.h\"\n"
+"#include \"std_msgs/String.h\"\n"
+"int main(int argc, char **argv)\n"
+"{\n"
+"  ros::init(argc, argv, \"talker\");\n"
+"  ros::NodeHandle n;\n"
+"  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(\"chatter\", "
+"1000);\n"
+"  ros::Rate loop_rate(10);\n"
+"  int count = 0;\n"
+"  std_msgs::String msg;\n"
+"  while (ros::ok())\n"
+"  {\n"
+"    std::stringstream ss;\n"
+"    ss << \"hello world \" << count++;\n"
+"    msg.data = ss.str();\n"
+"    ROS_INFO(\"%s\", msg.data.c_str());\n"
+"    chatter_pub.publish(msg);\n"
+"    ros::spinOnce();\n"
+"    loop_rate.sleep();\n"
+"  }\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:96
+msgid "Migrating to ROS 2"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:98
+msgid "Let's start by creating a new workspace in which to work:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:100
+msgid ""
+"$ mkdir ~/ros2_talker\n"
+"$ cd ~/ros2_talker"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:105
+msgid ""
+"We'll copy the source tree from our ROS 1 package into that workspace, where "
+"we can modify it:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:107
+msgid ""
+"$ mkdir src\n"
+"$ cp -a ~/ros1_talker/src/talker src"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:112
+msgid ""
+"Now we'll modify the C++ code in the node. The ROS 2 C++ library, called "
+"``rclcpp``, provides a different API from that provided by ``roscpp``. The "
+"concepts are very similar between the two libraries, which makes the changes "
+"reasonably straightforward to make."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:119
+msgid "Included headers"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:121
+msgid ""
+"In place of ``ros/ros.h``, which gave us access to the ``roscpp`` library "
+"API, we need to include ``rclcpp/rclcpp.hpp``, which gives us access to the "
+"``rclcpp`` library API:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:125
+msgid ""
+"//#include \"ros/ros.h\"\n"
+"#include \"rclcpp/rclcpp.hpp\""
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:130
+msgid ""
+"To get the ``std_msgs/String`` message definition, in place of ``std_msgs/"
+"String.h``, we need to include ``std_msgs/msg/string.hpp``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:133
+msgid ""
+"//#include \"std_msgs/String.h\"\n"
+"#include \"std_msgs/msg/string.hpp\""
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:139
+msgid "Changing C++ library calls"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:141
+msgid ""
+"Instead of passing the node's name to the library initialization call, we do "
+"the initialization, then pass the node name to the creation of the node "
+"object:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:144
+msgid ""
+"//  ros::init(argc, argv, \"talker\");\n"
+"//  ros::NodeHandle n;\n"
+"    rclcpp::init(argc, argv);\n"
+"    auto node = rclcpp::Node::make_shared(\"talker\");"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:151
+msgid ""
+"The creation of the publisher and rate objects looks pretty similar, with "
+"some changes to the names of namespace and methods."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:154
+msgid ""
+"//  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(\"chatter\", "
+"1000);\n"
+"//  ros::Rate loop_rate(10);\n"
+"  auto chatter_pub = node->create_publisher<std_msgs::msg::"
+"String>(\"chatter\",\n"
+"    1000);\n"
+"  rclcpp::Rate loop_rate(10);"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:162
+msgid ""
+"To further control how message delivery is handled, a quality of service "
+"(``QoS``) profile could be passed in. The default profile is "
+"``rmw_qos_profile_default``. For more details, see the `design document "
+"<https://design.ros2.org/articles/qos.html>`__ and :doc:`concept overview "
+"<../../Concepts/Intermediate/About-Quality-of-Service-Settings>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:169
+msgid "The creation of the outgoing message is different in the namespace:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:171
+msgid ""
+"//  std_msgs::String msg;\n"
+"  std_msgs::msg::String msg;"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:176
+msgid "In place of ``ros::ok()``, we call ``rclcpp::ok()``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:178
+msgid ""
+"//  while (ros::ok())\n"
+"  while (rclcpp::ok())"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:183
+msgid "Inside the publishing loop, we access the ``data`` field as before:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:185
+msgid "msg.data = ss.str();"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:189
+msgid ""
+"To print a console message, instead of using ``ROS_INFO()``, we use "
+"``RCLCPP_INFO()`` and its various cousins. The key difference is that "
+"``RCLCPP_INFO()`` takes a Logger object as the first argument."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:194
+msgid ""
+"//    ROS_INFO(\"%s\", msg.data.c_str());\n"
+"    RCLCPP_INFO(node->get_logger(), \"%s\\n\", msg.data.c_str());"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:199
+msgid "Change the publish call to use the ``->`` operator instead of ``.``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:201
+msgid ""
+"//    chatter_pub.publish(msg);\n"
+"    chatter_pub->publish(msg);"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:206
+msgid ""
+"Spinning (i.e., letting the communications system process any pending "
+"incoming/outgoing messages until no more work is available) is different in "
+"that the call now takes the node and timeout as arguments:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:210
+msgid ""
+"//    ros::spinOnce();\n"
+"    rclcpp::spin_all(node, 0s);"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:215
+msgid "Sleeping using the rate object is unchanged."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:217
+msgid "Putting it all together, the new ``talker.cpp`` looks like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:219
+msgid ""
+"#include <chrono>\n"
+"#include <sstream>\n"
+"// #include \"ros/ros.h\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"// #include \"std_msgs/String.h\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"int main(int argc, char **argv)\n"
+"{\n"
+"//  ros::init(argc, argv, \"talker\");\n"
+"//  ros::NodeHandle n;\n"
+"  rclcpp::init(argc, argv);\n"
+"  auto node = rclcpp::Node::make_shared(\"talker\");\n"
+"//  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(\"chatter\", "
+"1000);\n"
+"//  ros::Rate loop_rate(10);\n"
+"  auto chatter_pub = node->create_publisher<std_msgs::msg::"
+"String>(\"chatter\", 1000);\n"
+"  rclcpp::Rate loop_rate(10);\n"
+"  int count = 0;\n"
+"//  std_msgs::String msg;\n"
+"  std_msgs::msg::String msg;\n"
+"//  while (ros::ok())\n"
+"  while (rclcpp::ok())\n"
+"  {\n"
+"    std::stringstream ss;\n"
+"    ss << \"hello world \" << count++;\n"
+"    msg.data = ss.str();\n"
+"//    ROS_INFO(\"%s\", msg.data.c_str());\n"
+"    RCLCPP_INFO(node->get_logger(), \"%s\\n\", msg.data.c_str());\n"
+"//    chatter_pub.publish(msg);\n"
+"    chatter_pub->publish(msg);\n"
+"//    ros::spinOnce();\n"
+"    rclcpp::spin_all(node, 0s);\n"
+"    loop_rate.sleep();\n"
+"  }\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:261
+msgid "Change the ``package.xml``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:263
+msgid ""
+"ROS 2 packages use CMake functions and macros from ``ament_cmake_ros`` "
+"instead of ``catkin``. Delete the dependency on ``catkin``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:266
+msgid ""
+"<!-- delete this -->\n"
+"<buildtool_depend>catkin</buildtool_depend>`"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:271
+msgid "Add a new dependency on ``ament_cmake_ros``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:273
+msgid "<buildtool_depend>ament_cmake_ros</buildtool_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:277
+msgid ""
+"ROS 2 C++ libraries use `rclcpp <https://index.ros.org/p/rclcpp/#rolling>`__ "
+"instead of `roscpp <https://index.ros.org/p/roscpp/#noetic>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:279
+msgid "Delete the dependency on ``roscpp``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:281
+msgid ""
+"<!-- delete this -->\n"
+"<depend>roscpp</depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:286
+msgid "Add a dependency on ``rclcpp``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:288
+msgid "<depend>rclcpp</depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:293
+msgid ""
+"Add an ``<export>`` section to tell colcon the package is an ``ament_cmake`` "
+"package instead of a ``catkin`` package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:295
+msgid ""
+"<export>\n"
+"  <build_type>ament_cmake</build_type>\n"
+"</export>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:301
+msgid "Your ``package.xml`` now looks like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:303
+msgid ""
+"<?xml version=\"1.0\"?>\n"
+"<?xml-model href=\"http://download.ros.org/schema/package_format2.xsd\" "
+"schematypens=\"http://www.w3.org/2001/XMLSchema\"?>\n"
+"<package format=\"2\">\n"
+"  <name>talker</name>\n"
+"  <version>0.0.0</version>\n"
+"  <description>talker</description>\n"
+"  <maintainer email=\"gerkey@example.com\">Brian Gerkey</maintainer>\n"
+"  <license>Apache-2.0</license>\n"
+"  <buildtool_depend>ament_cmake</buildtool_depend>\n"
+"  <depend>rclcpp</depend>\n"
+"  <depend>std_msgs</depend>\n"
+"  <export>\n"
+"    <build_type>ament_cmake</build_type>\n"
+"  </export>\n"
+"</package>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:323
+msgid "Changing the CMake code"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:325
+msgid ""
+"Require a newer version of CMake so that ``ament_cmake`` functions work "
+"correctly."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:327
+msgid "cmake_minimum_required(VERSION 3.14.4)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:331
+msgid ""
+"Use a newer C++ standard matching the version used by your target ROS distro "
+"in `REP 2000 <https://www.ros.org/reps/rep-2000.html>`__. If you are using C+"
+"+17, then set that version with the following snippet after the "
+"``project(talker)`` call. Add extra compiler checks too because it is a good "
+"practice."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:335
+msgid ""
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 17)\n"
+"endif()\n"
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:344
+msgid ""
+"Replace the ``find_package(catkin ...)`` call with individual calls for each "
+"dependency."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:346
+msgid ""
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:352
+msgid ""
+"Delete the call to ``catkin_package()``. Add a call to ``ament_package()`` "
+"at the bottom of the ``CMakeLists.txt``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:355
+msgid "ament_package()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:359
+msgid ""
+"Make the ``target_link_libraries`` call modern CMake targets provided by "
+"``rclcpp`` and ``std_msgs``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:361
+msgid ""
+"target_link_libraries(talker PUBLIC\n"
+"  rclcpp::rclcpp\n"
+"  ${std_msgs_TARGETS})"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:367
+msgid ""
+"Delete the call to ``include_directories()``. Add a call to "
+"``target_include_directories()`` below ``add_executable(talker talker."
+"cpp)``. Don't pass variables like ``rclcpp_INCLUDE_DIRS`` into "
+"``target_include_directories()``. The include directories are already "
+"handled by calling ``target_link_libraries()`` with modern CMake targets."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:372
+msgid ""
+"target_include_directories(talker PUBLIC\n"
+"   \"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>\"\n"
+"   \"$<INSTALL_INTERFACE:include/${PROJECT_NAME}>\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:378
+msgid ""
+"Change the call to ``install()`` so that the ``talker`` executable is "
+"installed into a project specific directory."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:380
+msgid ""
+"install(TARGETS talker\n"
+"  DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:385
+msgid "The new ``CMakeLists.txt`` looks like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:387
+msgid ""
+"cmake_minimum_required(VERSION 3.14.4)\n"
+"project(talker)\n"
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 17)\n"
+"endif()\n"
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)\n"
+"add_executable(talker talker.cpp)\n"
+"target_include_directories(talker PUBLIC\n"
+"   \"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>\"\n"
+"   \"$<INSTALL_INTERFACE:include/${PROJECT_NAME}>\")\n"
+"target_link_libraries(talker PUBLIC\n"
+"  rclcpp::rclcpp\n"
+"  ${std_msgs_TARGETS})\n"
+"install(TARGETS talker\n"
+"  DESTINATION lib/${PROJECT_NAME})\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:412
+msgid "Building the ROS 2 code"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:414
+msgid ""
+"We source an environment setup file (in this case the one generated by "
+"following the ROS 2 installation tutorial, which builds in ``~/ros2_ws``, "
+"then we build our package using ``colcon build``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:418
+msgid ""
+"$ . ~/ros2_ws/install/setup.bash\n"
+"$ cd ~/ros2_talker\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:425
+msgid "Running the ROS 2 node"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:427
+msgid ""
+"Because we installed the ``talker`` executable into the correct directory, "
+"after sourcing the setup file, from our install tree, we can invoke it by "
+"running:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:430
+msgid ""
+"$ . ~/ros2_ws/install/setup.bash\n"
+"$ ros2 run talker talker"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:436
+msgid "Conclusion"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.rst:438
+msgid ""
+"You have learned how to migrate an example C++ ROS 1 package to ROS 2. Use "
+"the :doc:`Migrating C++ Packages reference page <./Migrating-CPP-Packages>` "
+"to help you migrate your own C++ packages from ROS 1 to ROS 2."
+msgstr ""

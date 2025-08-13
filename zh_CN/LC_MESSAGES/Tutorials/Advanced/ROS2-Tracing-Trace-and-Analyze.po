@@ -1,0 +1,371 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:2
+msgid "How to use ros2_tracing to trace and analyze an application"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:4
+msgid ""
+"This tutorial shows how to use `ros2_tracing <https://github.com/ros2/"
+"ros2_tracing>`_ to trace and analyze a ROS 2 application. For this tutorial, "
+"the application will be `performance_test <https://gitlab.com/ApexAI/"
+"performance_test>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:8
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:10
+msgid "This tutorial covers:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:12
+msgid ""
+"installing tracing-related tools and building ROS 2 with the core "
+"instrumentation enabled"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:13
+msgid "running and tracing a ``performance_test`` run"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:14
+msgid ""
+"analyzing the trace data using `tracetools_analysis <https://github.com/ros-"
+"tracing/tracetools_analysis>`_ to plot the callback durations"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:17
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:19
+msgid ""
+"This tutorial is aimed at real-time Linux systems. See the :doc:`real-time "
+"system setup tutorial <../Miscellaneous/Building-Realtime-rt_preempt-kernel-"
+"for-ROS-2>`. However, the tutorial will work if you are using a non-real-"
+"time Linux system."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:24
+msgid "Installing and building"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:28
+msgid ""
+"This tutorial should generally work with all supported Linux distributions. "
+"However, you might need to adapt some commands."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:31
+msgid ""
+"Install all dependencies for ROS 2 on Linux by following the :doc:`source "
+"installation instructions <../../Installation/Alternatives/Ubuntu-"
+"Development-Setup>`. Stop before the *Build the code in the workspace* "
+"section."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:34
+msgid "Install `LTTng <https://lttng.org/docs/v2.13/>`_ and ``babeltrace``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:36
+msgid ""
+"$ sudo apt-get update\n"
+"$ sudo apt-get install -y lttng-tools liblttng-ust-dev python3-lttng python3-"
+"babeltrace babeltrace"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:41
+msgid ""
+"Then create a workspace, import the ROS 2 Rolling code, and clone "
+"``performance_test`` and ``tracetools_analysis``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:43
+msgid ""
+"$ cd ~/\n"
+"$ mkdir -p tracing_ws/src\n"
+"$ cd tracing_ws/\n"
+"$ vcs import src/ --input https://raw.githubusercontent.com/ros2/ros2/"
+"rolling/ros2.repos\n"
+"$ cd src/\n"
+"$ git clone https://gitlab.com/ApexAI/performance_test.git\n"
+"$ git clone https://github.com/ros-tracing/tracetools_analysis.git -b "
+"rolling\n"
+"$ cd .."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:54
+msgid "Install dependencies with rosdep."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:56
+msgid ""
+"$ rosdep update\n"
+"$ rosdep install --rosdistro rolling --from-paths src --ignore-src -y --skip-"
+"keys \"fastcdr rti-connext-dds-6.0.1 urdfdom_headers\""
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:61
+msgid ""
+"Then build up to ``performance_test`` and configure it for ROS 2. See its "
+"`documentation <https://gitlab.com/ApexAI/performance_test/-/tree/master/"
+"performance_test#performance_test>`_. We also need to build ``ros2trace`` to "
+"set up tracing using the ``ros2 trace`` command and ``tracetools_analysis`` "
+"to analyze the data."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:65
+msgid ""
+"$ colcon build --packages-up-to ros2trace ros2run tracetools_analysis "
+"performance_test --cmake-args -DPERFORMANCE_TEST_RCLCPP_ENABLED=ON"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:69
+msgid "Source the installation and verify that tracing is enabled:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:71
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run tracetools status"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:76
+msgid ""
+"You should see ``Tracing enabled`` in the output. This confirms that LTTng "
+"was properly detected and that the instrumentation built into the ROS 2 core "
+"is enabled."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:79
+msgid "Next, we will run a ``performance_test`` experiment and trace it."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:82
+msgid "Tracing"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:85
+msgid "Step 1: Trace"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:87
+msgid ""
+"In one terminal, source the workspace and set up tracing. When running the "
+"command, a list of ROS 2 userspace events will be printed. It will also "
+"print the path to the directory that will contain the resulting trace (under "
+"``~/.ros/tracing``). In Terminal 1 run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:92
+msgid ""
+"$ cd ~/tracing_ws\n"
+"$ source install/setup.bash\n"
+"$ ros2 trace --session-name perf-test --list"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:98
+msgid "Press enter to start tracing."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:101
+msgid "Step 2: Run Application"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:103
+msgid "In a second terminal, source the workspace. In Terminal 2 run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:106
+msgid ""
+"$ cd ~/tracing_ws\n"
+"$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:111
+msgid ""
+"Then run the ``performance_test`` experiment (or your own application). We "
+"simply create an experiment with a node publishing ~1 MB messages to another "
+"node as fast as possible for 60 seconds using the second highest real-time "
+"priority so that we don't interfere with critical kernel threads. We need to "
+"run ``performance_test`` as ``root`` to be able to use real-time priorities. "
+"In Terminal 2 run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:116
+msgid ""
+"$ sudo ./install/performance_test/lib/performance_test/perf_test -c rclcpp-"
+"single-threaded-executor -p 1 -s 1 -r 0 -m Array1m --reliability RELIABLE --"
+"max-runtime 60 --use-rt-prio 98"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:120
+msgid ""
+"If that last command doesn't work for you (with an error like: \"error while "
+"loading shared libraries\"), run the slightly-different command below. This "
+"is because, for security reasons, we need to manually pass ``*PATH`` "
+"environment variables for some shared libraries to be found (see `this "
+"explanation <https://unix.stackexchange.com/a/251374>`_). In Terminal 2 run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:124
+msgid ""
+"$ sudo env PATH=\"$PATH\" LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH\" ./install/"
+"performance_test/lib/performance_test/perf_test -c rclcpp-single-threaded-"
+"executor -p 1 -s 1 -r 0 -m Array1m --reliability RELIABLE --max-runtime 60 --"
+"use-rt-prio 98"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:130
+msgid "If you're not using a real-time kernel, simply run: In Terminal 2 run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:133
+msgid ""
+"$ ./install/performance_test/lib/performance_test/perf_test -c rclcpp-single-"
+"threaded-executor -p 1 -s 1 -r 0 -m Array1m --reliability RELIABLE --max-"
+"runtime 60"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:138
+msgid "Step 3: Validate Trace"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:140
+msgid ""
+"Once the experiment is done, in the first terminal, press enter again to "
+"stop tracing. Use ``babeltrace`` to quickly look at the resulting trace."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:143
+msgid "$ babeltrace ~/.ros/tracing/perf-test | less"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:147
+msgid ""
+"The output of the above command is a human-readable version of the raw "
+"Common Trace Format (CTF) data, which is a list of trace events. Each event "
+"has a timestamp, an event type, some information on the process that "
+"generated the event, and the values of the fields of the given event type."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:150
+msgid "Use the arrow keys to scroll, or press ``q`` to exit."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:152
+msgid "Next, we will analyze the trace."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:155
+msgid "Analysis"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:157
+msgid ""
+"`tracetools_analysis <https://github.com/ros-tracing/tracetools_analysis>`_ "
+"provides a Python API to easily analyze traces. We can use it in a `Jupyter "
+"notebook <https://jupyter.org/>`_ with `bokeh <https://docs.bokeh.org/en/"
+"latest/index.html>`_ to plot the data. The ``tracetools_analysis`` "
+"repository contains a `few sample notebooks <https://github.com/ros-tracing/"
+"tracetools_analysis/tree/rolling/tracetools_analysis/analysis>`_, including "
+"`one notebook to analyze subscription callback durations <https://github.com/"
+"ros-tracing/tracetools_analysis/blob/rolling/tracetools_analysis/analysis/"
+"callback_duration.ipynb>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:161
+msgid ""
+"For this tutorial, we will plot the durations of the subscription callback "
+"in the subscriber node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:163
+msgid "Install bokeh and then open the sample notebook."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:165
+msgid ""
+"$ pip3 install bokeh\n"
+"$ jupyter notebook ~/tracing_ws/src/tracetools_analysis/tracetools_analysis/"
+"analysis/callback_duration.ipynb"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:170
+msgid "This will open the notebook in the browser."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:172
+msgid ""
+"Replace the value for the ``path`` variable in the second cell to the path "
+"to the trace directory:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:174
+msgid "path = '~/.ros/tracing/perf-test'"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:178
+msgid ""
+"Run the notebook by clicking the *Run* button for each cell. Running the "
+"cell that does the trace processing might take a few minutes on the first "
+"run, but subsequent runs will be much quicker."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:181
+msgid "You should get a plot that looks similar to this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:-1
+msgid "callback durations result plot"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:187
+msgid ""
+"We can see that most of the callbacks take less than 0.01 ms, but there are "
+"some outliers taking over 0.02 or 0.03 ms."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:190
+msgid "Conclusion"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:192
+msgid ""
+"This tutorial showed how to install tracing-related tools and build ROS 2 "
+"with tracing instrumentation. Then it showed how to trace a "
+"`performance_test <https://gitlab.com/ApexAI/performance_test>`_ experiment "
+"using `ros2_tracing <https://github.com/ros2/ros2_tracing>`_ and plot the "
+"callback durations using `tracetools_analysis <https://github.com/ros-"
+"tracing/tracetools_analysis>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.rst:195
+msgid ""
+"For more trace analyses, take a look at the `other sample notebooks <https://"
+"github.com/ros-tracing/tracetools_analysis/tree/rolling/tracetools_analysis/"
+"analysis>`_ and the `tracetools_analysis API documentation <https://ros-"
+"tracing.gitlab.io/tracetools_analysis-api/master/tracetools_analysis/>`_. "
+"The `ros2_tracing design document <https://github.com/ros2/ros2_tracing/blob/"
+"rolling/doc/design_ros_2.md>`_ also contains a lot of information."
+msgstr ""
