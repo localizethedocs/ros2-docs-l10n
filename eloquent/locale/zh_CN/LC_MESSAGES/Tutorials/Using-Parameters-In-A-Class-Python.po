@@ -1,0 +1,527 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation eloquent\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:4
+msgid "Using parameters in a class (Python)"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:6
+msgid ""
+"**Goal:** Create and run a class with ROS parameters using Python (rclpy)."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:8
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:10
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:14
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:17
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:19
+msgid ""
+"When making your own :ref:`nodes <ROS2Nodes>` you will sometimes need to add "
+"parameters that can be set from the launch file."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:21
+msgid ""
+"This tutorial will show you how to create those parameters in a Python "
+"class, and how to set them in a launch file."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:24
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:26
+msgid ""
+"In previous tutorials, you learned how to :ref:`create a workspace "
+"<ROS2Workspace>` and :ref:`create a package <CreatePkg>`. You have also "
+"learned about :ref:`parameters <ROS2Params>` and their function in a ROS 2 "
+"system."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:30
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:32
+msgid "1 Create a package"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:34
+msgid ""
+"Open a new terminal and :ref:`source your ROS 2 installation <ConfigROS2>` "
+"so that ``ros2`` commands will work."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:36
+msgid "Navigate into the ``dev_ws`` directory created in a previous tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:38
+msgid ""
+"Recall that packages should be created in the ``src`` directory, not the "
+"root of the workspace. Navigate into ``dev_ws/src`` and create a new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:41
+msgid ""
+"ros2 pkg create --build-type ament_python python_parameters --dependencies "
+"rclpy"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:45
+msgid ""
+"Your terminal will return a message verifying the creation of your package "
+"``python_parameters`` and all its necessary files and folders."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:47
+msgid ""
+"The ``--dependencies`` argument will automatically add the necessary "
+"dependency lines to ``package.xml`` and ``CMakeLists.txt``."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:50
+msgid "1.1 Update ``package.xml``"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:52
+msgid ""
+"Because you used the ``--dependencies`` option during package creation, you "
+"don’t have to manually add dependencies to ``package.xml`` or ``CMakeLists."
+"txt``."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:54
+msgid ""
+"As always, though, make sure to add the description, maintainer email and "
+"name, and license information to ``package.xml``."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:56
+msgid ""
+"<description>Python parameter tutorial</description>\n"
+"<maintainer email=\"you@email.com\">Your Name</maintainer>\n"
+"<license>Apache License 2.0</license>"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:63
+msgid "2 Write the Python node"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:65
+msgid ""
+"Inside the ``dev_ws/src/python_parameters/python_parameters`` directory, "
+"create a new file called ``python_parameters_node.py`` and paste the "
+"following code within:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:67
+msgid ""
+"import rclpy\n"
+"import rclpy.node\n"
+"from rclpy.exceptions import ParameterNotDeclaredException\n"
+"from rcl_interfaces.msg import ParameterType\n"
+"\n"
+"class MinimalParam(rclpy.node.Node):\n"
+"    def __init__(self):\n"
+"        super().__init__('minimal_param_node')\n"
+"        timer_period = 2  # seconds\n"
+"        self.timer = self.create_timer(timer_period, self.timer_callback)\n"
+"\n"
+"        self.declare_parameter(\"my_parameter\")\n"
+"\n"
+"    def timer_callback(self):\n"
+"        # First get the value parameter \"my_parameter\" and get its string "
+"value\n"
+"        my_param = self.get_parameter(\"my_parameter\")."
+"get_parameter_value().string_value\n"
+"\n"
+"        # Send back a hello with the name\n"
+"        self.get_logger().info('Hello %s!' % my_param)\n"
+"\n"
+"        # Then set the parameter \"my_parameter\" back to string value "
+"\"world\"\n"
+"        my_new_param = rclpy.parameter.Parameter(\n"
+"            \"my_parameter\",\n"
+"            rclpy.Parameter.Type.STRING,\n"
+"            \"world\"\n"
+"        )\n"
+"        all_new_parameters = [my_new_param]\n"
+"        self.set_parameters(all_new_parameters)\n"
+"\n"
+"def main():\n"
+"    rclpy.init()\n"
+"    node = MinimalParam()\n"
+"    rclpy.spin(node)\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:109
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:110
+msgid ""
+"Declaring a parameter before getting or setting it is compulsory, or you "
+"will raise a ``ParameterNotDeclaredException`` exception."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:113
+msgid "2.1.1 (Optional) Add ParameterDescriptor"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:114
+msgid ""
+"Optionally, you can set a descriptor for the parameter. Descriptors allow "
+"you to specify the type of the parameter and some description text. For that "
+"to work, the ``__init__`` code has to be changed to:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:118
+msgid ""
+"# ...\n"
+"\n"
+"class MinimalParam(rclpy.node.Node):\n"
+"    def __init__(self):\n"
+"        super().__init__('minimal_param_node')\n"
+"        timer_period = 2  # seconds\n"
+"        self.timer = self.create_timer(timer_period, self.timer_callback)\n"
+"\n"
+"        from rcl_interfaces.msg import ParameterDescriptor\n"
+"        my_parameter_descriptor = ParameterDescriptor(type=ParameterType."
+"PARAMETER_STRING,\n"
+"                                                      description='This "
+"parameter is mine!')\n"
+"\n"
+"        self.declare_parameter(\"my_parameter\",\n"
+"                               \"default value for my_parameter\",\n"
+"                               my_parameter_descriptor)"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:136
+msgid ""
+"The rest of the code remains the same. Once you run the node, you can then "
+"run ``ros2 param describe /minimal_param_node my_parameter`` to see the type "
+"and description."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:140
+msgid "2.2 Add an entry point"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:142
+msgid ""
+"Open the ``setup.py`` file. Again, match the ``maintainer``, "
+"``maintainer_email``, ``description`` and ``license`` fields to your "
+"``package.xml``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:145
+msgid ""
+"maintainer='YourName',\n"
+"maintainer_email='you@email.com',\n"
+"description='Python parameter tutorial',\n"
+"license='Apache License 2.0',"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:152
+msgid ""
+"Add the following line within the ``console_scripts`` brackets of the "
+"``entry_points`` field:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:154
+msgid ""
+"entry_points={\n"
+"    'console_scripts': [\n"
+"        'param_talker = python_parameters.python_parameters_node:main',\n"
+"    ],\n"
+"},"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:162
+msgid "Don’t forget to save."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:166
+msgid "3 Build and run"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:168
+msgid ""
+"It's good practice to run ``rosdep`` in the root of your workspace "
+"(``dev_ws``) to check for missing dependencies before building:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:172
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:196
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:321
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:174
+msgid "rosdep install -i --from-path src --rosdistro eloquent -y"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:178
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:202
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:327
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:180
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:184
+msgid "rosdep only runs on Linux, so you can skip ahead to next step."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:182
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:208
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:333
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:186
+msgid ""
+"Navigate back to the root of your workspace, ``dev_ws``, and build your new "
+"package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:188
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:313
+msgid "colcon build --packages-select python_parameters"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:192
+msgid ""
+"Open a new terminal, navigate to ``dev_ws``, and source the setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:198
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:204
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:323
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:329
+msgid ". install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:210
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:335
+msgid "call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:214
+msgid "Now run the node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:216
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:235
+msgid "ros2 run python_parameters param_talker"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:220
+msgid ""
+"Except the first message where the parameter had a default value (an empty "
+"string), the terminal should return the following message every 2 seconds:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:222
+msgid "[INFO] [parameter_node]: Hello world!"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:226
+msgid "There are two ways to change the parameter:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:229
+msgid "3.1 Change via the console"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:231
+msgid ""
+"This part will use the knowledge you have gained from the :ref:`tutoral "
+"about parameters <ROS2Params>` and apply it to the node you have just "
+"created."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:233
+msgid "Make sure the node is running:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:239
+msgid ""
+"Open another terminal, source the setup files from inside ``dev_ws`` again, "
+"and enter the following line:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:241
+msgid "ros2 param list"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:245
+msgid ""
+"There you will see the custom parameter ``my_parameter``. To change it "
+"simply run the following line in the console:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:248
+msgid "ros2 param set /minimal_param_node my_parameter earth"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:252
+msgid ""
+"You know it went well if you get the output ``Set parameter successful``. If "
+"you look at the other terminal, you should see the output change to ``[INFO] "
+"[minimal_param_node]: Hello earth!``"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:255
+msgid ""
+"Since the Python talker then set the parameter back to ``world``, further "
+"outputs show  ``[INFO] [minimal_param_node]: Hello world!``"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:258
+msgid "3.2 Change via a launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:260
+msgid ""
+"You can also set parameters in a launch file, but first you will need to add "
+"a launch directory. Inside the ``dev_ws/src/python_parameters/`` directory, "
+"create a new directory called ``launch``. In there, create a new file called "
+"``python_parameters_launch.py``"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:265
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"def generate_launch_description():\n"
+"    return LaunchDescription([\n"
+"        Node(\n"
+"            package=\"python_parameters\",\n"
+"            node_executable=\"param_talker\",\n"
+"            node_name=\"custom_parameter_node\",\n"
+"            output=\"screen\",\n"
+"            emulate_tty=True,\n"
+"            parameters=[\n"
+"                {\"my_parameter\": \"earth\"}\n"
+"            ]\n"
+"        )\n"
+"    ])"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:285
+msgid ""
+"Here you can see that we set ``my_parameter`` to ``earth`` when we launch "
+"our node ``parameter_node``. By adding the two lines below, we ensure our "
+"output is printed in our console."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:288
+msgid ""
+"output=\"screen\",\n"
+"emulate_tty=True,"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:293
+msgid ""
+"Now open the ``setup.py`` file. Add the ``import`` statements to the top of "
+"the file, and the other new statement to the ``data_files`` parameter to "
+"include all launch files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:297
+msgid ""
+"import os\n"
+"from glob import glob\n"
+"# ...\n"
+"\n"
+"setup(\n"
+"  # ...\n"
+"  data_files=[\n"
+"      # ...\n"
+"      (os.path.join('share', package_name), glob('launch/*_launch.py')),\n"
+"    ]\n"
+"  )"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:311
+msgid ""
+"Open a console and navigate to the root of your workspace, ``dev_ws``, and "
+"build your new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:317
+msgid "Then source the setup files in a new terminal:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:339
+msgid "Now run the node using the launch file we have just created:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:341
+msgid "ros2 launch python_parameters python_parameters_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:345
+msgid "The terminal should return the following message:"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:347
+msgid "[parameter_node-1] [INFO] [custom_parameter_node]: Hello earth!"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:353
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:355
+msgid ""
+"You created a node with a custom parameter, that can be set either from the "
+"launch file or the command line. You wrote the code of a parameter talker: a "
+"Python node that declares, and then loops getting and setting a string "
+"parameter. You added the entry point so that you could build and run it, and "
+"used ``ros2 param`` to interact with the parameter talker."
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:360
+msgid "Next steps"
+msgstr ""
+
+#: ../../../source/Tutorials/Using-Parameters-In-A-Class-Python.rst:362
+msgid ""
+"Now that you have some packages and ROS 2 systems of your own, the :ref:"
+"`next tutorial <Ros2Doctor>` will show you how to examine issues in your "
+"environment and systems in case you have problems."
+msgstr ""
