@@ -1,0 +1,479 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation galactic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Concepts/About-Catment.rst:6
+msgid "On the mixing of ament and catkin (catment)"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:8
+msgid "**All that follows is experimental and speculative.**"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:15
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:17
+msgid ""
+"There once was a thing called ``rosbuild``. Then came a thing called "
+"``catkin``, which largely replaced ``rosbuild``. Recently introduced is a "
+"thing called ``ament``, which may one day replace ``catkin``."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:21
+msgid ""
+"All three tools can be considered \"meta-build systems.\" They sit atop "
+"other build systems (e.g., CMake, Python setuptools) and provide extra "
+"functionality that's intended to make those build systems easier to use, "
+"especially when managing dependencies across multiple packages and when "
+"building multiple packages in a single workspace."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:24
+msgid "Each of these meta-build systems does two things:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:28
+msgid ""
+"Add API to the underlying build system (e.g,. CMake) that can be used to "
+"simplify common tasks (e.g., supplying all the flags exported by depended-"
+"upon packages when building an executable). There are usually hooks to allow "
+"injection of extra API by packages outside of the core meta-build system."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:32
+msgid ""
+"``rosbuild``: ``mk/cmake.mk``, ``rosbuild_init()``, "
+"``rosbuild_add_executable()``, etc."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:33
+msgid "``catkin``: ``catkin_package()``, ``catkin_install_python()``, etc."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:34
+msgid ""
+"``ament``: ``ament_target_dependencies()``, ``ament_export_dependencies()``, "
+"``ament_package()``, etc."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:37
+msgid ""
+"Provide a tool that can be used to iterate in dependency order over a "
+"workspace full of packages, building and perhaps installing each one."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:40
+msgid "``rosbuild``: ``rosmake``"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:41
+msgid ""
+"``catkin``: ``catkin build``, ``catkin_make``, ``catkin_make_isolated``, etc."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:42
+msgid "``ament``: ``ament build``"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:44
+msgid ""
+"The common thread that ties all of these systems together is the division of "
+"the code into **packages**\\ , with each package containing a manifest file "
+"(``manifest.xml`` or ``package.xml``). This manifest is required (with some "
+"exceptions) for both parts of the meta-build system (API and building tool) "
+"to function."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:48
+msgid "Postulates"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:51
+msgid ""
+"**While we usually consider the two aspects of a meta-build system to be "
+"coupled, they needn't be.** The API used inside a package and the tool that "
+"iterates over the packages can be considered largely independent, with the "
+"package manifest forming the interface between them. There's no reason in "
+"principle why, for example, ``rosmake`` couldn't be modified to iterate over "
+"a workspace filled with ``catkin`` packages, stepping into them in "
+"dependency order and doing the usual ``mkdir build; cd build; cmake ..; make "
+"install`` routine for each one (with appropriate flags passed to ``cmake`` "
+"and ``make``)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:55
+msgid ""
+"**The effort required to migrate from one meta-build system to another "
+"should be minimized.** The mass migration from ``rosbuild`` to ``catkin`` "
+"was difficult and remains a sore point for many in the community. While it's "
+"reasonable to ask developers to make changes in exchange for getting access "
+"to new functionality, the changes that are required should be as small as "
+"possible without sacrificing the effectiveness of the new system. This is "
+"especially true when the old system is in widespread use."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:61
+msgid ""
+"Corollary: **Migration to a new meta-build system should not be required "
+"without a very good reason.** If a developer doesn't want the functionality "
+"offered by the new system, then she shouldn't be coerced into migrating from "
+"the old system unless there's something irrevocably broken about the old "
+"system (e.g., ``rosbuild``\\ 's in-source build pattern and lack of an "
+"\"install\" step)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:65
+msgid ""
+"**Interoperability is a good thing.** Whenever possible (not all "
+"combinations will be practical), developers should be able to mix and match "
+"meta-build systems, including mixing their different aspects (i.e., use the "
+"building tool from one system and the API from another). Such mixing and "
+"matching is especially important when developers want to combine a large "
+"existing code base using one meta-build system (e.g., ROS with ``catkin``) "
+"with new libraries and tools offered by a code base using another meta-build "
+"system (e.g., ROS 2 with ``ament``). Ideally that kind of combination can be "
+"done without requiring changes to the API used by either code base and "
+"without telling the developer which builder tool to use."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:71
+msgid ""
+"Corollary: **Workspaces needn't be homogeneous.** There's no reason that we "
+"shouldn't be able to freely mix, say, ``catkin`` and ``ament`` packages in "
+"one workspace, with dependencies going in both directions, so long as the "
+"builder tool in use knows how to build them both. The primary interface "
+"between packages (at least, CMake-controlled packages) is their CMake "
+"configuration file. So long as that configuration file follows the standard "
+"protocol (setting ``foo_LIBRARIES``, etc.), then it shouldn't matter who "
+"wrote the file. It could be auto-generated by ``catkin`` or ``ament``, or "
+"even manually crafted by a developer who wants to use plain CMake in her "
+"package, but still have that package depended-upon by ``catkin`` or "
+"``ament`` packages."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:78
+msgid "Use cases, with experimental implementations"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:81
+msgid ""
+"Adding ROS packages to a ROS 2 workspace and building with ``ament build``"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:83
+msgid ""
+"Let's say that you want to add some existing ROS packages to your ROS 2 "
+"workspace and don't want to migrate the ROS packages from ``catkin`` to "
+"``ament`` (or vice versa). Here are two patches that let you do that:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:86
+msgid ""
+"`ament_package <https://github.com/ament/ament_package/compare/catkin?"
+"expand=1>`__: Add support for format 1 package manifests, instead of "
+"requiring format 2. This change isn't strictly related to ``catkin`` vs. "
+"``ament``, because format 2 has been around for a while and ``catkin`` "
+"supports it, so developers could already update their manifests to format 2. "
+"But there's a ton of ROS code out there that uses format 1, so we should "
+"support it. This implementation could be improved, e.g., by reasoning over "
+"the various flavors of depend tags and how they differ between formats 1 and "
+"2."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:91
+msgid ""
+"`ament_tools <https://github.com/ament/ament_tools/compare/catkin?"
+"expand=1>`__: Add a new ``catkin`` build type to ``ament``. This "
+"implementation just treats ``catkin`` packages the same as plain ``cmake`` "
+"packages, which seems to work fine. It could be made more sophisticated."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:96
+msgid "Example usage:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:99
+msgid "Get the ROS 2 code as usual, using the branches mentioned above."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:100
+msgid ""
+"Add to your workspace some ``catkin`` ROS packages, ensuring that all of "
+"their dependencies are satisfied (either also present in the workspace or "
+"installed elsewhere with appropriate setup shell files sourced)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:101
+msgid ""
+"Build as usual (e.g., ``./src/ament/ament_tools/scripts/ament.by build``)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:103
+msgid ""
+"Voila: your existing code isn't suddenly broken just because there's a new "
+"builder tool in use."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:106
+msgid "Variation: Building ROS packages with ``ament build``"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:108
+msgid ""
+"Let's say that you love the new ``ament`` tool and want to use it to build "
+"your existing ROS packages that use ``catkin`` internally. Here's an example "
+"of how to do that, by doing a minimal installation of ``ament`` and then "
+"using it to build a workspace full of ROS ``catkin`` packages:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:111
+#: ../../../source/Concepts/About-Catment.rst:200
+msgid ""
+"mkdir -p ~/ament_ws/src\n"
+"cd ~/ament_ws/src\n"
+"git clone https://github.com/osrf/osrf_pycommon.git\n"
+"git clone https://github.com/ament/ament_package.git\n"
+"cd ament_package\n"
+"git checkout catkin\n"
+"cd ..\n"
+"git clone https://github.com/ament/ament_tools.git\n"
+"cd ament_tools\n"
+"git checkout catkin\n"
+"cd ../..\n"
+" ./src/ament_tools/scripts/ament.py build"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:126
+msgid "Now build the ROS packages:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:128
+msgid ""
+". $HOME/ament_ws/install/setup.bash\n"
+"cd ~/ros_catkin_ws\n"
+"ament build"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:134
+msgid ""
+"Voila: you used the ``ament`` build tool to build your ``catkin`` packages, "
+"without having to migrate them."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:137
+msgid "Variation: Using the ``catkin`` API in a ROS 2 package"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:139
+msgid ""
+"Let's say that you're building on top of ROS 2, which internally uses the "
+"``ament`` API, and you want to add a new package using the ``catkin`` API."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:141
+msgid ""
+"To make this work, we need a Python3 installation of ``catkin`` (the binary "
+"debians use Python2.7). Here's an example of doing that, installing to "
+"``$HOME/catkin``:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:144
+#: ../../../source/Concepts/About-Catment.rst:217
+msgid ""
+"# install catkin_pkg\n"
+"git clone https://github.com/ros-infrastructure/catkin_pkg.git\n"
+"cd catkin_pkg\n"
+"git checkout ament\n"
+"python3 setup.py install --prefix $HOME/catkin --single-version-externally-"
+"managed --record foo --install-layout deb\n"
+"# install catkin\n"
+"git clone https://github.com/ros/catkin.git\n"
+"cd catkin\n"
+"git checkout ament\n"
+"mkdir build\n"
+"cd build\n"
+"PYTHONPATH=$HOME/catkin/lib/python3/dist-packages/ cmake .. -"
+"DCMAKE_INSTALL_PREFIX=$HOME/catkin -DPYTHON_EXECUTABLE=/usr/bin/python3\n"
+"make install"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:160
+msgid ""
+"To use that version of catkin, you just need to source the ``$HOME/catkin/"
+"setup.bash`` file."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:162
+msgid ""
+"Let's assume that you have the usual ROS 2 workspace in ``~/ros2_ws``, and "
+"that you're on the ``catkin`` branches in ``ament_package`` and "
+"``ament_tools``. Add to that workspace the ``image_tools_catkin`` package "
+"from https://github.com/gerkey/catment. It's a simple port of the ROS 2 "
+"``image_tools`` package, taking it from the ``ament`` API to the ``catkin`` "
+"API. To build it:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:167
+msgid ""
+"cd ~/ros2_ws\n"
+". $HOME/catkin/setup.bash\n"
+"./src/ament/ament_tools/scripts/ament.py build"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:173
+msgid ""
+"Voila: when adding new packages atop ROS 2, you're free to choose which "
+"CMake API you prefer inside your package."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:176
+msgid ""
+"**Caveat**: Requires commenting out the use of ``CATKIN_DEPENDS`` inside "
+"``catkin_package()``, because somewhere somebody was getting upset that "
+"things like ``rclcpp`` aren't ``catkin`` packages. That constraint needs to "
+"be relaxed somehow."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:178
+msgid ""
+"**TODO**: The same demo but with a ``ament`` package that depends on a "
+"``catkin`` package (this is easy)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:179
+msgid ""
+"**TODO**: The same demo but with a package that has a vanilla ``CMakeLists."
+"txt`` that uses neither ``ament`` nor ``catkin``, and provides a manually "
+"generated ``fooConfig.cmake`` file that exports the right stuff to make it "
+"look the same to outsiders."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:182
+msgid "Building ROS 2 packages with ``catkin_make_isolated``"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:184
+msgid ""
+"Let's say that you're already familiar with ROS and ``catkin`` and that "
+"you're excited to try ROS 2, but that you're not in the mood to learn about "
+"``ament``. You'd rather stick to what you know, such as using "
+"``catkin_make_isolated`` to build everything. Here is a patch that allows "
+"you to do that:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:189
+msgid ""
+"`catkin <https://github.com/ros/catkin/compare/ament?expand=1>`__: Add "
+"support for packages that declare themselves to have a build type of "
+"``ament_*``. This implementation calls out to ``ament`` to build each such "
+"package. While ``ament_cmake`` packages can be treated as plain ``cmake`` "
+"packages (as we did when adding ``catkin`` support to ``ament``), "
+"``ament_python`` packages require some gnarly invocations of Python. Instead "
+"of trying to replicate that logic in ``catkin``, it's easier to just let "
+"``ament`` handle it. Also in this patch, we add the "
+"``buildtool_export_depend`` packages to the set that are considered when "
+"building."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:195
+msgid ""
+"`catkin_pkg <https://github.com/ros-infrastructure/catkin_pkg/compare/ament?"
+"expand=1>`__: Also in this patch, we add the ``buildtool_export_depend`` "
+"packages to the set that are considered when computing the topological order."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:198
+msgid ""
+"Because we're going to call out to ``ament build``, we will also need a "
+"minimal installation of ``ament``, as done in a previous example:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:215
+msgid "Then we need to install the modified version of catkin somewhere:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:233
+msgid "Now build the ROS 2 packages:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:235
+msgid ""
+". $HOME/catkin/setup.bash\n"
+". $HOME/ament_ws/install/setup.bash\n"
+"cd ~/ros2_ws\n"
+"touch src/eProsima/AMENT_IGNORE\n"
+"PYTHONPATH=$PYTHONPATH:/home/gerkey/ros2_ws_catkin/install_isolated/lib/"
+"python3.5/site-packages catkin_make_isolated --install"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:243
+msgid "Voila: you've built ROS 2 using the tools that you're familiar with."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:246
+msgid ""
+"**Caveat**: we're ignoring the ``eProsima`` packages in the workspace "
+"because they lack ``package.xml`` files, which means that ``catkin`` can't "
+"see them. ``ament`` has some heuristics for handling such packages. Options: "
+"backport those heuristics to ``catkin``; switch to installing non-``package."
+"xml``-containing packages outside of the workspace; or just add a ``package."
+"xml`` to each of those packages (e.g., in our own fork)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:251
+msgid "Combining all of ROS and ROS 2 in one workspace and building it (TODO)"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:253
+msgid "This step will require sorting out some things, including at least:"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:255
+msgid ""
+"Package name conflicts. We currently have ROS 2 versions of ROS message "
+"packages, as well as some stuff in ``geometry2``. Either the functionality "
+"needs to be merged into one package that can support both systems, or the "
+"new versions need different names."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:258
+msgid ""
+"Message generation. ROS and ROS 2 have different message generation steps, "
+"the output of which might or not might conflict. Something sort of "
+"sophisticated needs to be done to allow generation of all the right "
+"artifacts from a single message package (or, as indicated above, the new "
+"message packages need different name)."
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:263
+msgid "Using ``bloom`` to release ``ament`` packages (TODO)"
+msgstr ""
+
+#: ../../../source/Concepts/About-Catment.rst:265
+msgid ""
+"It seems like ``bloom`` ought be able to release packages that use the "
+"``ament`` CMake API, and that the resulting releases should be able to be "
+"built on the farm. We can make changes to ``bloom`` and ``ros_buildfarm`` as "
+"needed to enable this use case."
+msgstr ""
