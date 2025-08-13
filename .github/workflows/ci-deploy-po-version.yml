@@ -1,0 +1,174 @@
+# Distributed under the OSI-approved BSD 3-Clause License.
+# See accompanying file LICENSE-BSD for details.
+
+name: ci-deploy-po-version
+
+on:
+  # Triggers the workflow based on a schedule.
+  schedule:
+    - cron: '0 8 * * 1'   # CRON_dev
+    - cron: '0 8 1 * *'   # CRON_rel
+  # Triggers the workflow manually through the GitHub UI.
+  workflow_dispatch:
+    inputs:
+      MODE:
+        description: 'MODE input'
+        required: true
+        type: choice
+        default: 'group'
+        options:
+          - 'single'
+          - 'group'
+      VERSION:
+        description: 'VERSION input (for single mode)'
+        required: true
+        type: string
+        default: 'rolling'
+      VERSION_GROUP:
+        description: 'VERSION_GROUP input (for group mode)'
+        required: true
+        type: choice
+        default: 'dev'
+        options:
+          - 'dev'
+          - 'rel'
+
+env:
+  CRON_dev: '0 8 * * 1'
+  CRON_rel: '0 8 1 * *'
+
+jobs:
+  precondition:
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name == 'schedule' ) ||
+              ( github.event_name == 'workflow_dispatch' ) ) }}
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Print Contexts/Inputs/Variables/Secrets
+        shell: bash
+        run: |
+          echo "[Contexts]"
+          echo "github.job = ${{ github.job }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "github.event.schedule = ${{ github.event.schedule }}"
+          echo "[Inputs]"
+          echo "inputs.MODE = ${{ inputs.MODE }}"
+          echo "inputs.VERSION = ${{ inputs.VERSION }}"
+          echo "inputs.VERSION_GROUP = ${{ inputs.VERSION_GROUP }}"
+          echo "[Variables]"
+          echo "vars.RUNNER = ${{ vars.RUNNER }}"
+          echo "vars.ACTOR_NAME = ${{ vars.ACTOR_NAME }}"
+          echo "vars.ACTOR_EMAIL = ${{ vars.ACTOR_EMAIL }}"
+          echo "vars.GPG_FINGERPRINT = ${{ vars.GPG_FINGERPRINT }}"
+          echo "[Secrets]"
+          echo "secrets.ACTOR_GITHUB_TOKEN = ${{ secrets.ACTOR_GITHUB_TOKEN }}"
+          echo "secrets.GPG_PRIVATE_KEY = ${{ secrets.GPG_PRIVATE_KEY }}"
+          echo "secrets.GPG_PASSPHRASE = ${{ secrets.GPG_PASSPHRASE }}"
+      - name: Check Required Variables
+        shell: bash
+        run: |
+          REQUIRED_VARIABLES_EXIST=true
+          if [[ -z "${{ vars.RUNNER }}" ]]; then
+            echo "vars.RUNNER is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.ACTOR_NAME }}" ]]; then
+            echo "vars.ACTOR_NAME is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.ACTOR_EMAIL }}" ]]; then
+            echo "vars.ACTOR_EMAIL is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ -z "${{ vars.GPG_FINGERPRINT }}" ]]; then
+            echo "vars.GPG_FINGERPRINT is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ "${REQUIRED_VARIABLES_EXIST}" == "false" ]]; then
+            echo "Error: Some variables are missing." >&2
+            exit 1
+          fi
+      - name: Check Required Secrets
+        shell: bash
+        run: |
+          REQUIRED_SECRETS_EXIST=true
+          if [[ -z "${{ secrets.ACTOR_GITHUB_TOKEN }}" ]]; then
+            echo "secrets.ACTOR_GITHUB_TOKEN is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ -z "${{ secrets.GPG_PRIVATE_KEY }}" ]]; then
+            echo "secrets.GPG_PRIVATE_KEY is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ -z "${{ secrets.GPG_PASSPHRASE }}" ]]; then
+            echo "secrets.GPG_PASSPHRASE is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ "${REQUIRED_SECRETS_EXIST}" == "false" ]]; then
+            echo "Error: Some secrets are missing." >&2
+            exit 1
+          fi
+
+  get-matrix:
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( ( github.event_name == 'schedule' ) ||
+              ( github.event_name == 'workflow_dispatch' ) ) }}
+    runs-on: ${{ vars.RUNNER }}
+    outputs:
+      MATRIX: ${{ steps.gmja.outputs.MATRIX }}
+      MATRIX_NUM: ${{ steps.gmja.outputs.MATRIX_NUM }}
+    steps:
+      - name: Checkout to '${{ github.ref }}'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          submodules: false
+      - name: Get Outputs from Schedule
+        if: ${{ github.event_name == 'schedule' }}
+        id: gos
+        uses: localizethedocs/ci-common/.github/actions/get-outputs-from-schedule@main
+        with:
+          schedule: ${{ github.event.schedule }}
+      - name: Get VERSION_ARRAY from the versions.json file
+        id: gvlv
+        uses: localizethedocs/ci-common/.github/actions/get-version-array-from-versions-file@main
+        with:
+          mode: ${{ inputs.MODE || steps.gos.outputs.MODE }}
+          version: ${{ inputs.VERSION || steps.gos.outputs.VERSION }}
+          version-group: ${{ inputs.VERSION_GROUP || steps.gos.outputs.VERSION_GROUP }}
+          version-filter: 'all'
+      - name: Get MATRIX from the JSON Arraies
+        id: gmja
+        uses: localizethedocs/ci-common/.github/actions/get-matrix-from-json-arraies@main
+        with:
+          matrix-type: 'version'
+          version-array: ${{ steps.gvlv.outputs.VERSION_ARRAY }}
+
+  caller:
+    needs: [ 'precondition', 'get-matrix' ]
+    if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
+            ( needs.get-matrix.outputs.MATRIX_NUM != '0' ) &&
+            ( ( github.event_name == 'schedule' ) ||
+              ( github.event_name == 'workflow_dispatch' ) ) }}
+    strategy:
+      matrix: ${{ fromJSON(needs.get-matrix.outputs.MATRIX) }}
+      fail-fast: false
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.VERSION }}
+      cancel-in-progress: true
+    uses: localizethedocs/ci-common/.github/workflows/use-deploy-po-version.yml@main
+    with:
+      ENABLE: true
+      RUNNER: ${{ vars.RUNNER }}
+      CHECKOUT: ${{ github.ref }}
+      VERSION: ${{ matrix.VERSION }}
+      DEPLOY_RTD: true
+      ACTOR_NAME: ${{ vars.ACTOR_NAME }}
+      ACTOR_EMAIL: ${{ vars.ACTOR_EMAIL }}
+      GPG_FINGERPRINT: ${{ vars.GPG_FINGERPRINT }}
+    secrets:
+      ACTOR_GITHUB_TOKEN: ${{ secrets.ACTOR_GITHUB_TOKEN }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

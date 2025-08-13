@@ -1,0 +1,61 @@
+{% extends "!page.html" %}
+{% block header %}
+<div class="pageheader">
+  <div align="center">
+    <br/>
+    <table id="topnav-table">
+      <tr>
+        <td valign="middle">
+          ROS Resources:
+            <a href="http://discourse.ros.org/">Discussion Forum</a>
+            |
+            <a href="http://status.ros.org/">Service Status</a>
+            |
+            <a href="https://robotics.stackexchange.com/">Q&A Robotics Stack Exchange</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block body %}
+{% if current_version and latest_version and current_version != latest_version %}
+  {% set latest_version_href = '../../' ~ current_language ~ '/' ~ latest_version.name ~ '/index.html' %}
+  {% set latest_version_href_pathto = pathto(latest_version_href, 1) %}
+  {% set latest_version_name_title = latest_version.name | title %}
+  <p>
+    <strong>
+      {% if current_version.name in eol_versions %}
+      <div class="admonition warning">
+        <p class="admonition-title">{{ _('Warning') }}</p>
+        <p>
+          {% trans latest_version_href_pathto=latest_version_href_pathto|e, latest_version_name_title=latest_version_name_title|e -%}
+          You're reading the documentation for a version of ROS 2 that has reached its EOL (end-of-life), and is no longer officially supported. If you want up-to-date information, please have a look at <a href="{{ latest_version_href_pathto }}">{{ latest_version_name_title }}</a>.
+          {%- endtrans %}
+        </p>
+      </div>
+      {% elif current_version.is_released %}
+      <div class="admonition note">
+        <p class="admonition-title">{{ _('Note') }}</p>
+        <p>
+          {% trans latest_version_href_pathto=latest_version_href_pathto|e, latest_version_name_title=latest_version_name_title|e -%}
+          You're reading the documentation for an older, but still supported, version of ROS 2. For information on the latest version, please have a look at <a href="{{ latest_version_href_pathto }}">{{ latest_version_name_title }}</a>.
+          {%- endtrans %}
+        </p>
+      </div>
+      {% else %}
+      <div class="admonition note">
+        <p class="admonition-title">{{ _('Note') }}</p>
+        <p>
+          {% trans latest_version_href_pathto=latest_version_href_pathto|e, latest_version_name_title=latest_version_name_title|e -%}
+          You're reading the documentation for a development version. For the latest released version, please have a look at <a href="{{ latest_version_href_pathto }}">{{ latest_version_name_title }}</a>.
+          {%- endtrans %}
+        </p>
+      </div>
+      {% endif %}
+    </strong>
+  </p>
+{% endif %}
+{{ super() }}
+{% endblock %}
