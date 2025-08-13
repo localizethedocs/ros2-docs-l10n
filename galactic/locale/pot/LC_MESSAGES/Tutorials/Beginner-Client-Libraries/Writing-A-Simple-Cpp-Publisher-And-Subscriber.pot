@@ -1,0 +1,791 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation galactic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:8
+msgid "Writing a simple publisher and subscriber (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:10
+msgid "**Goal:** Create and run a publisher and subscriber node using C++."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:12
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:14
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:23
+msgid ""
+":doc:`Nodes <../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-"
+"ROS2-Nodes>` are executable processes that communicate over the ROS graph. "
+"In this tutorial, the nodes will pass information in the form of string "
+"messages to each other over a :doc:`topic <../Beginner-CLI-Tools/"
+"Understanding-ROS2-Topics/Understanding-ROS2-Topics>`. The example used here "
+"is a simple “talker” and “listener” system; one node publishes data and the "
+"other subscribes to the topic so it can receive that data."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:27
+msgid ""
+"The code used in these examples can be found `here <https://github.com/ros2/"
+"examples/tree/rolling/rclcpp/topics>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:30
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:32
+msgid ""
+"In previous tutorials, you learned how to :doc:`create a workspace <./"
+"Creating-A-Workspace/Creating-A-Workspace>` and :doc:`create a package <./"
+"Creating-Your-First-ROS2-Package>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:35
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:38
+msgid "1 Create a package"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:40
+msgid ""
+"Open a new terminal and :doc:`source your ROS 2 installation <../Beginner-"
+"CLI-Tools/Configuring-ROS2-Environment>` so that ``ros2`` commands will work."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:42
+msgid ""
+"Navigate into the ``ros2_ws`` directory created in a :ref:`previous tutorial "
+"<new-directory>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:44
+msgid ""
+"Recall that packages should be created in the ``src`` directory, not the "
+"root of the workspace. So, navigate into ``ros2_ws/src``, and run the "
+"package creation command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:47
+msgid "ros2 pkg create --build-type ament_cmake cpp_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:51
+msgid ""
+"Your terminal will return a message verifying the creation of your package "
+"``cpp_pubsub`` and all its necessary files and folders."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:53
+msgid ""
+"Navigate into ``ros2_ws/src/cpp_pubsub/src``. Recall that this is the "
+"directory in any CMake package where the source files containing executables "
+"belong."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:58
+msgid "2 Write the publisher node"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:60
+msgid "Download the example talker code by entering the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:64
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:310
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:442
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:461
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:483
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:66
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:72
+msgid ""
+"wget -O publisher_member_function.cpp https://raw.githubusercontent.com/ros2/"
+"examples/rolling/rclcpp/topics/minimal_publisher/member_function.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:70
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:316
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:448
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:467
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:489
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:76
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:322
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:452
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:473
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:495
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:78
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:324
+msgid "In a Windows command line prompt:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:80
+msgid ""
+"curl -sk https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/"
+"topics/minimal_publisher/member_function.cpp -o publisher_member_function.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:84
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:330
+msgid "Or in powershell:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:86
+msgid ""
+"curl https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/topics/"
+"minimal_publisher/member_function.cpp -o publisher_member_function.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:90
+msgid ""
+"Now there will be a new file named ``publisher_member_function.cpp``. Open "
+"the file using your preferred text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:93
+msgid ""
+"#include <chrono>\n"
+"#include <functional>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"/* This example creates a subclass of Node and uses std::bind() to register "
+"a\n"
+"* member function as a callback from the timer. */\n"
+"\n"
+"class MinimalPublisher : public rclcpp::Node\n"
+"{\n"
+"  public:\n"
+"    MinimalPublisher()\n"
+"    : Node(\"minimal_publisher\"), count_(0)\n"
+"    {\n"
+"      publisher_ = this->create_publisher<std_msgs::msg::String>(\"topic\", "
+"10);\n"
+"      timer_ = this->create_wall_timer(\n"
+"      500ms, std::bind(&MinimalPublisher::timer_callback, this));\n"
+"    }\n"
+"\n"
+"  private:\n"
+"    void timer_callback()\n"
+"    {\n"
+"      auto message = std_msgs::msg::String();\n"
+"      message.data = \"Hello, world! \" + std::to_string(count_++);\n"
+"      RCLCPP_INFO(this->get_logger(), \"Publishing: '%s'\", message.data."
+"c_str());\n"
+"      publisher_->publish(message);\n"
+"    }\n"
+"    rclcpp::TimerBase::SharedPtr timer_;\n"
+"    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;\n"
+"    size_t count_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<MinimalPublisher>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:141
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:143
+msgid ""
+"The top of the code includes the standard C++ headers you will be using. "
+"After the standard C++ headers is the ``rclcpp/rclcpp.hpp`` include which "
+"allows you to use the most common pieces of the ROS 2 system. Last is "
+"``std_msgs/msg/string.hpp``, which includes the built-in message type you "
+"will use to publish data."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:147
+msgid ""
+"These lines represent the node’s dependencies. Recall that dependencies have "
+"to be added to ``package.xml`` and ``CMakeLists.txt``, which you’ll do in "
+"the next section."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:150
+msgid ""
+"#include <chrono>\n"
+"#include <functional>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:162
+msgid ""
+"The next line creates the node class ``MinimalPublisher`` by inheriting from "
+"``rclcpp::Node``. Every ``this`` in the code is referring to the node."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:165
+msgid "class MinimalPublisher : public rclcpp::Node"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:169
+msgid ""
+"The public constructor names the node ``minimal_publisher`` and initializes "
+"``count_`` to 0. Inside the constructor, the publisher is initialized with "
+"the ``String`` message type, the topic name ``topic``, and the required "
+"queue size to limit messages in the event of a backup. Next, ``timer_`` is "
+"initialized, which causes the ``timer_callback`` function to be executed "
+"twice a second."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:173
+msgid ""
+"public:\n"
+"  MinimalPublisher()\n"
+"  : Node(\"minimal_publisher\"), count_(0)\n"
+"  {\n"
+"    publisher_ = this->create_publisher<std_msgs::msg::String>(\"topic\", "
+"10);\n"
+"    timer_ = this->create_wall_timer(\n"
+"    500ms, std::bind(&MinimalPublisher::timer_callback, this));\n"
+"  }"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:184
+msgid ""
+"The ``timer_callback`` function is where the message data is set and the "
+"messages are actually published. The ``RCLCPP_INFO`` macro ensures every "
+"published message is printed to the console."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:187
+msgid ""
+"private:\n"
+"  void timer_callback()\n"
+"  {\n"
+"    auto message = std_msgs::msg::String();\n"
+"    message.data = \"Hello, world! \" + std::to_string(count_++);\n"
+"    RCLCPP_INFO(this->get_logger(), \"Publishing: '%s'\", message.data."
+"c_str());\n"
+"    publisher_->publish(message);\n"
+"  }"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:198
+msgid "Last is the declaration of the timer, publisher, and counter fields."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:200
+msgid ""
+"rclcpp::TimerBase::SharedPtr timer_;\n"
+"rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;\n"
+"size_t count_;"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:206
+msgid ""
+"Following the ``MinimalPublisher`` class is ``main``, where the node "
+"actually executes. ``rclcpp::init`` initializes ROS 2, and ``rclcpp::spin`` "
+"starts processing data from the node, including callbacks from the timer."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:209
+msgid ""
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<MinimalPublisher>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:220
+msgid "2.2 Add dependencies"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:222
+msgid ""
+"Navigate one level back to the ``ros2_ws/src/cpp_pubsub`` directory, where "
+"the ``CMakeLists.txt`` and ``package.xml`` files have been created for you."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:224
+msgid "Open ``package.xml`` with your text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:226
+msgid ""
+"As mentioned in the :doc:`previous tutorial <./Creating-Your-First-ROS2-"
+"Package>`, make sure to fill in the ``<description>``, ``<maintainer>`` and "
+"``<license>`` tags:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:228
+msgid ""
+"<description>Examples of minimal publisher/subscriber using rclcpp</"
+"description>\n"
+"<maintainer email=\"you@email.com\">Your Name</maintainer>\n"
+"<license>Apache License 2.0</license>"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:234
+msgid ""
+"Add a new line after the ``ament_cmake`` buildtool dependency and paste the "
+"following dependencies corresponding to your node’s include statements:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:236
+msgid ""
+"<depend>rclcpp</depend>\n"
+"<depend>std_msgs</depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:241
+msgid ""
+"This declares the package needs ``rclcpp`` and ``std_msgs`` when its code is "
+"executed."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:243
+msgid "Make sure to save the file."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:246
+msgid "2.3 CMakeLists.txt"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:248
+msgid ""
+"Now open the ``CMakeLists.txt`` file. Below the existing dependency "
+"``find_package(ament_cmake REQUIRED)``, add the lines:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:251
+msgid ""
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:256
+msgid ""
+"After that, add the executable and name it ``talker`` so you can run your "
+"node using ``ros2 run``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:258
+msgid ""
+"add_executable(talker src/publisher_member_function.cpp)\n"
+"ament_target_dependencies(talker rclcpp std_msgs)"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:263
+msgid ""
+"Finally, add the ``install(TARGETS…)`` section so ``ros2 run`` can find your "
+"executable:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:265
+msgid ""
+"install(TARGETS\n"
+"  talker\n"
+"  DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:271
+msgid ""
+"You can clean up your ``CMakeLists.txt`` by removing some unnecessary "
+"sections and comments, so it looks like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:273
+msgid ""
+"cmake_minimum_required(VERSION 3.5)\n"
+"project(cpp_pubsub)\n"
+"\n"
+"# Default to C++14\n"
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 14)\n"
+"endif()\n"
+"\n"
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()\n"
+"\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)\n"
+"\n"
+"add_executable(talker src/publisher_member_function.cpp)\n"
+"ament_target_dependencies(talker rclcpp std_msgs)\n"
+"\n"
+"install(TARGETS\n"
+"  talker\n"
+"  DESTINATION lib/${PROJECT_NAME})\n"
+"\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:300
+msgid ""
+"You could build your package now, source the local setup files, and run it, "
+"but let’s create the subscriber node first so you can see the full system at "
+"work."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:303
+msgid "3 Write the subscriber node"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:305
+msgid ""
+"Return to ``ros2_ws/src/cpp_pubsub/src`` to create the next node. Enter the "
+"following code in your terminal:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:312
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:318
+msgid ""
+"wget -O subscriber_member_function.cpp https://raw.githubusercontent.com/"
+"ros2/examples/rolling/rclcpp/topics/minimal_subscriber/member_function.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:326
+msgid ""
+"curl -sk https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/"
+"topics/minimal_subscriber/member_function.cpp -o subscriber_member_function."
+"cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:332
+msgid ""
+"curl https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/topics/"
+"minimal_subscriber/member_function.cpp -o subscriber_member_function.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:336
+msgid "Entering ``ls`` in the console will now return:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:338
+msgid "publisher_member_function.cpp  subscriber_member_function.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:342
+msgid "Open the ``subscriber_member_function.cpp`` with your text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:344
+msgid ""
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"using std::placeholders::_1;\n"
+"\n"
+"class MinimalSubscriber : public rclcpp::Node\n"
+"{\n"
+"  public:\n"
+"    MinimalSubscriber()\n"
+"    : Node(\"minimal_subscriber\")\n"
+"    {\n"
+"      subscription_ = this->create_subscription<std_msgs::msg::String>(\n"
+"      \"topic\", 10, std::bind(&MinimalSubscriber::topic_callback, this, "
+"_1));\n"
+"    }\n"
+"\n"
+"  private:\n"
+"    void topic_callback(const std_msgs::msg::String & msg) const\n"
+"    {\n"
+"      RCLCPP_INFO(this->get_logger(), \"I heard: '%s'\", msg.data.c_str());\n"
+"    }\n"
+"    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<MinimalSubscriber>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:379
+msgid "3.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:381
+msgid ""
+"The subscriber node’s code is nearly identical to the publisher’s. Now the "
+"node is named ``minimal_subscriber``, and the constructor uses the node’s "
+"``create_subscription`` class to execute the callback."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:384
+msgid ""
+"There is no timer because the subscriber simply responds whenever data is "
+"published to the ``topic`` topic."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:386
+msgid ""
+"public:\n"
+"  MinimalSubscriber()\n"
+"  : Node(\"minimal_subscriber\")\n"
+"  {\n"
+"    subscription_ = this->create_subscription<std_msgs::msg::String>(\n"
+"    \"topic\", 10, std::bind(&MinimalSubscriber::topic_callback, this, "
+"_1));\n"
+"  }"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:396
+msgid ""
+"Recall from the :doc:`topic tutorial <../Beginner-CLI-Tools/Understanding-"
+"ROS2-Topics/Understanding-ROS2-Topics>` that the topic name and message type "
+"used by the publisher and subscriber must match to allow them to communicate."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:398
+msgid ""
+"The ``topic_callback`` function receives the string message data published "
+"over the topic, and simply writes it to the console using the "
+"``RCLCPP_INFO`` macro."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:400
+msgid "The only field declaration in this class is the subscription."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:402
+msgid ""
+"private:\n"
+"  void topic_callback(const std_msgs::msg::String & msg) const\n"
+"  {\n"
+"    RCLCPP_INFO(this->get_logger(), \"I heard: '%s'\", msg.data.c_str());\n"
+"  }\n"
+"  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:411
+msgid ""
+"The ``main`` function is exactly the same, except now it spins the "
+"``MinimalSubscriber`` node. For the publisher node, spinning meant starting "
+"the timer, but for the subscriber it simply means preparing to receive "
+"messages whenever they come."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:414
+msgid ""
+"Since this node has the same dependencies as the publisher node, there’s "
+"nothing new to add to ``package.xml``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:417
+msgid "3.2 CMakeLists.txt"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:419
+msgid ""
+"Reopen ``CMakeLists.txt`` and add the executable and target for the "
+"subscriber node below the publisher’s entries."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:421
+msgid ""
+"add_executable(listener src/subscriber_member_function.cpp)\n"
+"ament_target_dependencies(listener rclcpp std_msgs)\n"
+"\n"
+"install(TARGETS\n"
+"  talker\n"
+"  listener\n"
+"  DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:431
+msgid ""
+"Make sure to save the file, and then your pub/sub system should be ready for "
+"use."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:436
+msgid "4 Build and run"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:437
+msgid ""
+"You likely already have the ``rclcpp`` and ``std_msgs`` packages installed "
+"as part of your ROS 2 system. It's good practice to run ``rosdep`` in the "
+"root of your workspace (``ros2_ws``) to check for missing dependencies "
+"before building:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:444
+msgid "rosdep install -i --from-path src --rosdistro rolling -y"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:450
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:454
+msgid "rosdep only runs on Linux, so you can skip ahead to next step."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:457
+msgid ""
+"Still in the root of your workspace, ``ros2_ws``, build your new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:463
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:469
+msgid "colcon build --packages-select cpp_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:475
+msgid "colcon build --merge-install --packages-select cpp_pubsub"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:479
+msgid ""
+"Open a new terminal, navigate to ``ros2_ws``, and source the setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:485
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:491
+msgid ". install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:497
+msgid "call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:501
+msgid "Now run the talker node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:503
+msgid "ros2 run cpp_pubsub talker"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:507
+msgid ""
+"The terminal should start publishing info messages every 0.5 seconds, like "
+"so:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:509
+msgid ""
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 0\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 1\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 2\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 3\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 4\""
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:517
+msgid ""
+"Open another terminal, source the setup files from inside ``ros2_ws`` again, "
+"and then start the listener node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:519
+msgid "ros2 run cpp_pubsub listener"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:523
+msgid ""
+"The listener will start printing messages to the console, starting at "
+"whatever message count the publisher is on at that time, like so:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:525
+msgid ""
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 10\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 11\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 12\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 13\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 14\""
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:533
+msgid "Enter ``Ctrl+C`` in each terminal to stop the nodes from spinning."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:536
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:538
+msgid ""
+"You created two nodes to publish and subscribe to data over a topic. Before "
+"compiling and running them, you added their dependencies and executables to "
+"the package configuration files."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:544
+msgid "Next steps"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:546
+msgid ""
+"Next you'll create another simple ROS 2 package using the service/client "
+"model. Again, you can choose to write it in either :doc:`C++ <./Writing-A-"
+"Simple-Cpp-Service-And-Client>` or :doc:`Python <./Writing-A-Simple-Py-"
+"Service-And-Client>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:550
+msgid "Related content"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:552
+msgid ""
+"There are several ways you could write a publisher and subscriber in C++; "
+"check out the ``minimal_publisher`` and ``minimal_subscriber`` packages in "
+"the `ros2/examples <https://github.com/ros2/examples/tree/rolling/rclcpp/"
+"topics>`_ repo."
+msgstr ""
