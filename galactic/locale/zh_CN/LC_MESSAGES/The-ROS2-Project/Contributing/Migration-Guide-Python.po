@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation galactic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:6
+msgid "Python migration guide from ROS 1"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:9
+msgid "Node Initialization"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:11
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:32
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:60
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:76
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:92
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:108
+msgid "In ROS 1:"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:13
+msgid ""
+"rospy.init_node('asdf')\n"
+"\n"
+"rospy.loginfo('Created node')"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:19
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:44
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:66
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:82
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:98
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:116
+msgid "In ROS 2:"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:21
+msgid ""
+"rclpy.init(args=sys.argv)\n"
+"node = rclpy.create_node('asdf')\n"
+"\n"
+"node.get_logger().info('Created node')"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:30
+msgid "ROS Parameters"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:34
+msgid ""
+" port = rospy.get_param('port', '/dev/ttyUSB0')\n"
+" assert isinstance(port, str), 'port parameter must be a str'\n"
+"\n"
+" buadrate = rospy.get_param('baudrate', 115200)\n"
+" assert isinstance(port, int), 'port parameter must be an integer'\n"
+"\n"
+"rospy.logwarn('port: ' + port)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:46
+msgid ""
+"port = node.declare_parameter('port', '/dev/ttyUSB0').value\n"
+"assert isinstance(port, str), 'port parameter must be a str'\n"
+"\n"
+"baudrate = node.declare_parameter('baudrate', 115200).value\n"
+"assert isinstance(port, int), 'port parameter must be an integer'\n"
+"\n"
+"node.get_logger().warn('port: ' + port)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:58
+msgid "Creating a Publisher"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:62
+msgid "pub = rospy.Publisher('chatter', String)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:68
+msgid "pub = node.create_publisher(String, 'chatter')"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:74
+msgid "Creating a Subscriber"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:78
+msgid "sub = rospy.Subscriber('chatter', String, callback)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:84
+msgid "sub = node.create_subscription(String, 'chatter', callback)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:90
+msgid "Creating a Service"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:94
+msgid "srv = rospy.Service('add_two_ints', AddTwoInts, add_two_ints_callback)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:100
+msgid ""
+"srv = node.create_service(AddTwoInts, 'add_two_ints', add_two_ints_callback)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:106
+msgid "Creating a Service Client"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:110
+msgid ""
+"rospy.wait_for_service('add_two_ints')\n"
+"add_two_ints = rospy.ServiceProxy('add_two_ints', AddTwoInts)\n"
+"resp = add_two_ints(req)"
+msgstr ""
+
+#: ../../../source/The-ROS2-Project/Contributing/Migration-Guide-Python.rst:118
+msgid ""
+"add_two_ints = node.create_client(AddTwoInts, 'add_two_ints')\n"
+"while not add_two_ints.wait_for_service(timeout_sec=1.0):\n"
+"    node.get_logger().info('service not available, waiting again...')\n"
+"resp = add_two_ints.call_async(req)\n"
+"rclpy.spin_until_future_complete(node, resp)"
+msgstr ""
