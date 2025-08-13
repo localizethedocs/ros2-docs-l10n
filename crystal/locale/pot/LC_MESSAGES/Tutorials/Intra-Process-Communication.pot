@@ -1,0 +1,723 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation crystal\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:6
+msgid "Efficient intra-process communication"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:10
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:13
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:15
+msgid ""
+"ROS applications typically consist of a composition of individual \"nodes\" "
+"which perform narrow tasks and are decoupled from other parts of the system. "
+"This promotes fault isolation, faster development, modularity, and code "
+"reuse, but it often comes at the cost of performance. After ROS 1 was "
+"initially developed, the need for efficient composition of nodes became "
+"obvious and Nodelets were developed. In ROS 2 we aim to improve on the "
+"design of Nodelets by addressing some fundamental problems that required "
+"restructuring of nodes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:20
+msgid ""
+"In this demo we'll be highlighting how nodes can be composed manually, by "
+"defining the nodes separately but combining them in different process "
+"layouts without changing the node's code or limiting its abilities."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:23
+msgid "Build the demos"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:25
+msgid ""
+"These demos should work on any of the three major OSs (Windows, Mac, or "
+"Linux). Some of them do require OpenCV to have been installed."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:29
+msgid "Using the pre-built binaries"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:31
+msgid ""
+"If you've installed the binaries, simply source the ROS 2 setup file and "
+"then skip down to any of the individual demos to see how to run them."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:34
+msgid "Building from source"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:36
+msgid ""
+"Make sure you have OpenCV installed and then follow the source instructions. "
+"You can find the from source instructions linked from the main `ros2 "
+"installation page <../Installation>`. Once built source the setup file and "
+"continue down to one of the specific demos to read about them and for "
+"instructions on how to run them."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:41
+msgid "Running and understanding the demos"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:43
+msgid ""
+"There are a few different demos: some are toy problems designed to highlight "
+"features of the intra process communications functionality and some are end "
+"to end examples which use OpenCV and demonstrate the ability to recombine "
+"nodes into different configurations."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:46
+msgid "The two node pipeline demo"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:48
+msgid ""
+"This demo is designed to show that the intra process publish/subscribe "
+"connection can result in zero-copy transport of messages when publishing and "
+"subscribing with ``std::unique_ptr``\\ s."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:50
+msgid "First let's take a look at the source:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:52
+msgid ""
+"https://github.com/ros2/demos/blob/dashing/intra_process_demo/src/"
+"two_node_pipeline/two_node_pipeline.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:54
+msgid ""
+"#include <chrono>\n"
+"#include <cinttypes>\n"
+"#include <cstdio>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"#include <utility>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/int32.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"// Node that produces messages.\n"
+"struct Producer : public rclcpp::Node\n"
+"{\n"
+"  Producer(const std::string & name, const std::string & output)\n"
+"  : Node(name, rclcpp::NodeOptions().use_intra_process_comms(true))\n"
+"  {\n"
+"    // Create a publisher on the output topic.\n"
+"    pub_ = this->create_publisher<std_msgs::msg::Int32>(output, 10);\n"
+"    std::weak_ptr<std::remove_pointer<decltype(pub_.get())>::type> "
+"captured_pub = pub_;\n"
+"    // Create a timer which publishes on the output topic at ~1Hz.\n"
+"    auto callback = [captured_pub]() -> void {\n"
+"        auto pub_ptr = captured_pub.lock();\n"
+"        if (!pub_ptr) {\n"
+"          return;\n"
+"        }\n"
+"        static int32_t count = 0;\n"
+"        std_msgs::msg::Int32::UniquePtr msg(new std_msgs::msg::Int32());\n"
+"        msg->data = count++;\n"
+"        printf(\n"
+"          \"Published message with value: %d, and address: 0x%\" PRIXPTR "
+"\"\\n\", msg->data,\n"
+"          reinterpret_cast<std::uintptr_t>(msg.get()));\n"
+"        pub_ptr->publish(std::move(msg));\n"
+"      };\n"
+"    timer_ = this->create_wall_timer(1s, callback);\n"
+"  }\n"
+"\n"
+"  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub_;\n"
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"};\n"
+"\n"
+"// Node that consumes messages.\n"
+"struct Consumer : public rclcpp::Node\n"
+"{\n"
+"  Consumer(const std::string & name, const std::string & input)\n"
+"  : Node(name, rclcpp::NodeOptions().use_intra_process_comms(true))\n"
+"  {\n"
+"    // Create a subscription on the input topic which prints on receipt of "
+"new messages.\n"
+"    sub_ = this->create_subscription<std_msgs::msg::Int32>(\n"
+"      input,\n"
+"      10,\n"
+"      [](std_msgs::msg::Int32::UniquePtr msg) {\n"
+"        printf(\n"
+"          \" Received message with value: %d, and address: 0x%\" PRIXPTR "
+"\"\\n\", msg->data,\n"
+"          reinterpret_cast<std::uintptr_t>(msg.get()));\n"
+"      });\n"
+"  }\n"
+"\n"
+"  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr sub_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  setvbuf(stdout, NULL, _IONBF, BUFSIZ);\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::executors::SingleThreadedExecutor executor;\n"
+"\n"
+"  auto producer = std::make_shared<Producer>(\"producer\", \"number\");\n"
+"  auto consumer = std::make_shared<Consumer>(\"consumer\", \"number\");\n"
+"\n"
+"  executor.add_node(producer);\n"
+"  executor.add_node(consumer);\n"
+"  executor.spin();\n"
+"\n"
+"  rclcpp::shutdown();\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:136
+msgid ""
+"As you can see by looking at the ``main`` function, we have a producer and a "
+"consumer node, we add them to a single threaded executor, and then call spin."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:138
+msgid ""
+"If you look at the \"producer\" node's implementation in the ``Producer`` "
+"struct, you can see that we have created a publisher which publishes on the "
+"\"number\" topic and a timer which periodically creates a new message, "
+"prints out its address in memory and its content's value and then publishes "
+"it."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:140
+msgid ""
+"The \"consumer\" node is a bit simpler, you can see its implementation in "
+"the ``Consumer`` struct, as it only subscribes to the \"number\" topic and "
+"prints the address and value of the message it receives."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:142
+msgid ""
+"The expectation is that the producer will print out an address and value and "
+"the consumer will print out a matching address and value. This demonstrates "
+"that intra process communication is indeed working and unnecessary copies "
+"are avoided, at least for simple graphs."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:145
+msgid ""
+"Let's run the demo by executing ``ros2 run intra_process_demo "
+"two_node_pipeline`` executable (don't forget to source the setup file first):"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:147
+msgid ""
+"$ ros2 run intra_process_demo two_node_pipeline\n"
+"Published message with value: 0, and address: 0x7fb02303faf0\n"
+"Published message with value: 1, and address: 0x7fb020cf0520\n"
+" Received message with value: 1, and address: 0x7fb020cf0520\n"
+"Published message with value: 2, and address: 0x7fb020e12900\n"
+" Received message with value: 2, and address: 0x7fb020e12900\n"
+"Published message with value: 3, and address: 0x7fb020cf0520\n"
+" Received message with value: 3, and address: 0x7fb020cf0520\n"
+"Published message with value: 4, and address: 0x7fb020e12900\n"
+" Received message with value: 4, and address: 0x7fb020e12900\n"
+"Published message with value: 5, and address: 0x7fb02303cea0\n"
+" Received message with value: 5, and address: 0x7fb02303cea0\n"
+"[...]"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:163
+msgid ""
+"One thing you'll notice is that the messages tick along at about one per "
+"second. This is because we told the timer to fire at about once per second."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:166
+msgid ""
+"Also you may have noticed that the first message (with value ``0``) does not "
+"have a corresponding \"Received message ...\" line. This is because publish/"
+"subscribe is \"best effort\" and we do not have any \"latching\" like "
+"behavior enabled. This means that if the publisher publishes a message "
+"before the subscription has been established, the subscription will not "
+"receive that message. This race condition can result in the first few "
+"messages being lost. In this case, since they only come once per second, "
+"usually only the first message is lost."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:172
+msgid ""
+"Finally, you can see that \"Published message...\" and \"Received message ..."
+"\" lines with the same value also have the same address. This shows that the "
+"address of the message being received is the same as the one that was "
+"published and that it is not a copy. This is because we're publishing and "
+"subscribing with ``std::unique_ptr``\\ s which allow ownership of a message "
+"to be moved around the system safely. You can also publish and subscribe "
+"with ``const &`` and ``std::shared_ptr``, but zero-copy will not occur in "
+"that case."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:178
+msgid "The cyclic pipeline demo"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:180
+msgid ""
+"This demo is similar to the previous one, but instead of the producer "
+"creating a new message for each iteration, this demo only ever uses one "
+"message instance. This is achieved by creating a cycle in the graph and "
+"\"kicking off\" communication by externally making one of the nodes publish "
+"before spinning the executor:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:183
+msgid ""
+"https://github.com/ros2/demos/blob/dashing/intra_process_demo/src/"
+"cyclic_pipeline/cyclic_pipeline.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:185
+msgid ""
+"#include <chrono>\n"
+"#include <cinttypes>\n"
+"#include <cstdio>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"#include <utility>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/int32.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"// This node receives an Int32, waits 1 second, then increments and sends "
+"it.\n"
+"struct IncrementerPipe : public rclcpp::Node\n"
+"{\n"
+"  IncrementerPipe(const std::string & name, const std::string & in, const "
+"std::string & out)\n"
+"  : Node(name, rclcpp::NodeOptions().use_intra_process_comms(true))\n"
+"  {\n"
+"    // Create a publisher on the output topic.\n"
+"    pub = this->create_publisher<std_msgs::msg::Int32>(out, 10);\n"
+"    std::weak_ptr<std::remove_pointer<decltype(pub.get())>::type> "
+"captured_pub = pub;\n"
+"    // Create a subscription on the input topic.\n"
+"    sub = this->create_subscription<std_msgs::msg::Int32>(\n"
+"      in,\n"
+"      10,\n"
+"      [captured_pub](std_msgs::msg::Int32::UniquePtr msg) {\n"
+"        auto pub_ptr = captured_pub.lock();\n"
+"        if (!pub_ptr) {\n"
+"          return;\n"
+"        }\n"
+"        printf(\n"
+"          \"Received message with value:         %d, and address: 0x%\" "
+"PRIXPTR \"\\n\", msg->data,\n"
+"          reinterpret_cast<std::uintptr_t>(msg.get()));\n"
+"        printf(\"  sleeping for 1 second...\\n\");\n"
+"        if (!rclcpp::sleep_for(1s)) {\n"
+"          return;    // Return if the sleep failed (e.g. on ctrl-c).\n"
+"        }\n"
+"        printf(\"  done.\\n\");\n"
+"        msg->data++;    // Increment the message's data.\n"
+"        printf(\n"
+"          \"Incrementing and sending with value: %d, and address: 0x%\" "
+"PRIXPTR \"\\n\", msg->data,\n"
+"          reinterpret_cast<std::uintptr_t>(msg.get()));\n"
+"        pub_ptr->publish(std::move(msg));    // Send the message along to "
+"the output topic.\n"
+"      });\n"
+"  }\n"
+"\n"
+"  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub;\n"
+"  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr sub;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  setvbuf(stdout, NULL, _IONBF, BUFSIZ);\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::executors::SingleThreadedExecutor executor;\n"
+"\n"
+"  // Create a simple loop by connecting the in and out topics of two "
+"IncrementerPipe's.\n"
+"  // The expectation is that the address of the message being passed between "
+"them never changes.\n"
+"  auto pipe1 = std::make_shared<IncrementerPipe>(\"pipe1\", \"topic1\", "
+"\"topic2\");\n"
+"  auto pipe2 = std::make_shared<IncrementerPipe>(\"pipe2\", \"topic2\", "
+"\"topic1\");\n"
+"  rclcpp::sleep_for(1s);  // Wait for subscriptions to be established to "
+"avoid race conditions.\n"
+"  // Publish the first message (kicking off the cycle).\n"
+"  std::unique_ptr<std_msgs::msg::Int32> msg(new std_msgs::msg::Int32());\n"
+"  msg->data = 42;\n"
+"  printf(\n"
+"    \"Published first message with value:  %d, and address: 0x%\" PRIXPTR "
+"\"\\n\", msg->data,\n"
+"    reinterpret_cast<std::uintptr_t>(msg.get()));\n"
+"  pipe1->pub->publish(std::move(msg));\n"
+"\n"
+"  executor.add_node(pipe1);\n"
+"  executor.add_node(pipe2);\n"
+"  executor.spin();\n"
+"\n"
+"  rclcpp::shutdown();\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:265
+msgid ""
+"Unlike the previous demo, this demo uses only one Node, instantiated twice "
+"with different names and configurations. The graph ends up being ``pipe1`` -"
+"> ``pipe2`` -> ``pipe1`` ... in a loop."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:268
+msgid ""
+"The line ``pipe1->pub->publish(msg);`` kicks the process off, but from then "
+"on the messages are passed back and forth between the nodes by each one "
+"calling publish within its own subscription callback."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:270
+msgid ""
+"The expectation here is that the nodes pass the message back and forth, once "
+"a second, incrementing the value of the message each time. Because the "
+"message is being published and subscribed to as a ``unique_ptr`` the same "
+"message created at the beginning is continuously used."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:273
+msgid "To test those expectations, let's run it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:275
+msgid ""
+"% ros2 run intra_process_demo cyclic_pipeline\n"
+"Published first message with value:  42, and address: 0x7fd2ce0a2bc0\n"
+"Received message with value:         42, and address: 0x7fd2ce0a2bc0\n"
+"  sleeping for 1 second...\n"
+"  done.\n"
+"Incrementing and sending with value: 43, and address: 0x7fd2ce0a2bc0\n"
+"Received message with value:         43, and address: 0x7fd2ce0a2bc0\n"
+"  sleeping for 1 second...\n"
+"  done.\n"
+"Incrementing and sending with value: 44, and address: 0x7fd2ce0a2bc0\n"
+"Received message with value:         44, and address: 0x7fd2ce0a2bc0\n"
+"  sleeping for 1 second...\n"
+"  done.\n"
+"Incrementing and sending with value: 45, and address: 0x7fd2ce0a2bc0\n"
+"Received message with value:         45, and address: 0x7fd2ce0a2bc0\n"
+"  sleeping for 1 second...\n"
+"  done.\n"
+"Incrementing and sending with value: 46, and address: 0x7fd2ce0a2bc0\n"
+"Received message with value:         46, and address: 0x7fd2ce0a2bc0\n"
+"  sleeping for 1 second...\n"
+"  done.\n"
+"Incrementing and sending with value: 47, and address: 0x7fd2ce0a2bc0\n"
+"Received message with value:         47, and address: 0x7fd2ce0a2bc0\n"
+"  sleeping for 1 second...\n"
+"[...]"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:303
+msgid ""
+"You should see ever increasing numbers on each iteration, starting with "
+"42... because 42, and the whole time it reuses the same message, as "
+"demonstrated by the pointer addresses which do not change, which avoids "
+"unnecessary copies."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:306
+msgid "The image pipeline demo"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:308
+msgid ""
+"In this demo we'll use OpenCV to capture, annotate, and then view images."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:310
+msgid ""
+"Note for macOS users: If these examples do not work or you receive an error "
+"like ``ddsi_conn_write failed -1`` then you'll need to increase your system "
+"wide UDP packet size:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:312
+msgid ""
+"$ sudo sysctl -w net.inet.udp.recvspace=209715\n"
+"$ sudo sysctl -w net.inet.udp.maxdgram=65500"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:317
+msgid "These changes will not persist after a reboot."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:320
+msgid "Simple pipeline"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:322
+msgid ""
+"First we'll have a pipeline of three nodes, arranged as such: "
+"``camera_node`` -> ``watermark_node`` -> ``image_view_node``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:324
+msgid ""
+"The ``camera_node`` reads from camera device ``0`` on your computer, writes "
+"some information on the image and publishes it. The ``watermark_node`` "
+"subscribes to the output of the ``camera_node`` and adds more text before "
+"publishing it too. Finally, the ``image_view_node`` subscribes to the output "
+"of the ``watermark_node``, writes more text to the image and then visualizes "
+"it with ``cv::imshow``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:328
+msgid ""
+"In each node the address of the message which is being sent, or which has "
+"been received, or both, is written to the image. The watermark and image "
+"view nodes are designed to modify the image without copying it and so the "
+"addresses imprinted on the image should all be the same as long as the nodes "
+"are in the same process and the graph remains organized in a pipeline as "
+"sketched above."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:333
+msgid ""
+"On some systems (we've seen it happen on Linux), the address printed to the "
+"screen might not change. This is because the same unique pointer is being "
+"reused. In this situation, the pipeline is still running."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:336
+msgid "Let's run the demo by executing the following executable:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:338
+msgid "ros2 run intra_process_demo image_pipeline_all_in_one"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:342
+msgid "You should see something like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:350
+msgid ""
+"You can pause the rendering of the image by pressing the spacebar and you "
+"can resume by pressing the spacebar again. You can also press ``q`` or "
+"``ESC`` to exit."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:353
+msgid ""
+"If you pause the image viewer, you should be able to compare the addresses "
+"written on the image and see that they are the same."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:356
+msgid "Pipeline with two image viewers"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:358
+msgid ""
+"Now let's look at an example just like the one above, except it has two "
+"image view nodes. All the nodes are still in the same process, but now two "
+"image view windows should show up. (Note for macOS users: your image view "
+"windows might be on top of each other). Let's run it with the command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:362
+msgid "ros2 run intra_process_demo image_pipeline_with_two_image_view"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:372
+msgid ""
+"Just like the last example, you can pause the rendering with the spacebar "
+"and continue by pressing the spacebar a second time. You can stop the "
+"updating to inspect the pointers written to the screen."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:374
+msgid ""
+"As you can see in the example image above, we have one image with all of the "
+"pointers the same and then another image with the same pointers as the first "
+"image for the first two entries, but the last pointer on the second image is "
+"different. To understand why this is happening consider the graph's topology:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:376
+msgid ""
+"camera_node -> watermark_node -> image_view_node\n"
+"                              -> image_view_node2"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:381
+msgid ""
+"The link between the ``camera_node`` and the ``watermark_node`` can use the "
+"same pointer without copying because there is only one intra process "
+"subscription to which the message should be delivered. But for the link "
+"between the ``watermark_node`` and the two image view nodes the relationship "
+"is one to many, so if the image view nodes were using ``unique_ptr`` "
+"callbacks then it would be impossible to deliver the ownership of the same "
+"pointer to both. It can be, however, delivered to one of them. Which one "
+"would get the original pointer is not defined, but instead is simply the "
+"last to be delivered."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:383
+msgid ""
+"Note that the image view nodes are not subscribed with ``unique_ptr`` "
+"callbacks. Instead they are subscribed with ``const shared_ptr``\\ s. This "
+"means the system deliveres the same ``shared_ptr`` to both callbacks. When "
+"the first intraprocess subscription is handled, the internally stored "
+"``unique_ptr`` is promoted to a ``shared_ptr``. Each of the callbacks will "
+"receive shared ownership of the same message."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:386
+msgid "Pipeline with interprocess viewer"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:388
+msgid ""
+"One other important thing to get right is to avoid interruption of the intra "
+"process zero-copy behavior when interprocess subscriptions are made. To test "
+"this we can run the first image pipeline demo, "
+"``image_pipeline_all_in_one``, and then run an instance of the stand alone "
+"``image_view_node`` (don't forget to prefix them with ``ros2 run "
+"intra_process_demo`` in the terminal). This will look something like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:396
+msgid ""
+"It's hard to pause both images at the same time so the images may not line "
+"up, but the important thing to notice is that the "
+"``image_pipeline_all_in_one`` image view shows the same address for each "
+"step. This means that the intra process zero-copy is preserved even when an "
+"external view is subscribed as well. You can also see that the interprocess "
+"image view has different process IDs for the first two lines of text and the "
+"process ID of the standalone image viewer in the third line of text."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:399
+msgid "Looking forward"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:401
+msgid ""
+"These demos are the foundation for some cool new features on which we're "
+"actively working, but right now some things are missing."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:404
+msgid "Room for Improvement"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:406
+msgid ""
+"Let's start by looking at what we at OSRF know we can do better or "
+"differently and move on from there."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:409
+msgid "Performance, Performance, Performance"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:411
+msgid ""
+"This is a very rough first draft. There is a lot of room for improvement, "
+"even beyond what has been enumerated above. We'll start to improve "
+"performance as we dig into the details of the system, build up a better "
+"understanding of exactly what our middleware vendors are doing, and try "
+"alternative strategies for implementing intra process."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:414
+msgid "Latching"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:416
+msgid ""
+"We haven't fully implemented the concept of latching yet, but it's very "
+"likely we'll need to adjust the implementation of the intra process manager "
+"to account for the fact that late intra process subscriptions should be "
+"delivered to as well. There are several options on how to do that, and we'll "
+"do some testing and figure out what to do in the near future."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:419
+msgid "Beyond Pub/Sub"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:421
+msgid ""
+"We've not done any of this with Services, Parameters, or Actions, but we "
+"will."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:424
+msgid "Type Masquerading"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:426
+msgid ""
+"This is one of the coolest upcoming features that we didn't get to in this "
+"demo. Imagine the image pipeline demo above, but rather than passing "
+"``sensor_msgs/Image``\\ s around, you're publishing and subscribing to ``cv::"
+"Mat`` objects. This exists in ROS 1, see: https://wiki.ros.org/roscpp/"
+"Overview/MessagesSerializationAndAdaptingTypes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:429
+msgid ""
+"In ROS 1, this is accomplished by serializing/deserializing the third party "
+"type when handling it. This means that with intra process you'll be "
+"serializing when passing it between nodelets. But in ROS 2 we want to do it "
+"in the most performant way possible. Similar to how these demos have been "
+"demonstrating that an instance of a message can be used through the whole "
+"pipeline in certain cases, we'd like to do the same with third party types. "
+"So conceivably you could have the image pipeline with a single ``cv::Mat`` "
+"which never gets copied by the middleware. To do this requires some "
+"additional intelligence in the intra process manager, but we've already got "
+"a design and some proof of concepts in the works."
+msgstr ""
+
+#: ../../../source/Tutorials/Intra-Process-Communication.rst:431
+msgid ""
+"Given these features, hopefully there will come a point where you can trust "
+"the middleware to handle your data as efficiently as is possible. This will "
+"allow you to write performant algorithms without sacrificing modularity or "
+"introspection!"
+msgstr ""
