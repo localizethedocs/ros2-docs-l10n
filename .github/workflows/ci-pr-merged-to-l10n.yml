@@ -1,0 +1,90 @@
+# Distributed under the OSI-approved BSD 3-Clause License.
+# See accompanying file LICENSE-BSD for details.
+
+name: ci-pr-merged-to-l10n
+
+on:
+  pull_request:
+    branches:
+      - l10n
+    types:
+      - closed
+
+jobs:
+  precondition:
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Print Contexts/Inputs/Variables/Secrets
+        shell: bash
+        run: |
+          echo "[Contexts]"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.base_ref = ${{ github.base_ref }}"
+          echo "github.head_ref = ${{ github.head_ref }}"
+          echo "github.workflow = ${{ github.workflow }}"
+          echo "github.workflow_ref = ${{ github.workflow_ref }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "github.event.number = ${{ github.event.number }}"
+          echo "github.event.action = ${{ github.event.action }}"
+          echo "github.event.pull_request.base.ref = ${{ github.event.pull_request.base.ref }}"
+          echo "github.event.pull_request.head.ref = ${{ github.event.pull_request.head.ref }}"
+          echo "github.event.pull_request.merged = ${{ github.event.pull_request.merged }}"
+          echo "github.event.pull_request.labels.*.name = ${{ toJson(github.event.pull_request.labels.*.name) }}"
+          echo "[Inputs]"
+          echo "[Variables]"
+          echo "vars.RUNNER = ${{ vars.RUNNER }}"
+          echo "[Secrets]"
+          echo "secrets.ACTOR_GITHUB_TOKEN = ${{ secrets.ACTOR_GITHUB_TOKEN }}"
+      - name: Check Required Variables
+        shell: bash
+        run: |
+          REQUIRED_VARIABLES_EXIST=true
+          if [[ -z "${{ vars.RUNNER }}" ]]; then
+            echo "vars.RUNNER is missing."
+            REQUIRED_VARIABLES_EXIST=false
+          fi
+          if [[ "${REQUIRED_VARIABLES_EXIST}" == "false" ]]; then
+            echo "Error: Some variables are missing." >&2
+            exit 1
+          fi
+      - name: Check Required Secrets
+        shell: bash
+        run: |
+          REQUIRED_SECRETS_EXIST=true
+          if [[ -z "${{ secrets.ACTOR_GITHUB_TOKEN }}" ]]; then
+            echo "secrets.ACTOR_GITHUB_TOKEN is missing."
+            REQUIRED_SECRETS_EXIST=false
+          fi
+          if [[ "${REQUIRED_SECRETS_EXIST}" == "false" ]]; then
+            echo "Error: Some secrets are missing." >&2
+            exit 1
+          fi
+
+  dispatch:
+    needs: [ 'precondition' ]
+    if: ${{ ( ( github.event_name == 'pull_request' ) &&
+              ( github.event.pull_request.merged == true ) &&
+              ( contains(github.event.pull_request.labels.*.name, 'gettext') ||
+                contains(github.event.pull_request.labels.*.name, 'crowdin') ) ) }}
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Get VERSION from the Pull Request Title
+        id: gvprt
+        uses: localizethedocs/ci-common/.github/actions/get-version-from-pull-request-title@main
+        with:
+          pull-request-title: ${{ github.event.pull_request.title }}
+
+      - name: Dispatch the 'pr-merged-to-l10n' event to the repository
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.ACTOR_GITHUB_TOKEN }}
+          event-type: pr-merged-to-l10n
+          client-payload: |
+            {
+              "MODE" : "single",
+              "VERSION" : "${{ steps.gvprt.outputs.VERSION }}",
+              "LANGUAGE" : "all",
+              "GETTEXT" : "${{ contains(github.event.pull_request.labels.*.name, 'gettext') }}",
+              "CROWDIN" : "${{ contains(github.event.pull_request.labels.*.name, 'crowdin') }}"
+            }
