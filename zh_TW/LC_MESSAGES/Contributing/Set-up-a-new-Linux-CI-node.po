@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation eloquent\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:6
+msgid "How to setup Linux Jenkins nodes"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:10
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:12
+msgid ""
+"This page describes how to set up a Linux machine for ROS 2 CI jobs using "
+"AWS."
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:15
+msgid "Creating an AWS instance"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:17
+msgid ""
+"In short, use the company AWS account to launch an instance running based "
+"off the official Ubuntu 16.04 AMI."
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:20
+msgid "**AMI:** Ubuntu 16.04"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:21
+msgid "**Region:** N. California us-west-1a"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:22
+msgid "**Type:** c4.large"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:23
+msgid "**Storage:** EBS 1TB"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:24
+msgid "**Security Group:** ``ROS 2 Jenkins Build Machines``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:25
+msgid ""
+"**Key pair:** Create a new pair with a descriptive name like "
+"``ci_ros2_linux_4``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:27
+msgid ""
+"Make sure to save it with the other credentials so others can access this "
+"machine"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:29
+msgid ""
+"Give the instance a descriptive name like ``ROS 2 CI (linux 4)``. Record the "
+"IP address `here <https://docs.google.com/spreadsheets/"
+"d/1OSwqbE3qPF8v3HSMr8JOaJ6r4QOiQFk6pwgaudXVE-4/edit#gid=0>`__ (private)."
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:33
+msgid "Setting up the machine"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:35
+msgid ""
+"In short, make sure the jenkins master can ssh into the new node and run "
+"docker."
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:38
+msgid "Use the key pair to log into the new node"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:40
+msgid "``ssh -i ci_ros2_linux_4.pem ubuntu@IPADDRESS``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:43
+msgid "Run the following commands"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:45
+msgid ""
+"sudo apt update\n"
+"sudo apt install -y git\n"
+"sudo apt install -y openjdk-8-jre-headless\n"
+"sudo bash -c 'echo \"deb http://repositories.ros.org/ubuntu/testing/ "
+"`lsb_release -cs` main\" > /etc/apt/sources.list.d/ros-latest.list'\n"
+"sudo bash -c 'curl --silent https://raw.githubusercontent.com/ros/rosdistro/"
+"master/ros.asc |sudo apt-key add -'\n"
+"sudo apt update\n"
+"sudo apt install -y python-vcstool\n"
+"curl -fsSL https://get.docker.com/ | sh\n"
+"sudo adduser --disabled-password jenkins\n"
+"sudo usermod -aG docker jenkins\n"
+"sudo service docker start"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:60
+msgid "Make sure the jenkins user can run docker"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:62
+msgid ""
+"sudo su jenkins\n"
+"docker run hello-world"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:67
+msgid "As the jenkins user, add the master's public key to ``authorized_keys``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:69
+msgid ""
+"SSH into the jenkins master and get the contents of the public key (probably "
+"at /var/lib/jenkins/.ssh/id_rsa.pub, or wherever the home directory of the "
+"jenkins user is)"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:70
+msgid ""
+"SSH into the new slave and add that key to the authorized keylist .. code-"
+"block:: bash"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:73
+msgid ""
+"# on new slave cd /home/jenkins/ mkdir .ssh chmod 700 .ssh touch .ssh/"
+"authorized_keys chmod 600 .ssh/authorized_keys # Paste id_rsa.pub from the "
+"jenkins master into this file vim .ssh/authorized_keys"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:83
+msgid "Adding it to the master"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:86
+msgid "Add a new agent to https://ci.ros2.org/computer/"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:88
+msgid "**Number of executors:** 1"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:89
+msgid "**Remote root directory:** /home/jenkins"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:90
+msgid "**Labels:** ``linux``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:91
+msgid "**Launch method:** Launch slave agents via ssh"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:93
+msgid "**Host:** Ip address of new node"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:94
+msgid "**Credentials:** ``Jenkins``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:95
+msgid ""
+"**Host Key Verification Strategy:** ``Manually provided key verification "
+"strategy``"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:97
+msgid ""
+"**SSH Key** paste the contents of ``/etc/ssh/ssh_host_rsa_key.pub`` from the "
+"new node here."
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:99
+msgid "**Node Properties:**"
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:101
+msgid ""
+"Check ``Notify when Node online status changes`` and set the email to the "
+"ros2 buildfarm google group."
+msgstr ""
+
+#: ../../../source/Contributing/Set-up-a-new-Linux-CI-node.rst:103
+msgid "Launch the agent on the new node"
+msgstr ""
