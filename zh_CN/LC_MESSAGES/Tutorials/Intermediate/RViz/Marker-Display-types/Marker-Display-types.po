@@ -1,0 +1,564 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:2
+msgid "Marker: Display types"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:4
+msgid ""
+"**Goal:** This tutorial explains the basic Marker types and how to use them."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:8
+msgid "**Time:** 15 Minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:13
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:16
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:17
+msgid ""
+"The Markers display allows programmatic addition of various primitive shapes "
+"to the 3D view by sending a `visualization_msgs/msg/Marker <https://github."
+"com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/Marker.msg>`_ "
+"or `visualization_msgs/msg/MarkerArray <https://github.com/ros2/"
+"common_interfaces/blob/rolling/visualization_msgs/msg/MarkerArray.msg>`_ "
+"message."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:28
+msgid "The Marker Message"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:30
+msgid "1 Example Usage (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:31
+msgid ""
+"First we will create a simple publisher node that publishes ``Marker`` "
+"messages from the ``visualization_messages`` package to the "
+"``visualization_marker`` topic:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:33
+msgid ""
+"auto marker_pub = node->create_publisher<visualization_msgs::msg::"
+"Marker>(\"visualization_marker\", 1);"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:37
+msgid ""
+"After that it is as simple as filling out a `visualization_msgs/msg/Marker "
+"<https://github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/"
+"msg/Marker.msg>`_ message and publishing it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:40
+msgid ""
+"visualization_msgs::msg::Marker marker;\n"
+"\n"
+"marker.header.frame_id = \"/my_frame\";\n"
+"marker.header.stamp = rclcpp::Clock().now();\n"
+"\n"
+"marker.ns = \"basic_shapes\";\n"
+"marker.id = 0;\n"
+"\n"
+"marker.type = visualization_msgs::msg::Marker::SPHERE;\n"
+"\n"
+"marker.action = visualization_msgs::msg::Marker::ADD;\n"
+"\n"
+"marker.pose.position.x = 0;\n"
+"marker.pose.position.y = 0;\n"
+"marker.pose.position.z = 0;\n"
+"marker.pose.orientation.x = 0.0;\n"
+"marker.pose.orientation.y = 0.0;\n"
+"marker.pose.orientation.z = 0.0;\n"
+"marker.pose.orientation.w = 1.0;\n"
+"\n"
+"marker.scale.x = 1.0;\n"
+"marker.scale.y = 1.0;\n"
+"marker.scale.z = 1.0;\n"
+"\n"
+"marker.color.r = 0.0f;\n"
+"marker.color.g = 1.0f;\n"
+"marker.color.b = 0.0f;\n"
+"marker.color.a = 1.0;   // Don't forget to set the alpha!\n"
+"\n"
+"// only if using a MESH_RESOURCE marker type:\n"
+"marker.mesh_resource = \"package://pr2_description/meshes/base_v0/base."
+"dae\";\n"
+"\n"
+"marker.lifetime = rclcpp::Duration::from_nanoseconds(0);\n"
+"\n"
+"marker_pub->publish(marker);"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:78
+msgid ""
+"There is also a `visualization_msgs/msg/MarkerArray <https://github.com/ros2/"
+"common_interfaces/blob/rolling/visualization_msgs/msg/MarkerArray.msg>`_ "
+"message, which lets you publish many markers at once."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:81
+msgid "2 Message Parameters"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:83
+msgid ""
+"The Marker message type is defined in `ROS 2 Common Interfaces <https://"
+"github.com/ros2/common_interfaces/tree/rolling/visualization_msgs/msg>`_ "
+"package. The messages in this package include comments that are helpful in "
+"understanding each of the fields in the message."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:86
+msgid "``ns``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:88
+msgid "Namespace for these markers. This plus the id form a unique identifier."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:91
+msgid "``id``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:93
+msgid ""
+"Unique id assigned to this marker. It is your responsibility to keep these "
+"unique within your namespace."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:96
+msgid "``type``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:98
+msgid ""
+"Type of marker (Arrow, Sphere, ...). The available types are specified in "
+"the message definition."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:101
+msgid "``action``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:103
+msgid "0 = add/modify, 1 = (deprecated), 2 = delete, 3 = deleteall"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:105
+msgid "``pose``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:107
+msgid ""
+"Pose marker, specified as x/y/z position and x/y/z/w quaternion orientation."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:109
+msgid "``scale``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:111
+msgid ""
+"Scale of the marker. Applied before the position/orientation. A scale of [1, "
+"1, 1] means the object will be 1m by 1m by 1m."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:115
+msgid "``color``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:117
+msgid ""
+"Color of the object, specified as r/g/b/a, with values in the range of [0, "
+"1]. The, ``a`` or alpha value, denotes the opacity of the marker with 1 "
+"indicating opaque and 0 indicating completely transparent. The default value "
+"is 0, or completely transparent. **You must set the a value of your marker "
+"to a non-zero value or it will be transparent by default!**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:122
+msgid "``points``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:124
+msgid ""
+"Only used for markers of type ``Points``, ``Line strips``, and ``Line`` / "
+"``Cube`` / ``Sphere`` -lists. It's also used for the Arrow type, if you want "
+"to specify the arrow start and end points. This entry represents a list of "
+"``geometry_msgs/Point`` types for the center or each marker object you would "
+"like rendered."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:128
+msgid "``colors``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:130
+msgid ""
+"This field is only used for markers that use the points member. This field "
+"specifies per-vertex color r/g/b/ color  (no alpha yet) for each entry in "
+"``points``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:133
+msgid "``lifetime``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:135
+msgid ""
+"A `duration message value <https://docs.ros.org/en/rolling/p/"
+"builtin_interfaces/msg/Duration.html>`_ used to automatically delete the "
+"marker after this period of time. The countdown resets if another marker of "
+"the same ``namespace`` / ``id`` is received."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:138
+msgid "``frame_locked``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:140
+msgid ""
+"Without the ``frame_locked`` parameter the marker will be placed based on "
+"the current transform and will stay there even if the given transform "
+"changes later. Setting this parameter tells RViz to retransform the marker "
+"to the new current location of the specified frame on every update cycle."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:143
+msgid "``text``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:145
+msgid "The text string used for the ``TEXT_VIEW_FACING`` marker type"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:147
+msgid "``mesh_resource``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:149
+msgid ""
+"The resource location for the ``MESH_RESOURCE`` marker type. Can be any mesh "
+"type supported by RViz (``.stl`` or Ogre ``.mesh`` in 1.0, with the addition "
+"of COLLADA in 1.1). The format is the URI-form used by `resource_retriever "
+"<https://github.com/ros/resource_retriever/tree/rolling>`_, including the "
+"package:// syntax."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:154
+msgid "3 Object types"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:159
+msgid "3.1 Arrow (ARROW=0)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:163
+msgid ""
+"The arrow type provides two different ways of specifying where the arrow "
+"should begin/end:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:165
+msgid "``Position/Orientation``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:167
+msgid ""
+"Pivot point is around the tip of its tail. Identity orientation points it "
+"along the +X axis. ``scale.x`` is the arrow length, ``scale.y`` is the arrow "
+"width and ``scale.z`` is the arrow height."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:171
+msgid "``Start/End Points``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:173
+msgid ""
+"You can also specify a start/end point for the arrow, using the points "
+"member. If you put points into the points member, it will assume you want to "
+"do things this way."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:176
+msgid ""
+"The point at index 0 is assumed to be the start point, and the point at "
+"index 1 is assumed to be the end."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:177
+msgid ""
+"``scale.x`` is the shaft diameter, and ``scale.y`` is the head diameter. If "
+"``scale.z`` is not zero, it specifies the head length."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:181
+msgid "3.2 Cube (CUBE=1)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:185
+msgid "Pivot point is at the center of the cube."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:188
+msgid "3.3 Sphere (SPHERE=2)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:192
+msgid "Pivot point is at the center of the sphere."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:194
+msgid ""
+"``scale.x`` is diameter in x direction, ``scale.y`` in y direction, ``scale."
+"z`` in z direction. By setting these to different values you get an "
+"ellipsoid instead of a sphere."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:198
+msgid "3.4 Cylinder (CYLINDER=3)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:202
+msgid "Pivot point is at the center of the cylinder."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:204
+msgid ""
+"``scale.x`` is diameter in x direction, ``scale.y`` in y direction, by "
+"setting these to different values you get an ellipse instead of a circle. "
+"Use ``scale.z`` to specify the height."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:208
+msgid "3.5 Line Strip (LINE_STRIP=4)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:212
+msgid ""
+"Line strips use the points member of the `visualization_msgs/msg/Marker "
+"<https://github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/"
+"msg/Marker.msg>`_ message. It will draw a line between every two consecutive "
+"points, so 0-1, 1-2, 2-3, 3-4, 4-5..."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:215
+msgid ""
+"Line strips also have some special handling for scale: only ``scale.x`` is "
+"used and it controls the width of the line segments."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:217
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:229
+msgid ""
+"Note that ``pose`` is still used (the points in the line will be transformed "
+"by them), and the lines will be correct relative to the ``frame id`` "
+"specified in the header."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:220
+msgid "3.6 Line List (LINE_LIST=5)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:224
+msgid ""
+"Line lists use the points member of the `visualization_msgs/msg/Marker "
+"<https://github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/"
+"msg/Marker.msg>`_ message. It will draw a line between each pair of points, "
+"so 0-1, 2-3, 4-5, ..."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:227
+msgid ""
+"Line lists also have some special handling for scale: only ``scale.x`` is "
+"used and it controls the width of the line segments."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:232
+msgid "3.7 Cube List (CUBE_LIST=6)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:236
+msgid ""
+"A cube list is a list of cubes with all the same properties except their "
+"positions. Using this object type instead of a `visualization_msgs/msg/"
+"MarkerArray <https://github.com/ros2/common_interfaces/blob/rolling/"
+"visualization_msgs/msg/MarkerArray.msg>`_ allows RViz to batch-up rendering, "
+"which causes them to render much faster. The caveat is that they all must "
+"have the same scale."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:241
+msgid ""
+"The ``points`` member of the `visualization_msgs/msg/Marker <https://github."
+"com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/Marker.msg>`_ "
+"message is used for the position of each cube."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:244
+msgid "3.8 Sphere List (SPHERE_LIST=7)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:248
+msgid ""
+"A sphere list is a list of spheres with all the same properties except their "
+"positions. Using this object type instead of a `visualization_msgs/msg/"
+"MarkerArray <https://github.com/ros2/common_interfaces/blob/rolling/"
+"visualization_msgs/msg/MarkerArray.msg>`_ allows RViz to batch-up rendering, "
+"which causes them to render much faster. The caveat is that they all must "
+"have the same scale."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:253
+msgid ""
+"The ``points`` member of the `visualization_msgs/msg/Marker <https://github."
+"com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/Marker.msg>`_ "
+"message is used for the position of each sphere."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:255
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:266
+msgid ""
+"Note that ``pose`` is still used (the ``points`` in the line will be "
+"transformed by them), and the lines will be correct relative to the ``frame "
+"id`` specified in the header."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:258
+msgid "3.9 Points (POINTS=8)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:262
+msgid ""
+"Uses the ``points`` member of the `visualization_msgs/msg/Marker <https://"
+"github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/Marker."
+"msg>`_ message."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:264
+msgid ""
+"``Points`` have some special handling for scale: ``scale.x`` is point width, "
+"``scale.y`` is point height"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:269
+msgid "3.10 View-Oriented Text (TEXT_VIEW_FACING=9)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:273
+msgid ""
+"This marker displays text in a 3D spot in the world. The text always appears "
+"oriented correctly for the RViZ user to see the included text. Uses the "
+"``text`` field in the marker."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:277
+msgid ""
+"Only ``scale.z`` is used. ``scale.z`` specifies the height of an uppercase "
+"\"A\"."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:281
+msgid "3.11 Mesh Resource (MESH_RESOURCE=10)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:285
+msgid ""
+"Uses the ``mesh_resource`` field in the marker. Can be any mesh type "
+"supported by RViz (binary ``.stl`` or Ogre ``.mesh`` in 1.0, with the "
+"addition of COLLADA (``.dae``) in 1.1). The format is the URI-form used by "
+"`resource_retriever <https://github.com/ros/resource_retriever/tree/"
+"rolling>`_, including the ``package://`` syntax."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:289
+msgid "An example of a mesh an its use is:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:291
+msgid ""
+"marker.type = visualization_msgs::Marker::MESH_RESOURCE;\n"
+"marker.mesh_resource = \"package://pr2_description/meshes/base_v0/base.dae\";"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:296
+msgid ""
+"Scale on a mesh is relative. A scale of (1.0, 1.0, 1.0) means the mesh will "
+"display as the exact size specified in the mesh file. A scale of (1.0, 1.0, "
+"2.0) means the mesh will show up twice as tall, but the same width/depth."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:300
+msgid ""
+"If the ``mesh_use_embedded_materials`` flag is set to true and the mesh is "
+"of a type which supports embedded materials (such as COLLADA), the material "
+"defined in that file will be used instead of the color defined in the marker."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:303
+msgid ""
+"Since version [1.8], even when ``mesh_use_embedded_materials`` is true, if "
+"the marker ``color`` is set to anything other than ``r=0``, ``g=0``, "
+"``b=0``, ``a=0`` the marker ``color`` and ``alpha`` will be used to tint the "
+"mesh with the embedded material."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:307
+msgid "3.12 Triangle List (TRIANGLE_LIST=11)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:311
+msgid ""
+"Uses the points and optionally colors members. Every set of 3 points is "
+"treated as a triangle, so indices 0-1-2, 3-4-5, etc."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:314
+msgid ""
+"Note that ``pose`` and ``scale`` are still used (the points in the line will "
+"be transformed by them), and the lines will be correct relative to the "
+"``frame id`` specified in the header."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:318
+msgid "4 Rendering Complexity Notes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.rst:319
+msgid ""
+"A single marker is always less expensive to render than many markers. For "
+"example, a single cube list can handle thousands of cubes, where we will not "
+"be able to render thousands of individual cube markers."
+msgstr ""
