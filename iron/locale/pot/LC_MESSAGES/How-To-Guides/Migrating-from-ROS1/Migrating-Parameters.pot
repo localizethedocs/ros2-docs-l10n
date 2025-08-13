@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation iron\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:8
+msgid "Migrating Parameters"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:14
+msgid ""
+"In ROS 1, parameters are associated with a central server that allowed "
+"retrieving parameters at runtime through the use of the network APIs. In ROS "
+"2, parameters are associated per node and are configurable at runtime with "
+"ROS services."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:17
+msgid ""
+"See `ROS 2 Parameter design document <https://design.ros2.org/articles/"
+"ros_parameters.html>`_ for more details about the system model."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:19
+msgid ""
+"See :doc:`ROS 2 CLI usage <../../Tutorials/Beginner-CLI-Tools/Understanding-"
+"ROS2-Parameters/Understanding-ROS2-Parameters>` for a better understanding "
+"of how the CLI tools work and its differences with ROS 1 tooling."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:22
+msgid "Migrating YAML Parameter Files"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:24
+msgid "This guide describes how to adapt ROS 1 parameters files for ROS 2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:27
+msgid "YAML file example"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:29
+msgid ""
+"YAML is used to write parameters files in both ROS 1 and ROS 2. The main "
+"difference in ROS 2 is that node names must be used to address parameters. "
+"In addition to the fully qualified node name, we use the key "
+"\"ros__parameters\" to signal the start of parameters for the node."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:34
+msgid "For example, here is a parameters file in ROS 1:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:36
+msgid ""
+"lidar_name: foo\n"
+"lidar_id: 10\n"
+"ports: [11312, 11311, 21311]\n"
+"debug: true"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:43
+msgid ""
+"Let's assume that the first two parameters are for a node named ``/lidar_ns/"
+"lidar_node_name``, the next parameter is for a node named ``/imu``, and the "
+"last parameter we want to set on both nodes."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:45
+msgid "We would construct our ROS 2 parameters file as follows:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:47
+msgid ""
+"/lidar_ns:\n"
+"  lidar_node_name:\n"
+"    ros__parameters:\n"
+"      lidar_name: foo\n"
+"      id: 10\n"
+"imu:\n"
+"  ros__parameters:\n"
+"    ports: [2438, 2439, 2440]\n"
+"/**:\n"
+"  ros__parameters:\n"
+"    debug: true"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:61
+msgid ""
+"Note the use of wildcards (``/**``) to indicate that the parameter ``debug`` "
+"should be set on any node in any namespace."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:64
+msgid "Feature parity"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:66
+msgid "Some features of ROS 1 parameters files do not exist in ROS 2:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:68
+msgid ""
+"Mixed types in a list is not supported yet (`related issue <https://github."
+"com/ros2/rcl/issues/463>`_)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.rst:69
+msgid "``deg`` and ``rad`` substitutions are not supported"
+msgstr ""
