@@ -60,6 +60,9 @@
 <a href="http://creativecommons.org/licenses/by-sa/4.0/" title="License: CC-BY-SA-4.0" target="_blank">
   <img alt="License: CC-BY-SA-4.0" src="https://img.shields.io/badge/License-CC--BY--SA--4.0-blue.svg?logo=creativecommons&style=flat&logoColor=white" />
 </a>
+<a href="https://gitcode.com/localizethedocs/ros2-docs-l10n/stargazers" title="GitCode GStars" target="_blank">
+  <img alt="GitCode GStars" src="https://gitcode.com/localizethedocs/ros2-docs-l10n/star/badge.svg" />
+</a>
 </div>
 
 <p></p>
