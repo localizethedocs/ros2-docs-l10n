@@ -7,10 +7,10 @@
 </div>
 
 <div align="center">
-<h1 id="localization-of-ros2-documentation">Localization of ROS 2 Documentation</h1>
+<h1 id="localization-of-ros2-documentation">ROS 2 文件的在地化</h1>
 </div>
 
-<details><summary><strong>Switch Languages</strong></summary>
+<details><summary><strong>切換語言</strong></summary>
 <p></p>
 <ul>
   <li><a href="./README.md"><code>en_US</code> : English</a></li>
@@ -19,22 +19,22 @@
 </ul>
 </details>
 
-<h2 id="table-of-contents">Table of Contents</h2>
+<h2 id="table-of-contents">目次表</h2>
 
 <ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#progress-of-translations">Progress of Translations</a></li>
-  <li><a href="#preview-translations">Preview Translations</a></li>
-  <li><a href="#maintainers">Maintainers</a></li>
-  <li><a href="#support-this-project">Support this Project</a></li>
-  <li><a href="#sponsorship">Sponsorship</a></li>
-  <li><a href="#code-contributors">Code Contributors</a></li>
-  <li><a href="#financial-contributors">Financial Contributors</a></li>
-  <li><a href="#translation-disclaimer">Translation Disclaimer</a></li>
-  <li><a href="#licenses">Licenses</a></li>
+  <li><a href="#introduction">簡介</a></li>
+  <li><a href="#progress-of-translations">翻譯進度</a></li>
+  <li><a href="#preview-translations">預覽翻譯</a></li>
+  <li><a href="#maintainers">維護者</a></li>
+  <li><a href="#support-this-project">支援該專案</a></li>
+  <li><a href="#sponsorship">贊助</a></li>
+  <li><a href="#code-contributors">程式碼貢獻者</a></li>
+  <li><a href="#financial-contributors">財務貢獻者</a></li>
+  <li><a href="#translation-disclaimer">翻譯免責聲明</a></li>
+  <li><a href="#licenses">授權條款</a></li>
 </ul>
 
-<h2 id="introduction"><a href="#table-of-contents">Introduction</a></h2>
+<h2 id="introduction"><a href="#table-of-contents">簡介</a></h2>
 
 <div align="center"><a href="https://github.com/localizethedocs/ros2-docs-l10n/stargazers" title="GitHub Stars" target="_blank">
   <img alt="GitHub Stars" src="https://img.shields.io/github/stars/localizethedocs/ros2-docs-l10n.svg?logo=github&style=flat&color=blue" />
@@ -73,13 +73,13 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>Project Links</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>專案連結</div></th>
     </tr>
   </thead>
   <tbody>
     <!-- Preview -->
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Preview</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>預覽翻譯</div></th>
       <td rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div><a href="https://projects.localizethedocs.org/ros2-docs-l10n" target="_blank">ros2-docs-l10n</a></div>
       </td>
@@ -227,7 +227,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 </table>
 </div>
 
-<h2 id="progress-of-translations"><a href="#table-of-contents">Progress of Translations</a></h2>
+<h2 id="progress-of-translations"><a href="#table-of-contents">翻譯進度</a></h2>
 
 <div align="center">
 <table>
@@ -236,14 +236,14 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Locale</div></th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div>
-          <div>English Name</div>
-          <div>Native Name</div>
+          <div>英文名稱</div>
+          <div>在地名稱</div>
         </div>
       </th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div>
-          <div>Translated</div>
-          <div>Proofread</div>
+          <div>已翻譯</div>
+          <div>已校對</div>
         </div>
       </th>
     </tr>
@@ -288,7 +288,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <div align="center"><a href="https://localizethedocs.crowdin.com/ros2-docs-l10n"><img src="https://badges.awesome-crowdin.com/translation-200032568-5.png"></a>
 </div>
 
-<h2 id="preview-translations"><a href="#table-of-contents">Preview Translations</a></h2>
+<h2 id="preview-translations"><a href="#table-of-contents">預覽翻譯</a></h2>
 
 You can preview translations in <a href="https://projects.localizethedocs.org/ros2-docs-l10n">GitHub Pages</a>:
 
@@ -296,8 +296,8 @@ You can preview translations in <a href="https://projects.localizethedocs.org/ro
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Language</div></th>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub Pages</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>語言</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub 網頁</div></th>
     </tr>
   </thead>
   <tbody>
@@ -328,7 +328,7 @@ You can preview translations in <a href="https://projects.localizethedocs.org/ro
 
 You can switch to other available languages and versions by the flyout navigation menu.
 
-<h2 id="maintainers"><a href="#table-of-contents">Maintainers</a></h2>
+<h2 id="maintainers"><a href="#table-of-contents">維護者</a></h2>
 
 This project is currently maintained by:
 
