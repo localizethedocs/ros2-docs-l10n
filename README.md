@@ -70,6 +70,9 @@
 
 The goal of this project is to translate the ROS 2 documentation into multiple languages. Translations are contributed via the Crowdin platform and automatically synchronized with the GitHub repository. Translations can be previewed on GitHub Pages.
 
+> [!NOTE]
+> This project is not officially maintained by the <a href="https://www.ros.org/">ROS team</a>. Please note that all translations are done by volunteers and the community. If you find any inaccuracies, always refer to the <a href="https://projects.localizethedocs.org/ros2-docs-l10n/en-us">English documentation</a> or the <a href="https://github.com/ros2/ros2_documentation">upstream project</a> for the most reliable information.
+
 <div align="center">
 <table>
   <thead>
