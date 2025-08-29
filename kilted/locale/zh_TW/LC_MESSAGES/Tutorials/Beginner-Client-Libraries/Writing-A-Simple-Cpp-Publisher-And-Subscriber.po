@@ -100,6 +100,7 @@ msgstr ""
 msgid ""
 "$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 cpp_pubsub"
 msgstr ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 cpp_pubsub"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:51
 msgid ""
@@ -136,6 +137,8 @@ msgid ""
 "$ wget -O publisher_lambda_function.cpp https://raw.githubusercontent.com/"
 "ros2/examples/rolling/rclcpp/topics/minimal_publisher/lambda.cpp"
 msgstr ""
+"$ wget -O publisher_lambda_function.cpp https://raw.githubusercontent.com/"
+"ros2/examples/rolling/rclcpp/topics/minimal_publisher/lambda.cpp"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:70
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:311
@@ -163,6 +166,8 @@ msgid ""
 "$ curl -sk https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/"
 "topics/minimal_publisher/lambda.cpp -o publisher_lambda_function.cpp"
 msgstr ""
+"$ curl -sk https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/"
+"topics/minimal_publisher/lambda.cpp -o publisher_lambda_function.cpp"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:84
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:325
@@ -174,6 +179,8 @@ msgid ""
 "$ curl https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/topics/"
 "minimal_publisher/lambda.cpp -o publisher_lambda_function.cpp"
 msgstr ""
+"$ curl https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/topics/"
+"minimal_publisher/lambda.cpp -o publisher_lambda_function.cpp"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:90
 msgid ""
@@ -418,6 +425,8 @@ msgid ""
 "add_executable(talker src/publisher_lambda_function.cpp)\n"
 "target_link_libraries(talker PUBLIC rclcpp::rclcpp ${std_msgs_TARGETS})"
 msgstr ""
+"add_executable(talker src/publisher_lambda_function.cpp)\n"
+"target_link_libraries(talker PUBLIC rclcpp::rclcpp ${std_msgs_TARGETS})"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:258
 msgid ""
@@ -431,6 +440,9 @@ msgid ""
 "  talker\n"
 "  DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
+"install(TARGETS\n"
+"  talker\n"
+"  DESTINATION lib/${PROJECT_NAME})"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:266
 msgid ""
@@ -465,6 +477,30 @@ msgid ""
 "\n"
 "ament_package()"
 msgstr ""
+"cmake_minimum_required(VERSION 3.5)\n"
+"project(cpp_pubsub)\n"
+"\n"
+"# Default to C++14\n"
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 14)\n"
+"endif()\n"
+"\n"
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()\n"
+"\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)\n"
+"\n"
+"add_executable(talker src/publisher_lambda_function.cpp)\n"
+"target_link_libraries(talker PUBLIC rclcpp::rclcpp ${std_msgs_TARGETS})\n"
+"\n"
+"install(TARGETS\n"
+"  talker\n"
+"  DESTINATION lib/${PROJECT_NAME})\n"
+"\n"
+"ament_package()"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:295
 msgid ""
@@ -489,18 +525,24 @@ msgid ""
 "$ wget -O subscriber_lambda_function.cpp https://raw.githubusercontent.com/"
 "ros2/examples/rolling/rclcpp/topics/minimal_subscriber/lambda.cpp"
 msgstr ""
+"$ wget -O subscriber_lambda_function.cpp https://raw.githubusercontent.com/"
+"ros2/examples/rolling/rclcpp/topics/minimal_subscriber/lambda.cpp"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:321
 msgid ""
 "$ curl -sk https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/"
 "topics/minimal_subscriber/lambda.cpp -o subscriber_lambda_function.cpp"
 msgstr ""
+"$ curl -sk https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/"
+"topics/minimal_subscriber/lambda.cpp -o subscriber_lambda_function.cpp"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:327
 msgid ""
 "$ curl https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/topics/"
 "minimal_subscriber/lambda.cpp -o subscriber_lambda_function.cpp"
 msgstr ""
+"$ curl https://raw.githubusercontent.com/ros2/examples/rolling/rclcpp/topics/"
+"minimal_subscriber/lambda.cpp -o subscriber_lambda_function.cpp"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:331
 msgid "Check to ensure that these files exist:"
@@ -642,6 +684,13 @@ msgid ""
 "  listener\n"
 "  DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
+"add_executable(listener src/subscriber_lambda_function.cpp)\n"
+"target_link_libraries(listener PUBLIC rclcpp::rclcpp ${std_msgs_TARGETS})\n"
+"\n"
+"install(TARGETS\n"
+"  talker\n"
+"  listener\n"
+"  DESTINATION lib/${PROJECT_NAME})"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:425
 msgid ""
@@ -650,7 +699,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:430
 msgid "4 Build and run"
-msgstr ""
+msgstr "4 建置並執行"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:431
 msgid ""
@@ -662,7 +711,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:438
 msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
-msgstr ""
+msgstr "$ rosdep install -i --from-path src --rosdistro rolling -y"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:444
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:448
@@ -677,11 +726,11 @@ msgstr ""
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:457
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:463
 msgid "$ colcon build --packages-select cpp_pubsub"
-msgstr ""
+msgstr "$ colcon build --packages-select cpp_pubsub"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:469
 msgid "$ colcon build --merge-install --packages-select cpp_pubsub"
-msgstr ""
+msgstr "$ colcon build --merge-install --packages-select cpp_pubsub"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:473
 msgid ""
@@ -691,11 +740,11 @@ msgstr ""
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:479
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:485
 msgid "$ . install/setup.bash"
-msgstr ""
+msgstr "$ . install/setup.bash"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:491
 msgid "$ call install/setup.bat"
-msgstr ""
+msgstr "$ call install/setup.bat"
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:495
 msgid ""
@@ -712,6 +761,12 @@ msgid ""
 "[INFO] [minimal_publisher]: Publishing: \"Hello World: 3\"\n"
 "[INFO] [minimal_publisher]: Publishing: \"Hello World: 4\""
 msgstr ""
+"$ ros2 run cpp_pubsub talker\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 0\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 1\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 2\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 3\"\n"
+"[INFO] [minimal_publisher]: Publishing: \"Hello World: 4\""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:507
 msgid ""
@@ -730,6 +785,12 @@ msgid ""
 "[INFO] [minimal_subscriber]: I heard: \"Hello World: 13\"\n"
 "[INFO] [minimal_subscriber]: I heard: \"Hello World: 14\""
 msgstr ""
+"$ ros2 run cpp_pubsub listener\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 10\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 11\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 12\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 13\"\n"
+"[INFO] [minimal_subscriber]: I heard: \"Hello World: 14\""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.rst:519
 msgid "Enter ``Ctrl+C`` in each terminal to stop the nodes from spinning."

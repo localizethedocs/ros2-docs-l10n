@@ -99,6 +99,8 @@ msgid ""
 "$ wget https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
 "turtle_tf2_cpp/src/turtle_tf2_broadcaster.cpp"
 msgstr ""
+"$ wget https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_broadcaster.cpp"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:50
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:313
@@ -124,6 +126,8 @@ msgid ""
 "$ curl -sk https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
 "turtle_tf2_cpp/src/turtle_tf2_broadcaster.cpp -o turtle_tf2_broadcaster.cpp"
 msgstr ""
+"$ curl -sk https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_broadcaster.cpp -o turtle_tf2_broadcaster.cpp"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:64
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:367
@@ -135,6 +139,8 @@ msgid ""
 "$ curl https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
 "turtle_tf2_cpp/src/turtle_tf2_broadcaster.cpp -o turtle_tf2_broadcaster.cpp"
 msgstr ""
+"$ curl https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_broadcaster.cpp -o turtle_tf2_broadcaster.cpp"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:70
 msgid "Open the file using your preferred text editor."
@@ -221,6 +227,84 @@ msgid ""
 "  return 0;\n"
 "}"
 msgstr ""
+"#include <functional>\n"
+"#include <memory>\n"
+"#include <sstream>\n"
+"#include <string>\n"
+"\n"
+"#include \"geometry_msgs/msg/transform_stamped.hpp\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tf2/LinearMath/Quaternion.hpp\"\n"
+"#include \"tf2_ros/transform_broadcaster.h\"\n"
+"#include \"turtlesim_msgs/msg/pose.hpp\"\n"
+"\n"
+"class FramePublisher : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  FramePublisher()\n"
+"  : Node(\"turtle_tf2_frame_publisher\")\n"
+"  {\n"
+"    // Declare and acquire `turtlename` parameter\n"
+"    turtlename_ = this->declare_parameter<std::string>(\"turtlename\", "
+"\"turtle\");\n"
+"\n"
+"    // Initialize the transform broadcaster\n"
+"    tf_broadcaster_ =\n"
+"      std::make_unique<tf2_ros::TransformBroadcaster>(*this);\n"
+"\n"
+"    // Subscribe to a turtle{1}{2}/pose topic and call handle_turtle_pose\n"
+"    // callback function on each message\n"
+"    std::ostringstream stream;\n"
+"    stream << \"/\" << turtlename_.c_str() << \"/pose\";\n"
+"    std::string topic_name = stream.str();\n"
+"\n"
+"    auto handle_turtle_pose = [this](const std::shared_ptr<turtlesim_msgs::"
+"msg::Pose> msg){\n"
+"        geometry_msgs::msg::TransformStamped t;\n"
+"\n"
+"        // Read message content and assign it to\n"
+"        // corresponding tf variables\n"
+"        t.header.stamp = this->get_clock()->now();\n"
+"        t.header.frame_id = \"world\";\n"
+"        t.child_frame_id = turtlename_.c_str();\n"
+"\n"
+"        // Turtle only exists in 2D, thus we get x and y translation\n"
+"        // coordinates from the message and set the z coordinate to 0\n"
+"        t.transform.translation.x = msg->x;\n"
+"        t.transform.translation.y = msg->y;\n"
+"        t.transform.translation.z = 0.0;\n"
+"\n"
+"        // For the same reason, turtle can only rotate around one axis\n"
+"        // and this why we set rotation in x and y to 0 and obtain\n"
+"        // rotation in z axis from the message\n"
+"        tf2::Quaternion q;\n"
+"        q.setRPY(0, 0, msg->theta);\n"
+"        t.transform.rotation.x = q.x();\n"
+"        t.transform.rotation.y = q.y();\n"
+"        t.transform.rotation.z = q.z();\n"
+"        t.transform.rotation.w = q.w();\n"
+"\n"
+"        // Send the transformation\n"
+"        tf_broadcaster_->sendTransform(t);\n"
+"    };\n"
+"    subscription_ = this->create_subscription<turtlesim_msgs::msg::Pose>(\n"
+"      topic_name, 10,\n"
+"      handle_turtle_pose);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Subscription<turtlesim_msgs::msg::Pose>::SharedPtr subscription_;\n"
+"  std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;\n"
+"  std::string turtlename_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<FramePublisher>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:152
 msgid "1.1 Examine the code"
@@ -335,7 +419,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:218
 msgid "1.2 CMakeLists.txt"
-msgstr ""
+msgstr "1.2 CMakeLists.txt"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:220
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:274
@@ -363,6 +447,16 @@ msgid ""
 "    ${turtlesim_msgs_TARGETS}\n"
 ")"
 msgstr ""
+"find_package(turtlesim_msgs REQUIRED)\n"
+"add_executable(turtle_tf2_broadcaster src/turtle_tf2_broadcaster.cpp)\n"
+"target_link_libraries(\n"
+"    turtle_tf2_broadcaster PUBLIC\n"
+"    ${geometry_msgs_TARGETS}\n"
+"    rclcpp::rclcpp\n"
+"    tf2::tf2\n"
+"    tf2_ros::tf2_ros\n"
+"    ${turtlesim_msgs_TARGETS}\n"
+")"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:237
 msgid ""
@@ -376,6 +470,9 @@ msgid ""
 "    turtle_tf2_broadcaster\n"
 "    DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
+"install(TARGETS\n"
+"    turtle_tf2_broadcaster\n"
+"    DESTINATION lib/${PROJECT_NAME})"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:246
 msgid "2 Write the launch file"
@@ -495,6 +592,8 @@ msgid ""
 "install(DIRECTORY launch\n"
 "  DESTINATION share/${PROJECT_NAME})"
 msgstr ""
+"install(DIRECTORY launch\n"
+"  DESTINATION share/${PROJECT_NAME})"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:298
 msgid ""
@@ -514,7 +613,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:309
 msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
-msgstr ""
+msgstr "$ rosdep install -i --from-path src --rosdistro rolling -y"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:315
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:319
@@ -530,11 +629,11 @@ msgstr ""
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:327
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:333
 msgid "$ colcon build --packages-select learning_tf2_cpp"
-msgstr ""
+msgstr "$ colcon build --packages-select learning_tf2_cpp"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:339
 msgid "$ colcon build --merge-install --packages-select learning_tf2_cpp"
-msgstr ""
+msgstr "$ colcon build --merge-install --packages-select learning_tf2_cpp"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:343
 msgid ""
@@ -545,15 +644,15 @@ msgstr ""
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:349
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:355
 msgid "$ . install/setup.bash"
-msgstr ""
+msgstr "$ . install/setup.bash"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:363
 msgid "$ call install\\setup.bat"
-msgstr ""
+msgstr "$ call install\\setup.bat"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:369
 msgid "$ .\\install\\setup.ps1"
-msgstr ""
+msgstr "$ .\\install\\setup.ps1"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:374
 msgid "4 Run"
@@ -567,7 +666,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:378
 msgid "$ ros2 launch learning_tf2_cpp turtle_tf2_demo_launch.py"
-msgstr ""
+msgstr "$ ros2 launch learning_tf2_cpp turtle_tf2_demo_launch.py"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:382
 msgid "In the second terminal window type the following command:"
@@ -575,7 +674,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:384
 msgid "$ ros2 run turtlesim turtle_teleop_key"
-msgstr ""
+msgstr "$ ros2 run turtlesim turtle_teleop_key"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:388
 msgid ""
@@ -591,7 +690,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:394
 msgid "$ ros2 run tf2_ros tf2_echo world turtle1"
-msgstr ""
+msgstr "$ ros2 run tf2_ros tf2_echo world turtle1"
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.rst:398
 msgid ""
