@@ -39,7 +39,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:14
 msgid "Source Code"
-msgstr ""
+msgstr "來源碼"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:15
 msgid ""
@@ -61,10 +61,22 @@ msgid ""
 "  return RUN_ALL_TESTS();\n"
 "}"
 msgstr ""
+"#include <gtest/gtest.h>\n"
+"\n"
+"TEST(package_name, a_first_test)\n"
+"{\n"
+"  ASSERT_EQ(4, 2 + 2);\n"
+"}\n"
+"\n"
+"int main(int argc, char ** argv)\n"
+"{\n"
+"  testing::InitGoogleTest(&argc, argv);\n"
+"  return RUN_ALL_TESTS();\n"
+"}"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:34
 msgid "package.xml"
-msgstr ""
+msgstr "package.xml"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:35
 msgid "Add the following line to ``package.xml``"
@@ -72,11 +84,11 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:37
 msgid "<test_depend>ament_cmake_gtest</test_depend>"
-msgstr ""
+msgstr "<test_depend>ament_cmake_gtest</test_depend>"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:42
 msgid "CMakeLists.txt"
-msgstr ""
+msgstr "CMakeLists.txt"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:44
 msgid ""
@@ -91,6 +103,16 @@ msgid ""
 "name_of_local_library)\n"
 "endif()"
 msgstr ""
+"if(BUILD_TESTING)\n"
+"  find_package(ament_cmake_gtest REQUIRED)\n"
+"  ament_add_gtest(${PROJECT_NAME}_tutorial_test test/tutorial_test.cpp)\n"
+"  target_include_directories(${PROJECT_NAME}_tutorial_test PUBLIC\n"
+"    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>\n"
+"    $<INSTALL_INTERFACE:include>\n"
+"  )\n"
+"  target_link_libraries(${PROJECT_NAME}_tutorial_test "
+"name_of_local_library)\n"
+"endif()"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:56
 msgid ""
@@ -102,7 +124,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:61
 msgid "Running Tests"
-msgstr ""
+msgstr "執行測試"
 
 #: ../../../source/Tutorials/Intermediate/Testing/Cpp.rst:63
 msgid ""
