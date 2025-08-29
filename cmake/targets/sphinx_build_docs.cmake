@@ -213,6 +213,29 @@ restore_cmake_message_indent()
 
 
 #[============================================================[
+# Configure the provenance dropdown.
+#]============================================================]
+
+
+set(UPSTREAM_DOCS   "https://docs.ros.org")
+set(UPSTREAM_REPO   "https://github.com/ros2/ros2_documentation")
+
+
+message(STATUS "Configuring 'ltd-provenance.js' file to the root of the builder directory...")
+file(MAKE_DIRECTORY "${PROJ_OUT_BUILDER_DIR}")
+configure_file(
+    "${PROJ_CMAKE_SCRIPTS_DIR}/provenance/ltd-sphinx.js.in"
+    "${PROJ_OUT_BUILDER_DIR}/ltd-provenance.js"
+    @ONLY)
+remove_cmake_message_indent()
+message("")
+message("From: ${PROJ_CMAKE_SCRIPTS_DIR}/provenance/ltd-sphinx.js.in")
+message("To:   ${PROJ_OUT_BUILDER_DIR}/ltd-provenance.js")
+message("")
+restore_cmake_message_indent()
+
+
+#[============================================================[
 # Configure the flyout navigation menu.
 #]============================================================]
 
