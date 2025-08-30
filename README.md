@@ -68,7 +68,7 @@
 
 <p></p>
 
-The goal of this project is to translate the ROS 2 documentation into multiple languages. Translations are contributed via the Crowdin platform and automatically synchronized with the GitHub repository. Translations can be previewed on GitHub Pages.
+The goal of this project is to translate the ROS 2 documentation into multiple languages. Translations are contributed via the Crowdin platform, automatically synchronized with the GitHub repository, and can be previewed on GitHub Pages.
 
 > [!NOTE]
 > The translation is community-driven. If you find any inaccuracies, always refer to the <a href="https://docs.ros.org/">official documentation</a> or the <a href="https://github.com/ros2/ros2_documentation">source repository</a> of the upstream project for the most reliable information.
