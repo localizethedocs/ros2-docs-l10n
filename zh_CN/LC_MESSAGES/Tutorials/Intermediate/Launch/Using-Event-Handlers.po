@@ -1,0 +1,467 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:7
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:39
+msgid "Using event handlers"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:9
+msgid "**Goal:** Learn about event handlers in ROS 2 launch files"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:11
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:13
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:17
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:20
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:22
+msgid ""
+"Launch in ROS 2 is a system that executes and manages user-defined "
+"processes. It is responsible for monitoring the state of processes it "
+"launched, as well as reporting and reacting to changes in the state of those "
+"processes. These changes are called events and can be handled by registering "
+"an event handler with the launch system. Event handlers can be registered "
+"for specific events and can be useful for monitoring the state of processes. "
+"Additionally, they can be used to define a complex set of rules which can be "
+"used to dynamically modify the launch file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:28
+msgid ""
+"This tutorial shows usage examples of event handlers in ROS 2 launch files."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:31
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:33
+msgid ""
+"This tutorial uses the :doc:`turtlesim <../../Beginner-CLI-Tools/Introducing-"
+"Turtlesim/Introducing-Turtlesim>` package. This tutorial also assumes you "
+"have :doc:`created a new package <../../Beginner-Client-Libraries/Creating-"
+"Your-First-ROS2-Package>` of build type ``ament_python`` called "
+"``launch_tutorial``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:36
+msgid ""
+"This tutorial extends the code shown in the :doc:`Using substitutions in "
+"launch files <./Using-Substitutions>` tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:42
+msgid "1 Event handlers example launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:44
+msgid ""
+"Create a new file called ``example_event_handlers_launch.py`` file in the "
+"``launch`` folder of the ``launch_tutorial`` package."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:46
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch.actions import (\n"
+"    DeclareLaunchArgument,\n"
+"    EmitEvent,\n"
+"    ExecuteProcess,\n"
+"    LogInfo,\n"
+"    RegisterEventHandler,\n"
+"    TimerAction\n"
+")\n"
+"from launch.conditions import IfCondition\n"
+"from launch.event_handlers import (\n"
+"    OnExecutionComplete,\n"
+"    OnProcessExit,\n"
+"    OnProcessIO,\n"
+"    OnProcessStart,\n"
+"    OnShutdown\n"
+")\n"
+"from launch.events import Shutdown\n"
+"from launch.substitutions import (\n"
+"    EnvironmentVariable,\n"
+"    FindExecutable,\n"
+"    LaunchConfiguration,\n"
+"    LocalSubstitution,\n"
+"    PythonExpression\n"
+")\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    turtlesim_ns = LaunchConfiguration('turtlesim_ns')\n"
+"    use_provided_red = LaunchConfiguration('use_provided_red')\n"
+"    new_background_r = LaunchConfiguration('new_background_r')\n"
+"\n"
+"    turtlesim_ns_launch_arg = DeclareLaunchArgument(\n"
+"        'turtlesim_ns',\n"
+"        default_value='turtlesim1'\n"
+"    )\n"
+"    use_provided_red_launch_arg = DeclareLaunchArgument(\n"
+"        'use_provided_red',\n"
+"        default_value='False'\n"
+"    )\n"
+"    new_background_r_launch_arg = DeclareLaunchArgument(\n"
+"        'new_background_r',\n"
+"        default_value='200'\n"
+"    )\n"
+"\n"
+"    turtlesim_node = Node(\n"
+"        package='turtlesim',\n"
+"        namespace=turtlesim_ns,\n"
+"        executable='turtlesim_node',\n"
+"        name='sim'\n"
+"    )\n"
+"    spawn_turtle = ExecuteProcess(\n"
+"        cmd=[[\n"
+"            FindExecutable(name='ros2'),\n"
+"            ' service call ',\n"
+"            turtlesim_ns,\n"
+"            '/spawn ',\n"
+"            'turtlesim_msgs/srv/Spawn ',\n"
+"            '\"{x: 2, y: 2, theta: 0.2}\"'\n"
+"        ]],\n"
+"        shell=True\n"
+"    )\n"
+"    change_background_r = ExecuteProcess(\n"
+"        cmd=[[\n"
+"            FindExecutable(name='ros2'),\n"
+"            ' param set ',\n"
+"            turtlesim_ns,\n"
+"            '/sim background_r ',\n"
+"            '120'\n"
+"        ]],\n"
+"        shell=True\n"
+"    )\n"
+"    change_background_r_conditioned = ExecuteProcess(\n"
+"        condition=IfCondition(\n"
+"            PythonExpression([\n"
+"                new_background_r,\n"
+"                ' == 200',\n"
+"                ' and ',\n"
+"                use_provided_red\n"
+"            ])\n"
+"        ),\n"
+"        cmd=[[\n"
+"            FindExecutable(name='ros2'),\n"
+"            ' param set ',\n"
+"            turtlesim_ns,\n"
+"            '/sim background_r ',\n"
+"            new_background_r\n"
+"        ]],\n"
+"        shell=True\n"
+"    )\n"
+"\n"
+"    return LaunchDescription([\n"
+"        turtlesim_ns_launch_arg,\n"
+"        use_provided_red_launch_arg,\n"
+"        new_background_r_launch_arg,\n"
+"        turtlesim_node,\n"
+"        RegisterEventHandler(\n"
+"            OnProcessStart(\n"
+"                target_action=turtlesim_node,\n"
+"                on_start=[\n"
+"                    LogInfo(msg='Turtlesim started, spawning turtle'),\n"
+"                    spawn_turtle\n"
+"                ]\n"
+"            )\n"
+"        ),\n"
+"        RegisterEventHandler(\n"
+"            OnProcessIO(\n"
+"                target_action=spawn_turtle,\n"
+"                on_stdout=lambda event: LogInfo(\n"
+"                    msg='Spawn request says \"{}\"'.format(\n"
+"                        event.text.decode().strip())\n"
+"                )\n"
+"            )\n"
+"        ),\n"
+"        RegisterEventHandler(\n"
+"            OnExecutionComplete(\n"
+"                target_action=spawn_turtle,\n"
+"                on_completion=[\n"
+"                    LogInfo(msg='Spawn finished'),\n"
+"                    change_background_r,\n"
+"                    TimerAction(\n"
+"                        period=2.0,\n"
+"                        actions=[change_background_r_conditioned],\n"
+"                    )\n"
+"                ]\n"
+"            )\n"
+"        ),\n"
+"        RegisterEventHandler(\n"
+"            OnProcessExit(\n"
+"                target_action=turtlesim_node,\n"
+"                on_exit=[\n"
+"                    LogInfo(msg=(EnvironmentVariable(name='USER'),\n"
+"                            ' closed the turtlesim window')),\n"
+"                    EmitEvent(event=Shutdown(\n"
+"                        reason='Window closed'))\n"
+"                ]\n"
+"            )\n"
+"        ),\n"
+"        RegisterEventHandler(\n"
+"            OnShutdown(\n"
+"                on_shutdown=[LogInfo(\n"
+"                    msg=['Launch was asked to shutdown: ', "
+"LocalSubstitution('event.reason')]\n"
+"                )]\n"
+"            )\n"
+"        ),\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:49
+msgid ""
+"``RegisterEventHandler`` actions for the ``OnProcessStart``, "
+"``OnProcessIO``, ``OnExecutionComplete``, ``OnProcessExit``, and "
+"``OnShutdown`` events were defined in the launch description."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:51
+msgid ""
+"The ``OnProcessStart`` event handler is used to register a callback function "
+"that is executed when the turtlesim node starts. It logs a message to the "
+"console and executes the ``spawn_turtle`` action when the turtlesim node "
+"starts."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:54
+msgid ""
+"        RegisterEventHandler(\n"
+"            OnProcessStart(\n"
+"                target_action=turtlesim_node,\n"
+"                on_start=[\n"
+"                    LogInfo(msg='Turtlesim started, spawning turtle'),\n"
+"                    spawn_turtle\n"
+"                ]\n"
+"            )\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:58
+msgid ""
+"The ``OnProcessIO`` event handler is used to register a callback function "
+"that is executed when the ``spawn_turtle`` action writes to its standard "
+"output. It logs the result of the spawn request."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:61
+msgid ""
+"        RegisterEventHandler(\n"
+"            OnProcessIO(\n"
+"                target_action=spawn_turtle,\n"
+"                on_stdout=lambda event: LogInfo(\n"
+"                    msg='Spawn request says \"{}\"'.format(\n"
+"                        event.text.decode().strip())\n"
+"                )\n"
+"            )\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:65
+msgid ""
+"The ``OnExecutionComplete`` event handler is used to register a callback "
+"function that is executed when the ``spawn_turtle`` action completes. It "
+"logs a message to the console and executes the ``change_background_r`` and "
+"``change_background_r_conditioned`` actions when the spawn action completes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:68
+msgid ""
+"        RegisterEventHandler(\n"
+"            OnExecutionComplete(\n"
+"                target_action=spawn_turtle,\n"
+"                on_completion=[\n"
+"                    LogInfo(msg='Spawn finished'),\n"
+"                    change_background_r,\n"
+"                    TimerAction(\n"
+"                        period=2.0,\n"
+"                        actions=[change_background_r_conditioned],\n"
+"                    )\n"
+"                ]\n"
+"            )\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:72
+msgid ""
+"The ``OnProcessExit`` event handler is used to register a callback function "
+"that is executed when the turtlesim node exits. It logs a message to the "
+"console and executes the ``EmitEvent`` action to emit a ``Shutdown`` event "
+"when the turtlesim node exits. It means that the launch process will "
+"shutdown when the turtlesim window is closed."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:76
+msgid ""
+"        RegisterEventHandler(\n"
+"            OnProcessExit(\n"
+"                target_action=turtlesim_node,\n"
+"                on_exit=[\n"
+"                    LogInfo(msg=(EnvironmentVariable(name='USER'),\n"
+"                            ' closed the turtlesim window')),\n"
+"                    EmitEvent(event=Shutdown(\n"
+"                        reason='Window closed'))\n"
+"                ]\n"
+"            )\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:80
+msgid ""
+"Finally, the ``OnShutdown`` event handler is used to register a callback "
+"function that is executed when the launch file is asked to shutdown. It logs "
+"a message to the console why the launch file is asked to shutdown. It logs "
+"the message with a reason for shutdown like the closure of turtlesim window "
+"or :kbd:`ctrl-c` signal made by the user."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:84
+msgid ""
+"        RegisterEventHandler(\n"
+"            OnShutdown(\n"
+"                on_shutdown=[LogInfo(\n"
+"                    msg=['Launch was asked to shutdown: ', "
+"LocalSubstitution('event.reason')]\n"
+"                )]\n"
+"            )\n"
+"        ),\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:89
+msgid "Build the package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:91
+msgid "Go to the root of the workspace, and build the package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:93
+msgid "$ colcon build"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:97
+msgid "Also remember to source the workspace after building."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:100
+msgid "Launching example"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:102
+msgid ""
+"Now you can launch the ``example_event_handlers_launch.py`` file using the "
+"``ros2 launch`` command."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:104
+msgid ""
+"$ ros2 launch launch_tutorial example_event_handlers_launch.py turtlesim_ns:"
+"='turtlesim3' use_provided_red:='True' new_background_r:=200"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:108
+msgid "This will do the following:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:110
+msgid "Start a turtlesim node with a blue background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:111
+msgid "Spawn the second turtle"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:112
+msgid "Change the color to purple"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:113
+msgid ""
+"Change the color to pink after two seconds if the provided ``background_r`` "
+"argument is ``200`` and ``use_provided_red`` argument is ``True``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:114
+msgid "Shutdown the launch file when the turtlesim window is closed"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:116
+msgid "Additionally, it will log messages to the console when:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:118
+msgid "The turtlesim node starts"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:119
+msgid "The spawn action is executed"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:120
+msgid "The ``change_background_r`` action is executed"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:121
+msgid "The ``change_background_r_conditioned`` action is executed"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:122
+msgid "The turtlesim node exits"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:123
+msgid "The launch process is asked to shutdown."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:126
+msgid "Documentation"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:128
+msgid ""
+"`The launch documentation <https://docs.ros.org/en/rolling/p/launch/"
+"architecture.html>`_ provides detailed information about available event "
+"handlers."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:131
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Using-Event-Handlers.rst:133
+msgid ""
+"In this tutorial, you learned about using event handlers in launch files. "
+"You learned about their syntax and usage examples to define a complex set of "
+"rules to dynamically modify launch files."
+msgstr ""

@@ -1,0 +1,1089 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:7
+msgid "Unlocking the potential of Fast DDS middleware [community-contributed]"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:9
+msgid ""
+"**Goal:** This tutorial will show how to use the extended configuration "
+"capabilities of Fast DDS in ROS 2."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:11
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:13
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:17
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:20
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:22
+msgid ""
+"The interface between the ROS 2 stack and *Fast DDS* is provided by the ROS "
+"2 middleware implementation `rmw_fastrtps <https://github.com/ros2/"
+"rmw_fastrtps>`_. This implementation is available in all ROS 2 "
+"distributions, both from binaries and from sources."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:25
+msgid ""
+"ROS 2 RMW only allows for the configuration of certain middleware QoS (see :"
+"doc:`ROS 2 QoS policies <../../Concepts/Intermediate/About-Quality-of-"
+"Service-Settings>`). However, ``rmw_fastrtps`` offers extended configuration "
+"capabilities to take full advantage of the features in *Fast DDS*. This "
+"tutorial will guide you through a series of examples explaining how to use "
+"XML files to unlock this extended configuration."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:30
+msgid ""
+"In order to get more information about using *Fast DDS* on ROS 2, please "
+"check the `following documentation <https://fast-dds.docs.eprosima.com/en/"
+"latest/fastdds/ros2/ros2.html>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:34
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:36
+msgid ""
+"This tutorial assumes that you know how to :doc:`create a package <../"
+"Beginner-Client-Libraries/Creating-Your-First-ROS2-Package>`. It also "
+"assumes you know how to write a :doc:`simple publisher and subscriber<../"
+"Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber>` "
+"and a :doc:`simple service and client <../Beginner-Client-Libraries/Writing-"
+"A-Simple-Cpp-Service-And-Client>`. Although the examples are implemented in "
+"C++, the same concepts apply to Python packages."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:42
+msgid "Mixing synchronous and asynchronous publications in the same node"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:44
+msgid ""
+"In this first example, a node with two publishers, one of them with "
+"synchronous publication mode and the other one with asynchronous publication "
+"mode, will be created."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:46
+msgid "``rmw_fastrtps`` uses synchronous publication mode by default."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:48
+msgid ""
+"With synchronous publication mode the data is sent directly within the "
+"context of the user thread. This entails that any blocking call occurring "
+"during the write operation would block the user thread, thus preventing the "
+"application from continuing its operation. However, this mode typically "
+"yields higher throughput rates at lower latencies, since there is no "
+"notification nor context switching between threads."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:52
+msgid ""
+"On the other hand, with asynchronous publication mode, each time the "
+"publisher invokes the write operation, the data is copied into a queue, a "
+"background thread (asynchronous thread) is notified about the addition to "
+"the queue, and control of the thread is returned to the user before the data "
+"is actually sent. The background thread is in charge of consuming the queue "
+"and sending the data to every matched reader."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:57
+msgid "Create the node with the publishers"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:59
+msgid ""
+"First, create a new package named ``sync_async_node_example_cpp`` on a new "
+"workspace:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:63
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:269
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:382
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:753
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:65
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:73
+msgid ""
+"$ mkdir -p ~/ros2_ws/src\n"
+"$ cd ~/ros2_ws/src\n"
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 --"
+"dependencies rclcpp std_msgs -- sync_async_node_example_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:71
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:277
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:390
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:761
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:79
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:285
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:398
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:769
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:81
+msgid ""
+"$ md \\ros2_ws\\src\n"
+"$ cd \\ros2_ws\\src\n"
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 --"
+"dependencies rclcpp std_msgs -- sync_async_node_example_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:88
+msgid ""
+"Then, add a file named ``src/sync_async_writer.cpp`` to the package, with "
+"the following content. Note that the synchronous publisher will be "
+"publishing on topic ``sync_topic``, while the asynchronous one will be "
+"publishing on topic ``async_topic``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:91
+msgid ""
+"#include <chrono>\n"
+"#include <functional>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class SyncAsyncPublisher : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"    SyncAsyncPublisher()\n"
+"        : Node(\"sync_async_publisher\"), count_(0)\n"
+"    {\n"
+"        // Create the synchronous publisher on topic 'sync_topic'\n"
+"        sync_publisher_ = this->create_publisher<std_msgs::msg::"
+"String>(\"sync_topic\", 10);\n"
+"\n"
+"        // Create the asynchronous publisher on topic 'async_topic'\n"
+"        async_publisher_ = this->create_publisher<std_msgs::msg::"
+"String>(\"async_topic\", 10);\n"
+"\n"
+"        // Actions to run every time the timer expires\n"
+"        auto timer_callback = [this](){\n"
+"\n"
+"            // Create a new message to be sent\n"
+"            auto sync_message = std_msgs::msg::String();\n"
+"            sync_message.data = \"SYNC: Hello, world! \" + std::"
+"to_string(count_);\n"
+"\n"
+"            // Log the message to the console to show progress\n"
+"            RCLCPP_INFO(this->get_logger(), \"Synchronously publishing: "
+"'%s'\", sync_message.data.c_str());\n"
+"\n"
+"            // Publish the message using the synchronous publisher\n"
+"            sync_publisher_->publish(sync_message);\n"
+"\n"
+"            // Create a new message to be sent\n"
+"            auto async_message = std_msgs::msg::String();\n"
+"            async_message.data = \"ASYNC: Hello, world! \" + std::"
+"to_string(count_);\n"
+"\n"
+"            // Log the message to the console to show progress\n"
+"            RCLCPP_INFO(this->get_logger(), \"Asynchronously publishing: "
+"'%s'\", async_message.data.c_str());\n"
+"\n"
+"            // Publish the message using the asynchronous publisher\n"
+"            async_publisher_->publish(async_message);\n"
+"\n"
+"            // Prepare the count for the next message\n"
+"            count_++;\n"
+"        };\n"
+"\n"
+"        // This timer will trigger the publication of new data every half a "
+"second\n"
+"        timer_ = this->create_wall_timer(500ms, timer_callback);\n"
+"    }\n"
+"\n"
+"private:\n"
+"    // This timer will trigger the publication of new data every half a "
+"second\n"
+"    rclcpp::TimerBase::SharedPtr timer_;\n"
+"\n"
+"    // A publisher that publishes asynchronously\n"
+"    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr async_publisher_;\n"
+"\n"
+"    // A publisher that publishes synchronously\n"
+"    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr sync_publisher_;\n"
+"\n"
+"    // Number of messages sent so far\n"
+"    size_t count_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"    rclcpp::spin(std::make_shared<SyncAsyncPublisher>());\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:168
+msgid ""
+"Now open the ``CMakeLists.txt`` file and add a new executable and name it "
+"``SyncAsyncWriter`` so you can run your node using ``ros2 run``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:170
+msgid ""
+"add_executable(SyncAsyncWriter src/sync_async_writer.cpp)\n"
+"target_link_libraries(SyncAsyncWriter PUBLIC rclcpp::rclcpp "
+"${std_msgs_TARGETS})"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:175
+msgid ""
+"Finally, add the ``install(TARGETS…)`` section so ``ros2 run`` can find your "
+"executable:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:177
+msgid ""
+"install(TARGETS\n"
+"    SyncAsyncWriter\n"
+"    DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:183
+msgid ""
+"You can clean up your ``CMakeLists.txt`` by removing some unnecessary "
+"sections and comments, so it looks like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:185
+msgid ""
+"cmake_minimum_required(VERSION 3.8)\n"
+"project(sync_async_node_example_cpp)\n"
+"\n"
+"# Default to C++14\n"
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 14)\n"
+"endif()\n"
+"\n"
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()\n"
+"\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)\n"
+"\n"
+"add_executable(SyncAsyncWriter src/sync_async_writer.cpp)\n"
+"target_link_libraries(SyncAsyncWriter PUBLIC rclcpp::rclcpp "
+"${std_msgs_TARGETS})\n"
+"\n"
+"install(TARGETS\n"
+"    SyncAsyncWriter\n"
+"    DESTINATION lib/${PROJECT_NAME})\n"
+"\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:212
+msgid ""
+"If this node is built and run now, both publishers will behave the same, "
+"publishing asynchronously in both topics, because this is the default "
+"publication mode. The default publication mode configuration can be changed "
+"in runtime during the node launching, using an XML file."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:216
+msgid "Create the XML file with the profile configuration"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:218
+msgid "Create a file with name ``SyncAsync.xml`` and the following content:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:220
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+"<profiles xmlns=\"http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles\">\n"
+"\n"
+"    <!-- default publisher profile -->\n"
+"    <publisher profile_name=\"default_publisher\" "
+"is_default_profile=\"true\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    </publisher>\n"
+"\n"
+"    <!-- default subscriber profile -->\n"
+"    <subscriber profile_name=\"default_subscriber\" "
+"is_default_profile=\"true\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    </subscriber>\n"
+"\n"
+"    <!-- publisher profile for topic sync_topic -->\n"
+"    <publisher profile_name=\"/sync_topic\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"        <qos>\n"
+"            <publishMode>\n"
+"                <kind>SYNCHRONOUS</kind>\n"
+"            </publishMode>\n"
+"        </qos>\n"
+"    </publisher>\n"
+"\n"
+"    <!-- publisher profile for topic async_topic -->\n"
+"    <publisher profile_name=\"/async_topic\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"        <qos>\n"
+"            <publishMode>\n"
+"                <kind>ASYNCHRONOUS</kind>\n"
+"            </publishMode>\n"
+"        </qos>\n"
+"    </publisher>\n"
+"\n"
+" </profiles>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:257
+msgid ""
+"Note that several profiles for publisher and subscriber are defined. Two "
+"default profiles which are defined setting the ``is_default_profile`` to "
+"``true``, and two profiles with names that coincide with those of the "
+"previously defined topics: ``sync_topic`` and another one for "
+"``async_topic``. These last two profiles set the publication mode to "
+"``SYNCHRONOUS`` or ``ASYNCHRONOUS`` accordingly. Note also that all profiles "
+"specify a ``historyMemoryPolicy`` value, which is needed for the example to "
+"work, and the reason will be explained later on this tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:263
+msgid "Execute the publisher node"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:265
+msgid ""
+"You will need to export the following environment variables for the XML to "
+"be loaded:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:271
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:279
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:384
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:392
+msgid ""
+"$ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
+"$ export RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
+"$ export FASTRTPS_DEFAULT_PROFILES_FILE=path/to/SyncAsync.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:287
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:400
+msgid ""
+"$ SET RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
+"$ SET RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
+"$ SET FASTRTPS_DEFAULT_PROFILES_FILE=path/to/SyncAsync.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:293
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:406
+msgid "Finally, ensure you have sourced your setup files and run the node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:295
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run sync_async_node_example_cpp SyncAsyncWriter\n"
+"[INFO] [1612972049.994630332] [sync_async_publisher]: Synchronously "
+"publishing: 'SYNC: Hello, world! 0'\n"
+"[INFO] [1612972049.995097767] [sync_async_publisher]: Asynchronously "
+"publishing: 'ASYNC: Hello, world! 0'\n"
+"[INFO] [1612972050.494478706] [sync_async_publisher]: Synchronously "
+"publishing: 'SYNC: Hello, world! 1'\n"
+"[INFO] [1612972050.494664334] [sync_async_publisher]: Asynchronously "
+"publishing: 'ASYNC: Hello, world! 1'\n"
+"[INFO] [1612972050.994368474] [sync_async_publisher]: Synchronously "
+"publishing: 'SYNC: Hello, world! 2'\n"
+"[INFO] [1612972050.994549851] [sync_async_publisher]: Asynchronously "
+"publishing: 'ASYNC: Hello, world! 2'"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:306
+msgid ""
+"Now you have a synchronous publisher and an asynchronous publisher running "
+"inside the same node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:310
+msgid "Create a node with the subscribers"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:312
+msgid ""
+"Next, a new node with the subscribers that will listen to the ``sync_topic`` "
+"and ``async_topic`` publications is going to be created. In a new source "
+"file named ``src/sync_async_reader.cpp`` write the following content:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:315
+msgid ""
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"class SyncAsyncSubscriber : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"\n"
+"    SyncAsyncSubscriber()\n"
+"        : Node(\"sync_async_subscriber\")\n"
+"    {\n"
+"        // Lambda function to run every time a new message is received\n"
+"        auto topic_callback = [this](const std_msgs::msg::String & msg){\n"
+"            RCLCPP_INFO(this->get_logger(), \"I heard: '%s'\", msg.data."
+"c_str());\n"
+"        };\n"
+"\n"
+"        // Create the synchronous subscriber on topic 'sync_topic'\n"
+"        // and tie it to the topic_callback\n"
+"        sync_subscription_ = this->create_subscription<std_msgs::msg::"
+"String>(\n"
+"            \"sync_topic\", 10, topic_callback);\n"
+"\n"
+"        // Create the asynchronous subscriber on topic 'async_topic'\n"
+"        // and tie it to the topic_callback\n"
+"        async_subscription_ = this->create_subscription<std_msgs::msg::"
+"String>(\n"
+"            \"async_topic\", 10, topic_callback);\n"
+"    }\n"
+"\n"
+"private:\n"
+"\n"
+"    // A subscriber that listens to topic 'sync_topic'\n"
+"    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr "
+"sync_subscription_;\n"
+"\n"
+"    // A subscriber that listens to topic 'async_topic'\n"
+"    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr "
+"async_subscription_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"    rclcpp::spin(std::make_shared<SyncAsyncSubscriber>());\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:363
+msgid ""
+"Open the ``CMakeLists.txt`` file and add a new executable and name it "
+"``SyncAsyncReader`` under the previous ``SyncAsyncWriter``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:365
+msgid ""
+"add_executable(SyncAsyncReader src/sync_async_reader.cpp)\n"
+"target_link_libraries(SyncAsyncReader PUBLIC rclcpp::rclcpp "
+"${std_msgs_TARGETS})\n"
+"\n"
+"install(TARGETS\n"
+"    SyncAsyncReader\n"
+"    DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:376
+msgid "Execute the subscriber node"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:378
+msgid ""
+"With the publisher node running in one terminal, open another one and export "
+"the required environment variables for the XML to be loaded:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:408
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run sync_async_node_example_cpp SyncAsyncReader\n"
+"[INFO] [1612972054.495429090] [sync_async_subscriber]: I heard: 'SYNC: "
+"Hello, world! 10'\n"
+"[INFO] [1612972054.995410057] [sync_async_subscriber]: I heard: 'ASYNC: "
+"Hello, world! 10'\n"
+"[INFO] [1612972055.495453494] [sync_async_subscriber]: I heard: 'SYNC: "
+"Hello, world! 11'\n"
+"[INFO] [1612972055.995396561] [sync_async_subscriber]: I heard: 'ASYNC: "
+"Hello, world! 11'\n"
+"[INFO] [1612972056.495534818] [sync_async_subscriber]: I heard: 'SYNC: "
+"Hello, world! 12'\n"
+"[INFO] [1612972056.995473953] [sync_async_subscriber]: I heard: 'ASYNC: "
+"Hello, world! 12'"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:421
+msgid "Analysis of the example"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:424
+msgid "Configuration profiles XML"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:426
+msgid ""
+"The XML file defines several configurations for publishers and subscribers. "
+"You can have a default publisher configuration profile and several topic-"
+"specific publisher profiles. The only requirement is that all publisher "
+"profiles have a different name and that there is only a single default "
+"profile. The same goes for subscribers."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:431
+msgid ""
+"In order to define a configuration for a specific topic, just name the "
+"profile after the the ROS 2 topic name (like ``/sync_topic`` and ``/"
+"async_topic`` in the example), and ``rmw_fastrtps`` will apply this profile "
+"to all publishers and subscribers for that topic. The default configuration "
+"profile is identified by the attribute ``is_default_profile`` set to "
+"``true``, and acts as a fallback profile when there is no other one with a "
+"name matching the topic name."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:435
+msgid ""
+"The environment variable ``FASTRTPS_DEFAULT_PROFILES_FILE`` is used to "
+"inform *Fast DDS* the path to the XML file with the configuration profiles "
+"to load."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:438
+msgid "RMW_FASTRTPS_USE_QOS_FROM_XML"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:440
+msgid ""
+"Among all the configurable attributes, ``rmw_fastrtps`` treats "
+"``publishMode`` and ``historyMemoryPolicy`` differently. By default, these "
+"values are set to ``ASYNCHRONOUS`` and ``PREALLOCATED_WITH_REALLOC`` within "
+"the ``rmw_fastrtps`` implementation, and the values set on the XML file are "
+"ignored. In order to use the values in the XML file, the environment "
+"variable ``RMW_FASTRTPS_USE_QOS_FROM_XML`` must be set to ``1``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:444
+msgid ""
+"However, this entails **another caveat**: If "
+"``RMW_FASTRTPS_USE_QOS_FROM_XML`` is set, but the XML file does not define "
+"``publishMode`` or ``historyMemoryPolicy``, these attributes take the *Fast "
+"DDS* default value instead of the ``rmw_fastrtps`` default value. This is "
+"important, especially for ``historyMemoryPolicy``, because the *Fast DDS* "
+"default value is ``PREALLOCATED`` which does not work with ROS2 topic data "
+"types. Therefore, in the example, a valid value for this policy has been "
+"explicitly set (``DYNAMIC``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:451
+msgid "Prioritization of rmw_qos_profile_t"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:453
+msgid ""
+"ROS 2 QoS contained in `rmw_qos_profile_t <http://docs.ros.org/en/rolling/p/"
+"rmw/generated/structrmw__qos__profile__s.html>`_ are always honored, unless "
+"set to ``*_SYSTEM_DEFAULT``. In that case, XML values (or *Fast DDS* default "
+"values in the absence of XML ones) are applied. This means that if any QoS "
+"in ``rmw_qos_profile_t`` is set to something other than "
+"``*_SYSTEM_DEFAULT``, the corresponding value in the XML is ignored."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:459
+msgid "Using other FastDDS capabilities with XML"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:461
+msgid ""
+"Although we have created a node with two publishers with different "
+"configuration, it is not easy to check that they are behaving differently. "
+"Now that the basics of XML profiles have been covered, let us use them to "
+"configure something which has some visual effect on the nodes. Specifically, "
+"a maximum number of matching subscribers on one of the publishers and a "
+"partition definition on the other will be set. Note that these are only very "
+"simple examples among all the configuration attributes that can be tuned on "
+"``rmw_fastrtps`` through XML files. Please refer to `*Fast DDS* "
+"documentation <https://fast-dds.docs.eprosima.com/en/latest/fastdds/"
+"xml_configuration/xml_configuration.html#xml-profiles>`__ to  see the whole "
+"list of attributes that can be configured through XML files."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:468
+msgid "Limiting the number of matching subscribers"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:470
+msgid ""
+"Add a maximum number of matched subscribers to the ``/async_topic`` "
+"publisher profile. It should look like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:473
+msgid ""
+"<!-- publisher profile for topic async_topic -->\n"
+"<publisher profile_name=\"/async_topic\">\n"
+"    <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    <qos>\n"
+"        <publishMode>\n"
+"            <kind>ASYNCHRONOUS</kind>\n"
+"        </publishMode>\n"
+"    </qos>\n"
+"    <matchedSubscribersAllocation>\n"
+"        <initial>0</initial>\n"
+"        <maximum>1</maximum>\n"
+"        <increment>1</increment>\n"
+"    </matchedSubscribersAllocation>\n"
+"</publisher>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:490
+msgid "The number of matching subscribers is being limited to one."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:492
+msgid ""
+"Now open three terminals and do not forget to source the setup files and to "
+"set the required environment variables. On the first terminal run the "
+"publisher node, and the subscriber node on the other two. You should see "
+"that only the first subscriber node receives the messages from both topics. "
+"The second one could not complete the matching process in the ``/"
+"async_topic`` because the publisher prevented it, as it had already reached "
+"its maximum of matched publishers. Consequently, only the messages from the "
+"``/sync_topic`` are going to be received in this third terminal:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:498
+msgid ""
+"[INFO] [1613127657.088860890] [sync_async_subscriber]: I heard: 'SYNC: "
+"Hello, world! 18'\n"
+"[INFO] [1613127657.588896594] [sync_async_subscriber]: I heard: 'SYNC: "
+"Hello, world! 19'\n"
+"[INFO] [1613127658.088849401] [sync_async_subscriber]: I heard: 'SYNC: "
+"Hello, world! 20'"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:506
+msgid "Using partitions within the topic"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:508
+msgid ""
+"The partitions feature can be used to control which publishers and "
+"subscribers exchange information within the same topic."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:510
+msgid ""
+"Partitions introduce a logical entity isolation level concept inside the "
+"physical isolation induced by a Domain ID. For a publisher to communicate "
+"with a subscriber, they have to belong at least to one common partition. "
+"Partitions represent another level to separate publishers and subscribers "
+"beyond domain and topic. Unlike domain and topic, an endpoint can belong to "
+"several partitions at the same time. For certain data to be shared over "
+"different domains or topics, there must be a different publisher for each, "
+"sharing its own history of changes. However, a single publisher can share "
+"the same data sample over different partitions using a single topic data "
+"change, thus reducing network overload."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:517
+msgid ""
+"Let us change the ``/sync_topic`` publisher to partition ``part1`` and "
+"create a new ``/sync_topic`` subscriber which uses partition ``part2``. "
+"Their profiles should now look like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:520
+msgid ""
+"<!-- publisher profile for topic sync_topic -->\n"
+"<publisher profile_name=\"/sync_topic\">\n"
+"    <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    <qos>\n"
+"        <publishMode>\n"
+"            <kind>SYNCHRONOUS</kind>\n"
+"        </publishMode>\n"
+"        <partition>\n"
+"            <names>\n"
+"                <name>part1</name>\n"
+"            </names>\n"
+"        </partition>\n"
+"    </qos>\n"
+"</publisher>\n"
+"\n"
+"<!-- subscriber profile for topic sync_topic -->\n"
+"<subscriber profile_name=\"/sync_topic\">\n"
+"    <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    <qos>\n"
+"        <partition>\n"
+"            <names>\n"
+"                <name>part2</name>\n"
+"            </names>\n"
+"        </partition>\n"
+"    </qos>\n"
+"</subscriber>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:549
+msgid ""
+"Open two terminals. Do not forget to source the setup files and to set the "
+"required environment variables. On the first terminal run the publisher "
+"node, and the subscriber node on the other one. You should see that only the "
+"``/async_topic`` messages are reaching the subscriber. The ``/sync_topic`` "
+"subscriber is not receiving the data as it is in a different partition from "
+"the corresponding publisher."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:555
+msgid ""
+"[INFO] [1612972054.995410057] [sync_async_subscriber]: I heard: 'ASYNC: "
+"Hello, world! 10'\n"
+"[INFO] [1612972055.995396561] [sync_async_subscriber]: I heard: 'ASYNC: "
+"Hello, world! 11'\n"
+"[INFO] [1612972056.995473953] [sync_async_subscriber]: I heard: 'ASYNC: "
+"Hello, world! 12'"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:563
+msgid "Configuring a service and a client"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:565
+msgid ""
+"Services and clients have a publisher and a subscriber each, that "
+"communicate through two different topics. For example, for a service named "
+"``ping`` there is:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:568
+msgid "A service subscriber listening to requests on ``/rq/ping``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:569
+msgid "A service publisher sending responses on ``/rr/ping``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:570
+msgid "A client publisher sending requests on ``/rq/ping``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:571
+msgid "A client subscriber listening to responses on ``/rr/ping``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:573
+msgid ""
+"Although you can use these topic names to set the configuration profiles on "
+"the XML, sometimes you may wish to apply the same profile to all services or "
+"clients on a node. Instead of copying the same profile with all topic names "
+"generated for all services, you can just create a publisher and subscriber "
+"profile pair named ``service``. The same can be done for clients creating a "
+"pair named ``client``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:579
+msgid "Create the nodes with the service and client"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:581
+msgid ""
+"Start creating the node with the service. Add a new source file named ``src/"
+"ping_service.cpp`` on your package with the following content:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:584
+msgid ""
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"example_interfaces/srv/trigger.hpp\"\n"
+"\n"
+"/**\n"
+" * Service action: responds with success=true and prints the request on the "
+"console\n"
+" */\n"
+"void ping(const std::shared_ptr<example_interfaces::srv::Trigger::Request> "
+"request,\n"
+"        std::shared_ptr<example_interfaces::srv::Trigger::Response> "
+"response)\n"
+"{\n"
+"    // The request data is unused\n"
+"    (void) request;\n"
+"\n"
+"    // Build the response\n"
+"    response->success = true;\n"
+"\n"
+"    // Log to the console\n"
+"    RCLCPP_INFO(rclcpp::get_logger(\"ping_server\"), \"Incoming request\");\n"
+"    RCLCPP_INFO(rclcpp::get_logger(\"ping_server\"), \"Sending back "
+"response\");\n"
+"}\n"
+"\n"
+"int main(int argc, char **argv)\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"\n"
+"    // Create the node and the service\n"
+"    std::shared_ptr<rclcpp::Node> node = rclcpp::Node::"
+"make_shared(\"ping_server\");\n"
+"    rclcpp::Service<example_interfaces::srv::Trigger>::SharedPtr service =\n"
+"        node->create_service<example_interfaces::srv::Trigger>(\"ping\", "
+"&ping);\n"
+"\n"
+"    // Log that the service is ready\n"
+"    RCLCPP_INFO(rclcpp::get_logger(\"ping_server\"), \"Ready to serve.\");\n"
+"\n"
+"    // run the node\n"
+"    rclcpp::spin(node);\n"
+"    rclcpp::shutdown();\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:625
+msgid ""
+"Create the client in a file named ``src/ping_client.cpp`` with the following "
+"content:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:627
+msgid ""
+"#include <chrono>\n"
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"example_interfaces/srv/trigger.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"int main(int argc, char **argv)\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"\n"
+"    // Create the node and the client\n"
+"    std::shared_ptr<rclcpp::Node> node = rclcpp::Node::"
+"make_shared(\"ping_client\");\n"
+"    rclcpp::Client<example_interfaces::srv::Trigger>::SharedPtr client =\n"
+"        node->create_client<example_interfaces::srv::Trigger>(\"ping\");\n"
+"\n"
+"    // Create a request\n"
+"    auto request = std::make_shared<example_interfaces::srv::Trigger::"
+"Request>();\n"
+"\n"
+"    // Wait for the service to be available\n"
+"    while (!client->wait_for_service(1s)) {\n"
+"        if (!rclcpp::ok()) {\n"
+"            RCLCPP_ERROR(rclcpp::get_logger(\"ping_client\"), \"Interrupted "
+"while waiting for the service. Exiting.\");\n"
+"            return 0;\n"
+"        }\n"
+"        RCLCPP_INFO(rclcpp::get_logger(\"ping_client\"), \"Service not "
+"available, waiting again...\");\n"
+"    }\n"
+"\n"
+"    // Now that the service is available, send the request\n"
+"    RCLCPP_INFO(rclcpp::get_logger(\"ping_client\"), \"Sending request\");\n"
+"    auto result = client->async_send_request(request);\n"
+"\n"
+"    // Wait for the result and log it to the console\n"
+"    if (rclcpp::spin_until_future_complete(node, result) ==\n"
+"        rclcpp::FutureReturnCode::SUCCESS)\n"
+"    {\n"
+"        RCLCPP_INFO(rclcpp::get_logger(\"ping_client\"), \"Response "
+"received\");\n"
+"    } else {\n"
+"        RCLCPP_ERROR(rclcpp::get_logger(\"ping_client\"), \"Failed to call "
+"service ping\");\n"
+"    }\n"
+"\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:675
+msgid ""
+"Open the ``CMakeLists.txt`` file and add two new executables "
+"``ping_service`` and ``ping_client``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:677
+msgid ""
+"find_package(example_interfaces REQUIRED)\n"
+"\n"
+"add_executable(ping_service src/ping_service.cpp)\n"
+"target_link_libraries(ping_service PUBLIC ${example_interfaces_TARGETS} "
+"rclcpp::rclcpp)\n"
+"\n"
+"add_executable(ping_client src/ping_client.cpp)\n"
+"target_link_libraries(ping_client PUBLIC ${example_interfaces_TARGETS} "
+"rclcpp::rclcpp)\n"
+"\n"
+"install(TARGETS\n"
+"    ping_service\n"
+"    DESTINATION lib/${PROJECT_NAME})\n"
+"\n"
+"install(TARGETS\n"
+"    ping_client\n"
+"    DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:695
+msgid "Finally, build the package."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:699
+msgid "Create the XML profiles for the service and client"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:701
+msgid "Create a file with name ``ping.xml`` with the following content:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:703
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+"<profiles xmlns=\"http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles\">\n"
+"\n"
+"    <!-- default publisher profile -->\n"
+"    <publisher profile_name=\"default_publisher\" "
+"is_default_profile=\"true\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    </publisher>\n"
+"\n"
+"    <!-- default subscriber profile -->\n"
+"    <subscriber profile_name=\"default_subscriber\" "
+"is_default_profile=\"true\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"    </subscriber>\n"
+"\n"
+"    <!-- service publisher is SYNC -->\n"
+"    <publisher profile_name=\"service\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"        <qos>\n"
+"            <publishMode>\n"
+"                <kind>SYNCHRONOUS</kind>\n"
+"            </publishMode>\n"
+"        </qos>\n"
+"    </publisher>\n"
+"\n"
+"    <!-- client publisher is ASYNC -->\n"
+"    <publisher profile_name=\"client\">\n"
+"        <historyMemoryPolicy>DYNAMIC</historyMemoryPolicy>\n"
+"        <qos>\n"
+"            <publishMode>\n"
+"                <kind>ASYNCHRONOUS</kind>\n"
+"            </publishMode>\n"
+"        </qos>\n"
+"    </publisher>\n"
+"\n"
+"</profiles>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:741
+msgid ""
+"This configuration file sets the publication mode to ``SYNCHRONOUS`` on the "
+"service and to ``ASYNCHRONOUS`` on the client. Note that we are only "
+"defining the publisher profiles for both the service and the client, but "
+"subscriber profiles could be provided too."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:746
+msgid "Execute the nodes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:748
+msgid ""
+"Open two terminals and source the setup files on each one. Then set the "
+"required environment variables for the XML to be loaded:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:755
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:763
+msgid ""
+"$ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
+"$ export RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
+"$ export FASTRTPS_DEFAULT_PROFILES_FILE=path/to/ping.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:771
+msgid ""
+"$ SET RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
+"$ SET RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
+"$ SET FASTRTPS_DEFAULT_PROFILES_FILE=path/to/ping.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:778
+msgid ""
+"On the first terminal run the service node. You should see the service "
+"waiting for requests:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:781
+msgid ""
+"$ ros2 run sync_async_node_example_cpp ping_service\n"
+"[INFO] [1612977403.805799037] [ping_server]: Ready to serve."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:786
+msgid ""
+"On the second terminal, run the client node. You should see the client "
+"sending the request and receiving the response:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:790
+msgid ""
+"$ ros2 run sync_async_node_example_cpp ping_client\n"
+"[INFO] [1612977404.805799037] [ping_client]: Sending request\n"
+"[INFO] [1612977404.825473835] [ping_client]: Response received"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:796
+msgid "At the same time, the output in the server console has been updated:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:798
+msgid ""
+"[INFO] [1612977403.805799037] [ping_server]: Ready to serve.\n"
+"[INFO] [1612977404.807314904] [ping_server]: Incoming request\n"
+"[INFO] [1612977404.836405125] [ping_server]: Sending back response"
+msgstr ""
