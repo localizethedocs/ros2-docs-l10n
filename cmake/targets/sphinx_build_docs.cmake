@@ -219,18 +219,27 @@ restore_cmake_message_indent()
 
 set(UPSTREAM_DOCS   "https://docs.ros.org")
 set(UPSTREAM_REPO   "https://github.com/ros2/ros2_documentation")
+set(INSERT_POINT    "div[role=\"main\"]")
 
 
-message(STATUS "Configuring 'ltd-provenance.js' file to the root of the builder directory...")
-file(MAKE_DIRECTORY "${PROJ_OUT_BUILDER_DIR}")
-configure_file(
-    "${PROJ_CMAKE_PLUGINS_DIR}/provenance/ltd-sphinx.js.in"
-    "${PROJ_OUT_BUILDER_DIR}/ltd-provenance.js"
-    @ONLY)
+message(STATUS "Configuring 'ltd-provenance.js' file to the version subdir of the builder directory...")
 remove_cmake_message_indent()
 message("")
 message("From: ${PROJ_CMAKE_PLUGINS_DIR}/provenance/ltd-sphinx.js.in")
-message("To:   ${PROJ_OUT_BUILDER_DIR}/ltd-provenance.js")
+foreach(_LANGUAGE ${LANGUAGE_LIST})
+    get_json_value_by_dot_notation(
+        IN_JSON_OBJECT      "${LANGUAGES_JSON_CNT}"
+        IN_DOT_NOTATION     ".${_LANGUAGE}.langtag"
+        OUT_JSON_VALUE      _LANGTAG)
+    set(CURRENT_VERSION     "${VERSION}")
+    set(CURRENT_LANGUAGE    "${_LANGTAG}")
+    file(MAKE_DIRECTORY "${PROJ_OUT_BUILDER_DIR}/${_LANGTAG}/${VERSION}")
+    configure_file(
+        "${PROJ_CMAKE_PLUGINS_DIR}/provenance/ltd-sphinx.js.in"
+        "${PROJ_OUT_BUILDER_DIR}/${_LANGTAG}/${VERSION}/ltd-provenance.js"
+        @ONLY)
+    message("To:   ${PROJ_OUT_BUILDER_DIR}/${_LANGTAG}/${VERSION}/ltd-provenance.js")
+endforeach()
 message("")
 restore_cmake_message_indent()
 
