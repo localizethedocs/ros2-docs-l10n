@@ -329,6 +329,19 @@ You can preview translations in <a href="https://projects.localizethedocs.org/ro
 </table>
 </div>
 
+Alternatively, you can preview translations locally by running the following commands:
+
+```bash
+# Please make sure the following prerequisites are installed:
+# CMake (3.25~), Git, Conda, Gettext
+LANGUAGE=zh_TW
+VERSION=rolling
+git clone --recurse-submodule https://github.com/localizethedocs/ros2-docs-l10n.git
+cd ros2-docs-l10n
+cmake --preset ${LANGUAGE} -DVERSION=${VERSION}
+cmake --build out/build/${LANGUAGE}
+```
+
 You can switch to other available languages and versions by the flyout navigation menu.
 
 <h2 id="maintainers"><a href="#table-of-contents">Maintainers</a></h2>
