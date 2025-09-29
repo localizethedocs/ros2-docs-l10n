@@ -1,0 +1,177 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-18 08:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:8
+msgid "Ensuring security across machines"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:10
+msgid "**Goal:** Make two different machines communicate securely."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:12
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:14
+msgid "**Time:** 5 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:19
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:22
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:24
+msgid ""
+"Before proceeding ensure you have completed the :doc:`Introducing-ros2-"
+"security` tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:26
+msgid ""
+"The previous tutorials have used two ROS nodes on the same machine sending "
+"all network communications over the localhost interface. Let's extend that "
+"scenario to involve multiple machines, since the benefits of authentication "
+"and encryption then become more obvious."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:29
+msgid ""
+"Suppose that the machine with the keystore created in the previous demo has "
+"a hostname ``Alice``, and that we want to also use another machine with "
+"hostname ``Bob`` for our multi-machine ``talker/listener`` demo. We need to "
+"move some keys from ``Alice`` to ``Bob`` to allow SROS 2 to authenticate and "
+"encrypt the transmissions."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:34
+msgid "Create the second keystore"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:36
+msgid ""
+"Begin by creating an empty keystore on ``Bob``; the keystore is actually "
+"just an empty directory:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:40
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:73
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:42
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:50
+msgid ""
+"$ ssh Bob\n"
+"$ mkdir ~/sros2_demo\n"
+"$ exit"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:48
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:80
+msgid "MacOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:56
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:87
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:58
+msgid ""
+"$ ssh Bob\n"
+"$ md C:\\dev\\ros2\\sros2_demo\n"
+"$ exit"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:66
+msgid "Copy files"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:68
+msgid ""
+"Next copy the keys and certificates for the ``talker`` program from "
+"``Alice`` to ``Bob``. Since the keys are just text files, we can use ``scp`` "
+"to copy them."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:75
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:82
+msgid ""
+"$ cd ~/sros2_demo/demo_keystore\n"
+"$ scp -r talker USERNAME@Bob:~/sros2_demo/demo_keystore"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:89
+msgid ""
+"$ cd C:\\dev\\ros2\\sros2_demo\\demo_keystore\n"
+"$ scp -r talker USERNAME@Bob:/dev/ros2/sros2_demo/demo_keystore"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:96
+msgid ""
+"Note that in this case the entire keystore is shared across the different "
+"machines which may not be the desired behavior, as it may result in a "
+"security risk. Please refer to :doc:`Deployment-Guidelines` for more "
+"information in this regard."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:99
+msgid ""
+"That will be very quick, since it's just copying some very small text files. "
+"Now, we're ready to run a multi-machine talker/listener demo!"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:104
+msgid "Launch the nodes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:106
+msgid "Once the environment is set up, run the talker on ``Bob``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:108
+msgid ""
+"$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:112
+msgid "and launch the listener on ``Alice``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:114
+msgid ""
+"$ ros2 run demo_nodes_py listener --ros-args --enclave /talker_listener/"
+"listener"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:118
+msgid "Alice will now be receiving encrypted messages from Bob."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Security/Security-on-Two.rst:120
+msgid ""
+"With two machines successfully communicating using both encryption and "
+"authentication, you can use the same procedure to add more machines to your "
+"ROS graph."
+msgstr ""
