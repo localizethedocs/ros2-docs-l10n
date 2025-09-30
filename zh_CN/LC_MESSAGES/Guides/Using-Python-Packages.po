@@ -1,0 +1,176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation dashing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Guides/Using-Python-Packages.rst:8
+msgid "Using Python Packages with ROS 2"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:10
+msgid ""
+"**Goal:** Explain how to interoperate with other Python packages from the "
+"ROS2 ecosystem."
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:14
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:18
+msgid ""
+"A cautionary note, if you intended to use pre-packaged binaries (either "
+"``deb`` files, or the “fat” binary distributions), the Python interpreter "
+"must match what was used to build the original binaries. If you intend to "
+"use something like ``virtualenv`` or ``pipenv``\\, make sure to use the "
+"system interpreter.  If you use something like ``conda``, it is very likely "
+"that the interpreter will not match the system interpreter and will be "
+"incompatible with ROS2 binaries."
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:21
+msgid "Installing via ``rosdep``"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:23
+msgid ""
+"The fastest way to include third-party python packages is to use their "
+"corresponding rosdep keys, if available.  ``rosdep`` keys can be checked via:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:25
+msgid "https://github.com/ros/rosdistro/blob/master/rosdep/base.yaml"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:26
+msgid "https://github.com/ros/rosdistro/blob/master/rosdep/python.yaml"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:28
+msgid ""
+"These ``rosdep`` keys can be added to your ``package.xml`` file, which "
+"indicates to the build system that your package (and dependent packages) "
+"depend on those keys. In a new workspace, you can also quickly install all "
+"rosdep keys with:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:30
+msgid "rosdep install -yr ./path/to/your/workspace"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:34
+msgid ""
+"If there aren’t currently ``rosdep`` keys for the package that you are "
+"interested in, it is possible to add them by following the `rosdep key "
+"contribution guide`_."
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:36
+msgid ""
+"To learn more about the ``rosdep`` tool and how it works, consult the "
+"`rosdep documentation`_."
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:39
+msgid "Installing via a package manager"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:41
+msgid ""
+"If you don’t want to make a rosdep key, but the package is available in your "
+"system package manager (eg ``apt``), you can install and use the package "
+"that way:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:43
+msgid "sudo apt install python3-serial"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:47
+msgid ""
+"If the package is available on `The Python Package Index (PyPi) <https://"
+"pypi.org/>`_ and you want to install globally on your system:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:49
+msgid "python3 -m pip install -U pyserial"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:53
+msgid ""
+"If the package is available on PyPi and you want to install locally to your "
+"user:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:55
+msgid "python3 -m pip install -U --user pyserial"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:60
+msgid "Installing via a virtual environment"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:62
+msgid "First, create a Colcon workspace:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:64
+msgid ""
+"mkdir -p ~/colcon_venv/src\n"
+"cd ~/colcon_venv/"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:69
+msgid "Then setup your virtual environment:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:71
+msgid ""
+"# Make a virtual env and activate it\n"
+"virtualenv -p python3 ./venv\n"
+"source ./venv/bin/activate\n"
+"# Make sure that colcon doesn’t try to build the venv\n"
+"touch ./venv/COLCON_IGNORE"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:79
+msgid ""
+"Next, install the Python packages that you want in your virtual environment:"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:81
+msgid "python3 -m pip install gtsam pyserial… etc"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:85
+msgid ""
+"Now you can build your workspace and run your python node that depends on "
+"packages installed in your virtual environment."
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:87
+msgid ""
+"# Source Dashing and build\n"
+"source /opt/ros/dashing/setup.bash\n"
+"colcon build"
+msgstr ""
+
+#: ../../../source/Guides/Using-Python-Packages.rst:95
+msgid ""
+"If you want release your package on Bloom, you should to add the packages "
+"you require to ``rosdep``, see the `rosdep key contribution guide`_."
+msgstr ""
