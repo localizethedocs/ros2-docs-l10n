@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation jazzy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 08:38+0000\n"
+"POT-Creation-Date: 2025-10-07 08:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,7 +168,7 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:73
-msgid "Behind the scenes"
+msgid "ROS 2 Daemon: Background Discovery Service"
 msgstr ""
 
 #: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:75
@@ -176,29 +176,49 @@ msgid ""
 "ROS 2 uses a distributed discovery process for nodes to connect to each "
 "other. As this process purposefully does not use a centralized discovery "
 "mechanism, it can take time for ROS nodes to discover all other participants "
-"in the ROS graph. Because of this, there is a long-running daemon in the "
-"background that stores information about the ROS graph to provide faster "
-"responses to queries, e.g. the list of node names."
+"in the ROS graph. To address this, ROS 2 runs a background daemon process "
+"that maintains information about the ROS graph to provide faster responses "
+"to queries, such as the list of node names."
 msgstr ""
 
 #: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:79
 msgid ""
-"The daemon is automatically started when the relevant command-line tools are "
-"used for the first time. You can run ``ros2 daemon --help`` for more options "
-"for interacting with the daemon."
+"The ROS 2 daemon is automatically started when you first use command-line "
+"tools like ``ros2 node list``, ``ros2 topic list``, or other introspection "
+"commands. If no daemon is running, these tools will instantiate a new daemon "
+"process in the background before executing the requested command."
 msgstr ""
 
-#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:83
+#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:82
+msgid ""
+"The daemon communicates using the localhost network interface (127.0.0.1) "
+"and uses the :doc:`ROS_DOMAIN_ID <../Intermediate/About-Domain-ID>` "
+"environment variable as a port number offset. This means that if you want to "
+"control a specific daemon instance (for example, using ``ros2 daemon "
+"stop``), you must ensure that your :doc:`ROS_DOMAIN_ID <../Intermediate/"
+"About-Domain-ID>` matches the domain ID used by that daemon. Different :doc:"
+"`ROS_DOMAIN_ID <../Intermediate/About-Domain-ID>` values will result in "
+"separate daemon instances running on different ports."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:86
+msgid ""
+"You can run ``ros2 daemon --help`` for more options for interacting with the "
+"daemon, including commands to start, stop, or check the status of the daemon "
+"process."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:89
 msgid "Implementation"
 msgstr ""
 
-#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:85
+#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:91
 msgid ""
 "The source code for the ``ros2`` command is available at https://github.com/"
 "ros2/ros2cli."
 msgstr ""
 
-#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:87
+#: ../../../source/Concepts/Basic/About-Command-Line-Tools.rst:93
 msgid ""
 "The ``ros2`` tool has been implemented as a framework that can be extended "
 "via plugins. For example, the `sros2 <https://github.com/ros2/sros2>`__ "
