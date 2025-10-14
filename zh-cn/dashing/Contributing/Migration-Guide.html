@@ -1,0 +1,1212 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration guide from ROS 1 &mdash; ros2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Contributing/Migration-Guide.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Python migration guide from ROS 1" href="Migration-Guide-Python.html" />
+    <link rel="prev" title="Quality guide: ensuring code quality" href="Quality-Guide.html" />
+ 
+<script type="text/javascript" src="../ltd-provenance.js"></script>
+<script type="text/javascript" src="../ltd-current.js"></script>
+<script type="text/javascript" src="../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ros2 documentation
+              <img src="../_static/dashing-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Ubuntu-Development-Setup.html">Building ROS 2 on Ubuntu Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Ubuntu-Install-Binary.html">Installing ROS 2 on Ubuntu Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Ubuntu-Install-Debians.html">Installing ROS 2 via Debian Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Development-Setup.html">Building ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Install-Binary.html">Installing ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Development-Setup.html">Building ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Install-Binary.html">Installing ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Fedora-Development-Setup.html">Building ROS 2 on Fedora Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Latest-Development-Setup.html">Installing the latest ROS 2 development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Maintaining-a-Source-Checkout.html">Maintaining a source checkout of ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Prerelease-Testing.html">Pre-release Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/DDS-Implementations.html">Installing DDS implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-Security-Plugins.html">Installing Connext security plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-University-Eval.html">Installing University or Evaluation versions of RTI Connext DDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Configuring-ROS2-Environment.html">Configuring your ROS 2 environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Turtlesim/Introducing-Turtlesim.html">Introducing turtlesim and rqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Understanding-ROS2-Nodes.html">Understanding ROS 2 nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Topics/Understanding-ROS2-Topics.html">Understanding ROS 2 topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Services/Understanding-ROS2-Services.html">Understanding ROS 2 services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Parameters/Understanding-ROS2-Parameters.html">Understanding ROS 2 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Understanding-ROS2-Actions.html">Understanding ROS 2 actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Rqt-Console/Using-Rqt-Console.html">Using rqt_console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-Files/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ros2bag/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Creating-Your-First-ROS2-Package.html">Creating your first ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Custom-ROS2-Interfaces.html">Creating custom ROS 2 msg and srv files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Single-Package-Define-And-Use-Interface.html">Expanding on ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Writing-a-Cpp-Action-Server-Client.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Writing-a-Py-Action-Server-Client.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-system.html">Launching/monitoring multiple nodes with Launch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Colcon-Tutorial.html">Using colcon to build packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Allocator-Template-Tutorial.html">Implement a custom memory allocator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Deploying-ROS-2-on-IBM-Cloud.html">ROS2 on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Eclipse Oxygen with ROS 2 and rviz2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Building-ROS-2-on-Linux-with-Eclipse-Oxygen.html">Building ROS 2 on Linux with Eclipse Oxygen [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building realtime Linux for ROS 2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Quality-of-Service.html">Use quality-of-service settings to handle lossy networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Managed-Nodes.html">Management of nodes with managed lifecycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Intra-Process-Communication.html">Efficient intra-process communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Rosbag-with-ROS1-Bridge.html">Recording and playback of topic data with rosbag using the ROS 1 bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/tf2.html">Using tf2 with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Real-Time-Programming.html">Real-time programming in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/dummy-robot-demo.html">Trying the dummy robot demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Logging-and-logger-configuration.html">Logging and logger configuration demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Guides.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Launch-files-migration-guide.html">Migrating launch files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Parameters-YAML-files-migration-guide.html">Migrating YAML parameter files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Releasing-a-ROS-2-package-with-bloom.html">Releasing a ROS 2 package with bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/RQt-Port-Plugin-Windows.html">Porting RQt plugins to Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Package-maintainer-guide.html">ROS 2 Package Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/Building-a-Custom-Debian-Package.html">Building a custom Debian package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Guides/RQt-Source-Install.html">Building RQt from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Guides/RQt-Source-Install-MacOS.html">Building RQt from source on macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Guides/RQt-Source-Install-Windows10.html">Building RQt from source on Windows 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Different-Middleware-Vendors.html">About different ROS 2 DDS/RTPS vendors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Logging.html">About logging and logger configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Quality-of-Service-Settings.html">About Quality of Service settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Client-Libraries.html">About ROS 2 client libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-Interfaces.html">About ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Parameters.html">About parameters in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Composition.html">About Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Catment.html">On the mixing of ament and catkin (catment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Cross-Compilation.html">About Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Build-System.html">About the build system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Internal-Interfaces.html">About internal ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Middleware-Implementations.html">About ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Client-Interfaces.html">ROS 2 Client Interfaces (Client Libraries)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Contributing.html">Contributing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Migration guide from ROS 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ROSCon-Content.html">ROSCon Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Alpha-Overview.html">ROS 2 alpha releases (Aug 2015 - Oct 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta1-Overview.html">Beta 1 (codename 'Asphalt'; December 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta2-Overview.html">Beta 2 (codename 'r2b2'; July 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta3-Overview.html">Beta 3 (codename 'r2b3'; September 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Ardent-Apalone.html">ROS 2 Ardent Apalone (codename 'ardent'; December 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Bouncy-Bolson.html">ROS 2 Bouncy Bolson (codename 'bouncy'; June 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Crystal-Clemmys.html">ROS 2 Crystal Clemmys (codename 'crystal'; December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Dashing-Diademata.html">ROS 2 Dashing Diademata (codename 'dashing'; May 31st, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html">ROS 2 Eloquent Elusor (codename 'eloquent'; November 22nd, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy Fitzroy (codename 'foxy'; June 5th, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Galactic-Geochelone.html">ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Galactic-Geochelone-Complete-Changelog.html">ROS 2 Galactic Geochelone Complete Changelog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Humble-Hawksbill.html">ROS 2 Humble Hawksbill (codename 'humble'; May, 2022)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Rolling-Ridley.html">ROS 2 Rolling Ridley (codename 'rolling'; June 2020)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Features.html">Features Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Governance.html">Project Governance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Governance/ROS2-TSC-Charter.html">ROS 2 Technical Steering Committee Charter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Marketing.html">Marketing Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ros2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../Contributing.html">Contributing</a></li>
+      <li class="breadcrumb-item active">Migration guide from ROS 1</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Contributing/Migration-Guide.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition warning">
+        <p class="admonition-title">警告</p>
+        <p>
+          You're reading the documentation for a version of ROS 2 that has reached its EOL (end-of-life), and is no longer officially supported. If you want up-to-date information, please have a look at <a href="../../../zh-cn/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="migration-guide-from-ros-1">
+<h1>Migration guide from ROS 1<a class="headerlink" href="#migration-guide-from-ros-1" title="Link to this heading"></a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">目录</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#prerequisites" id="id2">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#migration-steps" id="id3">Migration steps</a></p>
+<ul>
+<li><p><a class="reference internal" href="#package-manifests" id="id4">Package manifests</a></p></li>
+<li><p><a class="reference internal" href="#metapackages" id="id5">Metapackages</a></p></li>
+<li><p><a class="reference internal" href="#message-service-and-action-definitions" id="id6">Message, service, and action definitions</a></p></li>
+<li><p><a class="reference internal" href="#build-system" id="id7">Build system</a></p></li>
+<li><p><a class="reference internal" href="#update-source-code" id="id8">Update source code</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#parameters" id="id9">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#launch-files" id="id10">Launch files</a></p></li>
+<li><p><a class="reference internal" href="#example-converting-an-existing-ros-1-package-to-use-ros-2" id="id11">Example: Converting an existing ROS 1 package to use ROS 2</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-ros-1-code" id="id12">The ROS 1 code</a></p></li>
+<li><p><a class="reference internal" href="#migrating-to-ros-2" id="id13">Migrating to ROS 2</a></p></li>
+<li><p><a class="reference internal" href="#update-scripts" id="id14">Update scripts</a></p></li>
+<li><p><a class="reference internal" href="#more-examples-and-tools" id="id15">More examples and tools</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#licensing" id="id16">Licensing</a></p>
+<ul>
+<li><p><a class="reference internal" href="#changing-the-license" id="id17">Changing the License</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<p>There are two different kinds of package migrations:</p>
+<ul class="simple">
+<li><p>Migrating the source code of an existing package from ROS 1 to ROS 2 with the intent that a significant part of the source code will stay the same or at least similar.
+An example for this could be <a class="reference external" href="https://github.com/ros/pluginlib">pluginlib</a> where the source code is maintained in different branches within the same repository and commonly patches can be ported between those branches when necessary.</p></li>
+<li><p>Implementing the same or similar functionality of a ROS 1 package for ROS 2 but with the assumption that the source code will be significantly different.
+An example for this could be <a class="reference external" href="https://github.com/ros/ros_comm/tree/melodic-devel/clients/roscpp">roscpp</a> in ROS 1 and <a class="reference external" href="https://github.com/ros2/rclcpp/tree/master/rclcpp">rclcpp</a> in ROS 2 which are separate repositories and don't share any code.</p></li>
+</ul>
+<p>This article focuses on the former case and describes the high-level steps to migrate a ROS 1 package to ROS 2.
+It does not aim to be a step-by-step migration instruction and is not considered the <em>final</em> &quot;solution&quot;.
+Future versions will aim to make migration smoother and less effort up to the point of maintaining a single package from the same branch for ROS 1 as well as ROS 2.</p>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>Before being able to migrate a ROS 1 package to ROS 2 all of its dependencies must be available in ROS 2.</p>
+</section>
+<section id="migration-steps">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Migration steps</a><a class="headerlink" href="#migration-steps" title="Link to this heading"></a></h2>
+<nav class="contents local" id="id1">
+<ul class="simple">
+<li><p><a class="reference internal" href="#package-manifests" id="id18">Package manifests</a></p></li>
+<li><p><a class="reference internal" href="#metapackages" id="id19">Metapackages</a></p></li>
+<li><p><a class="reference internal" href="#message-service-and-action-definitions" id="id20">Message, service, and action definitions</a></p></li>
+<li><p><a class="reference internal" href="#build-system" id="id21">Build system</a></p></li>
+<li><p><a class="reference internal" href="#update-source-code" id="id22">Update source code</a></p></li>
+</ul>
+</nav>
+<section id="package-manifests">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Package manifests</a><a class="headerlink" href="#package-manifests" title="Link to this heading"></a></h3>
+<p>ROS 2 doesn't support format 1 of the package specification but only newer format versions (2 and higher).
+Therefore the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> file must be updated to at least format 2 if it uses format 1.
+Since ROS 1 supports all formats it is safe to perform that conversion in the ROS 1 package.</p>
+<p>Some packages might have different names in ROS 2 so the dependencies might need to be updated accordingly.</p>
+</section>
+<section id="metapackages">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Metapackages</a><a class="headerlink" href="#metapackages" title="Link to this heading"></a></h3>
+<p>ROS 2 doesn't have a special package type for metapackages.
+Metapackages can still exist as regular packages that only contain runtime dependencies.
+When migrating metapackages from ROS 1, simply remove the <code class="docutils literal notranslate"><span class="pre">&lt;metapackage</span> <span class="pre">/&gt;</span></code> tag in your package manifest.</p>
+</section>
+<section id="message-service-and-action-definitions">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Message, service, and action definitions</a><a class="headerlink" href="#message-service-and-action-definitions" title="Link to this heading"></a></h3>
+<p>Message files must end in <code class="docutils literal notranslate"><span class="pre">.msg</span></code> and must be located in the subfolder <code class="docutils literal notranslate"><span class="pre">msg</span></code>.
+Service files must end in <code class="docutils literal notranslate"><span class="pre">.srv</span></code> and must be located in the subfolder <code class="docutils literal notranslate"><span class="pre">srv</span></code>.
+Actions files must end in <code class="docutils literal notranslate"><span class="pre">.action</span></code> and must be located in the subfolder <code class="docutils literal notranslate"><span class="pre">action</span></code>.</p>
+<p>These files might need to be updated to comply with the <a class="reference external" href="https://design.ros2.org/articles/interface_definition.html">ROS Interface definition</a>.
+Some primitive types have been removed and the types <code class="docutils literal notranslate"><span class="pre">duration</span></code> and <code class="docutils literal notranslate"><span class="pre">time</span></code> which were builtin types in ROS 1 have been replaced with normal message definitions and must be used from the <a class="reference external" href="https://github.com/ros2/rcl_interfaces/tree/master/builtin_interfaces">builtin_interfaces</a> package.
+Also some naming conventions are stricter than in ROS 1.</p>
+<p>In your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>:</p>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">&lt;buildtool_depend&gt;rosidl_default_generators&lt;/buildtool_depend&gt;</span></code>.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">&lt;exec_depend&gt;rosidl_default_runtime&lt;/exec_depend&gt;</span></code>.</p></li>
+<li><p>For each dependent message package, add <code class="docutils literal notranslate"><span class="pre">&lt;depend&gt;message_package&lt;/depend&gt;</span></code>.</p></li>
+</ul>
+<p>In your <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<ul class="simple">
+<li><p>Start by enabling C++14</p></li>
+</ul>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">14</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">find_package(rosidl_default_generators</span> <span class="pre">REQUIRED)</span></code></p></li>
+<li><p>For each dependent message package, add <code class="docutils literal notranslate"><span class="pre">find_package(message_package</span> <span class="pre">REQUIRED)</span></code> and replace the CMake function call to <code class="docutils literal notranslate"><span class="pre">generate_messages</span></code> with <code class="docutils literal notranslate"><span class="pre">rosidl_generate_interfaces</span></code>.</p></li>
+</ul>
+<p>This will replace <code class="docutils literal notranslate"><span class="pre">add_message_files</span></code> and <code class="docutils literal notranslate"><span class="pre">add_service_files</span></code> listing of all the message and service files, which can be removed.</p>
+</section>
+<section id="build-system">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Build system</a><a class="headerlink" href="#build-system" title="Link to this heading"></a></h3>
+<p>The build system in ROS 2 is called <a class="reference external" href="https://design.ros2.org/articles/ament.html">ament</a>
+and the build tool is  <a class="reference internal" href="../Tutorials/Colcon-Tutorial.html"><span class="doc">colcon</span></a>.
+Ament is built on CMake: <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code> provides CMake functions to make writing <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files easier.</p>
+<section id="build-tool">
+<h4>构建工具<a class="headerlink" href="#build-tool" title="Link to this heading"></a></h4>
+<p>Instead of using <code class="docutils literal notranslate"><span class="pre">catkin_make</span></code>, <code class="docutils literal notranslate"><span class="pre">catkin_make_isolated</span></code> or <code class="docutils literal notranslate"><span class="pre">catkin</span> <span class="pre">build</span></code> ROS 2 uses the command line tool <a class="reference external" href="https://design.ros2.org/articles/build_tool.html">colcon</a> to build and install a set of packages.</p>
+</section>
+<section id="pure-python-package">
+<h4>Pure Python package<a class="headerlink" href="#pure-python-package" title="Link to this heading"></a></h4>
+<p>If the ROS 1 package uses CMake only to invoke the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file and does not contain anything beside Python code (e.g. also no messages, services, etc.) it should be converted into a pure Python package in ROS 2:</p>
+<ul>
+<li><p>Update or add the build type in the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;export&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_type&gt;</span>ament_python<span class="nt">&lt;/build_type&gt;</span>
+<span class="nt">&lt;/export&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file</p></li>
+<li><p>Update the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file to be a standard Python setup script</p></li>
+</ul>
+<p>ROS 2 supports Python 3 only.
+While each package can choose to also support Python 2 it must invoke executables with Python 3 if it uses any API provided by other ROS 2 packages.</p>
+</section>
+<section id="update-the-cmakelists-txt-to-use-ament-cmake">
+<h4>Update the <em>CMakeLists.txt</em> to use <em>ament_cmake</em><a class="headerlink" href="#update-the-cmakelists-txt-to-use-ament-cmake" title="Link to this heading"></a></h4>
+<p>Apply the following changes to use <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code> instead of <code class="docutils literal notranslate"><span class="pre">catkin</span></code>:</p>
+<ul>
+<li><p>Set the build type in the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> file export section:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;export&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_type&gt;</span>ament_cmake<span class="nt">&lt;/build_type&gt;</span>
+<span class="nt">&lt;/export&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Replace the <code class="docutils literal notranslate"><span class="pre">find_package</span></code> invocation with <code class="docutils literal notranslate"><span class="pre">catkin</span></code> and the <code class="docutils literal notranslate"><span class="pre">COMPONENTS</span></code> with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">ament_cmake</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">component1</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="c"># ...</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">componentN</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Move and update the <code class="docutils literal notranslate"><span class="pre">catkin_package</span></code> invocation with:</p>
+<ul class="simple">
+<li><p>Invoke <code class="docutils literal notranslate"><span class="pre">ament_package</span></code> instead but <strong>after</strong> all targets have been registered.</p></li>
+<li><p>The only valid argument for <a class="reference external" href="https://github.com/ament/ament_cmake/blob/master/ament_cmake_core/cmake/core/ament_package.cmake">ament_package</a> is <code class="docutils literal notranslate"><span class="pre">CONFIG_EXTRAS</span></code>.
+All other arguments are covered by separate functions which all need to be invoked <em>before</em> <code class="docutils literal notranslate"><span class="pre">ament_package</span></code>:</p>
+<ul>
+<li><p>Instead of passing <code class="docutils literal notranslate"><span class="pre">CATKIN_DEPENDS</span> <span class="pre">...</span></code> call <code class="docutils literal notranslate"><span class="pre">ament_export_dependencies(...)</span></code> before.</p></li>
+<li><p>Instead of passing <code class="docutils literal notranslate"><span class="pre">INCLUDE_DIRS</span> <span class="pre">...</span></code> call <code class="docutils literal notranslate"><span class="pre">ament_export_include_directories(...)</span></code> before.</p></li>
+<li><p>Instead of passing <code class="docutils literal notranslate"><span class="pre">LIBRARIES</span> <span class="pre">...</span></code> call <code class="docutils literal notranslate"><span class="pre">ament_export_libraries(...)</span></code> before.</p></li>
+</ul>
+</li>
+<li><p><strong>TODO document ament_export_targets (``ament_export_interfaces`` in Eloquent and older)?</strong></p></li>
+</ul>
+</li>
+<li><p>Replace the invocation of <code class="docutils literal notranslate"><span class="pre">add_message_files</span></code>, <code class="docutils literal notranslate"><span class="pre">add_service_files</span></code> and <code class="docutils literal notranslate"><span class="pre">generate_messages</span></code> with <a class="reference external" href="https://github.com/ros2/rosidl/blob/master/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake">rosidl_generate_interfaces</a>.</p>
+<ul>
+<li><p>The first argument is the <code class="docutils literal notranslate"><span class="pre">target_name</span></code>.
+If you're building just one library it's <code class="docutils literal notranslate"><span class="pre">${PROJECT_NAME}</span></code></p></li>
+<li><p>Followed by the list of message filenames, relative to the package root.</p>
+<ul class="simple">
+<li><p>If you will be using the list of filenames multiple times, it is recommended to compose a list of message files and pass the list to the function for clarity.</p></li>
+</ul>
+</li>
+<li><p>The final multi-value-keyword argument fpr <code class="docutils literal notranslate"><span class="pre">generate_messages</span></code> is <code class="docutils literal notranslate"><span class="pre">DEPENDENCIES</span></code> which requires the list of dependent message packages.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">rosidl_generate_interfaces</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="o">${</span><span class="nv">msg_files</span><span class="o">}</span>
+<span class="w">  </span><span class="s">DEPENDENCIES</span><span class="w"> </span><span class="s">std_msgs</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Remove any occurrences of the <em>devel space</em>.
+Related CMake variables like <code class="docutils literal notranslate"><span class="pre">CATKIN_DEVEL_PREFIX</span></code> do not exist anymore.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">CATKIN_DEPENDS</span></code> and <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code> arguments are passed to the new function <a class="reference external" href="https://github.com/ament/ament_cmake/blob/master/ament_cmake_export_dependencies/cmake/ament_export_dependencies.cmake">ament_export_dependencies</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_GLOBAL_BIN_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">bin</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_GLOBAL_INCLUDE_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">include</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_GLOBAL_LIB_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">lib</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_GLOBAL_LIBEXEC_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">lib</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_GLOBAL_SHARE_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">share</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_PACKAGE_BIN_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">lib/${PROJECT_NAME}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_PACKAGE_INCLUDE_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">include/${PROJECT_NAME}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_PACKAGE_LIB_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">lib</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CATKIN_PACKAGE_SHARE_DESTINATION</span></code>: <code class="docutils literal notranslate"><span class="pre">share/${PROJECT_NAME}</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="unit-tests">
+<h4>Unit tests<a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h4>
+<p>If you are using gtest:</p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">CATKIN_ENABLE_TESTING</span></code> with <code class="docutils literal notranslate"><span class="pre">BUILD_TESTING</span></code>.
+Replace <code class="docutils literal notranslate"><span class="pre">catkin_add_gtest</span></code> with <code class="docutils literal notranslate"><span class="pre">ament_add_gtest</span></code>.</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">-   if (CATKIN_ENABLE_TESTING)</span>
+<span class="gd">-     find_package(GTest REQUIRED)  # or rostest</span>
+<span class="gd">-     include_directories(${GTEST_INCLUDE_DIRS})</span>
+<span class="gd">-     catkin_add_gtest(${PROJECT_NAME}-some-test src/test/some_test.cpp)</span>
+<span class="gd">-     target_link_libraries(${PROJECT_NAME}-some-test</span>
+<span class="gd">-       ${PROJECT_NAME}_some_dependency</span>
+<span class="gd">-       ${catkin_LIBRARIES}</span>
+<span class="gd">-       ${GTEST_LIBRARIES})</span>
+<span class="gd">-   endif()</span>
+<span class="gi">+   if (BUILD_TESTING)</span>
+<span class="gi">+     find_package(ament_cmake_gtest REQUIRED)</span>
+<span class="gi">+     ament_add_gtest(${PROJECT_NAME}-some-test src/test/test_something.cpp)</span>
+<span class="gi">+     ament_target_dependencies(${PROJECT_NAME)-some-test</span>
+<span class="gi">+       &quot;rclcpp&quot;</span>
+<span class="gi">+       &quot;std_msgs&quot;)</span>
+<span class="gi">+     target_link_libraries(${PROJECT_NAME}-some-test</span>
+<span class="gi">+       ${PROJECT_NAME}_some_dependency)</span>
+<span class="gi">+   endif()</span>
+</pre></div>
+</div>
+<p>Add <code class="docutils literal notranslate"><span class="pre">&lt;test_depend&gt;ament_cmake_gtest&lt;/test_depend&gt;</span></code> to your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">-   &lt;test_depend&gt;rostest&lt;/test_depend&gt;</span>
+<span class="gi">+   &lt;test_depend&gt;ament_cmake_gtest&lt;/test_depend&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="linters">
+<h4>Linters<a class="headerlink" href="#linters" title="Link to this heading"></a></h4>
+<p>In ROS 2 we are working to maintain clean code using linters.
+The styles for different languages are defined in our <a class="reference internal" href="Developer-Guide.html"><span class="doc">Developer Guide</span></a>.</p>
+<p>If you are starting a project from scratch it is recommended to follow the style guide and turn on the automatic linter unit tests by adding these lines just below <code class="docutils literal notranslate"><span class="pre">if(BUILD_TESTING)</span></code> (until alpha 5 this was <code class="docutils literal notranslate"><span class="pre">AMENT_ENABLE_TESTING</span></code>).</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">ament_lint_auto</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">ament_lint_auto_find_test_dependencies</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You will also need to add the following dependencies to your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;test_depend&gt;</span>ament_lint_auto<span class="nt">&lt;/test_depend&gt;</span>
+<span class="nt">&lt;test_depend&gt;</span>ament_lint_common<span class="nt">&lt;/test_depend&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="continue-to-use-catkin-in-cmake">
+<h4>Continue to use <code class="docutils literal notranslate"><span class="pre">catkin</span></code> in CMake<a class="headerlink" href="#continue-to-use-catkin-in-cmake" title="Link to this heading"></a></h4>
+<p>ROS 2 uses ament as the build system but for backward compatibility ROS 2 has a package called <code class="docutils literal notranslate"><span class="pre">catkin</span></code> which provides almost the same API as catkin in ROS 1.
+In order to use this backward compatibility API the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> must only be updated to call the function <code class="docutils literal notranslate"><span class="pre">catkin_ament_package()</span></code> <em>after</em> all targets.</p>
+<p><strong>NOTE: This has not been implemented yet and is only an idea at the moment.
+Due to the number of changes related to dependencies it has not yet been decided if this compatibility API is useful enough to justify the effort.</strong></p>
+</section>
+</section>
+<section id="update-source-code">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Update source code</a><a class="headerlink" href="#update-source-code" title="Link to this heading"></a></h3>
+<section id="messages-services-and-actions">
+<h4>Messages, services, and actions<a class="headerlink" href="#messages-services-and-actions" title="Link to this heading"></a></h4>
+<p>The namespace of ROS 2 messages, services, and actions use a subnamespace (<code class="docutils literal notranslate"><span class="pre">msg</span></code>, <code class="docutils literal notranslate"><span class="pre">srv</span></code>, or <code class="docutils literal notranslate"><span class="pre">action</span></code>, respectively) after the package name.
+Therefore an include looks like: <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;my_interfaces/msg/my_message.hpp&gt;</span></code>.
+The C++ type is then named: <code class="docutils literal notranslate"><span class="pre">my_interfaces::msg::MyMessage</span></code>.</p>
+<p>Shared pointer types are provided as typedefs within the message structs: <code class="docutils literal notranslate"><span class="pre">my_interfaces::msg::MyMessage::SharedPtr</span></code> as well as <code class="docutils literal notranslate"><span class="pre">my_interfaces::msg::MyMessage::ConstSharedPtr</span></code>.</p>
+<p>For more details please see the article about the <a class="reference external" href="https://design.ros2.org/articles/generated_interfaces_cpp.html">generated C++ interfaces</a>.</p>
+<p>The migration requires includes to change by:</p>
+<ul class="simple">
+<li><p>inserting the subfolder <code class="docutils literal notranslate"><span class="pre">msg</span></code> between the package name and message datatype</p></li>
+<li><p>changing the included filename from CamelCase to underscore separation</p></li>
+<li><p>changing from <code class="docutils literal notranslate"><span class="pre">*.h</span></code> to <code class="docutils literal notranslate"><span class="pre">*.hpp</span></code></p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ROS 1 style is in comments, ROS 2 follows, uncommented.</span>
+<span class="c1">// # include &lt;geometry_msgs/PointStamped.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;geometry_msgs/msg/point_stamped.hpp&gt;</span>
+
+<span class="c1">// geometry_msgs::PointStamped point_stamped;</span>
+<span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PointStamped</span><span class="w"> </span><span class="n">point_stamped</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The migration requires code to insert the <code class="docutils literal notranslate"><span class="pre">msg</span></code> namespace into all instances.</p>
+</section>
+<section id="use-of-service-objects">
+<h4>Use of service objects<a class="headerlink" href="#use-of-service-objects" title="Link to this heading"></a></h4>
+<p>Service callbacks in ROS 2 do not have boolean return values.
+Instead of returning false on failures, throwing exceptions is recommended.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// ROS 1 style is in comments, ROS 2 follows, uncommented.</span>
+<span class="c1">// #include &quot;nav_msgs/GetMap.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nav_msgs/srv/get_map.hpp&quot;</span>
+
+<span class="c1">// bool service_callback(</span>
+<span class="c1">//   nav_msgs::GetMap::Request &amp; request,</span>
+<span class="c1">//   nav_msgs::GetMap::Response &amp; response)</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">service_callback</span><span class="p">(</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">nav_msgs</span><span class="o">::</span><span class="n">srv</span><span class="o">::</span><span class="n">GetMap</span><span class="o">::</span><span class="n">Request</span><span class="o">&gt;</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">nav_msgs</span><span class="o">::</span><span class="n">srv</span><span class="o">::</span><span class="n">GetMap</span><span class="o">::</span><span class="n">Response</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="w">  </span><span class="c1">// return true;  // or false for failure</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="usages-of-ros-time">
+<h4>Usages of ros::Time<a class="headerlink" href="#usages-of-ros-time" title="Link to this heading"></a></h4>
+<p>For usages of <code class="docutils literal notranslate"><span class="pre">ros::Time</span></code>:</p>
+<ul class="simple">
+<li><p>Replace all instances of <code class="docutils literal notranslate"><span class="pre">ros::Time</span></code> with <code class="docutils literal notranslate"><span class="pre">rclcpp::Time</span></code></p></li>
+<li><p>If your messages or code makes use of std_msgs::Time:</p>
+<ul>
+<li><p>Convert all instances of std_msgs::Time to builtin_interfaces::msg::Time</p></li>
+<li><p>Convert all <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;std_msgs/time.h</span></code> to <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;builtin_interfaces/msg/time.hpp&quot;</span></code></p></li>
+<li><p>Convert all instances using the std_msgs::Time field <code class="docutils literal notranslate"><span class="pre">nsec</span></code> to the builtin_interfaces::msg::Time field <code class="docutils literal notranslate"><span class="pre">nanosec</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="usages-of-ros-rate">
+<h4>Usages of ros::Rate<a class="headerlink" href="#usages-of-ros-rate" title="Link to this heading"></a></h4>
+<p>There is an equivalent type <code class="docutils literal notranslate"><span class="pre">rclcpp::Rate</span></code> object which is basically a drop in replacement for <code class="docutils literal notranslate"><span class="pre">ros::Rate</span></code>.</p>
+</section>
+<section id="ros-client-library">
+<h4>ROS client library<a class="headerlink" href="#ros-client-library" title="Link to this heading"></a></h4>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</div>
+<p><strong>NOTE: Others to be written</strong></p>
+</section>
+<section id="boost">
+<h4>Boost<a class="headerlink" href="#boost" title="Link to this heading"></a></h4>
+<p>Much of the functionality previously provided by Boost has been integrated into the C++ standard library.
+As such we would like to take advantage of the new core features and avoid the dependency on boost where possible.</p>
+<section id="shared-pointers">
+<h5>Shared Pointers<a class="headerlink" href="#shared-pointers" title="Link to this heading"></a></h5>
+<p>To switch shared pointers from boost to standard C++ replace instances of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;boost/shared_ptr.hpp&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;memory&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boost::shared_ptr</span></code> with <code class="docutils literal notranslate"><span class="pre">std::shared_ptr</span></code></p></li>
+</ul>
+<p>There may also be variants such as <code class="docutils literal notranslate"><span class="pre">weak_ptr</span></code> which you want to convert as well.</p>
+<p>Also it is recommended practice to use <code class="docutils literal notranslate"><span class="pre">using</span></code> instead of <code class="docutils literal notranslate"><span class="pre">typedef</span></code>.
+<code class="docutils literal notranslate"><span class="pre">using</span></code> has the ability to work better in templated logic.
+For details <a class="reference external" href="https://stackoverflow.com/questions/10747810/what-is-the-difference-between-typedef-and-using-in-c11">see here</a></p>
+</section>
+<section id="thread-mutexes">
+<h5>Thread/Mutexes<a class="headerlink" href="#thread-mutexes" title="Link to this heading"></a></h5>
+<p>Another common part of boost used in ROS codebases are mutexes in <code class="docutils literal notranslate"><span class="pre">boost::thread</span></code>.</p>
+<ul class="simple">
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">boost::mutex::scoped_lock</span></code> with <code class="docutils literal notranslate"><span class="pre">std::unique_lock&lt;std::mutex&gt;</span></code></p></li>
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">boost::mutex</span></code> with <code class="docutils literal notranslate"><span class="pre">std::mutex</span></code></p></li>
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;boost/thread/mutex.hpp&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;mutex&gt;</span></code></p></li>
+</ul>
+</section>
+<section id="unordered-map">
+<h5>Unordered Map<a class="headerlink" href="#unordered-map" title="Link to this heading"></a></h5>
+<p>Replace:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;boost/unordered_map.hpp&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;unordered_map&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boost::unordered_map</span></code> with <code class="docutils literal notranslate"><span class="pre">std::unordered_map</span></code></p></li>
+</ul>
+</section>
+<section id="function">
+<h5>function<a class="headerlink" href="#function" title="Link to this heading"></a></h5>
+<p>Replace:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;boost/function.hpp&gt;</span></code>  with <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;functional&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boost::function</span></code> with <code class="docutils literal notranslate"><span class="pre">std::function</span></code></p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="parameters">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Link to this heading"></a></h2>
+<p>In ROS 1, parameters are associated with a central server that allowed retrieving parameters at runtime through the use of the network APIs.
+In ROS 2, parameters are associated per node and are configurable at runtime with ROS services.</p>
+<ul class="simple">
+<li><p>See <a class="reference external" href="https://design.ros2.org/articles/ros_parameters.html">ROS 2 Parameter design document</a> for more details about the system model.</p></li>
+<li><p>See <a class="reference internal" href="../Tutorials/Parameters/Understanding-ROS2-Parameters.html"><span class="doc">ROS 2 CLI usage</span></a> for a better understanding of how the CLI tools work and its differences with ROS 1 tooling.</p></li>
+<li><p>See <a class="reference internal" href="../Guides/Parameters-YAML-files-migration-guide.html#yaml-ros1-ros2"><span class="std std-ref">Migrating YAML parameter files from ROS 1 to ROS 2</span></a> to see how YAML parameter files are parsed in ROS 2 and their differences with ROS implementation.</p></li>
+</ul>
+</section>
+<section id="launch-files">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Launch files</a><a class="headerlink" href="#launch-files" title="Link to this heading"></a></h2>
+<p>While launch files in ROS 1 are always specified using <a class="reference external" href="https://wiki.ros.org/roslaunch/XML">.xml</a> files, ROS 2 supports Python scripts to enable more flexibility (see <a class="reference external" href="https://github.com/ros2/launch/tree/master/launch">launch package</a>) as well as XML and YAML files.
+See <a class="reference internal" href="../Guides/Launch-files-migration-guide.html"><span class="doc">separate tutorial</span></a> on migrating launch files from ROS 1 to ROS 2.</p>
+</section>
+<section id="example-converting-an-existing-ros-1-package-to-use-ros-2">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Example: Converting an existing ROS 1 package to use ROS 2</a><a class="headerlink" href="#example-converting-an-existing-ros-1-package-to-use-ros-2" title="Link to this heading"></a></h2>
+<p>Let's say that we have simple ROS 1 package called <code class="docutils literal notranslate"><span class="pre">talker</span></code> that uses <code class="docutils literal notranslate"><span class="pre">roscpp</span></code>
+in one node, called <code class="docutils literal notranslate"><span class="pre">talker</span></code>.
+This package is in a catkin workspace, located at <code class="docutils literal notranslate"><span class="pre">~/ros1_talker</span></code>.</p>
+<section id="the-ros-1-code">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">The ROS 1 code</a><a class="headerlink" href="#the-ros-1-code" title="Link to this heading"></a></h3>
+<p>Here's the directory layout of our catkin workspace:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/ros1_talker
+$<span class="w"> </span>find<span class="w"> </span>.
+.
+./src
+./src/talker
+./src/talker/package.xml
+./src/talker/CMakeLists.txt
+./src/talker/talker.cpp
+</pre></div>
+</div>
+<p>Here is the content of those three files:</p>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker/package.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;package&gt;</span>
+<span class="w">  </span><span class="nt">&lt;name&gt;</span>talker<span class="nt">&lt;/name&gt;</span>
+<span class="w">  </span><span class="nt">&lt;version&gt;</span>0.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;description&gt;</span>talker<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;gerkey@osrfoundation.org&quot;</span><span class="nt">&gt;</span>Brian<span class="w"> </span>Gerkey<span class="nt">&lt;/maintainer&gt;</span>
+<span class="w">  </span><span class="nt">&lt;license&gt;</span>Apache<span class="w"> </span>2.0<span class="nt">&lt;/license&gt;</span>
+<span class="w">  </span><span class="nt">&lt;buildtool_depend&gt;</span>catkin<span class="nt">&lt;/buildtool_depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_depend&gt;</span>roscpp<span class="nt">&lt;/build_depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_depend&gt;</span>std_msgs<span class="nt">&lt;/build_depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;run_depend&gt;</span>roscpp<span class="nt">&lt;/run_depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;run_depend&gt;</span>std_msgs<span class="nt">&lt;/run_depend&gt;</span>
+<span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker/CMakeLists.txt</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">2.8.3</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">talker</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">catkin</span><span class="w"> </span><span class="s">REQUIRED</span><span class="w"> </span><span class="s">COMPONENTS</span><span class="w"> </span><span class="s">roscpp</span><span class="w"> </span><span class="s">std_msgs</span><span class="p">)</span>
+<span class="nb">catkin_package</span><span class="p">()</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">catkin_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">talker</span><span class="w"> </span><span class="s">talker.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">talker</span><span class="w"> </span><span class="o">${</span><span class="nv">catkin_LIBRARIES</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span><span class="w"> </span><span class="s">talker</span>
+<span class="w">  </span><span class="s">RUNTIME</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nv">CATKIN_PACKAGE_BIN_DESTINATION</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker/talker.cpp</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ros/ros.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;std_msgs/String.h&quot;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;talker&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">  </span><span class="n">ros</span><span class="o">::</span><span class="n">Publisher</span><span class="w"> </span><span class="n">chatter_pub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">advertise</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;chatter&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">  </span><span class="n">ros</span><span class="o">::</span><span class="n">Rate</span><span class="w"> </span><span class="n">loop_rate</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">String</span><span class="w"> </span><span class="n">msg</span><span class="p">;</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ros</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;hello world &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ROS_INFO</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">chatter_pub</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ros</span><span class="o">::</span><span class="n">spinOnce</span><span class="p">();</span>
+<span class="w">    </span><span class="n">loop_rate</span><span class="p">.</span><span class="n">sleep</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="building-the-ros-1-code">
+<h4>Building the ROS 1 code<a class="headerlink" href="#building-the-ros-1-code" title="Link to this heading"></a></h4>
+<p>We source an environment setup file (in this case for Jade using bash), then we
+build our package using <code class="docutils literal notranslate"><span class="pre">catkin_make</span> <span class="pre">install</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>/opt/ros/jade/setup.bash
+<span class="nb">cd</span><span class="w"> </span>~/ros1_talker
+catkin_make<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="running-the-ros-1-node">
+<h4>Running the ROS 1 node<a class="headerlink" href="#running-the-ros-1-node" title="Link to this heading"></a></h4>
+<p>If there's not already one running, we start a <code class="docutils literal notranslate"><span class="pre">roscore</span></code>, first sourcing the
+setup file from our <code class="docutils literal notranslate"><span class="pre">catkin</span></code> install tree (the system setup file at
+<code class="docutils literal notranslate"><span class="pre">/opt/ros/jade/setup.bash</span></code> would also work here):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>~/ros1_talker/install/setup.bash
+roscore
+</pre></div>
+</div>
+<p>In another shell, we run the node from the <code class="docutils literal notranslate"><span class="pre">catkin</span></code> install space using
+<code class="docutils literal notranslate"><span class="pre">rosrun</span></code>, again sourcing the setup file first (in this case it must be the one
+from our workspace):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>~/ros1_talker/install/setup.bash
+rosrun<span class="w"> </span>talker<span class="w"> </span>talker
+</pre></div>
+</div>
+</section>
+</section>
+<section id="migrating-to-ros-2">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Migrating to ROS 2</a><a class="headerlink" href="#migrating-to-ros-2" title="Link to this heading"></a></h3>
+<p>Let's start by creating a new workspace in which to work:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>~/ros2_talker
+<span class="nb">cd</span><span class="w"> </span>~/ros2_talker
+</pre></div>
+</div>
+<p>We'll copy the source tree from our ROS 1 package into that workspace, where we can modify it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>src
+cp<span class="w"> </span>-a<span class="w"> </span>~/ros1_talker/src/talker<span class="w"> </span>src
+</pre></div>
+</div>
+<p>Now we'll modify the C++ code in the node.
+The ROS 2 C++ library, called <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code>, provides a different API from that
+provided by <code class="docutils literal notranslate"><span class="pre">roscpp</span></code>.
+The concepts are very similar between the two libraries, which makes the changes
+reasonably straightforward to make.</p>
+<section id="included-headers">
+<h4>Included headers<a class="headerlink" href="#included-headers" title="Link to this heading"></a></h4>
+<p>In place of <code class="docutils literal notranslate"><span class="pre">ros/ros.h</span></code>, which gave us access to the <code class="docutils literal notranslate"><span class="pre">roscpp</span></code> library API, we
+need to include <code class="docutils literal notranslate"><span class="pre">rclcpp/rclcpp.hpp</span></code>, which gives us access to the <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code>
+library API:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//#include &quot;ros/ros.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp/rclcpp.hpp&quot;</span>
+</pre></div>
+</div>
+<p>To get the <code class="docutils literal notranslate"><span class="pre">std_msgs/String</span></code> message definition, in place of
+<code class="docutils literal notranslate"><span class="pre">std_msgs/String.h</span></code>, we need to include <code class="docutils literal notranslate"><span class="pre">std_msgs/msg/string.hpp</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//#include &quot;std_msgs/String.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;std_msgs/msg/string.hpp&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="changing-c-library-calls">
+<h4>Changing C++ library calls<a class="headerlink" href="#changing-c-library-calls" title="Link to this heading"></a></h4>
+<p>Instead of passing the node's name to the library initialization call, we do
+the initialization, then pass the node name to the creation of the node object
+(we can use the <code class="docutils literal notranslate"><span class="pre">auto</span></code> keyword because now we're requiring a C++14 compiler):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//  ros::init(argc, argv, &quot;talker&quot;);</span>
+<span class="c1">//  ros::NodeHandle n;</span>
+<span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span><span class="o">::</span><span class="n">make_shared</span><span class="p">(</span><span class="s">&quot;talker&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The creation of the publisher and rate objects looks pretty similar, with some
+changes to the names of namespace and methods.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//  ros::Publisher chatter_pub = n.advertise&lt;std_msgs::String&gt;(&quot;chatter&quot;, 1000);</span>
+<span class="c1">//  ros::Rate loop_rate(10);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">chatter_pub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">create_publisher</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;chatter&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Rate</span><span class="w"> </span><span class="nf">loop_rate</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To further control how message delivery is handled, a quality of service
+(<code class="docutils literal notranslate"><span class="pre">QoS</span></code>) profile could be passed in.
+The default profile is <code class="docutils literal notranslate"><span class="pre">rmw_qos_profile_default</span></code>.
+For more details, see the
+<a class="reference external" href="https://design.ros2.org/articles/qos.html">design document</a>
+and <a class="reference internal" href="../Concepts/About-Quality-of-Service-Settings.html"><span class="doc">concept overview</span></a>.</p>
+<p>The creation of the outgoing message is different in the namespace:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//  std_msgs::String msg;</span>
+<span class="w">  </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="w"> </span><span class="n">msg</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>In place of <code class="docutils literal notranslate"><span class="pre">ros::ok()</span></code>, we call <code class="docutils literal notranslate"><span class="pre">rclcpp::ok()</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//  while (ros::ok())</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Inside the publishing loop, we access the <code class="docutils literal notranslate"><span class="pre">data</span></code> field as before:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>To print a console message, instead of using <code class="docutils literal notranslate"><span class="pre">ROS_INFO()</span></code>, we use
+<code class="docutils literal notranslate"><span class="pre">RCLCPP_INFO()</span></code> and its various cousins.
+The key difference is that <code class="docutils literal notranslate"><span class="pre">RCLCPP_INFO()</span></code> takes a Logger object as the first
+argument.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//    ROS_INFO(&quot;%s&quot;, msg.data.c_str());</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>Publishing the message is the same as before:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">chatter_pub</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Spinning (i.e., letting the communications system process any pending
+incoming/outgoing messages) is different in that the call now takes the node as
+an argument:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">//    ros::spinOnce();</span>
+<span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">spin_some</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Sleeping using the rate object is unchanged.</p>
+<p>Putting it all together, the new <code class="docutils literal notranslate"><span class="pre">talker.cpp</span></code> looks like this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span>
+<span class="c1">// #include &quot;ros/ros.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp/rclcpp.hpp&quot;</span>
+<span class="c1">// #include &quot;std_msgs/String.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;std_msgs/msg/string.hpp&quot;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">//  ros::init(argc, argv, &quot;talker&quot;);</span>
+<span class="c1">//  ros::NodeHandle n;</span>
+<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span><span class="o">::</span><span class="n">make_shared</span><span class="p">(</span><span class="s">&quot;talker&quot;</span><span class="p">);</span>
+<span class="c1">//  ros::Publisher chatter_pub = n.advertise&lt;std_msgs::String&gt;(&quot;chatter&quot;, 1000);</span>
+<span class="c1">//  ros::Rate loop_rate(10);</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">chatter_pub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">create_publisher</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;chatter&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Rate</span><span class="w"> </span><span class="n">loop_rate</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="c1">//  std_msgs::String msg;</span>
+<span class="w">  </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="w"> </span><span class="n">msg</span><span class="p">;</span>
+<span class="c1">//  while (ros::ok())</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;hello world &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">();</span>
+<span class="c1">//    ROS_INFO(&quot;%s&quot;, msg.data.c_str());</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">chatter_pub</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+<span class="c1">//    ros::spinOnce();</span>
+<span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">spin_some</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+<span class="w">    </span><span class="n">loop_rate</span><span class="p">.</span><span class="n">sleep</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="changing-the-package-xml">
+<h4>Changing the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code><a class="headerlink" href="#changing-the-package-xml" title="Link to this heading"></a></h4>
+<p>ROS 2 doesn't support format 1 of the package specification but only newer format versions (2 and higher).
+We start by specifying the format version in the <code class="docutils literal notranslate"><span class="pre">package</span></code> tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- &lt;package&gt; --&gt;</span>
+<span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+<p>ROS 2 uses a newer version of <code class="docutils literal notranslate"><span class="pre">catkin</span></code>, called <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code>, which we specify in the
+<code class="docutils literal notranslate"><span class="pre">buildtool_depend</span></code> tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--  &lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt; --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;buildtool_depend&gt;</span>ament_cmake<span class="nt">&lt;/buildtool_depend&gt;</span>
+</pre></div>
+</div>
+<p>In our build dependencies, instead of <code class="docutils literal notranslate"><span class="pre">roscpp</span></code> we use <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code>, which provides
+the C++ API that we use.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--  &lt;build_depend&gt;roscpp&lt;/build_depend&gt; --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_depend&gt;</span>rclcpp<span class="nt">&lt;/build_depend&gt;</span>
+</pre></div>
+</div>
+<p>We make the same addition in the run dependencies and also update from the
+<code class="docutils literal notranslate"><span class="pre">run_depend</span></code> tag to the <code class="docutils literal notranslate"><span class="pre">exec_depend</span></code> tag (part of the upgrade to version 2 of
+the package format):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--  &lt;run_depend&gt;roscpp&lt;/run_depend&gt; --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;exec_depend&gt;</span>rclcpp<span class="nt">&lt;/exec_depend&gt;</span>
+<span class="cm">&lt;!--  &lt;run_depend&gt;std_msgs&lt;/run_depend&gt; --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;exec_depend&gt;</span>std_msgs<span class="nt">&lt;/exec_depend&gt;</span>
+</pre></div>
+</div>
+<p>In ROS 1, we use <code class="docutils literal notranslate"><span class="pre">&lt;depend&gt;</span></code> to simplify specifying dependencies for both
+compile-time and runtime.
+We can do the same in ROS 2:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;depend&gt;</span>rclcpp<span class="nt">&lt;/depend&gt;</span>
+<span class="nt">&lt;depend&gt;</span>std_msgs<span class="nt">&lt;/depend&gt;</span>
+</pre></div>
+</div>
+<p>We also need to tell the build tool what <em>kind</em> of package we are, so that it knows how
+to build us.
+Because we're using <code class="docutils literal notranslate"><span class="pre">ament</span></code> and CMake, we add the following lines to declare our
+build type to be <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;export&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_type&gt;</span>ament_cmake<span class="nt">&lt;/build_type&gt;</span>
+<span class="nt">&lt;/export&gt;</span>
+</pre></div>
+</div>
+<p>Putting it all together, our <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> now looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- &lt;package&gt; --&gt;</span>
+<span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;name&gt;</span>talker<span class="nt">&lt;/name&gt;</span>
+<span class="w">  </span><span class="nt">&lt;version&gt;</span>0.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;description&gt;</span>talker<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;gerkey@osrfoundation.org&quot;</span><span class="nt">&gt;</span>Brian<span class="w"> </span>Gerkey<span class="nt">&lt;/maintainer&gt;</span>
+<span class="w">  </span><span class="nt">&lt;license&gt;</span>Apache<span class="w"> </span>License<span class="w"> </span>2.0<span class="nt">&lt;/license&gt;</span>
+<span class="cm">&lt;!--  &lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt; --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;buildtool_depend&gt;</span>ament_cmake<span class="nt">&lt;/buildtool_depend&gt;</span>
+<span class="cm">&lt;!--  &lt;build_depend&gt;roscpp&lt;/build_depend&gt; --&gt;</span>
+<span class="cm">&lt;!--  &lt;run_depend&gt;roscpp&lt;/run_depend&gt; --&gt;</span>
+<span class="cm">&lt;!--  &lt;run_depend&gt;std_msgs&lt;/run_depend&gt; --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>rclcpp<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>std_msgs<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;export&gt;</span>
+<span class="w">    </span><span class="nt">&lt;build_type&gt;</span>ament_cmake<span class="nt">&lt;/build_type&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/export&gt;</span>
+<span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+<p><strong>TODO: show simpler version of this file just using the ``&lt;depend&gt;`` tag, which is
+enabled by version 2 of the package format (also supported in ``catkin`` so,
+strictly speaking, orthogonal to ROS 2).</strong></p>
+</section>
+<section id="changing-the-cmake-code">
+<h4>Changing the CMake code<a class="headerlink" href="#changing-the-cmake-code" title="Link to this heading"></a></h4>
+<p>ROS 2 relies on a higher version of CMake:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#cmake_minimum_required(VERSION 2.8.3)</span>
+cmake_minimum_required<span class="o">(</span>VERSION<span class="w"> </span><span class="m">3</span>.5<span class="o">)</span>
+</pre></div>
+</div>
+<p>ROS 2 relies on the C++14 standard.
+Depending on what compiler you're using, support for C++14 might not be enabled
+by default.
+Using <code class="docutils literal notranslate"><span class="pre">gcc</span></code> 5.3 (which is what is used on Ubuntu Xenial), we need to enable it
+explicitly, which we do by adding this line near the top of the file:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">14</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The preferred way to work on all platforms is this:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">if</span><span class="p">(</span><span class="s">NOT</span><span class="w"> </span><span class="s">CMAKE_CXX_STANDARD</span><span class="p">)</span>
+<span class="w">  </span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">14</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_COMPILER_IS_GNUCXX</span><span class="w"> </span><span class="s">OR</span><span class="w"> </span><span class="s">CMAKE_CXX_COMPILER_ID</span><span class="w"> </span><span class="s">MATCHES</span><span class="w"> </span><span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="nb">add_compile_options</span><span class="p">(</span><span class="s">-Wall</span><span class="w"> </span><span class="s">-Wextra</span><span class="w"> </span><span class="s">-Wpedantic</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">catkin</span></code>, we specify the packages we want to build against by passing them
+as <code class="docutils literal notranslate"><span class="pre">COMPONENTS</span></code> arguments when initially finding <code class="docutils literal notranslate"><span class="pre">catkin</span></code> itself.
+With <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code>, we find each package individually, starting with <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">ament_cmake</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">rclcpp</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">std_msgs</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>System dependencies can be found as before:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">Boost</span><span class="w"> </span><span class="s">REQUIRED</span><span class="w"> </span><span class="s">COMPONENTS</span><span class="w"> </span><span class="s">system</span><span class="w"> </span><span class="s">filesystem</span><span class="w"> </span><span class="s">thread</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We call <code class="docutils literal notranslate"><span class="pre">catkin_package()</span></code> to auto-generate things like CMake configuration
+files for other packages that use our package.
+Whereas that call happens <em>before</em> specifying targets to build, we now call the
+analogous <code class="docutils literal notranslate"><span class="pre">ament_package()</span></code> <em>after</em> the targets:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># catkin_package()</span>
+<span class="c"># At the bottom of the file:</span>
+<span class="nb">ament_package</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The only directories that need to be manually included are local directories
+and dependencies that are not ament packages:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#include_directories(${catkin_INCLUDE_DIRS})</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">include</span><span class="w"> </span><span class="o">${</span><span class="nv">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A better alternative is to specify include directories for each target
+individually, rather than including all the directories for all targets:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">target_include_directories</span><span class="p">(</span><span class="s">target</span><span class="w"> </span><span class="s">include</span><span class="w"> </span><span class="o">${</span><span class="nv">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similar to how we found each dependent package separately, we need to link
+each one to the build target.
+To link with dependent packages that are ament packages, instead of using
+<code class="docutils literal notranslate"><span class="pre">target_link_libraries()</span></code>, <code class="docutils literal notranslate"><span class="pre">ament_target_dependencies()</span></code> is a more
+concise and more thorough way of handling build flags.
+It automatically handles both the include directories defined in
+<code class="docutils literal notranslate"><span class="pre">_INCLUDE_DIRS</span></code> and linking libraries defined in <code class="docutils literal notranslate"><span class="pre">_LIBRARIES</span></code>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#target_link_libraries(talker ${catkin_LIBRARIES})</span>
+<span class="nb">ament_target_dependencies</span><span class="p">(</span><span class="s">talker</span>
+<span class="w">  </span><span class="s">rclcpp</span>
+<span class="w">  </span><span class="s">std_msgs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To link with packages that are not ament packages, such as system dependencies
+like <code class="docutils literal notranslate"><span class="pre">Boost</span></code>, or a library being built in the same <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, use
+<code class="docutils literal notranslate"><span class="pre">target_link_libraries()</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">target</span><span class="w"> </span><span class="o">${</span><span class="nv">Boost_LIBRARIES</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For installation, <code class="docutils literal notranslate"><span class="pre">catkin</span></code> defines variables like <code class="docutils literal notranslate"><span class="pre">CATKIN_PACKAGE_BIN_DESTINATION</span></code>.
+With <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code>, we just give a path relative to the installation root, like <code class="docutils literal notranslate"><span class="pre">bin</span></code>
+for executables:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#install(TARGETS talker</span>
+<span class="c">#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span><span class="w"> </span><span class="s">talker</span>
+<span class="w">  </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Optionally, we can install and export the included directories for downstream packages:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">install</span><span class="p">(</span><span class="s">DIRECTORY</span><span class="w"> </span><span class="s">include/</span>
+<span class="w">  </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">include</span><span class="p">)</span>
+<span class="nb">ament_export_include_directories</span><span class="p">(</span><span class="s">include</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Optionally, we can export dependencies for downstream packages:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">ament_export_dependencies</span><span class="p">(</span><span class="s">std_msgs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Putting it all together, the new <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> looks like this:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#cmake_minimum_required(VERSION 2.8.3)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.5</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">talker</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">NOT</span><span class="w"> </span><span class="s">CMAKE_CXX_STANDARD</span><span class="p">)</span>
+<span class="w">  </span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">14</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_COMPILER_IS_GNUCXX</span><span class="w"> </span><span class="s">OR</span><span class="w"> </span><span class="s">CMAKE_CXX_COMPILER_ID</span><span class="w"> </span><span class="s">MATCHES</span><span class="w"> </span><span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="nb">add_compile_options</span><span class="p">(</span><span class="s">-Wall</span><span class="w"> </span><span class="s">-Wextra</span><span class="w"> </span><span class="s">-Wpedantic</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+<span class="c">#find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">ament_cmake</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">rclcpp</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">std_msgs</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="c">#catkin_package()</span>
+<span class="c">#include_directories(${catkin_INCLUDE_DIRS})</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">include</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">talker</span><span class="w"> </span><span class="s">talker.cpp</span><span class="p">)</span>
+<span class="c">#target_link_libraries(talker ${catkin_LIBRARIES})</span>
+<span class="nb">ament_target_dependencies</span><span class="p">(</span><span class="s">talker</span>
+<span class="w">  </span><span class="s">rclcpp</span>
+<span class="w">  </span><span class="s">std_msgs</span><span class="p">)</span>
+<span class="c">#install(TARGETS talker</span>
+<span class="c">#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span><span class="w"> </span><span class="s">talker</span>
+<span class="w">  </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">DIRECTORY</span><span class="w"> </span><span class="s">include/</span>
+<span class="w">  </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">include</span><span class="p">)</span>
+<span class="nb">ament_export_include_directories</span><span class="p">(</span><span class="s">include</span><span class="p">)</span>
+<span class="nb">ament_export_dependencies</span><span class="p">(</span><span class="s">std_msgs</span><span class="p">)</span>
+<span class="nb">ament_package</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>TODO: Show what this would look like with ``ament_auto``.</strong></p>
+</section>
+<section id="building-the-ros-2-code">
+<h4>Building the ROS 2 code<a class="headerlink" href="#building-the-ros-2-code" title="Link to this heading"></a></h4>
+<p>We source an environment setup file (in this case the one generated by following
+the ROS 2 installation tutorial, which builds in <code class="docutils literal notranslate"><span class="pre">~/ros2_ws</span></code>, then we build our
+package using <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>~/ros2_ws/install/setup.bash
+<span class="nb">cd</span><span class="w"> </span>~/ros2_talker
+colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</section>
+<section id="running-the-ros-2-node">
+<h4>Running the ROS 2 node<a class="headerlink" href="#running-the-ros-2-node" title="Link to this heading"></a></h4>
+<p>Because we installed the <code class="docutils literal notranslate"><span class="pre">talker</span></code> executable into <code class="docutils literal notranslate"><span class="pre">bin</span></code>, after sourcing the
+setup file, from our install tree, we can invoke it by name directly
+(also, there is not yet a ROS 2 equivalent for <code class="docutils literal notranslate"><span class="pre">rosrun</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>~/ros2_ws/install/setup.bash
+talker
+</pre></div>
+</div>
+</section>
+</section>
+<section id="update-scripts">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Update scripts</a><a class="headerlink" href="#update-scripts" title="Link to this heading"></a></h3>
+<section id="ros-cli-arguments">
+<h4>ROS CLI arguments<a class="headerlink" href="#ros-cli-arguments" title="Link to this heading"></a></h4>
+<p>Since <a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html"><span class="doc">ROS Eloquent</span></a>, ROS arguments should be scoped with <code class="docutils literal notranslate"><span class="pre">--ros-args</span></code> and a trailing <code class="docutils literal notranslate"><span class="pre">--</span></code> (the trailing double dash may be elided if no arguments follow it).</p>
+<p>Remapping names is similar to ROS 1, taking on the form <code class="docutils literal notranslate"><span class="pre">from:=to</span></code>, except that it must be preceded by a <code class="docutils literal notranslate"><span class="pre">--remap</span></code> (or <code class="docutils literal notranslate"><span class="pre">-r</span></code>) flag.
+For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>some_package<span class="w"> </span>some_ros_executable<span class="w"> </span>--ros-args<span class="w"> </span>-r<span class="w"> </span>foo:<span class="o">=</span>bar
+</pre></div>
+</div>
+<p>We use a similar syntax for parameters, using the <code class="docutils literal notranslate"><span class="pre">--param</span></code> (or <code class="docutils literal notranslate"><span class="pre">-p</span></code>) flag:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>some_package<span class="w"> </span>some_ros_executable<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>my_param:<span class="o">=</span>value
+</pre></div>
+</div>
+<p>Note, this is different than using a leading underscore in ROS 1.</p>
+<p>To change a node name use <code class="docutils literal notranslate"><span class="pre">__node</span></code> (the ROS 1 equivalent is <code class="docutils literal notranslate"><span class="pre">__name</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>some_package<span class="w"> </span>some_ros_executable<span class="w"> </span>--ros-args<span class="w"> </span>-r<span class="w"> </span>__node:<span class="o">=</span>new_node_name
+</pre></div>
+</div>
+<p>Note the use of the <code class="docutils literal notranslate"><span class="pre">-r</span></code> flag.
+The same remap flag is needed for changing the namespace <code class="docutils literal notranslate"><span class="pre">__ns</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>some_package<span class="w"> </span>some_ros_executable<span class="w"> </span>--ros-args<span class="w"> </span>-r<span class="w"> </span>__ns:<span class="o">=</span>/new/namespace
+</pre></div>
+</div>
+<p>There is no equivalent in ROS 2 for the following ROS 1 keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__log</span></code> (but <code class="docutils literal notranslate"><span class="pre">--log-config-file</span></code> can be used to provide a logger configuration file)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__ip</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__hostname</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__master</span></code></p></li>
+</ul>
+<p>For more information, see the <a class="reference external" href="https://design.ros2.org/articles/ros_command_line_arguments.html">design document</a>.</p>
+<section id="quick-reference">
+<h5>Quick reference<a class="headerlink" href="#quick-reference" title="Link to this heading"></a></h5>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>ROS 1</p></th>
+<th class="head"><p>ROS 2</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>remapping</p></td>
+<td><p>foo:=bar</p></td>
+<td><p>-r foo:=bar</p></td>
+</tr>
+<tr class="row-odd"><td><p>parameters</p></td>
+<td><p>_foo:=bar</p></td>
+<td><p>-p foo:=bar</p></td>
+</tr>
+<tr class="row-even"><td><p>node name</p></td>
+<td><p>__name:=foo</p></td>
+<td><p>-r __node:=foo</p></td>
+</tr>
+<tr class="row-odd"><td><p>namespace</p></td>
+<td><p>__ns:=foo</p></td>
+<td><p>-r __ns:=foo</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="more-examples-and-tools">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">More examples and tools</a><a class="headerlink" href="#more-examples-and-tools" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Launch File migrator that converts a ROS 1 XML launch file to a ROS 2 Python launch file: <a class="reference external" href="https://github.com/aws-robotics/ros2-launch-file-migrator">https://github.com/aws-robotics/ros2-launch-file-migrator</a></p></li>
+<li><p>Amazon has exposed their tools for porting ROS 1 robots to ROS 2
+<a class="reference external" href="https://github.com/awslabs/ros2-migration-tools/tree/master/porting_tools">https://github.com/awslabs/ros2-migration-tools/tree/master/porting_tools</a></p></li>
+</ul>
+</section>
+</section>
+<section id="licensing">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Licensing</a><a class="headerlink" href="#licensing" title="Link to this heading"></a></h2>
+<p>In ROS 2 our recommended license is the <a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>.
+In ROS 1 our recommended license was the <a class="reference external" href="https://opensource.org/licenses/BSD-3-Clause">3-Clause BSD License</a>.</p>
+<p>For any new project we recommend using the Apache 2.0 License, whether ROS 1 or ROS 2.</p>
+<p>However, when migrating code from ROS 1 to ROS 2 we cannot simply change the license.
+The existing license must be preserved for any preexisting contributions.</p>
+<p>To that end if a package is being migrated we recommend keeping the existing license and continuing to contribute to that package under the existing OSI license, which we expect to be the BSD license for core elements.</p>
+<p>This will keep things clear and easy to understand.</p>
+<section id="changing-the-license">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Changing the License</a><a class="headerlink" href="#changing-the-license" title="Link to this heading"></a></h3>
+<p>It is possible to change the license, however you will need to contact all the contributors and get permission.
+For most packages this is likely to be a significant effort and not worth considering.
+If the package has a small set of contributors then this may be feasible.</p>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="Quality-Guide.html" class="btn btn-neutral float-left" title="Quality guide: ensuring code quality" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="Migration-Guide-Python.html" class="btn btn-neutral float-right" title="Python migration guide from ROS 1" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2018, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EVD5Z6G6NH', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

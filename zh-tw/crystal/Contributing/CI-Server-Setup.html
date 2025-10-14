@@ -1,0 +1,508 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-TW" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to setup the Jenkins master &mdash; ros2 documentation  說明文件</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Contributing/CI-Server-Setup.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=7da51243"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=cbf116e0"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜尋" href="../search.html" />
+    <link rel="next" title="How to setup Linux Jenkins nodes" href="Set-up-a-new-Linux-CI-node.html" />
+    <link rel="prev" title="Build cop and build farmer guide" href="Build-Cop-and-Build-Farmer-Guide.html" />
+ 
+<script type="text/javascript" src="../ltd-provenance.js"></script>
+<script type="text/javascript" src="../ltd-current.js"></script>
+<script type="text/javascript" src="../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ros2 documentation
+              <img src="../_static/crystal-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">安裝</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Development-Setup.html">Building ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Binary.html">Installing ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Debians.html">Installing ROS 2 via Debian Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Development-Setup.html">Building ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Install-Binary.html">Installing ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Development-Setup.html">Building ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Install-Binary.html">Installing ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Fedora-Development-Setup.html">Building ROS 2 on Fedora Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Latest-Development-Setup.html">Installing the latest ROS 2 development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Maintaining-a-Source-Checkout.html">Maintaining a source checkout of ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Prerelease-Testing.html">Pre-release Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/DDS-Implementations.html">Installing DDS implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-Security-Plugins.html">Installing Connext security plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-University-Eval.html">Installing University or Evaluation versions of RTI Connext DDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials.html">教學</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Configuring-ROS2-Environment.html">Configuring your ROS 2 environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Turtlesim/Introducing-Turtlesim.html">Introducing turtlesim and rqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Understanding-ROS2-Nodes.html">Understanding ROS 2 nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Topics/Understanding-ROS2-Topics.html">Understanding ROS 2 topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Services/Understanding-ROS2-Services.html">Understanding ROS 2 services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Parameters/Understanding-ROS2-Parameters.html">Understanding ROS 2 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Understanding-ROS2-Actions.html">Understanding ROS 2 actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Rqt-Console/Using-Rqt-Console.html">Using rqt_console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-Files/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ros2bag/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Creating-Your-First-ROS2-Package.html">Creating your first ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Custom-ROS2-Interfaces.html">Creating custom ROS 2 msg and srv files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Single-Package-Define-And-Use-Interface.html">Expanding on ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Writing-a-Cpp-Action-Server-Client.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Writing-a-Py-Action-Server-Client.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Colcon-Tutorial.html">Using colcon to build packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ament-CMake-Documentation.html">ament_cmake 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-system.html">Launching/monitoring multiple nodes with Launch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Introspection-with-command-line-tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/RQt-Overview-Usage.html">Overview and usage of RQt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/RQt-Source-Install.html">Building RQt from source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/RQt-Source-Install-MacOS.html">Building RQt from source on macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/RQt-Source-Install-Windows10.html">Building RQt from source on Windows 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback.html">Overriding QoS Policies For Recording And Playback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/catment.html">On the mixing of ament and catkin (catment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Cross-compilation.html">交叉編譯</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Allocator-Template-Tutorial.html">Implement a custom memory allocator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Releasing-a-ROS-2-package-with-bloom.html">Releasing a ROS 2 package with bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/RQt-Port-Plugin-Windows.html">Porting RQt plugins to Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Run-2-nodes-in-a-single-docker-container.html">Running 2 nodes in a single docker container [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Run-2-nodes-in-two-separate-docker-containers.html">Running 2 nodes in 2 separate docker containers [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Deploying-ROS-2-on-IBM-Cloud.html">ROS2 on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-files-migration-guide.html">Migrating launch files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Eclipse Oxygen with ROS 2 and rviz2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Building-ROS-2-on-Linux-with-Eclipse-Oxygen.html">Building ROS 2 on Linux with Eclipse Oxygen [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building realtime Linux for ROS 2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Parameters-YAML-files-migration-guide.html">Migrating YAML parameter files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Quality-of-Service.html">Use quality-of-service settings to handle lossy networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Managed-Nodes.html">Management of nodes with managed lifecycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Intra-Process-Communication.html">Efficient intra-process communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Rosbag-with-ROS1-Bridge.html">Recording and playback of topic data with rosbag using the ROS 1 bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/tf2.html">Using tf2 with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/URDF/Using-URDF-with-Robot-State-Publisher.html">Using URDF with robot_state_publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Real-Time-Programming.html">Real-time programming in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/dummy-robot-demo.html">Trying the dummy robot demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Logging-and-logger-configuration.html">Logging and logger configuration demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Concepts.html">概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Different-Middleware-Vendors.html">About different ROS 2 DDS/RTPS vendors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Logging.html">About logging and logger configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Quality-of-Service-Settings.html">About Quality of Service settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Client-Libraries.html">About ROS 2 client libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-Interfaces.html">About ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Parameters.html">About parameters in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Build-System.html">About the build system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Internal-Interfaces.html">About internal ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Middleware-Implementations.html">About ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Client-Interfaces.html">ROS 2 Client Interfaces (Client Libraries)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/Installation-Troubleshooting.html">安裝疑難排解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/DDS-tuning.html">DDS tuning information</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Contributing.html">Contributing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ROS-2-On-boarding-Guide.html">ROS 2 on-boarding guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Design-Guide.html">Design guide: common patterns in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="Build-Cop-and-Build-Farmer-Guide.html">Build cop and build farmer guide</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">How to setup the Jenkins master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Set-up-a-new-Linux-CI-node.html">How to setup Linux Jenkins nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Set-up-a-new-macOS-CI-node.html">How to setup a macOS Jenkins node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Set-up-a-new-Windows-CI-node.html">How to setup a Windows Jenkins node</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Migration-Guide.html">Migration guide from ROS 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Examples-and-Tools-for-ROS1----ROS2-Migrations.html">Examples and tools for ROS1-to-ROS2 migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inter-Sphinx-Support.html">Using Sphinx for cross-referencing packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">聯絡</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ROSCon-Content.html">ROSCon Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Releases.html">散布版</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Alpha-Overview.html">ROS 2 alpha releases (Aug 2015 - Oct 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta1-Overview.html">Beta 1 (codename 'Asphalt'; December 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta2-Overview.html">Beta 2 (codename 'r2b2'; July 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta3-Overview.html">Beta 3 (codename 'r2b3'; September 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Ardent-Apalone.html">ROS 2 Ardent Apalone (codename 'ardent'; December 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Bouncy-Bolson.html">ROS 2 Bouncy Bolson (codename 'bouncy'; June 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Crystal-Clemmys.html">ROS 2 Crystal Clemmys (codename 'crystal'; December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Dashing-Diademata.html">ROS 2 Dashing Diademata (codename 'dashing'; May 31st, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html">ROS 2 Eloquent Elusor (codename 'eloquent'; November 22nd, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy Fitzroy (codename 'foxy'; June 5th, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Galactic-Geochelone.html">ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Howto.html">How to release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Rolling-Ridley.html">ROS 2 Rolling Ridley (codename 'rolling'; June 2020)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Features.html">Features Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Governance.html">Project Governance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Governance/ROS2-TSC-Charter.html">ROS 2 Technical Steering Committee Charter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Marketing.html">Marketing Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Related-Projects.html">相關專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">詞彙表</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ros2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../Contributing.html">Contributing</a></li>
+          <li class="breadcrumb-item"><a href="Build-Cop-and-Build-Farmer-Guide.html">Build cop and build farmer guide</a></li>
+      <li class="breadcrumb-item active">How to setup the Jenkins master</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Contributing/CI-Server-Setup.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition warning">
+        <p class="admonition-title">警告</p>
+        <p>
+          您正在閱讀已達到生命週期結束（end-of-life，EOL）版本的 ROS 2 文件，該版本不再正式受支援。如果您想獲取最新資訊，請參見 <a href="../../../zh-tw/kilted/index.html">Kilted</a>。
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="how-to-setup-the-jenkins-master">
+<h1>How to setup the Jenkins master<a class="headerlink" href="#how-to-setup-the-jenkins-master" title="連結到這個標頭"></a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">目次表</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#installing" id="id1">安裝</a></p></li>
+<li><p><a class="reference internal" href="#running-on-port-80" id="id2">Running on port 80</a></p></li>
+<li><p><a class="reference internal" href="#temporary-rewrite-for-changed-job-name" id="id3">Temporary rewrite for changed job name</a></p></li>
+<li><p><a class="reference internal" href="#install-stuff-needed-on-master-and-slaves" id="id4">Install stuff (needed on master and slaves)</a></p></li>
+<li><p><a class="reference internal" href="#adding-a-linux-slave-to-the-farm" id="id5">Adding a Linux slave to the farm</a></p></li>
+<li><p><a class="reference internal" href="#configuring-jenkins" id="id6">Configuring Jenkins</a></p>
+<ul>
+<li><p><a class="reference internal" href="#authentication" id="id7">Authentication</a></p></li>
+<li><p><a class="reference internal" href="#plugins" id="id8">Plugins</a></p></li>
+<li><p><a class="reference internal" href="#adding-an-ssh-key" id="id9">Adding an ssh key</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#creating-jobs" id="id10">Creating Jobs</a></p>
+<ul>
+<li><p><a class="reference internal" href="#tuning-auto-generated-jobs" id="id11">Tuning Auto-generated Jobs</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#disk-space" id="id12">Disk space</a></p></li>
+</ul>
+</nav>
+<section id="installing">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">安裝</a><a class="headerlink" href="#installing" title="連結到這個標頭"></a></h2>
+<p>Install the latest LTS release from <a class="reference external" href="http://pkg.jenkins-ci.org/debian-stable/">http://pkg.jenkins-ci.org/debian-stable/</a></p>
+</section>
+<section id="running-on-port-80">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Running on port 80</a><a class="headerlink" href="#running-on-port-80" title="連結到這個標頭"></a></h2>
+<p>Use this SO answer to setup a subdomain to a port:</p>
+<p><a class="reference external" href="http://serverfault.com/a/140161/186748">http://serverfault.com/a/140161/186748</a></p>
+<p>(Removed the <code class="docutils literal notranslate"><span class="pre">hudson</span></code> in each of the lines that contained it.)</p>
+</section>
+<section id="temporary-rewrite-for-changed-job-name">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Temporary rewrite for changed job name</a><a class="headerlink" href="#temporary-rewrite-for-changed-job-name" title="連結到這個標頭"></a></h2>
+<p>We renamed some of the jobs, so here are some rewrite rules in Apache (<code class="docutils literal notranslate"><span class="pre">/etc/apache2/sites-enabled/ci.ros2.org.conf</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Temporary rewrite rule because we changed the Windows job name.</span>
+RewriteEngine<span class="w"> </span>On
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_linux/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_linux/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_osx/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_osx/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_windows_opensplice/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows_opensplice/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_windows_opensplice/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows_connext_static/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_windows_connext_static/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows_connext_dynamic/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_windows_connext_dynamic/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ci_windows_opensplice/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/ci_windows/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ci_windows_connext_static/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/old_windows_connext_static/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ci_windows_connext_dynamic/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/old_windows_connext_dynamic/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ci_windows_fastrtps/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/old_windows_fastrtps/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_linux_nightly/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/nightly_linux/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_osx_nightly/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/nightly_osx/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows_opensplice_nightly/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/nightly_windows_opensplice/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows_connext_static_nightly/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/nightly_windows_connext_static/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_batch_ci_windows_connext_dynamic_nightly/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/nightly_windows_connext_dynamic/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/nightly_windows_opensplice/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/nightly_windows/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/nightly_windows_connext_static/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/old_night_windows_connext_static/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/nightly_windows_connext_dynamic/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/old_night_windows_connext_dynamic/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_packaging_linux/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/packaging_linux/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_packaging_osx/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/packaging_osx/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/ros2_packaging_windows_opensplice/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/packaging_windows_opensplice/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+RewriteRule<span class="w"> </span>^<span class="o">(</span>.*<span class="o">)</span>/packaging_windows_opensplice/<span class="o">(</span>.*<span class="o">)</span>$<span class="w"> </span><span class="nv">$1</span>/packaging_windows/<span class="nv">$2</span><span class="w"> </span><span class="o">[</span><span class="nv">R</span><span class="o">=</span><span class="m">301</span>,L<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="install-stuff-needed-on-master-and-slaves">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Install stuff (needed on master and slaves)</a><a class="headerlink" href="#install-stuff-needed-on-master-and-slaves" title="連結到這個標頭"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git
+<span class="c1"># Your java version will vary depending on your OS:</span>
+<span class="c1">#sudo apt install openjdk-7-jre-headless</span>
+<span class="c1">#sudo apt install openjdk-8-jre-headless</span>
+<span class="c1"># For ARM native servers, we need the tomcat native libs to support ssh-agent</span>
+<span class="c1"># (https://issues.jenkins-ci.org/browse/JENKINS-30746)</span>
+<span class="c1">#sudo apt install libtcnative-1</span>
+<span class="c1"># qemu and vcs are required for ARM builds</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>qemu-user-static
+sudo<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo &quot;deb http://repositories.ros.org/ubuntu/testing/ `lsb_release -cs` main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list&#39;</span>
+sudo<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;curl --silent https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc |sudo apt-key add -&#39;</span>
+<span class="c1"># Or, on aarch64:</span>
+<span class="c1">#sudo apt install docker.io</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python-vcstool
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.docker.com/<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+sudo<span class="w"> </span>adduser<span class="w"> </span>--disabled-password<span class="w"> </span>jenkins
+sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span>jenkins
+sudo<span class="w"> </span>service<span class="w"> </span>docker<span class="w"> </span>start
+</pre></div>
+</div>
+</section>
+<section id="adding-a-linux-slave-to-the-farm">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Adding a Linux slave to the farm</a><a class="headerlink" href="#adding-a-linux-slave-to-the-farm" title="連結到這個標頭"></a></h2>
+<p>Approximately:</p>
+<ul class="simple">
+<li><p>Shell into the master (<code class="docutils literal notranslate"><span class="pre">ci.ros2.org</span></code>), copy <code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins/.ssh/id_rsa.pub</span></code> and paste it into <code class="docutils literal notranslate"><span class="pre">/home/jenkins/.ssh/authorized_keys</span></code> on the new machine.</p></li>
+<li><p>Copy config from the <code class="docutils literal notranslate"><span class="pre">linux</span> <span class="pre">2</span></code> machine, rename and otherwise modify as needed (e.g., change the IP/host).</p></li>
+<li><p>Copy <code class="docutils literal notranslate"><span class="pre">/etc/ssh/ssh_host_rsa_key.pub</span></code> from the new machine and add it as an entry in <code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins/.ssh/known_hosts</span></code> (with the new machine's IP) on the master, then re-hash that file on the master: <code class="docutils literal notranslate"><span class="pre">ssh-keygen</span> <span class="pre">-H</span></code>.</p></li>
+</ul>
+</section>
+<section id="configuring-jenkins">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Configuring Jenkins</a><a class="headerlink" href="#configuring-jenkins" title="連結到這個標頭"></a></h2>
+<p>First update all the preinstalled plugins.</p>
+<section id="authentication">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Authentication</a><a class="headerlink" href="#authentication" title="連結到這個標頭"></a></h3>
+<p>Setup authentication with the <code class="docutils literal notranslate"><span class="pre">github-oauth</span></code> plugin.
+Install and follow their setup instructions:</p>
+<p><a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Github+OAuth+Plugin">https://wiki.jenkins-ci.org/display/JENKINS/Github+OAuth+Plugin</a></p>
+<p>Create an application entry on the ros2 GitHub organization:</p>
+<p><a class="reference external" href="https://github.com/organizations/ros2/settings/applications/215300">https://github.com/organizations/ros2/settings/applications/215300</a></p>
+<p>Tune the permissions in <code class="docutils literal notranslate"><span class="pre">Manage</span> <span class="pre">Jenkins-&gt;Configure</span> <span class="pre">Global</span> <span class="pre">Security</span></code>.</p>
+</section>
+<section id="plugins">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Plugins</a><a class="headerlink" href="#plugins" title="連結到這個標頭"></a></h3>
+<p>Install these plugins:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ansicolor</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">description-setter</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">github</span></code> (other git* plugins are deps of the <code class="docutils literal notranslate"><span class="pre">github-oauth</span></code> plugin)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">greenballs</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">groovy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameterized-trigger</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PrioritySorter</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jobrequeue</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ssh-agent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">warnings</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xunit</span></code></p></li>
+</ul>
+</section>
+<section id="adding-an-ssh-key">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Adding an ssh key</a><a class="headerlink" href="#adding-an-ssh-key" title="連結到這個標頭"></a></h3>
+<p>Jenkins needs a valid ssh key in order to pull from some of our private repositories, for example to get the rti deb files.</p>
+<p>So, let's create an ssh key for the jenkins user on the webserver:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>su<span class="w"> </span>jenkins
+<span class="nb">cd</span>
+mkdir<span class="w"> </span>.ssh
+ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa
+</pre></div>
+</div>
+<p>Now add to the jenkins credentials as an &quot;From the jenkins master ~/.ssh&quot; with the user id of <code class="docutils literal notranslate"><span class="pre">ros2-buildfarm</span></code>.</p>
+<p>Add this key to a &quot;machine&quot; GitHub account created for this farm and add that user, <code class="docutils literal notranslate"><span class="pre">ros2-buildfarm</span></code>, to the <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, <code class="docutils literal notranslate"><span class="pre">ament</span></code>, and <code class="docutils literal notranslate"><span class="pre">osrf</span></code> organizations.</p>
+</section>
+</section>
+<section id="creating-jobs">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Creating Jobs</a><a class="headerlink" href="#creating-jobs" title="連結到這個標頭"></a></h2>
+<p>Clone the <code class="docutils literal notranslate"><span class="pre">ros2/ci</span></code> repository to the default branch (<code class="docutils literal notranslate"><span class="pre">master</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ros2/ci.git
+</pre></div>
+</div>
+<p>Clone the <code class="docutils literal notranslate"><span class="pre">ros_buildfarm</span></code> repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ros-infrastructure/ros_buildfarm.git
+</pre></div>
+</div>
+<p>Install the <code class="docutils literal notranslate"><span class="pre">jenkinsapi</span></code> and <code class="docutils literal notranslate"><span class="pre">EmPy</span></code> Python packages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip
+sudo<span class="w"> </span>-H<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pip
+sudo<span class="w"> </span>-H<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jenkinsapi<span class="w"> </span>EmPy
+</pre></div>
+</div>
+<p>Then setup auth:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.buildfarm
+vim<span class="w"> </span>~/.buildfarm/jenkins.ini
+</pre></div>
+</div>
+<p>Put this in the <code class="docutils literal notranslate"><span class="pre">jenkins.ini</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>http://ci.ros2.org<span class="o">]</span>
+<span class="nv">username</span><span class="o">=</span>wjwwood
+<span class="nv">password</span><span class="o">=</span>&lt;your<span class="w"> </span>application<span class="w"> </span>token&gt;
+</pre></div>
+</div>
+<p>Now, you should first login with GitHub on Jenkins if you haven't already.
+Then put your GitHub username in and for the application token, browse to the configuration of your user on Jenkins:</p>
+<p><a class="reference external" href="https://ci.ros2.org/user/wjwwood/configure">https://ci.ros2.org/user/wjwwood/configure</a></p>
+<p>In those settings there should be a field called API Token.
+Copy that field for your password.</p>
+<p>Now you can create the jobs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/../ros_buildfarm<span class="w"> </span>./create_jenkins_job.py<span class="w"> </span>-u<span class="w"> </span>http://ci.ros2.org
+Connecting<span class="w"> </span>to<span class="w"> </span>Jenkins<span class="w"> </span><span class="s1">&#39;http://ci.ros2.org&#39;</span>
+Connected<span class="w"> </span>to<span class="w"> </span>Jenkins<span class="w"> </span>version<span class="w"> </span><span class="s1">&#39;1.617&#39;</span>
+Creating<span class="w"> </span>job<span class="w"> </span><span class="s1">&#39;ros2_batch_ci_windows&#39;</span>
+The<span class="w"> </span>Jenkins<span class="w"> </span>master<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>require<span class="w"> </span>a<span class="w"> </span>crumb
+Creating<span class="w"> </span>job<span class="w"> </span><span class="s1">&#39;ros2_batch_ci_osx&#39;</span>
+Creating<span class="w"> </span>job<span class="w"> </span><span class="s1">&#39;ros2_batch_ci_linux&#39;</span>
+Creating<span class="w"> </span>job<span class="w"> </span><span class="s1">&#39;ros2_batch_ci_launcher&#39;</span>
+</pre></div>
+</div>
+<section id="tuning-auto-generated-jobs">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Tuning Auto-generated Jobs</a><a class="headerlink" href="#tuning-auto-generated-jobs" title="連結到這個標頭"></a></h3>
+<p>The final step is to fine tune the jobs.
+For each job you'll want to check the ssh key being used for the git clone (only on Linux) and the ssh-agent.
+It should be set to the ssh key setup in the previous steps for the jenkins user.</p>
+<p>I also updated the slaves which the jobs will run on to make sure they matched the names of the slaves  added for Linux, macOS and Windows.</p>
+</section>
+</section>
+<section id="disk-space">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Disk space</a><a class="headerlink" href="#disk-space" title="連結到這個標頭"></a></h2>
+<p>Over time docker images and particularly containers will pile up.</p>
+<p>To clean up use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>rm<span class="w"> </span><span class="k">$(</span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span>-q<span class="k">)</span>
+docker<span class="w"> </span>rmi<span class="w"> </span><span class="k">$(</span>docker<span class="w"> </span>images<span class="w"> </span>-q<span class="w"> </span>-f<span class="w"> </span><span class="nv">dangling</span><span class="o">=</span><span class="nb">true</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>from <a class="reference external" href="https://www.calazan.com/docker-cleanup-commands/">https://www.calazan.com/docker-cleanup-commands/</a></p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Build-Cop-and-Build-Farmer-Guide.html" class="btn btn-neutral float-left" title="Build cop and build farmer guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Set-up-a-new-Linux-CI-node.html" class="btn btn-neutral float-right" title="How to setup Linux Jenkins nodes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EVD5Z6G6NH', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

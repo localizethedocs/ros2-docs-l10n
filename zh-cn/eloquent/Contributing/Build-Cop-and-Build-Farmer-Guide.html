@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build cop and build farmer guide &mdash; ros2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Contributing/Build-Cop-and-Build-Farmer-Guide.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="How to setup the Jenkins master" href="CI-Server-Setup.html" />
+    <link rel="prev" title="Quality guide: ensuring code quality" href="Quality-Guide.html" />
+ 
+<script type="text/javascript" src="../ltd-provenance.js"></script>
+<script type="text/javascript" src="../ltd-current.js"></script>
+<script type="text/javascript" src="../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ros2 documentation
+              <img src="../_static/eloquent-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Development-Setup.html">Building ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Binary.html">Installing ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Debians.html">Installing ROS 2 via Debian Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Development-Setup.html">Building ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Install-Binary.html">Installing ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Development-Setup.html">Building ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Install-Binary.html">Installing ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Fedora-Development-Setup.html">Building ROS 2 on Fedora Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Latest-Development-Setup.html">Installing the latest ROS 2 development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Maintaining-a-Source-Checkout.html">Maintaining a source checkout of ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Prerelease-Testing.html">Pre-release Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/DDS-Implementations.html">Installing DDS implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-Security-Plugins.html">Installing Connext security plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-University-Eval.html">Installing University or Evaluation versions of RTI Connext DDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Configuring-ROS2-Environment.html">Configuring your ROS 2 environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Turtlesim/Introducing-Turtlesim.html">Introducing turtlesim and rqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Understanding-ROS2-Nodes.html">Understanding ROS 2 nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Topics/Understanding-ROS2-Topics.html">Understanding ROS 2 topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Services/Understanding-ROS2-Services.html">Understanding ROS 2 services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Parameters/Understanding-ROS2-Parameters.html">Understanding ROS 2 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Understanding-ROS2-Actions.html">Understanding ROS 2 actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Rqt-Console/Using-Rqt-Console.html">Using rqt_console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-Files/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ros2bag/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Creating-Your-First-ROS2-Package.html">Creating your first ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Custom-ROS2-Interfaces.html">Creating custom ROS 2 msg and srv files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Single-Package-Define-And-Use-Interface.html">Expanding on ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Getting-Started-With-Ros2doctor.html">Getting started with ros2doctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Writing-a-Cpp-Action-Server-Client.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Actions/Writing-a-Py-Action-Server-Client.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Colcon-Tutorial.html">Using colcon to build packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-system.html">Launching/monitoring multiple nodes with Launch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Introspection-with-command-line-tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/RQt-Overview-Usage.html">Overview and usage of RQt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/RQt-Source-Install.html">Building RQt from source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/RQt-Source-Install-MacOS.html">Building RQt from source on macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/RQt-Source-Install-Windows10.html">Building RQt from source on Windows 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback.html">Overriding QoS Policies For Recording And Playback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/catment.html">On the mixing of ament and catkin (catment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Allocator-Template-Tutorial.html">Implement a custom memory allocator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Releasing-a-ROS-2-package-with-bloom.html">Releasing a ROS 2 package with bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/RQt-Port-Plugin-Windows.html">Porting RQt plugins to Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Run-2-nodes-in-a-single-docker-container.html">Running 2 nodes in a single docker container [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Run-2-nodes-in-two-separate-docker-containers.html">Running 2 nodes in 2 separate docker containers [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Deploying-ROS-2-on-IBM-Cloud.html">ROS2 on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Launch-files-migration-guide.html">Migrating launch files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Eclipse Oxygen with ROS 2 and rviz2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Building-ROS-2-on-Linux-with-Eclipse-Oxygen.html">Building ROS 2 on Linux with Eclipse Oxygen [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building realtime Linux for ROS 2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Parameters-YAML-files-migration-guide.html">Migrating YAML parameter files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Quality-of-Service.html">Use quality-of-service settings to handle lossy networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Managed-Nodes.html">Management of nodes with managed lifecycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Intra-Process-Communication.html">Efficient intra-process communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Rosbag-with-ROS1-Bridge.html">Recording and playback of topic data with rosbag using the ROS 1 bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/tf2.html">Using tf2 with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/URDF/Using-URDF-with-Robot-State-Publisher.html">Using URDF with robot_state_publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Real-Time-Programming.html">Real-time programming in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/dummy-robot-demo.html">Trying the dummy robot demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Logging-and-logger-configuration.html">Logging and logger configuration demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/DDS-and-ROS-middleware-implementations.html">About different ROS 2 DDS/RTPS vendors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Quality-of-Service-Settings.html">About Quality of Service settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-Interfaces.html">About ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/ROS-2-Client-Libraries.html">About ROS 2 client libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/Logging.html">About logging and logger configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Parameters.html">About parameters in ROS 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/DDS-tuning.html">DDS tuning information</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Contributing.html">Contributing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ROS-2-On-boarding-Guide.html">ROS 2 on-boarding guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Design-Guide.html">Design guide: common patterns in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build cop and build farmer guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CI-Server-Setup.html">How to setup the Jenkins master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Set-up-a-new-Linux-CI-node.html">How to setup Linux Jenkins nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Set-up-a-new-macOS-CI-node.html">How to setup a macOS Jenkins node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Set-up-a-new-Windows-CI-node.html">How to setup a Windows Jenkins node</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Migration-Guide.html">Migration guide from ROS 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Examples-and-Tools-for-ROS1----ROS2-Migrations.html">Examples and tools for ROS1-to-ROS2 migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inter-Sphinx-Support.html">Using Sphinx for cross-referencing packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ROSCon-Content.html">ROSCon Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Alpha-Overview.html">ROS 2 alpha releases (Aug 2015 - Oct 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta1-Overview.html">Beta 1 (codename 'Asphalt'; December 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta2-Overview.html">Beta 2 (codename 'r2b2'; July 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta3-Overview.html">Beta 3 (codename 'r2b3'; September 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Ardent-Apalone.html">ROS 2 Ardent Apalone (codename 'ardent'; December 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Bouncy-Bolson.html">ROS 2 Bouncy Bolson (codename 'bouncy'; June 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Crystal-Clemmys.html">ROS 2 Crystal Clemmys (codename 'crystal'; December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Dashing-Diademata.html">ROS 2 Dashing Diademata (codename 'dashing'; May 31st, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html">ROS 2 Eloquent Elusor (codename 'eloquent'; November 22nd, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy Fitzroy (codename 'foxy'; June 5th, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Galactic-Geochelone.html">ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Howto.html">How to release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Rolling-Ridley.html">ROS 2 Rolling Ridley (codename 'rolling'; June 2020)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Features.html">Features Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Governance.html">Project Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Marketing.html">Marketing Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ros2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../Contributing.html">Contributing</a></li>
+      <li class="breadcrumb-item active">Build cop and build farmer guide</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Contributing/Build-Cop-and-Build-Farmer-Guide.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition warning">
+        <p class="admonition-title">警告</p>
+        <p>
+          You're reading the documentation for a version of ROS 2 that has reached its EOL (end-of-life), and is no longer officially supported. If you want up-to-date information, please have a look at <a href="../../../zh-cn/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="build-cop-and-build-farmer-guide">
+<h1>Build cop and build farmer guide<a class="headerlink" href="#build-cop-and-build-farmer-guide" title="Link to this heading"></a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">目录</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#on-boarding" id="id2">On-boarding</a></p></li>
+<li><p><a class="reference internal" href="#retirement" id="id3">Retirement</a></p></li>
+<li><p><a class="reference internal" href="#build-cop" id="id4">Build Cop</a></p>
+<ul>
+<li><p><a class="reference internal" href="#mission" id="id5">Mission</a></p></li>
+<li><p><a class="reference internal" href="#build-cop-tasks" id="id6">Build Cop Tasks</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#build-farmer" id="id7">Build Farmer</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id8">Mission</a></p></li>
+<li><p><a class="reference internal" href="#build-farmer-tasks" id="id9">Build Farmer Tasks</a></p></li>
+<li><p><a class="reference internal" href="#resources" id="id10">Resources</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<p>This page covers two rotating developer roles we have on the ROS 2 team, the build cop and the build farmer.
+These two roles are related, but subtly different.</p>
+<p>The build cop is responsible for monitoring our <a class="reference external" href="https://ci.ros2.org/">Continuous Integration (CI) server</a> to make sure our <a class="reference external" href="https://ci.ros2.org/view/nightly/">&quot;nightly&quot; jobs</a> and <a class="reference external" href="https://ci.ros2.org/view/packaging/">&quot;packaging&quot; jobs</a> do not accumulate new regressions.
+This allows us to build on relatively stable <a class="reference external" href="https://ci.ros2.org/">&quot;ci&quot; (or &quot;manual&quot;) jobs</a> when checking to see if a new feature or bug fix introduces any new regressions.</p>
+<p>The build farmer, on the other hand, is responsible for ensuring that <a class="reference external" href="https://ci.ros2.org/computer/">the machines that run all of our CI jobs</a> are up, running, and up-to-date, so that they are available for other developers to check their pull requests.</p>
+<p>These two jobs have so far been the same person for periods of about two weeks, but they are separated here so that they could be different people in the future and to make a distinction between the roles and responsibilities.</p>
+<p>This document is meant mostly for ROS 2 team developers, but it might be useful for others too.</p>
+<section id="on-boarding">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">On-boarding</a><a class="headerlink" href="#on-boarding" title="Link to this heading"></a></h2>
+<p>If you are becoming the next build cop or build farmer you should:</p>
+<ul class="simple">
+<li><p>Make sure you are subscribed to and have the &quot;deliver every email&quot; option turned on for this mailing list:</p>
+<ul>
+<li><p><a class="reference external" href="https://groups.google.com/forum/#!forum/ros2-buildfarm">https://groups.google.com/forum/#!forum/ros2-buildfarm</a></p></li>
+</ul>
+</li>
+<li><p>Make sure you are &quot;watching&quot; this GitHub repository:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/ros2/build_cop">https://github.com/ros2/build_cop</a></p></li>
+</ul>
+</li>
+<li><p>Talk with the previous build cop and/or build farmer about on-going issues</p></li>
+<li><p>Update the description of the main view on Jenkins to the current date and your name:</p>
+<ul>
+<li><p><a class="reference external" href="https://ci.ros2.org/">https://ci.ros2.org/</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="retirement">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Retirement</a><a class="headerlink" href="#retirement" title="Link to this heading"></a></h2>
+<p>If you are finishing your stint as either build cop or build farmer you should:</p>
+<ul class="simple">
+<li><p>Unsubscribe or switch to &quot;digest&quot; for this mailing list:</p>
+<ul>
+<li><p><a class="reference external" href="https://groups.google.com/forum/#!forum/ros2-buildfarm">https://groups.google.com/forum/#!forum/ros2-buildfarm</a></p></li>
+</ul>
+</li>
+<li><p>&quot;Unwatch&quot; this GitHub repository:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/ros2/build_cop">https://github.com/ros2/build_cop</a></p></li>
+</ul>
+</li>
+<li><p>Summarize the on-going issues for the next build cop or build farmer to which you are handing off</p></li>
+</ul>
+</section>
+<section id="build-cop">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Build Cop</a><a class="headerlink" href="#build-cop" title="Link to this heading"></a></h2>
+<p>This section assumes that you have reviewed the <a class="reference internal" href="ROS-2-On-boarding-Guide.html"><span class="doc">ROS 2 on boarding document</span></a>.</p>
+<section id="mission">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Mission</a><a class="headerlink" href="#mission" title="Link to this heading"></a></h3>
+<p>The goal of the build cop is to keep the jobs &quot;green&quot; (succeeding without test failures or warnings) on the buildfarm and to report any regression to the appropriate person.
+This will reduce the overhead of several people looking at, or investigating, the same build failures.
+This will also allow the other people on the team not to receive nightly email for the failing and/or unstable builds.</p>
+</section>
+<section id="build-cop-tasks">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Build Cop Tasks</a><a class="headerlink" href="#build-cop-tasks" title="Link to this heading"></a></h3>
+<p>Every morning the build cop should go through all the nightly jobs and packaging jobs and act on new failing or unstable jobs.
+The &quot;ci&quot; jobs, which are started manually by developers, are not the responsibility of the build cop unless all &quot;ci&quot; are failing, which would indicate something was merged to the default branches which is broken.
+How to classify and deal with new failures is described in the next section.</p>
+<p>Additionally, the build cop should strive to keep track of existing issues which are either preexisting or cannot be resolved with a day or so.
+Issues are tracked on this repository which only the build cop must be &quot;watching&quot; (getting GitHub notifications), though anyone interested can follow it too:</p>
+<p><a class="reference external" href="https://github.com/ros2/build_cop/issues">https://github.com/ros2/build_cop/issues</a></p>
+<p>The above repository is also used to track Build Farmer issues.
+It is meant to be a way for the build cop or build farmer to track long running items for handing off to the next person and so they can &quot;mention&quot; individuals on particular issues without the whole team getting notified of every issue.</p>
+<section id="types-of-failures">
+<h4>Types of Failures<a class="headerlink" href="#types-of-failures" title="Link to this heading"></a></h4>
+<p>Each failure can be categorized into one of a few classifications:</p>
+<ul class="simple">
+<li><p>Node failure:</p>
+<ul>
+<li><p>failures which appear to be due to a machine configuration and not a code change</p></li>
+<li><p>pass it on to the build farmer</p></li>
+</ul>
+</li>
+<li><p>Trivial failure:</p>
+<ul>
+<li><p>Linter failure</p></li>
+<li><p>New warnings</p></li>
+</ul>
+</li>
+<li><p>Critical failure:</p>
+<ul>
+<li><p>Breaking builds on the &quot;default&quot; branch</p></li>
+<li><p>Regression (existing tests which were passing are now failing)</p></li>
+<li><p>New tests that are failing (never were passing)</p></li>
+</ul>
+</li>
+<li><p>Important failure:</p>
+<ul>
+<li><p>New feature which is not fully covered by tests</p></li>
+<li><p>Increase flakiness (new flaky tests or made existing flaky tests more flaky)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="new-failure-actions">
+<h4>New Failure Actions<a class="headerlink" href="#new-failure-actions" title="Link to this heading"></a></h4>
+<p>In each case different actions should be taken by the build cop:</p>
+<ul class="simple">
+<li><p>Trivial failure should be fixed by the Build Cop right away:</p>
+<ul>
+<li><p>Pushed on a branch</p></li>
+<li><p>Tested on CI</p></li>
+<li><p>Merged to the default branch</p></li>
+<li><p>Add a comment to the PR introducing the failure referencing the fixing commit</p></li>
+</ul>
+</li>
+<li><p>Critical failures:</p>
+<ul>
+<li><p>Failure should be reported on the PR introducing it by tagging the submitter and the reviewer that +1’d it.</p></li>
+<li><p>Submitter of the PR has to act on it during the next half day by either:</p>
+<ul>
+<li><p>Reverting the change and ticketing the problem / comment on the PR the reason it’s been reverted</p></li>
+<li><p>Submit a patch to fix the failure</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Important failures:</p>
+<ul>
+<li><p>Failure should be reported on the PR introducing it by tagging the submitter + the reviewer that +1’d it.</p></li>
+<li><p>Submitter has to either:</p>
+<ul>
+<li><p>Address it the same week</p></li>
+<li><p>Add it to the next sprint</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="tips">
+<h4>Tips<a class="headerlink" href="#tips" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>You can search for PRs merged between two dates with, e.g.:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/search?utf8=%E2%9C%93&amp;q=user%3Aament+user%3Aros2+merged%3A%222017-04-17T22%3A00%3A00-08%3A00+..+2017-04-18T23%3A30%3A00-08%3A00%22&amp;type=Issues">https://github.com/search?utf8=%E2%9C%93&amp;q=user%3Aament+user%3Aros2+merged%3A%222017-04-17T22%3A00%3A00-08%3A00+..+2017-04-18T23%3A30%3A00-08%3A00%22&amp;type=Issues</a></p></li>
+<li><p>(note that Fast RTPS and other external repos won’t appear)</p></li>
+</ul>
+</li>
+<li><p>To get the exact list of code that changed, generate a diff between the output of <code class="docutils literal notranslate"><span class="pre">vcs</span> <span class="pre">export</span> <span class="pre">--exact</span></code> between two builds.</p>
+<ul>
+<li><p>This is particularly useful for external repos such as Fast RTPS where old commits may get pushed to the master branch overnight, and are difficult to spot in the GitHub UI.</p></li>
+</ul>
+</li>
+<li><p>Times displayed at the top of Jenkins jobs are in UTC. You can convert the times with e.g.:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.google.com/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=when+it's+9:25:12+PM+UTC+time+pst">https://www.google.com/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=when+it's+9:25:12+PM+UTC+time+pst</a></p></li>
+</ul>
+</li>
+<li><p>If linter failures occur overnight it is usually because of a new version of a linter.</p>
+<ul>
+<li><p>Create a diff of the last <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">freeze</span></code> output of two builds to see which versions changed.</p></li>
+<li><p>If it's a regression in a dependency you can pin the older version temporarily, see <a class="reference external" href="https://github.com/ros2/ci/pull/129">this PR for an example</a>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="build-farmer">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Build Farmer</a><a class="headerlink" href="#build-farmer" title="Link to this heading"></a></h2>
+<p>This section assumes that you have reviewed the <a class="reference internal" href="ROS-2-On-boarding-Guide.html"><span class="doc">ROS 2 on boarding document</span></a>.</p>
+<section id="id1">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Mission</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>The mission of the build farmer is to keep the <a class="reference external" href="https://ci.ros2.org/">build farm</a> in a healthy, up-to-date state.
+Ideally all Jenkins nodes will have the same/latest version of every package.
+This will require monitoring and patching up any node when things come up.</p>
+</section>
+<section id="build-farmer-tasks">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Build Farmer Tasks</a><a class="headerlink" href="#build-farmer-tasks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Monitor the buildfarm (using the <a class="reference external" href="https://groups.google.com/forum/#!forum/ros2-buildfarm">https://groups.google.com/forum/#!forum/ros2-buildfarm</a> mailing list for email notifications)</p></li>
+<li><p>Take failing nodes off-line with descriptive message about the issue and investigate the failure ASAP.</p>
+<ul>
+<li><p>Taking a node off-line:</p>
+<ul>
+<li><p>log in ci.ros2.org</p></li>
+<li><p>click on the node in the left column of Jenkins UI (e.g. osx_slave_mini1)</p></li>
+<li><p>click on &quot;Mark this node temporary off-line&quot; button (top right corner)</p></li>
+</ul>
+</li>
+<li><p>Investigate the failure (see section below)</p></li>
+</ul>
+</li>
+<li><p>Report error and fixing attempt using the <a class="reference external" href="https://docs.google.com/a/osrfoundation.org/forms/d/e/1FAIpQLSc40KMD8hb1-JMkUBRF6o17CAt1mtEQY8w4O8PN8rFq0hEkxQ/viewform">Build Farmer Reporting Form</a></p>
+<ul>
+<li><p>If the same problem and action is taken on multiple nodes, select all the relevant nodes in the form before submitting it</p></li>
+</ul>
+</li>
+<li><p>If fixing attempt failed:</p>
+<ul>
+<li><p>Keep the node off-line on the farm</p></li>
+<li><p>Update the reason for node being off-line</p></li>
+<li><p>Put the status and error message in the status sheet of the <a class="reference external" href="https://docs.google.com/a/osrfoundation.org/spreadsheets/d/1_7pv1Kb2MDhk4jzpS1cjTVJ6wgdVIN3ZxaN-QdZ7XuM/edit?usp=sharing">logbook</a></p></li>
+<li><p>Allocate time in the next few days to dive in the problem</p></li>
+</ul>
+</li>
+<li><p>If you rescue a previously off-line node:</p>
+<ul>
+<li><p>Update the status sheet of the logbook by:</p>
+<ul>
+<li><p>Removing the error message in the status column</p></li>
+<li><p>Update the date next to it</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Once investigation is finished, clean the machine: close all your windows, stash or remove any local changes</p>
+<ul>
+<li><p>Rationale</p>
+<ul>
+<li><p>Anybody logging into the machine needs to know that no one is working on it</p></li>
+<li><p>If the machine reboots the machine needs to be in an operational state without local changes</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Making sure install instructions are up to date</p></li>
+<li><p>Use the existing logbook to put together an FAQ or best practice to rescue nodes</p></li>
+</ul>
+<section id="how-to-investigate-a-failing-node">
+<h4>How to Investigate a Failing Node<a class="headerlink" href="#how-to-investigate-a-failing-node" title="Link to this heading"></a></h4>
+<p>If the node failed to build, look at the console output of the failing build:</p>
+<ul class="simple">
+<li><p>Click on the link of the failing job received by email or go to ci.ros2.org and click on the number (e.g. #2345) next to the failing job(red icon).</p></li>
+<li><p>Click on Console Output in the left column</p></li>
+<li><p>Look for the reason of the failure</p></li>
+<li><p>If the failure is not due to a machine configuration, relay to the build cop</p></li>
+</ul>
+<p>If you need to access a machine:</p>
+<ul class="simple">
+<li><p>See <a class="reference external" href="https://docs.google.com/a/osrfoundation.org/spreadsheets/d/1OSwqbE3qPF8v3HSMr8JOaJ6r4QOiQFk6pwgaudXVE-4/edit?usp=sharing">this spreadsheet (private) for credentials</a> for all the different Jenkins Nodes:</p></li>
+<li><p>For machines hosted at OSRF, you'll need to be on the OSRF network or have a VPN connection.</p></li>
+<li><p>For machines which require ssh keys ask on <a class="reference external" href="mailto:ros&#37;&#52;&#48;osrfoundation&#46;org">ros<span>&#64;</span>osrfoundation<span>&#46;</span>org</a> for your public keys to be added.</p></li>
+<li><p>The Packet.net nodes (with &quot;packet&quot; in the name):</p>
+<ul>
+<li><p>Can be managed by logging in at <a class="reference external" href="https://packet.net">https://packet.net</a> with <code class="docutils literal notranslate"><span class="pre">&lt;brian’s</span> <span class="pre">email</span> <span class="pre">address&gt;/&lt;the</span> <span class="pre">usual</span> <span class="pre">company</span> <span class="pre">password&gt;</span></code></p>
+<ul>
+<li><p>This will change after we set up a team account to manage servers.</p></li>
+</ul>
+</li>
+<li><p>Can be accessed with Tully’s or Brian’s ssh key.</p>
+<ul>
+<li><p>This will change after we set up a team account to manage servers.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="troubleshooting">
+<h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h4>
+<p>If a node goes off-line:</p>
+<ul class="simple">
+<li><p>For machines with VNC, you should try that first because many failures can be due to pop-up windows or required updates</p></li>
+<li><p>If you don’t have any pop-ups and relaunching the Jenkins client doesn’t fix it, then you'll have to start troubleshooting.</p></li>
+<li><p>Looking at configuration difference between the nodes may be useful (java version, pip freeze, etc.)</p></li>
+<li><p>For Linux nodes that have gone off-line (e.g. because of a reboot), they can be reconnected through the Jenkins web interface of that node</p></li>
+</ul>
+<p>Other tips:</p>
+<hr class="docutils" />
+<p>The environment variables on Windows machines are output at the beginning of Jenkins jobs (search for <code class="docutils literal notranslate"><span class="pre">==&gt;</span> <span class="pre">set</span></code>).
+If you are modifying environment variables on Windows nodes, you may need to restart the machine before the changes are reflected in the jobs.
+This is due to the Jenkins slave session caching the environment variables to some degree.</p>
+<hr class="docutils" />
+<p>On the Windows machines, the Jenkins slave program runs as a service as the System account.
+For this user, the &quot;home&quot; directory seems to be <code class="docutils literal notranslate"><span class="pre">C:\Windows\system32\config\systemprofile</span></code>.
+You can &quot;become&quot; the system user to debug stuff by downloading <code class="docutils literal notranslate"><span class="pre">pxexec</span></code>:</p>
+<p><a class="reference external" href="https://technet.microsoft.com/en-us/sysinternals/pxexec">https://technet.microsoft.com/en-us/sysinternals/pxexec</a></p>
+<p>Then you extract the zip, then open a command-prompt as administrator, and then run <code class="docutils literal notranslate"><span class="pre">psexec</span> <span class="pre">-i</span> <span class="pre">-s</span> <span class="pre">cmd.exe</span></code>.</p>
+<p>This is all pieced together from a couple of pages here:</p>
+<p><a class="reference external" href="http://blog.thomasvandoren.com/jenkins-windows-slave-with-git.html">http://blog.thomasvandoren.com/jenkins-windows-slave-with-git.html</a></p>
+<p>and here:</p>
+<p><a class="reference external" href="https://answers.atlassian.com/questions/128324/where-is-the-home-directory-for-the-system-user">https://answers.atlassian.com/questions/128324/where-is-the-home-directory-for-the-system-user</a></p>
+<hr class="docutils" />
+<p>Every so often the router reboots. The mac machines usually don’t reconnect to Jenkins properly. Just manually reconnect them.</p>
+</section>
+</section>
+<section id="resources">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Resources</a><a class="headerlink" href="#resources" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CI-Server-Setup.html">How to setup the Jenkins master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Set-up-a-new-Linux-CI-node.html">How to setup Linux Jenkins nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Set-up-a-new-macOS-CI-node.html">How to setup a macOS Jenkins node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Set-up-a-new-Windows-CI-node.html">How to setup a Windows Jenkins node</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="Quality-Guide.html" class="btn btn-neutral float-left" title="Quality guide: ensuring code quality" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="CI-Server-Setup.html" class="btn btn-neutral float-right" title="How to setup the Jenkins master" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2018, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EVD5Z6G6NH', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
