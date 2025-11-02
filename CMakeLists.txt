@@ -167,7 +167,7 @@ include(JsonUtils)
 #[============================================================[
 # Prepare TMPLS_TO_SOURCE_DIR  for 'sphinx_build_pot'  target.
 # Prepare TMPLS_TO_CONFIG_DIR  for 'sphinx_build_docs' target.
-# Prepare LOCALE_TO_SOURCE_DIR for 'sphinx_build_docs' taget.
+# Prepare LOCALE_TO_SOURCE_DIR for 'sphinx_build_docs' target.
 #]============================================================]
 
 file(RELATIVE_PATH TMPLS_TO_SOURCE_DIR
@@ -295,7 +295,7 @@ endif()
 
 #[============================================================[
 # Initialize VERSION_OF_XXX if CACHE{VERSION_OF_XXX} is "[default]".
-# Set VERSION_OF_XXX to $CACHE{VERSION_OF_XX} if it's not "[default]".
+# Set VERSION_OF_XXX to $CACHE{VERSION_OF_XXX} if it's not "[default]".
 #]============================================================]
 
 if     (VERSION MATCHES "^(rolling)$"   OR
