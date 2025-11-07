@@ -382,7 +382,34 @@ It will facilitate the creation and ongoing maintenance of l10n projects for ope
 
 <h2 id="sponsorship"><a href="#table-of-contents">Sponsorship</a></h2>
 
-You can sponsor the maintainers directly through the following platforms:
+You can sponsor the projects through the following platforms:
+
+<div align="center">
+<table>
+  <tbody>
+    <!-- Row 1 -->
+    <tr>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>Patreon</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>Afdian</div></th>
+    </tr>
+    <!-- Row 2 -->
+    <tr>
+      <td rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;" >
+        <div><a href="https://www.patreon.com/localizethedocs" target="_blank">
+          <img width="200" src="https://cdn.jsdelivr.net/gh/localizethedocs/static/button/sponsor-patreon.png" alt="Patreon" />
+        </a></div>
+      </td>
+      <td rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;">
+        <div><a href="https://www.afdian.com/a/localizethedocs" target="_blank">
+          <img width="200" src="https://cdn.jsdelivr.net/gh/localizethedocs/static/button/sponsor-afdian.png" alt="Afdian" />
+        </a></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+Alternatively, you can sponsor the maintainers directly through the following platforms:
 
 <div align="center">
 <table>
@@ -399,12 +426,12 @@ You can sponsor the maintainers directly through the following platforms:
     <tr>
       <td rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;" >
         <div><a href="https://www.patreon.com/hwhsu1231" target="_blank">
-          <img width="200" src="https://cdn.jsdelivr.net/gh/hwhsu1231/static/sponsor-button-patreon.png" alt="Patreon" />
+          <img width="200" src="https://cdn.jsdelivr.net/gh/localizethedocs/static/button/sponsor-patreon.png" alt="Patreon" />
         </a></div>
       </td>
       <td rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;">
         <div><a href="https://www.afdian.com/a/hwhsu1231" target="_blank">
-          <img width="200" src="https://cdn.jsdelivr.net/gh/hwhsu1231/static/sponsor-button-afdian.png" alt="Afdian" />
+          <img width="200" src="https://cdn.jsdelivr.net/gh/localizethedocs/static/button/sponsor-afdian.png" alt="Afdian" />
         </a></div>
       </td>
     </tr>
@@ -421,11 +448,19 @@ You can sponsor the maintainers directly through the following platforms:
 <h2 id="financial-contributors"><a href="#table-of-contents">Financial Contributors</a></h2>
 
 <div align="center">
-<h3 id="sponsors-to-haowei-hsu">Sponsors to Haowei Hsu</h3>
+<h3 id="localize-the-docs">Localize The Docs</h3>
 </div>
 
 <div align="center">
-<img width="100%" alt="Sponsors to Haowei Hsu" src="https://cdn.jsdelivr.net/gh/hwhsu1231/sponsors/static/sponsors.svg" />
+<img width="100%" alt="Localize The Docs" src="https://cdn.jsdelivr.net/gh/localizethedocs/sponsors/static/sponsors.svg" />
+</div>
+
+<div align="center">
+<h3 id="haowei-hsu">Haowei Hsu</h3>
+</div>
+
+<div align="center">
+<img width="100%" alt="Haowei Hsu" src="https://cdn.jsdelivr.net/gh/hwhsu1231/sponsors/static/sponsors.svg" />
 </div>
 
 <h2 id="licenses"><a href="#table-of-contents">Licenses</a></h2>
