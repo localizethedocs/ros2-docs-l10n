@@ -1,0 +1,699 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating your first ROS 2 package &mdash; ros2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Creating-Your-First-ROS2-Package.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script src="../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Writing a simple publisher and subscriber (C++)" href="Writing-A-Simple-Cpp-Publisher-And-Subscriber.html" />
+    <link rel="prev" title="Creating a workspace" href="Workspace/Creating-A-Workspace.html" />
+ 
+<script type="text/javascript" src="../ltd-provenance.js"></script>
+<script type="text/javascript" src="../ltd-current.js"></script>
+<script type="text/javascript" src="../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ros2 documentation
+              <img src="../_static/crystal-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Development-Setup.html">Building ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Binary.html">Installing ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Debians.html">Installing ROS 2 via Debian Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Development-Setup.html">Building ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Install-Binary.html">Installing ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Development-Setup.html">Building ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Install-Binary.html">Installing ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Fedora-Development-Setup.html">Building ROS 2 on Fedora Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Latest-Development-Setup.html">Installing the latest ROS 2 development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Maintaining-a-Source-Checkout.html">Maintaining a source checkout of ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Prerelease-Testing.html">Pre-release Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/DDS-Implementations.html">Installing DDS implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-Security-Plugins.html">Installing Connext security plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-University-Eval.html">Installing University or Evaluation versions of RTI Connext DDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Configuring-ROS2-Environment.html">Configuring your ROS 2 environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Turtlesim/Introducing-Turtlesim.html">Introducing turtlesim and rqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Understanding-ROS2-Nodes.html">Understanding ROS 2 nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topics/Understanding-ROS2-Topics.html">Understanding ROS 2 topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Services/Understanding-ROS2-Services.html">Understanding ROS 2 services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters/Understanding-ROS2-Parameters.html">Understanding ROS 2 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Understanding-ROS2-Actions.html">Understanding ROS 2 actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Rqt-Console/Using-Rqt-Console.html">Using rqt_console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-Files/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ros2bag/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating your first ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Custom-ROS2-Interfaces.html">Creating custom ROS 2 msg and srv files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Single-Package-Define-And-Use-Interface.html">Expanding on ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Actions/Writing-a-Cpp-Action-Server-Client.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Actions/Writing-a-Py-Action-Server-Client.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Colcon-Tutorial.html">Using colcon to build packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-system.html">Launching/monitoring multiple nodes with Launch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introspection-with-command-line-tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RQt-Overview-Usage.html">Overview and usage of RQt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RQt-Source-Install.html">Building RQt from source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="RQt-Source-Install-MacOS.html">Building RQt from source on macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RQt-Source-Install-Windows10.html">Building RQt from source on Windows 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback.html">Overriding QoS Policies For Recording And Playback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="catment.html">On the mixing of ament and catkin (catment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Allocator-Template-Tutorial.html">Implement a custom memory allocator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Releasing-a-ROS-2-package-with-bloom.html">Releasing a ROS 2 package with bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RQt-Port-Plugin-Windows.html">Porting RQt plugins to Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run-2-nodes-in-a-single-docker-container.html">Running 2 nodes in a single docker container [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run-2-nodes-in-two-separate-docker-containers.html">Running 2 nodes in 2 separate docker containers [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Deploying-ROS-2-on-IBM-Cloud.html">ROS2 on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-files-migration-guide.html">Migrating launch files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Eclipse Oxygen with ROS 2 and rviz2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Building-ROS-2-on-Linux-with-Eclipse-Oxygen.html">Building ROS 2 on Linux with Eclipse Oxygen [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building realtime Linux for ROS 2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters-YAML-files-migration-guide.html">Migrating YAML parameter files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quality-of-Service.html">Use quality-of-service settings to handle lossy networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Managed-Nodes.html">Management of nodes with managed lifecycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Intra-Process-Communication.html">Efficient intra-process communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Rosbag-with-ROS1-Bridge.html">Recording and playback of topic data with rosbag using the ROS 1 bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2.html">Using tf2 with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="URDF/Using-URDF-with-Robot-State-Publisher.html">Using URDF with robot_state_publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Real-Time-Programming.html">Real-time programming in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dummy-robot-demo.html">Trying the dummy robot demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Logging-and-logger-configuration.html">Logging and logger configuration demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Different-Middleware-Vendors.html">About different ROS 2 DDS/RTPS vendors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Logging.html">About logging and logger configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Quality-of-Service-Settings.html">About Quality of Service settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Client-Libraries.html">About ROS 2 client libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-Interfaces.html">About ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Parameters.html">About parameters in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Build-System.html">About the build system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Internal-Interfaces.html">About internal ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Middleware-Implementations.html">About ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Client-Interfaces.html">ROS 2 Client Interfaces (Client Libraries)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/DDS-tuning.html">DDS tuning information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/ROS-2-On-boarding-Guide.html">ROS 2 on-boarding guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Design-Guide.html">Design guide: common patterns in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Build-Cop-and-Build-Farmer-Guide.html">Build cop and build farmer guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/CI-Server-Setup.html">How to setup the Jenkins master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Set-up-a-new-Linux-CI-node.html">How to setup Linux Jenkins nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Set-up-a-new-macOS-CI-node.html">How to setup a macOS Jenkins node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Set-up-a-new-Windows-CI-node.html">How to setup a Windows Jenkins node</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Migration-Guide.html">Migration guide from ROS 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Examples-and-Tools-for-ROS1----ROS2-Migrations.html">Examples and tools for ROS1-to-ROS2 migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Inter-Sphinx-Support.html">Using Sphinx for cross-referencing packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ROSCon-Content.html">ROSCon Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Alpha-Overview.html">ROS 2 alpha releases (Aug 2015 - Oct 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta1-Overview.html">Beta 1 (codename 'Asphalt'; December 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta2-Overview.html">Beta 2 (codename 'r2b2'; July 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta3-Overview.html">Beta 3 (codename 'r2b3'; September 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Ardent-Apalone.html">ROS 2 Ardent Apalone (codename 'ardent'; December 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Bouncy-Bolson.html">ROS 2 Bouncy Bolson (codename 'bouncy'; June 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Crystal-Clemmys.html">ROS 2 Crystal Clemmys (codename 'crystal'; December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Dashing-Diademata.html">ROS 2 Dashing Diademata (codename 'dashing'; May 31st, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html">ROS 2 Eloquent Elusor (codename 'eloquent'; November 22nd, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy Fitzroy (codename 'foxy'; June 5th, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Galactic-Geochelone.html">ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Howto.html">How to release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Rolling-Ridley.html">ROS 2 Rolling Ridley (codename 'rolling'; June 2020)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Features.html">Features Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Governance.html">Project Governance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Governance/ROS2-TSC-Charter.html">ROS 2 Technical Steering Committee Charter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Marketing.html">Marketing Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ros2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../Tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Creating your first ROS 2 package</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Creating-Your-First-ROS2-Package.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition warning">
+        <p class="admonition-title">警告</p>
+        <p>
+          You're reading the documentation for a version of ROS 2 that has reached its EOL (end-of-life), and is no longer officially supported. If you want up-to-date information, please have a look at <a href="../../../zh-cn/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="creating-your-first-ros-2-package">
+<span id="createpkg"></span><h1>Creating your first ROS 2 package<a class="headerlink" href="#creating-your-first-ros-2-package" title="Link to this heading"></a></h1>
+<p><strong>Goal:</strong> Create a new package using either CMake or Python, and run its executable.</p>
+<p><strong>Tutorial level:</strong> Beginner</p>
+<p><strong>Time:</strong> 15 minutes</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id1">Background</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-is-a-ros-2-package" id="id2">1 What is a ROS 2 package?</a></p></li>
+<li><p><a class="reference internal" href="#what-makes-up-a-ros-2-package" id="id3">2 What makes up a ROS 2 package?</a></p></li>
+<li><p><a class="reference internal" href="#packages-in-a-workspace" id="id4">3 Packages in a workspace</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#prerequisites" id="id5">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#tasks" id="id6">Tasks</a></p>
+<ul>
+<li><p><a class="reference internal" href="#create-a-package" id="id7">1 Create a package</a></p></li>
+<li><p><a class="reference internal" href="#build-a-package" id="id8">2 Build a package</a></p></li>
+<li><p><a class="reference internal" href="#source-the-setup-file" id="id9">3 Source the setup file</a></p></li>
+<li><p><a class="reference internal" href="#use-the-package" id="id10">4 Use the package</a></p></li>
+<li><p><a class="reference internal" href="#examine-package-contents" id="id11">5 Examine package contents</a></p></li>
+<li><p><a class="reference internal" href="#customize-package-xml" id="id12">6 Customize package.xml</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id13">Summary</a></p></li>
+<li><p><a class="reference internal" href="#next-steps" id="id14">Next steps</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Background</a><a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<section id="what-is-a-ros-2-package">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">1 What is a ROS 2 package?</a><a class="headerlink" href="#what-is-a-ros-2-package" title="Link to this heading"></a></h3>
+<p>A package can be considered a container for your ROS 2 code.
+If you want to be able to install your code or share it with others, then you’ll need it organized in a package.
+With packages, you can release your ROS 2 work and allow others to build and use it easily.</p>
+<p>Package creation in ROS 2 uses ament as its build system and colcon as its build tool.
+You can create a package using either CMake or Python, which are officially supported, though other build types do exist.</p>
+</section>
+<section id="what-makes-up-a-ros-2-package">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">2 What makes up a ROS 2 package?</a><a class="headerlink" href="#what-makes-up-a-ros-2-package" title="Link to this heading"></a></h3>
+<p>ROS 2 Python and CMake packages each have their own minimum required contents:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-0-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-0-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">package.xml</span></code> file containing meta information about the package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file that describes how to build the code within the package</p></li>
+</ul>
+</div><div aria-labelledby="tab-0-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">package.xml</span></code> file containing meta information about the package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.py</span></code> containing instructions for how to install the package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> is required when a package has executables, so <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> can find them</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/&lt;package_name&gt;</span></code> - a directory with the same name as your package, used by ROS 2 tools to find your package, contains <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code></p></li>
+</ul>
+</div></div>
+<p>The simplest possible package may have a file structure that looks like:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-1-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-1-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_package/</span>
+<span class="go">     CMakeLists.txt</span>
+<span class="go">     package.xml</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_package/</span>
+<span class="go">      setup.py</span>
+<span class="go">      package.xml</span>
+<span class="go">      resource/my_package</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="packages-in-a-workspace">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">3 Packages in a workspace</a><a class="headerlink" href="#packages-in-a-workspace" title="Link to this heading"></a></h3>
+<p>A single workspace can contain as many packages as you want, each in their own folder.
+You can also have packages of different build types in one workspace (CMake, Python, etc.).
+You cannot have nested packages.</p>
+<p>Best practice is to have a <code class="docutils literal notranslate"><span class="pre">src</span></code> folder within your workspace, and to create your packages in there.
+This keeps the top level of the workspace “clean”.</p>
+<p>A trivial workspace might look like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">workspace_folder/</span>
+<span class="go">    src/</span>
+<span class="go">      package_1/</span>
+<span class="go">          CMakeLists.txt</span>
+<span class="go">          package.xml</span>
+
+<span class="go">      package_2/</span>
+<span class="go">          setup.py</span>
+<span class="go">          package.xml</span>
+<span class="go">          resource/package_2</span>
+<span class="go">      ...</span>
+<span class="go">      package_n/</span>
+<span class="go">          CMakeLists.txt</span>
+<span class="go">          package.xml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>You should have a ROS 2 workspace after following the instructions in the <a class="reference internal" href="Workspace/Creating-A-Workspace.html#ros2workspace"><span class="std std-ref">previous tutorial</span></a>.
+You will create your package in this workspace.</p>
+</section>
+<section id="tasks">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Tasks</a><a class="headerlink" href="#tasks" title="Link to this heading"></a></h2>
+<section id="create-a-package">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">1 Create a package</a><a class="headerlink" href="#create-a-package" title="Link to this heading"></a></h3>
+<p>First, <a class="reference internal" href="Configuring-ROS2-Environment.html#configros2"><span class="std std-ref">source your ROS 2 installation</span></a>.</p>
+<p>Let’s use the workspace you created in the <a class="reference internal" href="Workspace/Creating-A-Workspace.html#new-directory"><span class="std std-ref">previous tutorial</span></a>, <code class="docutils literal notranslate"><span class="pre">dev_ws</span></code>, for your new package.`</p>
+<p>Make sure you are in the <code class="docutils literal notranslate"><span class="pre">src</span></code> folder before running the package creation command.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-2-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-2-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-2-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-2-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/dev_ws/src</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/dev_ws/src</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd \dev_ws\src</span>
+</pre></div>
+</div>
+</div></div>
+<p>The command syntax for creating a new package in ROS 2 is:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-3-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-3-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-3-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-3-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 pkg create --build-type ament_cmake &lt;package_name&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 pkg create --build-type ament_python &lt;package_name&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<p>For this tutorial, you will use the optional argument <code class="docutils literal notranslate"><span class="pre">--node-name</span></code> which creates a simple Hello World type executable in the package.</p>
+<p>Enter the following command in your terminal:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-4-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-4-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-4-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-4-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 pkg create --build-type ament_cmake --node-name my_node my_package</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 pkg create --build-type ament_python --node-name my_node my_package</span>
+</pre></div>
+</div>
+</div></div>
+<p>You will now have a new folder within your workspace’s <code class="docutils literal notranslate"><span class="pre">src</span></code> directory called <code class="docutils literal notranslate"><span class="pre">my_package</span></code>.</p>
+<p>After running the command, your terminal will return the message:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-5-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-5-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-5-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-5-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-5-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">going to create a new package</span>
+<span class="go">package name: my_package</span>
+<span class="go">destination directory: /home/user/dev_ws/src</span>
+<span class="go">package format: 3</span>
+<span class="go">version: 0.0.0</span>
+<span class="go">description: TODO: Package description</span>
+<span class="go">maintainer: [&#39;&lt;name&gt; &lt;email&gt;&#39;]</span>
+<span class="go">licenses: [&#39;TODO: License declaration&#39;]</span>
+<span class="go">build type: ament_cmake</span>
+<span class="go">dependencies: []</span>
+<span class="go">node_name: my_node</span>
+<span class="go">creating folder ./my_package</span>
+<span class="go">creating ./my_package/package.xml</span>
+<span class="go">creating source and include folder</span>
+<span class="go">creating folder ./my_package/src</span>
+<span class="go">creating folder ./my_package/include/my_package</span>
+<span class="go">creating ./my_package/CMakeLists.txt</span>
+<span class="go">creating ./my_package/src/my_node.cpp</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-5-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">going to create a new package</span>
+<span class="go">package name: my_package</span>
+<span class="go">destination directory: /home/user/dev_ws/src</span>
+<span class="go">package format: 3</span>
+<span class="go">version: 0.0.0</span>
+<span class="go">description: TODO: Package description</span>
+<span class="go">maintainer: [&#39;&lt;name&gt; &lt;email&gt;&#39;]</span>
+<span class="go">licenses: [&#39;TODO: License declaration&#39;]</span>
+<span class="go">build type: ament_python</span>
+<span class="go">dependencies: []</span>
+<span class="go">node_name: my_node</span>
+<span class="go">creating folder ./my_package</span>
+<span class="go">creating ./my_package/package.xml</span>
+<span class="go">creating source folder</span>
+<span class="go">creating folder ./my_package/my_package</span>
+<span class="go">creating ./my_package/setup.py</span>
+<span class="go">creating ./my_package/setup.cfg</span>
+<span class="go">creating folder ./my_package/resource</span>
+<span class="go">creating ./my_package/resource/my_package</span>
+<span class="go">creating ./my_package/my_package/__init__.py</span>
+<span class="go">creating folder ./my_package/test</span>
+<span class="go">creating ./my_package/test/test_copyright.py</span>
+<span class="go">creating ./my_package/test/test_flake8.py</span>
+<span class="go">creating ./my_package/test/test_pep257.py</span>
+<span class="go">creating ./my_package/my_package/my_node.py</span>
+</pre></div>
+</div>
+</div></div>
+<p>You can see the automatically generated files for the new package.</p>
+</section>
+<section id="build-a-package">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">2 Build a package</a><a class="headerlink" href="#build-a-package" title="Link to this heading"></a></h3>
+<p>Putting packages in a workspace is especially valuable because you can build many packages at once by running <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> in the workspace root.
+Otherwise, you would have to build each package individually.</p>
+<p>Return to the root of your workspace:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-6-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-6-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-6-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-6-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-6-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-6-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-6-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/dev_ws</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-6-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/dev_ws</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-6-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd \dev_ws</span>
+</pre></div>
+</div>
+</div></div>
+<p>Now you can build your packages:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-7-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-7-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-7-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-7-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-7-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-7-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-7-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-7-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-7-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install</span>
+</pre></div>
+</div>
+<p>Windows doesn’t allow long paths, so <code class="docutils literal notranslate"><span class="pre">merge-install</span></code> will combine all the paths into the <code class="docutils literal notranslate"><span class="pre">install</span></code> directory.</p>
+</div></div>
+<p>Recall from the last tutorial that you also have the <code class="docutils literal notranslate"><span class="pre">ros_tutorials</span></code> packages in your <code class="docutils literal notranslate"><span class="pre">dev_ws</span></code>.
+You might’ve noticed that running <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> also built the <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code> package.
+That’s fine when you only have a few packages in your workspace, but when there are many packages, <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> can take a long time.</p>
+<p>To build only the <code class="docutils literal notranslate"><span class="pre">my_package</span></code> package next time, you can run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --packages-select my_package</span>
+</pre></div>
+</div>
+</section>
+<section id="source-the-setup-file">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">3 Source the setup file</a><a class="headerlink" href="#source-the-setup-file" title="Link to this heading"></a></h3>
+<p>To use your new package and executable, first open a new terminal and source your main ROS 2 installation.</p>
+<p>Then, from inside the <code class="docutils literal notranslate"><span class="pre">dev_ws</span></code> directory, run the following command to source your workspace:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-8-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-8-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-8-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-8-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-8-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-8-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-8-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">. install/setup.bash</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-8-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">. install/setup.bash</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-8-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">call install/local_setup.bat</span>
+</pre></div>
+</div>
+</div></div>
+<p>Now that your workspace has been added to your path, you will be able to use your new package’s executables.</p>
+</section>
+<section id="use-the-package">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">4 Use the package</a><a class="headerlink" href="#use-the-package" title="Link to this heading"></a></h3>
+<p>To run the executable you created using the <code class="docutils literal notranslate"><span class="pre">--node-name</span></code> argument during package creation, enter the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 run my_package my_node</span>
+</pre></div>
+</div>
+<p>Which will return a message to your terminal:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-9-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-9-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-9-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-9-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-9-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">hello world my_package package</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-9-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-9-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Hi from my_package.</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="examine-package-contents">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">5 Examine package contents</a><a class="headerlink" href="#examine-package-contents" title="Link to this heading"></a></h3>
+<p>Inside <code class="docutils literal notranslate"><span class="pre">dev_ws/src/my_package</span></code>, you will see the files and folders that <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">pkg</span> <span class="pre">create</span></code> automatically generated:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-10-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-10-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-10-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-10-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-10-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">CMakeLists.txt  include  package.xml  src</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">my_node.cpp</span></code> is inside the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory.
+This is where all your custom C++ nodes will go in the future.</p>
+</div><div aria-labelledby="tab-10-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-10-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">my_package  package.xml  resource  setup.cfg  setup.py  test</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">my_node.py</span></code> is inside the <code class="docutils literal notranslate"><span class="pre">my_package</span></code> directory.
+This is where all your custom Python nodes will go in the future.</p>
+</div></div>
+</section>
+<section id="customize-package-xml">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">6 Customize package.xml</a><a class="headerlink" href="#customize-package-xml" title="Link to this heading"></a></h3>
+<p>You may have noticed in the return message after creating your package that the fields <code class="docutils literal notranslate"><span class="pre">description</span></code> and <code class="docutils literal notranslate"><span class="pre">license</span></code> contain <code class="docutils literal notranslate"><span class="pre">TODO</span></code> notes.
+That’s because the package description and license declaration are not automatically set, but are required if you ever want to release your package.
+The <code class="docutils literal notranslate"><span class="pre">maintainer</span></code> field may also need to be filled in.</p>
+<p>From <code class="docutils literal notranslate"><span class="pre">dev_ws/src/my_package</span></code>, open <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> using your preferred text editor:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-11-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-11-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-11-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-11-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-11-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-11-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="linenos"> 2</span><span class="cp">&lt;?xml-model</span>
+<span class="linenos"> 3</span><span class="cp">   href=&quot;http://download.ros.org/schema/package_format3.xsd&quot;</span>
+<span class="linenos"> 4</span><span class="cp">   schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;?&gt;</span>
+<span class="linenos"> 5</span><span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="nt">&lt;name&gt;</span>my_package<span class="nt">&lt;/name&gt;</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="nt">&lt;version&gt;</span>0.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="nt">&lt;description&gt;</span>TODO:<span class="w"> </span>Package<span class="w"> </span>description<span class="nt">&lt;/description&gt;</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;user@todo.todo&quot;</span><span class="nt">&gt;</span>user<span class="nt">&lt;/maintainer&gt;</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">&lt;license&gt;</span>TODO:<span class="w"> </span>License<span class="w"> </span>declaration<span class="nt">&lt;/license&gt;</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w"> </span><span class="nt">&lt;buildtool_depend&gt;</span>ament_cmake<span class="nt">&lt;/buildtool_depend&gt;</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="w"> </span><span class="nt">&lt;test_depend&gt;</span>ament_lint_auto<span class="nt">&lt;/test_depend&gt;</span>
+<span class="linenos">15</span><span class="w"> </span><span class="nt">&lt;test_depend&gt;</span>ament_lint_common<span class="nt">&lt;/test_depend&gt;</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w"> </span><span class="nt">&lt;export&gt;</span>
+<span class="linenos">18</span><span class="w">   </span><span class="nt">&lt;build_type&gt;</span>ament_cmake<span class="nt">&lt;/build_type&gt;</span>
+<span class="linenos">19</span><span class="w"> </span><span class="nt">&lt;/export&gt;</span>
+<span class="linenos">20</span><span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-11-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-11-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="linenos"> 2</span><span class="cp">&lt;?xml-model</span>
+<span class="linenos"> 3</span><span class="cp">   href=&quot;http://download.ros.org/schema/package_format3.xsd&quot;</span>
+<span class="linenos"> 4</span><span class="cp">   schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;?&gt;</span>
+<span class="linenos"> 5</span><span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="nt">&lt;name&gt;</span>my_package<span class="nt">&lt;/name&gt;</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="nt">&lt;version&gt;</span>0.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="nt">&lt;description&gt;</span>TODO:<span class="w"> </span>Package<span class="w"> </span>description<span class="nt">&lt;/description&gt;</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;user@todo.todo&quot;</span><span class="nt">&gt;</span>user<span class="nt">&lt;/maintainer&gt;</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">&lt;license&gt;</span>TODO:<span class="w"> </span>License<span class="w"> </span>declaration<span class="nt">&lt;/license&gt;</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w"> </span><span class="nt">&lt;buildtool_depend&gt;</span>ament_python<span class="nt">&lt;/buildtool_depend&gt;</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="w"> </span><span class="nt">&lt;test_depend&gt;</span>ament_copyright<span class="nt">&lt;/test_depend&gt;</span>
+<span class="linenos">15</span><span class="w"> </span><span class="nt">&lt;test_depend&gt;</span>ament_flake8<span class="nt">&lt;/test_depend&gt;</span>
+<span class="linenos">16</span><span class="w"> </span><span class="nt">&lt;test_depend&gt;</span>ament_pep257<span class="nt">&lt;/test_depend&gt;</span>
+<span class="linenos">17</span><span class="w"> </span><span class="nt">&lt;test_depend&gt;</span>python3-pytest<span class="nt">&lt;/test_depend&gt;</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w"> </span><span class="nt">&lt;export&gt;</span>
+<span class="linenos">20</span><span class="w">   </span><span class="nt">&lt;build_type&gt;</span>ament_python<span class="nt">&lt;/build_type&gt;</span>
+<span class="linenos">21</span><span class="w"> </span><span class="nt">&lt;/export&gt;</span>
+<span class="linenos">22</span><span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+</div></div>
+<p>Input your name and email on line 7 if it hasn't been automatically populated for you.
+Then, edit the description on line 6 to summarize the package:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;description&gt;</span>Beginner<span class="w"> </span>client<span class="w"> </span>libraries<span class="w"> </span>tutorials<span class="w"> </span>practice<span class="w"> </span>package<span class="nt">&lt;/description&gt;</span>
+</pre></div>
+</div>
+<p>Then, update the license on line 8.
+You can read more about open source licenses <a class="reference external" href="https://opensource.org/licenses/alphabetical">here</a>.</p>
+<p>Since this package is only for practice, it’s safe to use any license. We use <code class="docutils literal notranslate"><span class="pre">Apache</span> <span class="pre">License</span> <span class="pre">2.0</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;license&gt;</span>Apache<span class="w"> </span>License<span class="w"> </span>2.0<span class="nt">&lt;/license&gt;</span>
+</pre></div>
+</div>
+<p>Don’t forget to save once you’re done editing.</p>
+<p>Below the license tag, you will see some tag names ending with <code class="docutils literal notranslate"><span class="pre">_depend</span></code>.
+This is where your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> would list its dependencies on other packages, for colcon to search for.
+<code class="docutils literal notranslate"><span class="pre">my_package</span></code> is simple and doesn’t have any dependencies, but you will see this space being utilized in upcoming tutorials.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-12-Q01ha2U=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-12-Q01ha2U=" name="Q01ha2U=" role="tab" tabindex="0">CMake</button><button aria-controls="panel-12-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-12-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-12-Q01ha2U=" class="sphinx-tabs-panel group-tab" id="panel-12-Q01ha2U=" name="Q01ha2U=" role="tabpanel" tabindex="0"><p>You’re all done for now!</p>
+</div><div aria-labelledby="tab-12-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-12-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>The <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file contains the same description, maintainer and license fields as <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>, so you need to set those as well.
+They need to match exactly in both files.
+The version and name (<code class="docutils literal notranslate"><span class="pre">package_name</span></code>) also need to match exactly, and should be automatically populated in both files.</p>
+<p>Open <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> with your preferred text editor.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">package_name</span> <span class="o">=</span> <span class="s1">&#39;my_py_pkg&#39;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">setup</span><span class="p">(</span>
+<span class="linenos"> 6</span> <span class="n">name</span><span class="o">=</span><span class="n">package_name</span><span class="p">,</span>
+<span class="linenos"> 7</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.0.0&#39;</span><span class="p">,</span>
+<span class="linenos"> 8</span> <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="n">package_name</span><span class="p">],</span>
+<span class="linenos"> 9</span> <span class="n">data_files</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos">10</span>     <span class="p">(</span><span class="s1">&#39;share/ament_index/resource_index/packages&#39;</span><span class="p">,</span>
+<span class="linenos">11</span>             <span class="p">[</span><span class="s1">&#39;resource/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">]),</span>
+<span class="linenos">12</span>     <span class="p">(</span><span class="s1">&#39;share/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;package.xml&#39;</span><span class="p">]),</span>
+<span class="linenos">13</span>   <span class="p">],</span>
+<span class="linenos">14</span> <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;setuptools&#39;</span><span class="p">],</span>
+<span class="linenos">15</span> <span class="n">zip_safe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">16</span> <span class="n">maintainer</span><span class="o">=</span><span class="s1">&#39;TODO&#39;</span><span class="p">,</span>
+<span class="linenos">17</span> <span class="n">maintainer_email</span><span class="o">=</span><span class="s1">&#39;TODO&#39;</span><span class="p">,</span>
+<span class="linenos">18</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;TODO: Package description&#39;</span><span class="p">,</span>
+<span class="linenos">19</span> <span class="n">license</span><span class="o">=</span><span class="s1">&#39;TODO: License declaration&#39;</span><span class="p">,</span>
+<span class="linenos">20</span> <span class="n">tests_require</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pytest&#39;</span><span class="p">],</span>
+<span class="linenos">21</span> <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">22</span>     <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+<span class="linenos">23</span>             <span class="s1">&#39;my_node = my_py_pkg.my_node:main&#39;</span>
+<span class="linenos">24</span>     <span class="p">],</span>
+<span class="linenos">25</span>   <span class="p">},</span>
+<span class="linenos">26</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Edit lines 16-19 to match <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.</p>
+<p>Don’t forget to save the file.</p>
+</div></div>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>You’ve created a package to organize your code and make it easy to use for others.</p>
+<p>Your package was automatically populated with the necessary files, and then you used colcon to build it so you can use its executables in your local environment.</p>
+</section>
+<section id="next-steps">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Next steps</a><a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>Next, let's add something meaningful to a package.
+You'll start with a simple publisher/subscriber system, which you can choose to write in either <a class="reference internal" href="Writing-A-Simple-Cpp-Publisher-And-Subscriber.html#cpppubsub"><span class="std std-ref">C++</span></a> or <a class="reference internal" href="Writing-A-Simple-Py-Publisher-And-Subscriber.html#pypubsub"><span class="std std-ref">Python</span></a>.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="Workspace/Creating-A-Workspace.html" class="btn btn-neutral float-left" title="Creating a workspace" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="Writing-A-Simple-Cpp-Publisher-And-Subscriber.html" class="btn btn-neutral float-right" title="Writing a simple publisher and subscriber (C++)" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2018, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EVD5Z6G6NH', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
