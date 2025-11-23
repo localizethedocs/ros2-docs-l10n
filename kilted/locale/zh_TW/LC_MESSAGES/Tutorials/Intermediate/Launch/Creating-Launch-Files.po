@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation kilted\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 08:36+0000\n"
+"POT-Creation-Date: 2025-11-18 08:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,8 +117,8 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:61
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:102
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:164
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:107
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:169
 msgid "XML"
 msgstr ""
 
@@ -133,9 +133,9 @@ msgid ""
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "<launch>\n"
 "  <node pkg=\"turtlesim\" exec=\"turtlesim_node\" name=\"sim\" "
-"namespace=\"turtlesim1\" />\n"
+"namespace=\"turtlesim1\" args=\"--ros-args --log-level info\" />\n"
 "  <node pkg=\"turtlesim\" exec=\"turtlesim_node\" name=\"sim\" "
-"namespace=\"turtlesim2\" />\n"
+"namespace=\"turtlesim2\" ros_args=\"--log-level warn\" />\n"
 "  <node pkg=\"turtlesim\" exec=\"mimic\" name=\"mimic\">\n"
 "    <remap from=\"/input/pose\" to=\"/turtlesim1/turtle1/pose\" />\n"
 "    <remap from=\"/output/cmd_vel\" to=\"/turtlesim2/turtle1/cmd_vel\" />\n"
@@ -144,8 +144,8 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:68
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:116
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:171
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:121
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:176
 msgid "YAML"
 msgstr ""
 
@@ -165,12 +165,14 @@ msgid ""
 "      exec: \"turtlesim_node\"\n"
 "      name: \"sim\"\n"
 "      namespace: \"turtlesim1\"\n"
+"      args: \"--ros-args --log-level info\"\n"
 "\n"
 "  - node:\n"
 "      pkg: \"turtlesim\"\n"
 "      exec: \"turtlesim_node\"\n"
 "      name: \"sim\"\n"
 "      namespace: \"turtlesim2\"\n"
+"      ros_args: \"--log-level warn\"\n"
 "\n"
 "  - node:\n"
 "      pkg: \"turtlesim\"\n"
@@ -184,8 +186,8 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:75
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:130
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:178
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:135
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:183
 msgid "Python"
 msgstr ""
 
@@ -207,13 +209,15 @@ msgid ""
 "            package='turtlesim',\n"
 "            namespace='turtlesim1',\n"
 "            executable='turtlesim_node',\n"
-"            name='sim'\n"
+"            name='sim',\n"
+"            arguments=['--ros-args', '--log-level', 'info']\n"
 "        ),\n"
 "        Node(\n"
 "            package='turtlesim',\n"
 "            namespace='turtlesim2',\n"
 "            executable='turtlesim_node',\n"
-"            name='sim'\n"
+"            name='sim',\n"
+"            ros_arguments=['--log-level', 'warn']\n"
 "        ),\n"
 "        Node(\n"
 "            package='turtlesim',\n"
@@ -240,8 +244,8 @@ msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:89
 msgid ""
-"When launching the two turtlesim nodes, the only difference between them is "
-"their namespace values. Unique namespaces allow the system to start two "
+"When launching the two turtlesim nodes, the primary difference between them "
+"is their namespace values. Unique namespaces allow the system to start two "
 "nodes without node name or topic name conflicts. Both turtles in this system "
 "receive commands over the same topic and publish their pose over the same "
 "topic. With unique namespaces, messages meant for different turtles can be "
@@ -249,6 +253,18 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:94
+msgid ""
+"The two turtlesim nodes also demonstrate different ways to pass arguments to "
+"nodes. The first node uses ``args`` to pass arguments directly to the "
+"executable, requiring the ``--ros-args`` flag for ROS-specific arguments. "
+"The second node uses ``ros_args`` (``ros_arguments`` in Python), designed "
+"specifically for ROS arguments. Use ``args`` when mixing ROS and non-ROS "
+"arguments (e.g., ``my_custom_arg --ros-args --log-level info``), or "
+"``ros_args`` for cleaner syntax with only ROS arguments like remappings, "
+"parameters, or log levels."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:99
 msgid ""
 "The final node is also from the ``turtlesim`` package, but a different "
 "executable: ``mimic``. This node has added configuration details in the form "
@@ -260,26 +276,28 @@ msgid ""
 "mimic ``turtlesim1``'s movements."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:104
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:118
-msgid "The first two actions launch the two turtlesim windows:"
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:109
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:123
+msgid ""
+"The first two actions launch the two turtlesim windows with different "
+"argument passing approaches:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:106
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:111
 msgid ""
 "  <node pkg=\"turtlesim\" exec=\"turtlesim_node\" name=\"sim\" "
-"namespace=\"turtlesim1\" />\n"
+"namespace=\"turtlesim1\" args=\"--ros-args --log-level info\" />\n"
 "  <node pkg=\"turtlesim\" exec=\"turtlesim_node\" name=\"sim\" "
-"namespace=\"turtlesim2\" />\n"
+"namespace=\"turtlesim2\" ros_args=\"--log-level warn\" />\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:110
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:124
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:150
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:115
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:129
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:155
 msgid "The final action launches the mimic node with the remaps:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:112
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:117
 msgid ""
 "  <node pkg=\"turtlesim\" exec=\"mimic\" name=\"mimic\">\n"
 "    <remap from=\"/input/pose\" to=\"/turtlesim1/turtle1/pose\" />\n"
@@ -287,22 +305,24 @@ msgid ""
 "  </node>\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:120
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:125
 msgid ""
 "  - node:\n"
 "      pkg: \"turtlesim\"\n"
 "      exec: \"turtlesim_node\"\n"
 "      name: \"sim\"\n"
 "      namespace: \"turtlesim1\"\n"
+"      args: \"--ros-args --log-level info\"\n"
 "\n"
 "  - node:\n"
 "      pkg: \"turtlesim\"\n"
 "      exec: \"turtlesim_node\"\n"
 "      name: \"sim\"\n"
 "      namespace: \"turtlesim2\"\n"
+"      ros_args: \"--log-level warn\"\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:126
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:131
 msgid ""
 "  - node:\n"
 "      pkg: \"turtlesim\"\n"
@@ -315,51 +335,52 @@ msgid ""
 "          to: \"/turtlesim2/turtle1/cmd_vel\"\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:132
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:137
 msgid "These import statements pull in some Python ``launch`` modules."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:134
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:139
 msgid ""
 "from launch import LaunchDescription\n"
 "from launch_ros.actions import Node\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:138
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:143
 msgid "Next, the launch description itself begins:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:140
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:145
 msgid ""
 "def generate_launch_description():\n"
 "    return LaunchDescription([\n"
-"        Node(\n"
 "    ])\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:144
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:149
 msgid ""
 "The first two actions in the launch description launch the two turtlesim "
-"windows:"
+"windows with different argument passing approaches:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:146
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:151
 msgid ""
 "        Node(\n"
 "            package='turtlesim',\n"
 "            namespace='turtlesim1',\n"
 "            executable='turtlesim_node',\n"
-"            name='sim'\n"
+"            name='sim',\n"
+"            arguments=['--ros-args', '--log-level', 'info']\n"
 "        ),\n"
 "        Node(\n"
 "            package='turtlesim',\n"
 "            namespace='turtlesim2',\n"
 "            executable='turtlesim_node',\n"
-"            name='sim'\n"
+"            name='sim',\n"
+"            ros_arguments=['--log-level', 'warn']\n"
 "        ),\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:152
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:157
 msgid ""
 "        Node(\n"
 "            package='turtlesim',\n"
@@ -372,17 +393,17 @@ msgid ""
 "        )\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:158
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:163
 msgid "3 ros2 launch"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:160
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:165
 msgid ""
 "To run the launch file created above, enter into the directory you created "
 "earlier and run the following command:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:166
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:171
 msgid ""
 "$ cd launch\n"
 "$ ros2 launch turtlesim_mimic_launch.xml"
@@ -390,7 +411,7 @@ msgstr ""
 "$ cd launch\n"
 "$ ros2 launch turtlesim_mimic_launch.xml"
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:173
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:178
 msgid ""
 "$ cd launch\n"
 "$ ros2 launch turtlesim_mimic_launch.yaml"
@@ -398,7 +419,7 @@ msgstr ""
 "$ cd launch\n"
 "$ ros2 launch turtlesim_mimic_launch.yaml"
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:180
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:185
 msgid ""
 "$ cd launch\n"
 "$ ros2 launch turtlesim_mimic_launch.py"
@@ -406,46 +427,46 @@ msgstr ""
 "$ cd launch\n"
 "$ ros2 launch turtlesim_mimic_launch.py"
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:187
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:192
 msgid ""
 "It is possible to launch a launch file directly (as we do above), or "
 "provided by a package. When it is provided by a package, the syntax is:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:190
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:195
 msgid "$ ros2 launch <package_name> <launch_file_name>"
 msgstr "$ ros2 launch <package_name> <launch_file_name>"
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:194
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:199
 msgid ""
 "You learned about creating packages in :doc:`../../Beginner-Client-Libraries/"
 "Creating-Your-First-ROS2-Package`."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:198
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:203
 msgid ""
 "For packages with launch files, it is a good idea to add an ``exec_depend`` "
 "dependency on the ``ros2launch`` package in your package's ``package.xml``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:200
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:205
 msgid "<exec_depend>ros2launch</exec_depend>"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:204
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:209
 msgid ""
 "This helps make sure that the ``ros2 launch`` command is available after "
 "building your package. It also ensures that all :doc:`launch file formats "
 "<../../../How-To-Guides/Launch-file-different-formats>` are recognized."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:207
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:212
 msgid ""
 "Two turtlesim windows will open, and you will see the following ``[INFO]`` "
 "messages telling you which nodes your launch file has started:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:209
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:214
 msgid ""
 "[INFO] [launch]: Default logging verbosity is set to INFO\n"
 "[INFO] [turtlesim_node-1]: process started with pid [11714]\n"
@@ -453,14 +474,14 @@ msgid ""
 "[INFO] [mimic-3]: process started with pid [11716]"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:216
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:221
 msgid ""
 "To see the system in action, open a new terminal and run the ``ros2 topic "
 "pub`` command on the ``/turtlesim1/turtle1/cmd_vel`` topic to get the first "
 "turtle moving:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:218
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:223
 msgid ""
 "$ ros2 topic pub -r 1 /turtlesim1/turtle1/cmd_vel geometry_msgs/msg/Twist "
 "\"{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: -1.8}}\""
@@ -468,30 +489,30 @@ msgstr ""
 "$ ros2 topic pub -r 1 /turtlesim1/turtle1/cmd_vel geometry_msgs/msg/Twist "
 "\"{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: -1.8}}\""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:222
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:227
 msgid "You will see both turtles following the same path."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:227
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:232
 msgid "4 Introspect the system with rqt_graph"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:229
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:234
 msgid ""
 "While the system is still running, open a new terminal and run ``rqt_graph`` "
 "to get a better idea of the relationship between the nodes in your launch "
 "file."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:231
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:236
 msgid "Run the command:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:233
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:238
 msgid "$ ros2 run rqt_graph rqt_graph"
 msgstr "$ ros2 run rqt_graph rqt_graph"
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:239
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:244
 msgid ""
 "A hidden node (the ``ros2 topic pub`` command you ran) is publishing data to "
 "the ``/turtlesim1/turtle1/cmd_vel`` topic on the left, which the ``/"
@@ -500,11 +521,11 @@ msgid ""
 "topic, and publishes to ``/turtlesim2/sim``'s velocity command topic."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:243
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:248
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:245
+#: ../../../source/Tutorials/Intermediate/Launch/Creating-Launch-Files.rst:250
 msgid ""
 "Launch files simplify running complex systems with many nodes and specific "
 "configuration details. You can create launch files using XML, YAML, or "
