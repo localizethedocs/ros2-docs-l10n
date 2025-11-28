@@ -49,6 +49,7 @@ jobs:
           echo "vars.ACTOR_NAME = ${{ vars.ACTOR_NAME }}"
           echo "vars.ACTOR_EMAIL = ${{ vars.ACTOR_EMAIL }}"
           echo "vars.CROWDIN_PROJECT_ID = ${{ vars.CROWDIN_PROJECT_ID }}"
+          echo "vars.CROWDIN_README_ID = ${{ vars.CROWDIN_README_ID }}"
           echo "vars.CROWDIN_BASE_URL = ${{ vars.CROWDIN_BASE_URL }}"
           echo "vars.GPG_FINGERPRINT = ${{ vars.GPG_FINGERPRINT }}"
           echo "[Secrets]"
@@ -87,7 +88,7 @@ jobs:
           echo "steps.filter.outputs.document_count = ${{ steps.filter.outputs.document_count }}"
           echo "steps.filter.outputs.script_count   = ${{ steps.filter.outputs.script_count }}"
 
-  check-crowdin-update-docs:
+  check-crowdin-update-readme:
     needs: [ 'before-check' ]
     if: ${{ ( github.repository == 'localizethedocs/ros2-docs-l10n' ) &&
             ( ( github.event_name   == 'pull_request' ) &&
@@ -96,17 +97,17 @@ jobs:
               ( github.event.action == 'opened' ||
                 github.event.action == 'synchronize' ||
                 github.event.action == 'reopened' ) ) }}
-    uses: localizethedocs/ci-common/.github/workflows/use-crowdin-update-docs.yml@main
+    uses: localizethedocs/ci-common/.github/workflows/use-crowdin-update-readme.yml@main
     with:
       ENABLE: ${{ needs.before-check.outputs.DOCUMENT_CHANGE == 'true' }}
       RUNNER: ${{ vars.RUNNER }}
       CHECKOUT: ${{ github.ref }}
-      VERSION: 'check'
       LANGUAGE: 'zh_TW'
       LANGUAGE_SOURCE: 'en_US'
       ACTOR_NAME: ${{ vars.ACTOR_NAME }}
       ACTOR_EMAIL: ${{ vars.ACTOR_EMAIL }}
-      CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
+      CROWDIN_BRANCH_NAME: 'check-pr-ros2-docs-l10n'
+      CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_README_ID }}
       CROWDIN_BASE_URL: ${{ vars.CROWDIN_BASE_URL }}
       GPG_FINGERPRINT: ${{ vars.GPG_FINGERPRINT }}
     secrets:
