@@ -188,10 +188,10 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
     </tr>
     <tr>
       <td rowspan="1" colspan="1" align="right" style="text-align: right;">
-        <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-docs.yml"><img alt="ci-crowdin-update-docs" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-docs.yml/badge.svg" /></a></div>
+        <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml"><img alt="ci-crowdin-update-readme" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update <code>docs</code> translations by Crowdin CLI tool.</div>
+        <div>Update README translations by Crowdin CLI tool.</div>
       </td>
     </tr>
     <tr>

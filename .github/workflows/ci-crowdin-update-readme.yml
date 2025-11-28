@@ -1,7 +1,7 @@
 # Distributed under the OSI-approved BSD 3-Clause License.
 # See accompanying file LICENSE-BSD for details.
 
-name: ci-crowdin-update-docs
+name: ci-crowdin-update-readme
 
 on:
   # Triggers the workflow when README changes are pushed to the 'main' branch.
@@ -47,7 +47,7 @@ jobs:
           echo "vars.RUNNER = ${{ vars.RUNNER }}"
           echo "vars.ACTOR_NAME = ${{ vars.ACTOR_NAME }}"
           echo "vars.ACTOR_EMAIL = ${{ vars.ACTOR_EMAIL }}"
-          echo "vars.CROWDIN_PROJECT_ID = ${{ vars.CROWDIN_PROJECT_ID }}"
+          echo "vars.CROWDIN_README_ID = ${{ vars.CROWDIN_README_ID }}"
           echo "vars.CROWDIN_BASE_URL = ${{ vars.CROWDIN_BASE_URL }}"
           echo "vars.GPG_FINGERPRINT = ${{ vars.GPG_FINGERPRINT }}"
           echo "[Secrets]"
@@ -71,8 +71,8 @@ jobs:
             echo "vars.ACTOR_EMAIL is missing."
             REQUIRED_VARIABLES_EXIST=false
           fi
-          if [[ -z "${{ vars.CROWDIN_PROJECT_ID }}" ]]; then
-            echo "vars.CROWDIN_PROJECT_ID is missing."
+          if [[ -z "${{ vars.CROWDIN_README_ID }}" ]]; then
+            echo "vars.CROWDIN_README_ID is missing."
             REQUIRED_VARIABLES_EXIST=false
           fi
           if [[ -z "${{ vars.CROWDIN_BASE_URL }}" ]]; then
@@ -121,17 +121,17 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}
       cancel-in-progress: true
-    uses: localizethedocs/ci-common/.github/workflows/use-crowdin-update-docs.yml@main
+    uses: localizethedocs/ci-common/.github/workflows/use-crowdin-update-readme.yml@main
     with:
       ENABLE: true
       RUNNER: ${{ vars.RUNNER }}
       CHECKOUT: ${{ github.ref }}
-      VERSION: 'docs'
       LANGUAGE: ${{ inputs.LANGUAGE || 'all' }}
       LANGUAGE_SOURCE: 'en_US'
       ACTOR_NAME: ${{ vars.ACTOR_NAME }}
       ACTOR_EMAIL: ${{ vars.ACTOR_EMAIL }}
-      CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
+      CROWDIN_BRANCH_NAME: 'ros2-docs-l10n'
+      CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_README_ID }}
       CROWDIN_BASE_URL: ${{ vars.CROWDIN_BASE_URL }}
       GPG_FINGERPRINT: ${{ vars.GPG_FINGERPRINT }}
     secrets:
