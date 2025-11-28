@@ -7,7 +7,7 @@
 </div>
 
 <div align="center">
-<h1 id="localization-of-ros2-documentation">ROS 2 文档的本地化</h1>
+<h1 id="localization-of-ros2-documentation">Localization of ROS 2 Documentation</h1>
 </div>
 
 <details><summary><strong>Switch Languages</strong></summary>
@@ -121,11 +121,11 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub 工作流</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub Workflows</div></th>
     </tr>
     <tr>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Status</div></th>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>描述</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Description</div></th>
     </tr>
   </thead>
   <tbody>
@@ -187,10 +187,10 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
     </tr>
     <tr>
       <td rowspan="1" colspan="1" align="right" style="text-align: right;">
-        <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-docs.yml"><img alt="ci-crowdin-update-docs" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-docs.yml/badge.svg" /></a></div>
+        <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml"><img alt="ci-crowdin-update-readme" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update <code>docs</code> translations by Crowdin CLI tool.</div>
+        <div>Update README translations by Crowdin CLI tool.</div>
       </td>
     </tr>
     <tr>
