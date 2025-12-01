@@ -10,7 +10,7 @@
 <h1 id="localization-of-ros2-documentation">Localization of ROS 2 Documentation</h1>
 </div>
 
-<details><summary><strong>Switch Languages</strong></summary>
+<details><summary><strong>切換語言</strong></summary>
 <p></p>
 <ul>
   <li><a href="./README.md"><code>en_US</code> : English</a></li>
@@ -19,18 +19,18 @@
 </ul>
 </details>
 
-<h2 id="table-of-contents">Table of Contents</h2>
+<h2 id="table-of-contents">目次表</h2>
 
 <ul>
   <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#progress-of-translations">Progress of Translations</a></li>
-  <li><a href="#preview-translations">Preview Translations</a></li>
-  <li><a href="#maintainers">Maintainers</a></li>
+  <li><a href="#progress-of-translations">翻譯進度</a></li>
+  <li><a href="#preview-translations">預覽翻譯</a></li>
+  <li><a href="#maintainers">維護者</a></li>
   <li><a href="#support-this-project">Support this Project</a></li>
   <li><a href="#sponsorship">Sponsorship</a></li>
-  <li><a href="#code-contributors">Code Contributors</a></li>
-  <li><a href="#financial-contributors">Financial Contributors</a></li>
-  <li><a href="#licenses">Licenses</a></li>
+  <li><a href="#code-contributors">程式碼貢獻者</a></li>
+  <li><a href="#financial-contributors">財務貢獻者</a></li>
+  <li><a href="#licenses">授權條款</a></li>
 </ul>
 
 <h2 id="introduction"><a href="#table-of-contents">Introduction</a></h2>
@@ -75,13 +75,13 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>Project Links</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>專案連結</div></th>
     </tr>
   </thead>
   <tbody>
     <!-- Preview -->
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Preview</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>預覽翻譯</div></th>
       <td rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div><a href="https://projects.localizethedocs.org/ros2-docs-l10n" target="_blank">ros2-docs-l10n</a></div>
       </td>
@@ -121,10 +121,10 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub Workflows</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub 工作流</div></th>
     </tr>
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Status</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>狀態</div></th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Description</div></th>
     </tr>
   </thead>
@@ -290,7 +290,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <div align="center"><a href="https://localizethedocs.crowdin.com/ros2-docs-l10n"><img src="https://badges.awesome-crowdin.com/translation-200032568-5.png"></a>
 </div>
 
-<h2 id="preview-translations"><a href="#table-of-contents">Preview Translations</a></h2>
+<h2 id="preview-translations"><a href="#table-of-contents">預覽翻譯</a></h2>
 
 You can preview translations in <a href="https://projects.localizethedocs.org/ros2-docs-l10n">GitHub Pages</a>:
 
@@ -298,7 +298,7 @@ You can preview translations in <a href="https://projects.localizethedocs.org/ro
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Language</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>語言</div></th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub Pages</div></th>
     </tr>
   </thead>
@@ -352,7 +352,7 @@ This project is currently maintained by:
   <thead>
     <tr>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Name</div></th>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub Username</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub 使用者名稱</div></th>
     </tr>
   </thead>
   <tbody>
@@ -388,7 +388,7 @@ You can sponsor the projects through the following platforms:
     <!-- Row 1 -->
     <tr>
       <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>Patreon</div></th>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>Afdian</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>愛發電</div></th>
     </tr>
     <!-- Row 2 -->
     <tr>
@@ -418,7 +418,7 @@ Alternatively, you can sponsor the maintainers directly through the following pl
     <!-- Row 1 -->
     <tr>
       <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>Patreon</div></th>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>Afdian</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center; width: 50%;"><div>愛發電</div></th>
     </tr>
     <!-- Row 2 -->
     <tr>
@@ -437,13 +437,13 @@ Alternatively, you can sponsor the maintainers directly through the following pl
 </table>
 </div>
 
-<h2 id="code-contributors"><a href="#table-of-contents">Code Contributors</a></h2>
+<h2 id="code-contributors"><a href="#table-of-contents">程式碼貢獻者</a></h2>
 
 <div align="center">
 <img width="100%" alt="GitHub Contributors SVG" src="https://contrib.nn.ci/api?repo=localizethedocs/ros2-docs-l10n&no_bot=true" />
 </div>
 
-<h2 id="financial-contributors"><a href="#table-of-contents">Financial Contributors</a></h2>
+<h2 id="financial-contributors"><a href="#table-of-contents">財務貢獻者</a></h2>
 
 <div align="center">
 <h3 id="localize-the-docs">Localize The Docs</h3>
