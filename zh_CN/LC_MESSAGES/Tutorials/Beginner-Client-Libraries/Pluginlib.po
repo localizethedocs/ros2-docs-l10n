@@ -1,0 +1,573 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-11 08:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:6
+msgid "Creating and using plugins (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:8
+msgid "**Goal:** Learn to create and load a simple plugin using ``pluginlib``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:10
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:12
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:16
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:19
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:21
+msgid ""
+"This tutorial is derived from `<http://wiki.ros.org/pluginlib>`_ and "
+"`Writing and Using a Simple Plugin Tutorial <http://wiki.ros.org/pluginlib/"
+"Tutorials/Writing%20and%20Using%20a%20Simple%20Plugin>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:23
+msgid ""
+"``pluginlib`` is a C++ library for loading and unloading plugins from within "
+"a ROS package. Plugins are dynamically loadable classes that are loaded from "
+"a runtime library (i.e. shared object, dynamically linked library). With "
+"pluginlib, you do not have to explicitly link your application against the "
+"library containing the classes -- instead ``pluginlib`` can open a library "
+"containing exported classes at any point without the application having any "
+"prior awareness of the library or the header file containing the class "
+"definition. Plugins are useful for extending/modifying application behavior "
+"without needing the application source code."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:29
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:31
+msgid ""
+"This tutorial assumes basic C++ knowledge and that you have successfully :"
+"doc:`installed ROS 2 <../../Installation>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:34
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:36
+msgid ""
+"In this tutorial, you will create two new packages, one that defines the "
+"base class, and another that provides the plugins. The base class will "
+"define a generic polygon class, and then our plugins will define specific "
+"shapes."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:40
+msgid "1 Create the Base Class Package"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:42
+msgid ""
+"Create a new empty package in your ``~/ros2_ws/src`` folder with the "
+"following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:44
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 --"
+"dependencies pluginlib --node-name area_node polygon_base"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:49
+msgid ""
+"Open your favorite editor, edit ``~/ros2_ws/src/polygon_base/include/"
+"polygon_base/regular_polygon.hpp``, and paste the following inside of it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:51
+msgid ""
+"#ifndef POLYGON_BASE_REGULAR_POLYGON_HPP\n"
+"#define POLYGON_BASE_REGULAR_POLYGON_HPP\n"
+"\n"
+"namespace polygon_base\n"
+"{\n"
+"  class RegularPolygon\n"
+"  {\n"
+"    public:\n"
+"      virtual void initialize(double side_length) = 0;\n"
+"      virtual double area() = 0;\n"
+"      virtual ~RegularPolygon(){}\n"
+"\n"
+"    protected:\n"
+"      RegularPolygon(){}\n"
+"  };\n"
+"}  // namespace polygon_base\n"
+"\n"
+"#endif  // POLYGON_BASE_REGULAR_POLYGON_HPP"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:72
+msgid ""
+"The code above creates an abstract class called ``RegularPolygon``. One "
+"thing to notice is the presence of the initialize method. With "
+"``pluginlib``, a constructor without parameters is required, so if any "
+"parameters to the class are needed, we use the initialize method to pass "
+"them to the object."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:76
+msgid ""
+"We need to make this header available to other classes by exporting it as an "
+"interface library. To do so, open ``~/ros2_ws/src/polygon_base/CMakeLists."
+"txt`` for editing and add the following lines after the "
+"``find_package(pluginlib REQUIRED)`` command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:80
+msgid ""
+"# Library (this will be used as the base class for plugins)\n"
+"add_library(${PROJECT_NAME} INTERFACE)\n"
+"add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})\n"
+"target_compile_features(${PROJECT_NAME} INTERFACE c_std_99 cxx_std_17)\n"
+"target_include_directories(${PROJECT_NAME} INTERFACE\n"
+"  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>\n"
+"  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>\n"
+")\n"
+"target_link_libraries(${PROJECT_NAME} INTERFACE ${pluginlib_TARGETS})\n"
+"\n"
+"# Install headers\n"
+"install(DIRECTORY include/\n"
+"  DESTINATION include/${PROJECT_NAME}\n"
+")\n"
+"\n"
+"# Install library and export targets\n"
+"install(TARGETS ${PROJECT_NAME}\n"
+"  EXPORT export_${PROJECT_NAME}\n"
+"  ARCHIVE DESTINATION lib\n"
+"  LIBRARY DESTINATION lib\n"
+"  RUNTIME DESTINATION bin\n"
+")\n"
+"install(EXPORT export_${PROJECT_NAME}\n"
+"  NAMESPACE ${PROJECT_NAME}::\n"
+"  DESTINATION share/${PROJECT_NAME}/cmake\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:109
+msgid "And add this commands before the ``ament_package`` command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:111
+msgid ""
+"# Export old-style CMake variables\n"
+"ament_export_include_directories(\n"
+"  include\n"
+")\n"
+"\n"
+"# Export modern CMake targets\n"
+"ament_export_targets(\n"
+"  export_${PROJECT_NAME}\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:123
+msgid "We will return to this package later to write our test node."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:126
+msgid "2 Create the Plugin Package"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:128
+msgid ""
+"Now we're going to write two non-virtual implementations of our abstract "
+"class. Create a second empty package in your ``~/ros2_ws/src`` folder with "
+"the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:131
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 --"
+"dependencies polygon_base pluginlib --library-name polygon_plugins "
+"polygon_plugins"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:136
+msgid "2.1 Source code for the plugins"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:138
+msgid ""
+"Open ``~/ros2_ws/src/polygon_plugins/src/polygon_plugins.cpp`` for editing, "
+"and paste the following inside of it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:140
+msgid ""
+"#include <polygon_base/regular_polygon.hpp>\n"
+"#include <cmath>\n"
+"\n"
+"namespace polygon_plugins\n"
+"{\n"
+"  class Square : public polygon_base::RegularPolygon\n"
+"  {\n"
+"    public:\n"
+"      void initialize(double side_length) override\n"
+"      {\n"
+"        side_length_ = side_length;\n"
+"      }\n"
+"\n"
+"      double area() override\n"
+"      {\n"
+"        return side_length_ * side_length_;\n"
+"      }\n"
+"\n"
+"    protected:\n"
+"      double side_length_;\n"
+"  };\n"
+"\n"
+"  class Triangle : public polygon_base::RegularPolygon\n"
+"  {\n"
+"    public:\n"
+"      void initialize(double side_length) override\n"
+"      {\n"
+"        side_length_ = side_length;\n"
+"      }\n"
+"\n"
+"      double area() override\n"
+"      {\n"
+"        return 0.5 * side_length_ * getHeight();\n"
+"      }\n"
+"\n"
+"      double getHeight()\n"
+"      {\n"
+"        return sqrt((side_length_ * side_length_) - ((side_length_ / 2) * "
+"(side_length_ / 2)));\n"
+"      }\n"
+"\n"
+"    protected:\n"
+"      double side_length_;\n"
+"  };\n"
+"}\n"
+"\n"
+"#include <pluginlib/class_list_macros.hpp>\n"
+"\n"
+"PLUGINLIB_EXPORT_CLASS(polygon_plugins::Square, polygon_base::"
+"RegularPolygon)\n"
+"PLUGINLIB_EXPORT_CLASS(polygon_plugins::Triangle, polygon_base::"
+"RegularPolygon)"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:192
+msgid ""
+"The implementation of the Square and Triangle classes is fairly "
+"straightforward: save the side length, and use it to calculate the area. The "
+"only piece that is pluginlib specific is the last three lines, which invokes "
+"some magical macros that register the classes as actual plugins. Let's go "
+"through the arguments to the ``PLUGINLIB_EXPORT_CLASS`` macro:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:196
+msgid ""
+"The fully-qualified type of the plugin class, in this case, "
+"``polygon_plugins::Square``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:197
+msgid ""
+"The fully-qualified type of the base class, in this case, ``polygon_base::"
+"RegularPolygon``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:200
+msgid "2.2 Plugin Declaration XML"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:202
+msgid ""
+"The steps above enable plugin instances to be created when the containing "
+"library is loaded, but the plugin loader still needs a way to find that "
+"library and to know what to reference within that library. To this end, "
+"we'll also create an XML file that, along with a special export line in the "
+"package manifest, makes all the necessary information about our plugins "
+"available to the ROS toolchain."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:205
+msgid ""
+"Create ``~/ros2_ws/src/polygon_plugins/plugins.xml`` with the following code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:207
+msgid ""
+"<library path=\"polygon_plugins\">\n"
+"  <class type=\"polygon_plugins::Square\" base_class_type=\"polygon_base::"
+"RegularPolygon\">\n"
+"    <description>This is a square plugin.</description>\n"
+"  </class>\n"
+"  <class type=\"polygon_plugins::Triangle\" base_class_type=\"polygon_base::"
+"RegularPolygon\" name=\"awesome_triangle\">\n"
+"    <description>This is a triangle plugin.</description>\n"
+"  </class>\n"
+"</library>"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:218
+msgid "A couple things to note:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:220
+msgid ""
+"The ``library`` tag gives the relative path to a library that contains the "
+"plugins that we want to export. In ROS 2, that is just the name of the "
+"library. In ROS 1, it contained the prefix ``lib`` or sometimes ``lib/lib`` "
+"(i.e. ``lib/libpolygon_plugins``), but here it is simpler."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:223
+msgid ""
+"The ``class`` tag declares a plugin that we want to export from our library. "
+"Let's go through its parameters:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:226
+msgid ""
+"``type``: The fully qualified type of the plugin. For us, that's "
+"``polygon_plugins::Square``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:228
+msgid ""
+"``base_class``: The fully qualified base class type for the plugin. For us, "
+"that's ``polygon_base::RegularPolygon``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:230
+msgid "``description``: A description of the plugin and what it does."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:231
+msgid ""
+"``name`` (optional): A lookup name (i.e. magic name) used by the class "
+"loader."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:234
+msgid "2.3 CMake Plugin Declaration"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:236
+msgid ""
+"The last step is to export your plugins via ``CMakeLists.txt``. This is a "
+"change from ROS 1, where the exporting was done via ``package.xml``. Add the "
+"following line to your ``~/ros2_ws/src/polygon_plugins/CMakeLists.txt`` "
+"after the line reading ``find_package(pluginlib REQUIRED)``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:240
+msgid "pluginlib_export_plugin_description_file(polygon_base plugins.xml)"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:244
+msgid ""
+"The arguments to the ``pluginlib_export_plugin_description_file`` command "
+"are:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:246
+msgid "The package with the base class, i.e. ``polygon_base``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:247
+msgid "The relative path to the Plugin Declaration xml, i.e. ``plugins.xml``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:250
+msgid "3 Use the Plugins"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:252
+msgid ""
+"Now it's time to use the plugins. This can be done in any package, but here "
+"we're going to do it in the base package. Edit ``~/ros2_ws/src/polygon_base/"
+"src/area_node.cpp`` to contain the following:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:256
+msgid ""
+"#include <pluginlib/class_loader.hpp>\n"
+"#include <polygon_base/regular_polygon.hpp>\n"
+"\n"
+"int main(int argc, char** argv)\n"
+"{\n"
+"  // To avoid unused parameter warnings\n"
+"  (void) argc;\n"
+"  (void) argv;\n"
+"\n"
+"  pluginlib::ClassLoader<polygon_base::RegularPolygon> "
+"poly_loader(\"polygon_base\", \"polygon_base::RegularPolygon\");\n"
+"\n"
+"  try\n"
+"  {\n"
+"    std::shared_ptr<polygon_base::RegularPolygon> triangle = poly_loader."
+"createSharedInstance(\"awesome_triangle\");\n"
+"    triangle->initialize(10.0);\n"
+"\n"
+"    std::shared_ptr<polygon_base::RegularPolygon> square = poly_loader."
+"createSharedInstance(\"polygon_plugins::Square\");\n"
+"    square->initialize(10.0);\n"
+"\n"
+"    printf(\"Triangle area: %.2f\\n\", triangle->area());\n"
+"    printf(\"Square area: %.2f\\n\", square->area());\n"
+"  }\n"
+"  catch(pluginlib::PluginlibException& ex)\n"
+"  {\n"
+"    printf(\"The plugin failed to load for some reason. Error: %s\\n\", ex."
+"what());\n"
+"  }\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:288
+msgid ""
+"The ``ClassLoader`` is the key class to understand, defined in the "
+"``class_loader.hpp`` `header file <https://github.com/ros/pluginlib/blob/"
+"ros2/pluginlib/include/pluginlib/class_loader.hpp>`_:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:290
+msgid ""
+"It is templated with the base class, i.e. ``polygon_base::RegularPolygon``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:291
+msgid ""
+"The first argument is a string for the package name of the base class, i.e. "
+"``polygon_base``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:292
+msgid ""
+"The second argument is a string with the fully qualified base class type for "
+"the plugin, i.e. ``polygon_base::RegularPolygon``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:294
+msgid ""
+"There are a number of ways to instantiate an instance of the class. In this "
+"example, we're using shared pointers. We just need to call "
+"``createSharedInstance`` with a reference to the plugin: This can be either "
+"the fully-qualified type of the plugin class (the ``type`` attribute of the "
+"declaration XML file, e.g. ``polygon_plugins::Square``), or the optional "
+"magic name (the ``name`` attribute of the declaration XML file, e.g., "
+"``awesome_triangle``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:298
+msgid ""
+"Important note: the ``polygon_base`` package in which this node is defined "
+"does NOT depend on the ``polygon_plugins`` class. The plugins will be loaded "
+"dynamically without any dependency needing to be declared. Furthermore, "
+"we're instantiating the classes with hardcoded plugin names, but you can "
+"also do so dynamically with parameters, etc."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:303
+msgid "4 Build and run"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:305
+msgid ""
+"Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
+"packages:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:307
+msgid "$ colcon build --packages-select polygon_base polygon_plugins"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:311
+msgid "From ``ros2_ws``, be sure to source the setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:315
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:317
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:321
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:323
+msgid "$ . install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:327
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:329
+msgid "$ call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:333
+msgid ""
+"You can verify that your plugins were successfully registered by listing "
+"them:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:335
+msgid ""
+"$ ros2 plugin list\n"
+"polygon_plugins:\n"
+"   Plugin(name='polygon_plugins::Square', type='polygon_plugins::Square', "
+"base='polygon_base::RegularPolygon')\n"
+"   Plugin(name='polygon_plugins::Triangle', type='polygon_plugins::"
+"Triangle', base='polygon_base::RegularPolygon')"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:342
+msgid "Now run the node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:344
+msgid ""
+"$ ros2 run polygon_base area_node\n"
+"Triangle area: 43.30\n"
+"Square area: 100.00"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:351
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Pluginlib.rst:353
+msgid "Congratulations! You've just written and used your first plugins."
+msgstr ""
