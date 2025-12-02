@@ -1,0 +1,452 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation crystal\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:4
+msgid "Recording and playing back data"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:6
+msgid ""
+"**Goal:** Record data published on a topic so you can replay and examine it "
+"any time."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:8
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:10
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:14
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:17
+msgid "Background"
+msgstr "背景"
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:19
+msgid ""
+"``ros2 bag`` is a command line tool for recording data published on topics "
+"in your system. It accumulates the data passed on any number of topics and "
+"saves it in a database. You can then replay the data to reproduce the "
+"results of your tests and experiments. Recording topics is also a great way "
+"to share your work and allow others to recreate it."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:26
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:28
+msgid ""
+"You should have ``ros2 bag`` installed as a part of your regular ROS 2 setup."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:30
+msgid ""
+"If you've installed from Debians on Linux and your system doesn’t recognize "
+"the command, install it like so:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:32
+msgid ""
+"sudo apt-get install ros-dashing-ros2bag \\\n"
+"ros-dashing-rosbag2-converter-default-plugins \\\n"
+"ros-dashing-rosbag2-storage-default-plugins"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:38
+msgid ""
+"This tutorial talks about concepts covered in previous tutorials, like :ref:"
+"`nodes <ROS2Nodes>` and :ref:`topics <ROS2Topics>`. It also uses the :ref:"
+"`turtlesim package <Turtlesim>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:41
+msgid ""
+"As always, don’t forget to source ROS 2 in :ref:`every new terminal you open "
+"<ConfigROS2>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:45
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:48
+msgid "1 Setup"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:49
+msgid ""
+"You'll be recording your keyboard input in the ``turtlesim`` system to save "
+"and replay later on, so begin by starting up the ``/turtlesim`` and ``/"
+"teleop_turtle`` nodes."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:51
+msgid "Open a new terminal and run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:53
+msgid "ros2 run turtlesim turtlesim_node"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:57
+msgid "Open another terminal and run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:59
+msgid "ros2 run turtlesim turtle_teleop_key"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:63
+msgid ""
+"Let’s also make a new directory to store our saved recordings, just as good "
+"practice:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:65
+msgid ""
+"mkdir bag_files\n"
+"cd bag_files"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:71
+msgid "2 Choose a topic"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:73
+msgid ""
+"``ros2 bag`` can only record data from topics that are published on. To see "
+"a list of your system's topics, open a new terminal and run the command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:76
+msgid "ros2 topic list"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:80
+msgid "Which will return:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:82
+msgid ""
+"/parameter_events\n"
+"/rosout\n"
+"/turtle1/cmd_vel\n"
+"/turtle1/color_sensor\n"
+"/turtle1/pose"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:90
+msgid ""
+"In the topics tutorial, you learned that the ``/turtle_teleop`` node "
+"publishes commands on the ``/turtle1/cmd_vel`` topic to make the turtle move "
+"in turtlesim."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:92
+msgid ""
+"To see the data that ``/turtle1/cmd_vel`` is publishing, run the command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:94
+msgid "ros2 topic echo /turtle1/cmd_vel"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:98
+msgid ""
+"Nothing will show up at first because no data is being published by the "
+"teleop. Return to the terminal where you ran the teleop and select it so "
+"it's active. Use the arrow keys to move the turtle around, and you will see "
+"data being published on the terminal running ``ros2 topic echo``."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:102
+msgid ""
+"linear:\n"
+"  x: 2.0\n"
+"  y: 0.0\n"
+"  z: 0.0\n"
+"angular:\n"
+"  x: 0.0\n"
+"  y: 0.0\n"
+"  z: 0.0\n"
+"  ---"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:117
+msgid "3 ros2 bag record"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:119
+msgid "To record the data published to a topic use the command syntax:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:121
+msgid "ros2 bag record <topic_name>"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:125
+msgid ""
+"Before running this command on your chosen topic, open a new terminal and "
+"move into the ``bag_files`` directory you created earlier, because the "
+"rosbag file will save in the directory where you run it."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:127
+msgid "Run the command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:129
+msgid "ros2 bag record /turtle1/cmd_vel"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:133
+msgid ""
+"You will see the following messages in the terminal (the date and time will "
+"be different):"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:135
+msgid ""
+"[INFO] [rosbag2_storage]: Opened database 'rosbag2_2019_10_11-05_18_45'.\n"
+"[INFO] [rosbag2_transport]: Listening for topics...\n"
+"[INFO] [rosbag2_transport]: Subscribed to topic '/turtle1/cmd_vel'\n"
+"[INFO] [rosbag2_transport]: All requested topics are subscribed. Stopping "
+"discovery..."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:142
+msgid ""
+"Now ``ros2 bag`` is recording the data published on the ``/turtle1/cmd_vel`` "
+"topic. Return to the teleop terminal and move the turtle around again. The "
+"movements don’t matter, but try to make a recognizable pattern to see when "
+"you replay the data later."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:148
+msgid "Press ``Ctrl+C`` to stop recording."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:150
+msgid ""
+"The data will be accumulated in a bag file with a name in the pattern of "
+"``rosbag2_year_month_day-hour_minute_second``"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:153
+msgid "3.1 Record multiple topics"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:155
+msgid ""
+"You can also record multiple topics, as well as change the name of the file "
+"``ros2 bag`` saves to."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:157
+msgid "Run the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:159
+msgid "ros2 bag record -o subset /turtle1/cmd_vel /turtle1/pose"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:163
+msgid ""
+"The ``-o`` option allows you to choose a unique name for your bag file. The "
+"following string, in this case ``subset``, is the file name."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:166
+msgid ""
+"To record more than one topic at a time, simply list each topic separated by "
+"a space."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:168
+msgid ""
+"You will see the following message, confirming that both topics are being "
+"recorded."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:170
+msgid ""
+"[INFO] [rosbag2_storage]: Opened database 'subset'.\n"
+"[INFO] [rosbag2_transport]: Listening for topics...\n"
+"[INFO] [rosbag2_transport]: Subscribed to topic '/turtle1/cmd_vel'\n"
+"[INFO] [rosbag2_transport]: Subscribed to topic '/turtle1/pose'\n"
+"[INFO] [rosbag2_transport]: All requested topics are subscribed. Stopping "
+"discovery..."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:178
+msgid ""
+"You can move the turtle around and press ``Ctrl+C`` when you’re finished."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:182
+msgid ""
+"There is another option you can add to the command, ``-a``, which records "
+"all the topics on your system. However, this might cause a circular "
+"dependency and crash your system. It’s better to choose a subset of the "
+"topics that you need."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:187
+msgid "4 ros2 bag info"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:189
+msgid "You can see details about your recording by running:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:191
+msgid "ros2 bag info <bag_file_name>"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:195
+msgid ""
+"Running this command on the ``subset`` bag file will return a list of "
+"information on the file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:197
+msgid ""
+"Files:             subset.db3\n"
+"Bag size:          228.5 KiB\n"
+"Storage id:        sqlite3\n"
+"Duration:          48.47s\n"
+"Start:             Oct 11 2019 06:09:09.12 (1570799349.12)\n"
+"End                Oct 11 2019 06:09:57.60 (1570799397.60)\n"
+"Messages:          3013\n"
+"Topic information: Topic: /turtle1/cmd_vel | Type: geometry_msgs/msg/Twist | "
+"Count: 9 | Serialization Format: cdr\n"
+"                 Topic: /turtle1/pose | Type: turtlesim/msg/Pose | Count: "
+"3004 | Serialization Format: cdr"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:209
+msgid ""
+"To view the individual messages, you would have to open up the database, in "
+"this case sqlite3, to examine it, which is beyond the scope of ROS 2."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:212
+msgid "5 ros2 bag play"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:214
+msgid ""
+"Before replaying the bag file, enter ``Ctrl+C`` in the terminal where the "
+"teleop is running. Then make sure your turtlesim window is visible so you "
+"can see the bag file in action."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:217
+msgid "Enter the command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:219
+msgid "ros2 bag play subset"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:223
+msgid "The terminal will return the message:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:225
+msgid "[INFO] [rosbag2_storage]: Opened database 'subset'."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:229
+msgid ""
+"Your turtle will follow the same path you entered while recording (though "
+"not 100% exactly; turtlesim is sensitive to small changes in the system’s "
+"timing)."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:233
+msgid ""
+"Because the ``subset`` file recorded the ``/turtle1/pose`` topic, the ``ros2 "
+"bag play`` command won’t quit for as long as you had turtlesim running, even "
+"if you weren’t moving."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:235
+msgid ""
+"This is because as long as the ``/turtlesim`` node is active, it publishes "
+"data on the  ``/turtle1/pose`` topic at regular intervals. You may have "
+"noticed in the ``ros2 bag info`` example result above that the  ``/turtle1/"
+"cmd_vel`` topic’s ``Count`` information was only 9; that’s how many times we "
+"pressed the arrow keys while recording."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:238
+msgid ""
+"Notice that ``/turtle1/pose`` has a ``Count`` value of over 3000; while we "
+"were recording, data was published on that topic 3000 times."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:240
+msgid ""
+"To get an idea of how often position data is published, you can run the "
+"command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:242
+msgid "ros2 topic echo /turtle1/pose"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:247
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:249
+msgid ""
+"You can record data passed on topics in your ROS 2 system using the ``ros2 "
+"bag`` command. Whether you’re sharing your work with others or introspecting "
+"on your own experiments, it’s a great tool to know about."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:253
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:255
+msgid ""
+"You’ve completed the \"Beginner: CLI Tools\" tutorials! The next step is "
+"tackling the \"Beginner: Client Libraries\" tutorials, starting with :ref:"
+"`ROS2Workspace`."
+msgstr ""
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:259
+msgid "Related content"
+msgstr "相關內容"
+
+#: ../../../source/Tutorials/Ros2bag/Recording-And-Playing-Back-Data.rst:261
+msgid ""
+"A more thorough explanation of ``ros2 bag`` can be found in the README `here "
+"<https://github.com/ros2/rosbag2>`__. For more information on QoS "
+"compatibility and ``ros2 bag``, see :ref:`ROS2Bag-QoS-Override`."
+msgstr ""
