@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation humble\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 08:39+0000\n"
+"POT-Creation-Date: 2025-12-16 08:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -249,51 +249,55 @@ msgid "3 Inverting a quaternion"
 msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:159
-msgid "An easy way to invert a quaternion is to negate the w-component:"
+msgid ""
+"An easy way to invert a quaternion is to negate the x-, y-, and z-components:"
 msgstr ""
 
 #: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:161
-msgid "q[3] = -q[3]"
+msgid ""
+"q[0] = -q[0]\n"
+"q[1] = -q[1]\n"
+"q[2] = -q[2]"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:167
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:169
 msgid ""
 "This should not be confused with negating *all* elements of the quaternion."
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:170
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:172
 msgid "4 Relative rotations"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:172
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:174
 msgid ""
 "Say you have two quaternions from the same frame, ``q_1`` and ``q_2``. You "
 "want to find the relative rotation, ``q_r``, that converts ``q_1`` to "
 "``q_2`` in a following manner:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:175
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:177
 msgid "q_2 = q_r * q_1"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:179
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:181
 msgid ""
 "You can solve for ``q_r`` similarly to solving a matrix equation. Invert "
 "``q_1`` and right-multiply both sides. Again, the order of multiplication is "
 "important:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:183
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:185
 msgid "q_r = q_2 * q_1_inverse"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:187
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:189
 msgid ""
 "Here's an example to get the relative rotation from the previous robot pose "
 "to the current robot pose in python:"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:189
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:191
 msgid ""
 "def quaternion_multiply(q0, q1):\n"
 "    \"\"\"\n"
@@ -311,16 +315,16 @@ msgid ""
 "\n"
 "    \"\"\"\n"
 "    # Extract the values from q0\n"
-"    w0 = q0[0]\n"
-"    x0 = q0[1]\n"
-"    y0 = q0[2]\n"
-"    z0 = q0[3]\n"
+"    x0 = q0[0]\n"
+"    y0 = q0[1]\n"
+"    z0 = q0[2]\n"
+"    w0 = q0[3]\n"
 "\n"
 "    # Extract the values from q1\n"
-"    w1 = q1[0]\n"
-"    x1 = q1[1]\n"
-"    y1 = q1[2]\n"
-"    z1 = q1[3]\n"
+"    x1 = q1[0]\n"
+"    y1 = q1[1]\n"
+"    z1 = q1[2]\n"
+"    w1 = q1[3]\n"
 "\n"
 "    # Compute the product of the two quaternions, term by term\n"
 "    q0q1_w = w0 * w1 - x0 * x1 - y0 * y1 - z0 * z1\n"
@@ -335,10 +339,10 @@ msgid ""
 "q32)\n"
 "    return final_quaternion\n"
 "\n"
-"q1_inv[0] = prev_pose.pose.orientation.x\n"
-"q1_inv[1] = prev_pose.pose.orientation.y\n"
-"q1_inv[2] = prev_pose.pose.orientation.z\n"
-"q1_inv[3] = -prev_pose.pose.orientation.w # Negate for inverse\n"
+"q1_inv[0] = -prev_pose.pose.orientation.x   # Negate for inverse\n"
+"q1_inv[1] = -prev_pose.pose.orientation.y   # Negate for inverse\n"
+"q1_inv[2] = -prev_pose.pose.orientation.z   # Negate for inverse\n"
+"q1_inv[3] = prev_pose.pose.orientation.w\n"
 "\n"
 "q2[0] = current_pose.pose.orientation.x\n"
 "q2[1] = current_pose.pose.orientation.y\n"
@@ -348,11 +352,11 @@ msgid ""
 "qr = quaternion_multiply(q2, q1_inv)"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:240
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:242
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:242
+#: ../../../source/Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.rst:244
 msgid ""
 "In this tutorial, you learned about the fundamental concepts of a quaternion "
 "and its related mathematical operations, like inversion and rotation. You "
