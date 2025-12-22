@@ -134,7 +134,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-build-docs.yml" ><img alt="ci-sphinx-build-docs" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-build-docs.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Build documents by Sphinx and upload build artifacts.</div>
+        <div>透過 Sphinx 建置文件並上傳建置製品。</div>
       </td>
     </tr>
     <tr>
@@ -142,7 +142,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-update-pot.yml" ><img alt="ci-sphinx-update-pot" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-update-pot.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update <code>.pot</code> files by Sphinx with <code>gettext</code> builder.</div>
+        <div>透過 Sphinx 和 <code>gettext</code> 建置器更新 <code>.pot</code> 檔案。</div>
       </td>
     </tr>
     <tr>
@@ -150,7 +150,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-gettext-update-po.yml" ><img alt="ci-gettext-update-po" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-gettext-update-po.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update <code>.po</code> files from <code>.pot</code> files by Gettext toolkit.</div>
+        <div>透過 Gettext 工具組從 <code>.pot</code> 檔案更新 <code>.po</code> 檔案。</div>
       </td>
     </tr>
     <tr>
@@ -174,7 +174,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-upload-pot.yml"><img alt="ci-crowdin-upload-pot" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-upload-pot.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>透過 CLI 工具上傳 <code>.po</code> 檔案到 Crowdin。</div>
+        <div>透過 Crowdin CLI 工具上傳 <code>.po</code> 檔案到 Crowdin。</div>
       </td>
     </tr>
     <tr>
@@ -182,7 +182,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-download-po.yml"><img alt="ci-crowdin-download-po" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-download-po.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>透過 CLI 工具從 Crowdin 下載 <code>.po</code> 檔案。</div>
+        <div>透過 Crowdin CLI 工具從 Crowdin 下載 <code>.po</code> 檔案。</div>
       </td>
     </tr>
     <tr>
@@ -190,7 +190,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml"><img alt="ci-crowdin-update-readme" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>使用 Crowdin CLI 工具更新 README 翻譯。</div>
+        <div>透過 Crowdin CLI 工具更新 README 翻譯。</div>
       </td>
     </tr>
     <tr>
@@ -214,7 +214,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-license-year.yml"><img alt="ci-update-license-year" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-license-year.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update the copyright year in LICENSE to the current year.</div>
+        <div>將 LICENSE 中的著作權年份更新為當前年份。</div>
       </td>
     </tr>
     <tr>
@@ -244,8 +244,8 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
       </th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div>
-          <div>Translated</div>
-          <div>Proofread</div>
+          <div>翻譯進度</div>
+          <div>校對進度</div>
         </div>
       </th>
     </tr>
@@ -328,7 +328,7 @@ You can preview translations in <a href="https://projects.localizethedocs.org/ro
 </table>
 </div>
 
-Alternatively, you can preview translations locally by running the following commands:
+或者，您可以執行以下命令在本機預覽翻譯：
 
 ```bash
 # Please make sure the following prerequisites are installed:
@@ -366,7 +366,7 @@ This project is currently maintained by:
 
 <h2 id="support-this-project"><a href="#table-of-contents">Support this Project</a></h2>
 
-You can contribute and support this project by doing any of the following:
+您可以透過以下任何方式貢獻並支援這個專案：
 
 <ul>
   <li>在 GitHub 或其他鏡像儲存庫上收藏這個專案。</li>
@@ -376,7 +376,7 @@ You can contribute and support this project by doing any of the following:
   <li>If you love this kind of l10n projects, please consider <a href="#sponsorship">sponsorship</a>.</li>
 </ul>
 
-It will facilitate the creation and ongoing maintenance of l10n projects for open-source documentation.
+這將有助於開源文件在地化專案的建立與持續維護。
 
 <h2 id="sponsorship"><a href="#table-of-contents">贊助</a></h2>
 
@@ -407,7 +407,7 @@ It will facilitate the creation and ongoing maintenance of l10n projects for ope
 </table>
 </div>
 
-Alternatively, you can sponsor the maintainers directly through the following platforms:
+或者，您可以透過以下平臺直接贊助維護者：
 
 <div align="center">
 <table>
