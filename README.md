@@ -122,6 +122,46 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>Branch Structure</div></th>
+    </tr>
+    <tr>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Branch</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Description</div></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="1" colspan="1" align="center" style="text-align: center;"><div><code>main</code></div></td>
+      <td rowspan="1" colspan="1" align="left"   style="text-align: left;">
+        <div>Store CMake scripts and GitHub workflows for the infrastructure.</div>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="1" colspan="1" align="center" style="text-align: center;"><div><code>l10n</code></div></td>
+      <td rowspan="1" colspan="1" align="left"   style="text-align: left;">
+        <div>Store <code>.pot</code> and <code>.po</code> files generated from the upstream project.</div>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="1" colspan="1" align="center" style="text-align: center;"><div><code>pages</code></div></td>
+      <td rowspan="1" colspan="1" align="left"   style="text-align: left;">
+        <div>Store the built documentation deployed to GitHub Pages.</div>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="1" colspan="1" align="center" style="text-align: center;"><div><code>po/${VERSION}</code></div></td>
+      <td rowspan="1" colspan="1" align="left"   style="text-align: left;">
+        <div>Store version-specific <code>.po</code> files for reuse by the upstream project.</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div align="center">
+<table>
+  <thead>
+    <tr>
       <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub Workflows</div></th>
     </tr>
     <tr>
