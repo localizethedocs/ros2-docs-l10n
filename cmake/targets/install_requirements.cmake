@@ -173,11 +173,12 @@ restore_cmake_message_indent()
 
 
 find_package(Python     MODULE REQUIRED COMPONENTS Interpreter)
-message(STATUS "Running 'python -c \"import sys; print('\\n'.join(sys.path))\"' command to check python system paths...")
+message(STATUS "Running 'python -m site' command to check python system paths...")
 remove_cmake_message_indent()
 message("")
 execute_process(
-    COMMAND ${Python_EXECUTABLE} -c "import sys; print('\\n'.join(sys.path))"
+    COMMAND ${Python_EXECUTABLE} -m site
+    WORKING_DIRECTORY ${PROJ_OUT_REPO_DIR}
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
 message("")
