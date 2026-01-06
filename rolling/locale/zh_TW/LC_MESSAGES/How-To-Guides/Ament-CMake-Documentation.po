@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-22 08:35+0000\n"
+"POT-Creation-Date: 2026-01-05 08:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1307,4 +1307,216 @@ msgid ""
 "Another example of using environment hooks for Gazebo plugin paths can be "
 "found in the official `ros_gz_project_template <https://github.com/gazebosim/"
 "ros_gz_project_template/tree/main/ros_gz_example_gazebo/hooks>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:659
+msgid "API Version Management"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:661
+msgid ""
+"ROS 2 provides automatic version header generation through "
+"``ament_generate_version_header``, which creates compile-time macros for API "
+"versioning and feature detection. This is particularly useful for "
+"maintaining backward compatibility and conditionally enabling features based "
+"on library versions."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:666
+msgid ""
+"The ``ament_generate_version_header`` functionality is designed for C, C++, "
+"and other C-based languages only. It generates C/C++ header files with "
+"preprocessor macros and is not applicable to Python or other non-C-based "
+"packages."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:670
+msgid "Understanding auto-generated version macros"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:672
+msgid ""
+"Many ROS 2 C/C++ packages (such as ``rclcpp``, ``rcl``, and ``rmw``) "
+"automatically generate version header files containing macros that expose "
+"the library's version information. These version headers are generated from "
+"the ``package.xml`` file using the `ament_generate_version_header.cmake "
+"<https://github.com/ament/ament_cmake/blob/${ROS_DISTRO}/"
+"ament_cmake_gen_version_h/cmake/ament_generate_version_header.cmake>`__ "
+"script."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:675
+msgid "The generated version macros follow this naming convention:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:677
+msgid "``<PACKAGE_NAME>_VERSION_MAJOR``: Major version number"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:678
+msgid "``<PACKAGE_NAME>_VERSION_MINOR``: Minor version number"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:679
+msgid "``<PACKAGE_NAME>_VERSION_PATCH``: Patch version number"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:680
+msgid ""
+"``<PACKAGE_NAME>_VERSION``: Combined version as a single integer (major * "
+"10000 + minor * 100 + patch)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:681
+msgid ""
+"``<PACKAGE_NAME>_VERSION_STR``: String representation of the version (e.g., "
+"\"1.2.3\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:682
+msgid ""
+"``<PACKAGE_NAME>_VERSION_GTE(major, minor, patch)``: Macro to check if "
+"version is greater than or equal to specified version"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:684
+msgid "For example, ``rclcpp`` provides macros like:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:686
+msgid "``RCLCPP_VERSION_MAJOR``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:687
+msgid "``RCLCPP_VERSION_MINOR``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:688
+msgid "``RCLCPP_VERSION_PATCH``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:689
+msgid "``RCLCPP_VERSION``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:690
+msgid "``RCLCPP_VERSION_STR``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:691
+msgid "``RCLCPP_VERSION_GTE(major, minor, patch)``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:694
+msgid "Generating version headers for your package"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:696
+msgid ""
+"To generate version headers for your own package, add the following to your "
+"``CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:698
+msgid ""
+"find_package(ament_cmake_gen_version_h REQUIRED)\n"
+"ament_generate_version_header(my_library)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:703
+msgid ""
+"This generates a header file at ``<build_dir>/my_library/version.h`` that "
+"can be included in your code:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:705
+msgid "#include \"my_library/version.h\""
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:709
+msgid ""
+"The version information is automatically extracted from the ``<version>`` "
+"tag in your ``package.xml``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:711
+msgid ""
+"By default, the generated header file is placed in the build directory under "
+"``<package_name>/version.h``. You can customize the output location:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:714
+msgid ""
+"ament_generate_version_header(my_library HEADER_PATH \"my_library/my_version."
+"h\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:719
+msgid "Using version macros for API negotiation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:721
+msgid ""
+"Version macros enable runtime and compile-time feature detection, which is "
+"essential for writing portable code across different ROS 2 distributions."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:723
+msgid ""
+"While ROS 2 guarantees ABI (Application Binary Interface) compatibility "
+"within the same distribution, new interfaces and features can be backported. "
+"This means that within a single distribution, different API versions may be "
+"available depending on which patch release is installed. Version macros "
+"allow developers to check if a specific feature is available before using it."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:728
+msgid "Example: Version checking"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:730
+msgid ""
+"#include \"rclcpp/version.h\"\n"
+"\n"
+"// Check if new feature is available\n"
+"#if RCLCPP_VERSION_GTE(28, 3, 0)\n"
+"  use_new_api_with_feature();\n"
+"#else\n"
+"  use_old_api_without_feature();\n"
+"#endif"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:742
+msgid "Best practices"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:744
+msgid ""
+"**Check before using new features**: Always use version macros when "
+"utilizing features that may not be available in older versions of a library."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:745
+msgid ""
+"**Provide fallback implementations**: When possible, provide alternative "
+"implementations for older API versions to maintain backward compatibility."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:746
+msgid ""
+"**Document version requirements**: Clearly document the minimum required "
+"versions for specific features in your package documentation."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:747
+msgid ""
+"**Test across versions**: If your package needs to support multiple ROS 2 "
+"distributions, test it against the minimum supported version."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:748
+msgid ""
+"**Use the GTE macro**: Prefer using the ``_VERSION_GTE(major, minor, "
+"patch)`` macro for version comparisons, as it provides a cleaner and more "
+"readable syntax than manually comparing individual version components."
 msgstr ""
