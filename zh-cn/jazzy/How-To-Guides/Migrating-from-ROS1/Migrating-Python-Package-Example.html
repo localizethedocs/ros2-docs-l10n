@@ -1,0 +1,1190 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migrating a Python Package Example &mdash; ROS 2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+      <script src="../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="Migrating Python Packages Reference" href="Migrating-Python-Packages.html" />
+    <link rel="prev" title="Migrating C++ Packages Reference" href="Migrating-CPP-Packages.html" />
+ 
+<script type="text/javascript" src="../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../_static/jazzy-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tutorials/Intermediate.html">Intermediate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Intermediate/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tutorials/Advanced.html">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Tutorials/Advanced/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Advanced/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tutorials/Advanced/Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tutorials/Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Rosbag-with-ROS1-Bridge.html">Recording and playing back data with <code class="docutils literal notranslate"><span class="pre">rosbag</span></code> using the ROS 1 bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tutorials/Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tutorials/Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../How-To-Guides.html">How-to Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Visualizing-ROS-2-Data-With-Foxglove-Studio.html">Visualizing ROS 2 data with Foxglove Studio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Basic.html">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Nodes.html">Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Topics.html">Topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Advanced.html">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Advanced/About-Build-System.html">构建系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Advanced/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../The-ROS2-Project.html">The ROS 2 Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Package-Docs.html">Package Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../How-To-Guides.html">How-to Guides</a></li>
+          <li class="breadcrumb-item"><a href="../Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a></li>
+      <li class="breadcrumb-item active">Migrating a Python Package Example</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition note">
+        <p class="admonition-title">备注</p>
+        <p>
+          You're reading the documentation for an older, but still supported, version of ROS 2. For information on the latest version, please have a look at <a href="../../../../zh-cn/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="migrating-a-python-package-example">
+<h1>Migrating a Python Package Example<a class="headerlink" href="#migrating-a-python-package-example" title="Link to this heading"></a></h1>
+<p>This guide shows how to migrate an example Python package from ROS 1 to ROS 2.</p>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">目录</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#prerequisites" id="id1">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#the-ros-1-code" id="id2">The ROS 1 code</a></p></li>
+<li><p><a class="reference internal" href="#migrate-the-package-xml" id="id3">Migrate the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code></a></p></li>
+<li><p><a class="reference internal" href="#delete-the-cmakelists-txt" id="id4">Delete the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></a></p></li>
+<li><p><a class="reference internal" href="#migrate-the-setup-py" id="id5">Migrate the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></a></p></li>
+<li><p><a class="reference internal" href="#migrate-python-scripts-and-create-setup-cfg" id="id6">Migrate Python scripts and create <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code></a></p></li>
+<li><p><a class="reference internal" href="#migrate-python-code-in-src-talker-py-init-py" id="id7">Migrate Python code in <code class="docutils literal notranslate"><span class="pre">src/talker_py/__init__.py</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#use-rclpy-instead-of-rospy" id="id8">Use <code class="docutils literal notranslate"><span class="pre">rclpy</span></code> instead of <code class="docutils literal notranslate"><span class="pre">rospy</span></code></a></p></li>
+<li><p><a class="reference internal" href="#execute-callbacks-in-the-background" id="id9">Execute callbacks in the background</a></p></li>
+<li><p><a class="reference internal" href="#create-a-node" id="id10">Create a node</a></p></li>
+<li><p><a class="reference internal" href="#create-a-publisher" id="id11">Create a publisher</a></p></li>
+<li><p><a class="reference internal" href="#create-a-rate" id="id12">Create a rate</a></p></li>
+<li><p><a class="reference internal" href="#loop-on-rclpy-ok" id="id13">Loop on <code class="docutils literal notranslate"><span class="pre">rclpy.ok()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#create-a-string-message-with-the-current-time" id="id14">Create a <code class="docutils literal notranslate"><span class="pre">String</span></code> message with the current time</a></p></li>
+<li><p><a class="reference internal" href="#log-an-informational-message" id="id15">Log an informational message</a></p></li>
+<li><p><a class="reference internal" href="#build-and-run-talker-py-node" id="id16">Build and run <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#refactor-code-to-use-ros-2-conventions" id="id17">Refactor code to use ROS 2 conventions</a></p></li>
+<li><p><a class="reference internal" href="#conclusion" id="id18">Conclusion</a></p></li>
+</ul>
+</nav>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>You need a working ROS 2 installation, such as <a class="reference internal" href="../../Installation.html"><span class="doc">ROS rolling</span></a>.</p>
+</section>
+<section id="the-ros-1-code">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">The ROS 1 code</a><a class="headerlink" href="#the-ros-1-code" title="Link to this heading"></a></h2>
+<p>You won't be using <a class="reference external" href="https://index.ros.org/p/catkin/">catkin</a> in this guide, so you don't need a working ROS 1 installation.
+You are going to use ROS 2's build tool <a class="reference external" href="https://colcon.readthedocs.io/">Colcon</a> instead.</p>
+<p>This section gives you the code for a ROS 1 Python package.
+The package is called <code class="docutils literal notranslate"><span class="pre">talker_py</span></code>, and it has one node called <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code>.
+To make it easier to run Colcon later, these instructions make you create the package inside a <a class="reference external" href="https://colcon.readthedocs.io/en/released/user/what-is-a-workspace.html">Colcon workspace</a>,</p>
+<p>First, create a folder at <code class="docutils literal notranslate"><span class="pre">~/ros2_talker_py</span></code> to be the root of the Colcon workspace.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-0-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-0-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/ros2_talker_py/src
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/ros2_talker_py/src
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>md<span class="w"> </span><span class="se">\r</span>os2_talker_py<span class="se">\s</span>rc
+</pre></div>
+</div>
+</div></div>
+<p>Next, create the files for the ROS 1 package.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-1-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-1-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-1-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/ros2_talker_py
+<span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>src/talker_py/src/talker_py
+<span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>src/talker_py/scripts
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/package.xml
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/CMakeLists.txt
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/src/talker_py/__init__.py
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/scripts/talker_py_node
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/setup.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/ros2_talker_py
+<span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>src/talker_py/src/talker_py
+<span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>src/talker_py/scripts
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/package.xml
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/CMakeLists.txt
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/src/talker_py/__init__.py
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/scripts/talker_py_node
+<span class="gp">$ </span>touch<span class="w"> </span>src/talker_py/setup.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="se">\r</span>os2_talker_py
+<span class="gp">$ </span>md<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\s</span>rc<span class="se">\t</span>alker_py
+<span class="gp">$ </span>md<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\s</span>cripts
+<span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\p</span>ackage.xml
+<span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\C</span>MakeLists.txt
+<span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\s</span>rc<span class="se">\t</span>alker_py<span class="se">\_</span>_init__.py
+<span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\s</span>cripts/talker_py_node
+<span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>src<span class="se">\t</span>alker_py<span class="se">\s</span>etup.py
+</pre></div>
+</div>
+</div></div>
+<p>Put the following content into each file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker_py/package.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="cp">&lt;?xml-model href=&quot;http://download.ros.org/schema/package_format2.xsd&quot; schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;?&gt;</span>
+<span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>talker_py<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>The<span class="w"> </span>talker_py<span class="w"> </span>package<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;gerkey@example.com&quot;</span><span class="nt">&gt;</span>Brian<span class="w"> </span>Gerkey<span class="nt">&lt;/maintainer&gt;</span>
+<span class="w">    </span><span class="nt">&lt;license&gt;</span>BSD<span class="nt">&lt;/license&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;buildtool_depend&gt;</span>catkin<span class="nt">&lt;/buildtool_depend&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;depend&gt;</span>rospy<span class="nt">&lt;/depend&gt;</span>
+<span class="w">    </span><span class="nt">&lt;depend&gt;</span>std_msgs<span class="nt">&lt;/depend&gt;</span>
+<span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker_py/CMakeLists.txt</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.0.2</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">talker_py</span><span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span><span class="s">catkin</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+
+<span class="nb">catkin_python_setup</span><span class="p">()</span>
+
+<span class="nb">catkin_package</span><span class="p">()</span>
+
+<span class="nb">catkin_install_python</span><span class="p">(</span><span class="s">PROGRAMS</span>
+<span class="w">    </span><span class="s">scripts/talker_py_node</span>
+<span class="w">    </span><span class="s">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nv">CATKIN_PACKAGE_BIN_DESTINATION</span><span class="o">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker/src/talker_py/__init__.py</span></code>:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">std_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">String</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;talker&#39;</span><span class="p">)</span>
+    <span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;chatter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10hz</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+        <span class="n">hello_str</span> <span class="o">=</span> <span class="s2">&quot;hello world </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">hello_str</span><span class="p">)</span>
+        <span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">hello_str</span><span class="p">)</span>
+        <span class="n">rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker_py/scripts/talker_py_node</span></code>:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">talker_py</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">talker_py</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/talker_py/setup.py</span></code>:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">catkin_pkg.python_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_distutils_setup</span>
+
+<span class="n">setup_args</span> <span class="o">=</span> <span class="n">generate_distutils_setup</span><span class="p">(</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;talker_py&#39;</span><span class="p">],</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">setup</span><span class="p">(</span><span class="o">**</span><span class="n">setup_args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is the complete ROS 1 Python package.</p>
+</section>
+<section id="migrate-the-package-xml">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Migrate the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code></a><a class="headerlink" href="#migrate-the-package-xml" title="Link to this heading"></a></h2>
+<p>When migrating packages to ROS 2, migrate the build system files first so that you can check your work by building and running code as you go.
+Always start by migrating your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.</p>
+<p>First, ROS 2 does not use <code class="docutils literal notranslate"><span class="pre">catkin</span></code>.
+Delete the <code class="docutils literal notranslate"><span class="pre">&lt;buildtool_depend&gt;</span></code> on it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- delete this --&gt;
+&lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt;
+</pre></div>
+</div>
+<p>Next, ROS 2 uses <code class="docutils literal notranslate"><span class="pre">rclpy</span></code> instead of <code class="docutils literal notranslate"><span class="pre">rospy</span></code>.
+Delete the dependency on <code class="docutils literal notranslate"><span class="pre">rospy</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!-- Delete this --&gt;
+&lt;depend&gt;rospy&lt;/depend&gt;
+</pre></div>
+</div>
+<p>Replace it with a new dependency on <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;depend&gt;</span>rclpy<span class="nt">&lt;/depend&gt;</span>
+</pre></div>
+</div>
+<p>Add an <code class="docutils literal notranslate"><span class="pre">&lt;export&gt;</span></code> section to tell ROS 2's build tool <a class="reference external" href="https://colcon.readthedocs.io/">Colcon</a> that this is an <code class="docutils literal notranslate"><span class="pre">ament_python</span></code> package instead of a <code class="docutils literal notranslate"><span class="pre">catkin</span></code> package.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;export&gt;</span>
+<span class="w">  </span><span class="nt">&lt;build_type&gt;</span>ament_python<span class="nt">&lt;/build_type&gt;</span>
+<span class="nt">&lt;/export&gt;</span>
+</pre></div>
+</div>
+<p>Your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> is fully migrated.
+It should now look like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="cp">&lt;?xml-model href=&quot;http://download.ros.org/schema/package_format2.xsd&quot; schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;?&gt;</span>
+<span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>talker_py<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>The<span class="w"> </span>talker_py<span class="w"> </span>package<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;gerkey@example.com&quot;</span><span class="nt">&gt;</span>Brian<span class="w"> </span>Gerkey<span class="nt">&lt;/maintainer&gt;</span>
+<span class="w">    </span><span class="nt">&lt;license&gt;</span>BSD<span class="nt">&lt;/license&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;depend&gt;</span>rclpy<span class="nt">&lt;/depend&gt;</span>
+<span class="w">    </span><span class="nt">&lt;depend&gt;</span>std_msgs<span class="nt">&lt;/depend&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;export&gt;</span>
+<span class="w">        </span><span class="nt">&lt;build_type&gt;</span>ament_python<span class="nt">&lt;/build_type&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/export&gt;</span>
+<span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-the-cmakelists-txt">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Delete the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></a><a class="headerlink" href="#delete-the-cmakelists-txt" title="Link to this heading"></a></h2>
+<p>Python packages in ROS 2 do not use CMake, so delete the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.</p>
+</section>
+<section id="migrate-the-setup-py">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Migrate the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></a><a class="headerlink" href="#migrate-the-setup-py" title="Link to this heading"></a></h2>
+<p>The arguments to <code class="docutils literal notranslate"><span class="pre">setup()</span></code> in the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> can no longer be automatically generated with <code class="docutils literal notranslate"><span class="pre">catkin_pkg</span></code>.
+You must pass these arguments manually, which means there will be some duplication with your <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.</p>
+<p>Start by deleting the import from <code class="docutils literal notranslate"><span class="pre">catkin_pkg</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete this</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">catkin_pkg.python_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_distutils_setup</span>
+</pre></div>
+</div>
+<p>Move all arguments given to <code class="docutils literal notranslate"><span class="pre">generate_distutils_setup()</span></code> to the call to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>, and then add the <code class="docutils literal notranslate"><span class="pre">install_requires</span></code> and <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> arguments.
+Your call to <code class="docutils literal notranslate"><span class="pre">setup()</span></code> should  look like this:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;talker_py&#39;</span><span class="p">],</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">},</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;setuptools&#39;</span><span class="p">],</span>
+    <span class="n">zip_safe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Delete the call to <code class="docutils literal notranslate"><span class="pre">generate_distutils_setup()</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete this</span>
+<span class="n">setup_args</span> <span class="o">=</span> <span class="n">generate_distutils_setup</span><span class="p">(</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;talker_py&#39;</span><span class="p">],</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The call to <code class="docutils literal notranslate"><span class="pre">setup()</span></code> needs some <a class="reference external" href="https://docs.python.org/3.11/distutils/setupscript.html#additional-meta-data">additional metadata</a> copied from the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>:</p>
+<ul class="simple">
+<li><p>package name via the <code class="docutils literal notranslate"><span class="pre">name</span></code> argument</p></li>
+<li><p>package version via the <code class="docutils literal notranslate"><span class="pre">version</span></code> argument</p></li>
+<li><p>maintainer via the <code class="docutils literal notranslate"><span class="pre">maintainer</span></code> and <code class="docutils literal notranslate"><span class="pre">maintainer_email</span></code> arguments</p></li>
+<li><p>description via the <code class="docutils literal notranslate"><span class="pre">description</span></code> argument</p></li>
+<li><p>license via the <code class="docutils literal notranslate"><span class="pre">license</span></code> argument</p></li>
+</ul>
+<p>The package name will be used multiple times.
+Create a variable called <code class="docutils literal notranslate"><span class="pre">package_name</span></code> above the call to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">package_name</span> <span class="o">=</span> <span class="s1">&#39;talker_py&#39;</span>
+</pre></div>
+</div>
+<p>Copy all of the remaining information into the arguments of <code class="docutils literal notranslate"><span class="pre">setup()</span></code> in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.
+Your call to <code class="docutils literal notranslate"><span class="pre">setup()</span></code> should look like this:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">package_name</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;setuptools&#39;</span><span class="p">],</span>
+    <span class="n">zip_safe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;talker_py&#39;</span><span class="p">],</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">},</span>
+    <span class="n">maintainer</span><span class="o">=</span><span class="s1">&#39;Brian Gerkey&#39;</span><span class="p">,</span>
+    <span class="n">maintainer_email</span><span class="o">=</span><span class="s1">&#39;gerkey@example.com&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The talker_py package&#39;</span><span class="p">,</span>
+    <span class="n">license</span><span class="o">=</span><span class="s1">&#39;BSD&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>ROS 2 packages must install two data files:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">package.xml</span></code></p></li>
+<li><p>a package marker file</p></li>
+</ul>
+<p>Your package already has a <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.
+It describes your package's dependencies.
+A package marker file tells tools like <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> where to find your package.</p>
+<p>Create a directory next to the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> called <code class="docutils literal notranslate"><span class="pre">resource</span></code>.
+Create an empty file in the <code class="docutils literal notranslate"><span class="pre">resource</span></code> directory with the same name as the package.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-2-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-2-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-2-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-2-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>resource
+<span class="gp">$ </span>touch<span class="w"> </span>resource/talker_py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>resource
+<span class="gp">$ </span>touch<span class="w"> </span>resource/talker_py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>md<span class="w"> </span>resource
+<span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>resource<span class="se">\t</span>alker_py
+</pre></div>
+</div>
+</div></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">setup()</span></code> call in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> must tell <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> how to install these files.
+Add the following <code class="docutils literal notranslate"><span class="pre">data_files</span></code> argument to the call to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">data_files</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;share/ament_index/resource_index/packages&#39;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s1">&#39;resource/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;share/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;package.xml&#39;</span><span class="p">]),</span>
+<span class="p">],</span>
+</pre></div>
+</div>
+<p>Your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> is almost complete.</p>
+</section>
+<section id="migrate-python-scripts-and-create-setup-cfg">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Migrate Python scripts and create <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code></a><a class="headerlink" href="#migrate-python-scripts-and-create-setup-cfg" title="Link to this heading"></a></h2>
+<p>ROS 2 Python packages uses <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code> <a class="reference external" href="https://python-packaging.readthedocs.io/en/latest/command-line-scripts.html#the-console-scripts-entry-point">entry points</a> to install Python scripts as executables.
+The <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/declarative_config.html">configuration file</a> <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> tells <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> to install those executables in a package specific directory so that tools like <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> can find them.
+Create a <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> file next to the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-3-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-3-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-3-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-3-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>touch<span class="w"> </span>setup.cfg
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>touch<span class="w"> </span>setup.cfg
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>nul<span class="w"> </span>&gt;<span class="w"> </span>touch<span class="w"> </span>setup.cfg
+</pre></div>
+</div>
+</div></div>
+<p>Put the following content into it:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[develop]</span>
+<span class="na">script_dir</span><span class="o">=</span><span class="s">$base/lib/talker_py</span>
+<span class="k">[install]</span>
+<span class="na">install_scripts</span><span class="o">=</span><span class="s">$base/lib/talker_py</span>
+</pre></div>
+</div>
+<p>You'll need to use the <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code> entry point to define the executables to be installed.
+Each entry has the format <code class="docutils literal notranslate"><span class="pre">executable_name</span> <span class="pre">=</span> <span class="pre">some.module:function</span></code>.
+The first part specifies the name of the executable to create.
+The second part specifies the function that should be run when the executable starts.
+This package needs to create an executable called <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code>, and the executable needs to call the function <code class="docutils literal notranslate"><span class="pre">main</span></code> in the <code class="docutils literal notranslate"><span class="pre">talker_py</span></code> module.
+Add the following entry point specification as another argument to <code class="docutils literal notranslate"><span class="pre">setup()</span></code> in your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;talker_py_node = talker_py:main&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code> file is no longer necessary.
+Delete the file <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code> and delete the <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> directory.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-4-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-4-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-4-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-4-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-4-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rm<span class="w"> </span>scripts/talker_py_node
+<span class="gp">$ </span>rmdir<span class="w"> </span>scripts
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rm<span class="w"> </span>scripts/talker_py_node
+<span class="gp">$ </span>rmdir<span class="w"> </span>scripts
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>del<span class="w"> </span>scripts/talker_py_node
+<span class="gp">$ </span>rd<span class="w"> </span>scripts
+</pre></div>
+</div>
+</div></div>
+<p>The addition of <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code> is the last change to your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.
+Your final <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> should look like this:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">package_name</span> <span class="o">=</span> <span class="s1">&#39;talker_py&#39;</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">package_name</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;talker_py&#39;</span><span class="p">],</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="s1">&#39;src&#39;</span><span class="p">},</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;setuptools&#39;</span><span class="p">],</span>
+    <span class="n">zip_safe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">data_files</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;share/ament_index/resource_index/packages&#39;</span><span class="p">,</span>
+            <span class="p">[</span><span class="s1">&#39;resource/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s1">&#39;share/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;package.xml&#39;</span><span class="p">]),</span>
+    <span class="p">],</span>
+    <span class="n">maintainer</span><span class="o">=</span><span class="s1">&#39;Brian Gerkey&#39;</span><span class="p">,</span>
+    <span class="n">maintainer_email</span><span class="o">=</span><span class="s1">&#39;gerkey@example.com&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The talker_py package&#39;</span><span class="p">,</span>
+    <span class="n">license</span><span class="o">=</span><span class="s1">&#39;BSD&#39;</span><span class="p">,</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;talker_py_node = talker_py:main&#39;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="migrate-python-code-in-src-talker-py-init-py">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Migrate Python code in <code class="docutils literal notranslate"><span class="pre">src/talker_py/__init__.py</span></code></a><a class="headerlink" href="#migrate-python-code-in-src-talker-py-init-py" title="Link to this heading"></a></h2>
+<p>ROS 2 changed a lot of the best practices for Python code.
+Start by migrating the code as-is.
+It will be easier to refactor code later after you have something working.</p>
+<section id="use-rclpy-instead-of-rospy">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Use <code class="docutils literal notranslate"><span class="pre">rclpy</span></code> instead of <code class="docutils literal notranslate"><span class="pre">rospy</span></code></a><a class="headerlink" href="#use-rclpy-instead-of-rospy" title="Link to this heading"></a></h3>
+<p>ROS 2 packages use <a class="reference external" href="https://index.ros.org/p/rclpy">rclpy</a> instead of <code class="docutils literal notranslate"><span class="pre">rospy</span></code>.
+You must do two things to use <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Import <code class="docutils literal notranslate"><span class="pre">rclpy</span></code></p></li>
+<li><p>Initialize <code class="docutils literal notranslate"><span class="pre">rclpy</span></code></p></li>
+</ol>
+</div></blockquote>
+<p>Remove the statement that imports <code class="docutils literal notranslate"><span class="pre">rospy</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove this</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+</pre></div>
+</div>
+<p>Replace it with a statement that imports <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+</pre></div>
+</div>
+<p>Add a call to <code class="docutils literal notranslate"><span class="pre">rclpy.init()</span></code> as the very first statement in the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Add this line</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="execute-callbacks-in-the-background">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Execute callbacks in the background</a><a class="headerlink" href="#execute-callbacks-in-the-background" title="Link to this heading"></a></h3>
+<p>Both ROS 1 and ROS 2 use <a class="reference external" href="https://en.wikipedia.org/wiki/Callback_(computer_programming)">callbacks</a>.
+In ROS 1, callbacks are always executed in background threads, and users are free to block the main thread with calls like <code class="docutils literal notranslate"><span class="pre">rate.sleep()</span></code>.
+In ROS 2, <code class="docutils literal notranslate"><span class="pre">rclpy</span></code> uses <a class="reference internal" href="../../Concepts/Intermediate/About-Executors.html"><span class="doc">Executors</span></a> to give users more control over where callbacks are called.
+When porting code that uses blocking calls like <code class="docutils literal notranslate"><span class="pre">rate.sleep()</span></code>, you must make sure that those calls won't interfere with the executor.
+One way to do this is to create a dedicated thread for the executor.</p>
+<p>First, add these two import statements.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExternalShutdownException</span>
+</pre></div>
+</div>
+<p>Next, add top-level function called <code class="docutils literal notranslate"><span class="pre">spin_in_background()</span></code>.
+This function asks the default executor to execute callbacks until something shuts it down.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">spin_in_background</span><span class="p">():</span>
+    <span class="n">executor</span> <span class="o">=</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">get_global_executor</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">executor</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">ExternalShutdownException</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Add the following code in the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function just after the call to <code class="docutils literal notranslate"><span class="pre">rclpy.init()</span></code> to start a thread that calls <code class="docutils literal notranslate"><span class="pre">spin_in_background()</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In rospy callbacks are always called in background threads.</span>
+<span class="c1"># Spin the executor in another thread for similar behavior in ROS 2.</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">spin_in_background</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, join the thread when the program ends by putting this statement at the bottom of the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-node">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Create a node</a><a class="headerlink" href="#create-a-node" title="Link to this heading"></a></h3>
+<p>In ROS 1, Python scripts can only create a single node per process, and the API <code class="docutils literal notranslate"><span class="pre">init_node()</span></code> creates it.
+In ROS 2, a single Python script may create multiple nodes, and the API to create a node is named <code class="docutils literal notranslate"><span class="pre">create_node</span></code>.</p>
+<p>Remove the call to <code class="docutils literal notranslate"><span class="pre">rospy.init_node()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;talker&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add a new call to <code class="docutils literal notranslate"><span class="pre">rclpy.create_node()</span></code> and store the result in a variable named <code class="docutils literal notranslate"><span class="pre">node</span></code>:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">node</span> <span class="o">=</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span><span class="s1">&#39;talker&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We must tell the executor about this node.
+Add the following line just below the creation of the node:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rclpy</span><span class="o">.</span><span class="n">get_global_executor</span><span class="p">()</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-publisher">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Create a publisher</a><a class="headerlink" href="#create-a-publisher" title="Link to this heading"></a></h3>
+<p>In ROS 1, users create publishers by instantiating the <code class="docutils literal notranslate"><span class="pre">Publisher</span></code> class.
+In ROS 2, users create publishers through a node's <code class="docutils literal notranslate"><span class="pre">create_publisher()</span></code> API.
+The <code class="docutils literal notranslate"><span class="pre">create_publisher()</span></code> API has an unfortunate difference with ROS 1: the topic name and topic type arguments are swapped.</p>
+<p>Remove the creation of the <code class="docutils literal notranslate"><span class="pre">rospy.Publisher</span></code> instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;chatter&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Replace it with a call to <code class="docutils literal notranslate"><span class="pre">node.create_publisher()</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pub</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="s1">&#39;chatter&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-rate">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Create a rate</a><a class="headerlink" href="#create-a-rate" title="Link to this heading"></a></h3>
+<p>In ROS 1, users create <code class="docutils literal notranslate"><span class="pre">Rate</span></code> instances directly, while in ROS 2 users create them through a node's <code class="docutils literal notranslate"><span class="pre">create_rate()</span></code> API.</p>
+<p>Remove the creation of the <code class="docutils literal notranslate"><span class="pre">rospy.Rate</span></code> instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10hz</span>
+</pre></div>
+</div>
+<p>Replace it with a call to <code class="docutils literal notranslate"><span class="pre">node.create_rate()</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rate</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">create_rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10hz</span>
+</pre></div>
+</div>
+</section>
+<section id="loop-on-rclpy-ok">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Loop on <code class="docutils literal notranslate"><span class="pre">rclpy.ok()</span></code></a><a class="headerlink" href="#loop-on-rclpy-ok" title="Link to this heading"></a></h3>
+<p>In ROS 1, the <code class="docutils literal notranslate"><span class="pre">rospy.is_shutdown()</span></code> API indicates if the process has been asked to shutdown.
+In ROS 2, the <code class="docutils literal notranslate"><span class="pre">rclpy.ok()</span></code> API does this.</p>
+<p>Remove the statement <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">rospy.is_shutdown()</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+</pre></div>
+</div>
+<p>Replace it with a call to <code class="docutils literal notranslate"><span class="pre">rclpy.ok()</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">ok</span><span class="p">():</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-string-message-with-the-current-time">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Create a <code class="docutils literal notranslate"><span class="pre">String</span></code> message with the current time</a><a class="headerlink" href="#create-a-string-message-with-the-current-time" title="Link to this heading"></a></h3>
+<p>You must make a few changes to this line</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hello_str</span> <span class="o">=</span> <span class="s2">&quot;hello world </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rospy</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In ROS 2 you:</p>
+<ul class="simple">
+<li><p>Must get the time from a <code class="docutils literal notranslate"><span class="pre">Clock</span></code> instance</p></li>
+<li><p>Should format the <code class="docutils literal notranslate"><span class="pre">str</span></code> data using <a class="reference external" href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">f-strings</a> since  <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#printf-style-string-formatting">% is discouraged in active Python versions</a></p></li>
+<li><p>Must instantiate a <code class="docutils literal notranslate"><span class="pre">std_msgs.msg.String</span></code> instance</p></li>
+</ul>
+<p>Start with getting the time.
+ROS 2 nodes have a <code class="docutils literal notranslate"><span class="pre">Clock</span></code> instance.
+Replace the call to <code class="docutils literal notranslate"><span class="pre">rospy.get_time()</span></code> with <code class="docutils literal notranslate"><span class="pre">node.get_clock().now()</span></code> to get the current time from the node's clock.</p>
+<p>Next, replace the use of <code class="docutils literal notranslate"><span class="pre">%</span></code> with an f-string: <code class="docutils literal notranslate"><span class="pre">f'hello</span> <span class="pre">world</span> <span class="pre">{node.get_clock().now()}'</span></code>.</p>
+<p>Finally, instantiate a <code class="docutils literal notranslate"><span class="pre">std_msgs.msg.String()</span></code> instance and assign the above to the <code class="docutils literal notranslate"><span class="pre">data</span></code> attribute of that instance.
+Your final code should look like this:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">hello_str</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+<span class="n">hello_str</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;hello world </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">get_clock</span><span class="p">()</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="log-an-informational-message">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Log an informational message</a><a class="headerlink" href="#log-an-informational-message" title="Link to this heading"></a></h3>
+<p>In ROS 2, you must send log messages through a <code class="docutils literal notranslate"><span class="pre">Logger</span></code> instance, and the node has one.</p>
+<p>Remove the call to <code class="docutils literal notranslate"><span class="pre">rospy.loginfo()</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="n">hello_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Replace it with a call to <code class="docutils literal notranslate"><span class="pre">info()</span></code> on the node's <code class="docutils literal notranslate"><span class="pre">Logger</span></code> instance.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">hello_str</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is the last change to <code class="docutils literal notranslate"><span class="pre">src/talker_py/__init__.py</span></code>.
+Your file should look like the following:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExternalShutdownException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">std_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">String</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spin_in_background</span><span class="p">():</span>
+    <span class="n">executor</span> <span class="o">=</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">get_global_executor</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">executor</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">ExternalShutdownException</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="c1"># In rospy callbacks are always called in background threads.</span>
+    <span class="c1"># Spin the executor in another thread for similar behavior in ROS 2.</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">spin_in_background</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">node</span> <span class="o">=</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span><span class="s1">&#39;talker&#39;</span><span class="p">)</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">get_global_executor</span><span class="p">()</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="n">pub</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="s1">&#39;chatter&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">create_rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10hz</span>
+
+    <span class="k">while</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">ok</span><span class="p">():</span>
+        <span class="n">hello_str</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+        <span class="n">hello_str</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;hello world </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">get_clock</span><span class="p">()</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">hello_str</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">hello_str</span><span class="p">)</span>
+        <span class="n">rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span>
+
+    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="build-and-run-talker-py-node">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Build and run <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code></a><a class="headerlink" href="#build-and-run-talker-py-node" title="Link to this heading"></a></h3>
+<p>Create three terminals:</p>
+<ol class="arabic simple">
+<li><p>One to build <code class="docutils literal notranslate"><span class="pre">talker_py</span></code></p></li>
+<li><p>One to run <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code></p></li>
+<li><p>One to echo the message published by <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code></p></li>
+</ol>
+<p>Build the workspace in the first terminal.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-5-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-5-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-5-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-5-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-5-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-5-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-5-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/ros2_talker_py
+<span class="gp">$ </span>.<span class="w"> </span>/opt/ros/rolling/setup.bash
+<span class="gp">$ </span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-5-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/ros2_talker_py
+<span class="gp">$ </span>.<span class="w"> </span>/opt/ros/rolling/setup.bash
+<span class="gp">$ </span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-5-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="se">\r</span>os2_talker_py
+<span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\d</span>ev<span class="se">\r</span>os2<span class="se">\l</span>ocal_setup.bat
+<span class="gp">$ </span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</div></div>
+<p>Source your workspace in the second terminal, and run the <code class="docutils literal notranslate"><span class="pre">talker_py_node</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-6-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-6-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-6-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-6-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-6-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-6-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-6-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/ros2_talker_py
+<span class="gp">$ </span>.<span class="w"> </span>install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>talker_py<span class="w"> </span>talker_py_node
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-6-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/ros2_talker_py
+<span class="gp">$ </span>.<span class="w"> </span>install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>talker_py<span class="w"> </span>talker_py_node
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-6-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="se">\r</span>os2_talker_py
+<span class="gp">$ </span>call<span class="w"> </span>install<span class="se">\s</span>etup.bat
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>talker_py<span class="w"> </span>talker_py_node
+</pre></div>
+</div>
+</div></div>
+<p>Echo the message published by the node in the third terminal:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-7-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-7-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-7-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-7-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-7-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-7-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-7-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>.<span class="w"> </span>/opt/ros/rolling/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/chatter
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-7-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>.<span class="w"> </span>/opt/ros/rolling/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/chatter
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-7-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\d</span>ev<span class="se">\r</span>os2<span class="se">\l</span>ocal_setup.bat
+<span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/chatter
+</pre></div>
+</div>
+</div></div>
+<p>You should see messages with the current time being published in the second terminal, and those same messages received in the third.</p>
+</section>
+</section>
+<section id="refactor-code-to-use-ros-2-conventions">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Refactor code to use ROS 2 conventions</a><a class="headerlink" href="#refactor-code-to-use-ros-2-conventions" title="Link to this heading"></a></h2>
+<p>You have successfully migrated a ROS 1 Python package to ROS 2!
+Now that you have something working, consider refactoring it to align better with ROS 2's Python APIs.
+Follow these two principles.</p>
+<ul class="simple">
+<li><p>Create a class that inherits from <code class="docutils literal notranslate"><span class="pre">Node</span></code>.</p></li>
+<li><p>Do all work in callbacks, and never block those callbacks.</p></li>
+</ul>
+<p>For example, create a <code class="docutils literal notranslate"><span class="pre">Talker</span></code> class that inherits from <code class="docutils literal notranslate"><span class="pre">Node</span></code>.
+As for doing work in callbacks, use a <code class="docutils literal notranslate"><span class="pre">Timer</span></code> with a callback instead of <code class="docutils literal notranslate"><span class="pre">rate.sleep()</span></code>.
+Make the timer callback publish the message and return.
+Make <code class="docutils literal notranslate"><span class="pre">main()</span></code> create a <code class="docutils literal notranslate"><span class="pre">Talker</span></code> instance rather than using <code class="docutils literal notranslate"><span class="pre">rclpy.create_node()</span></code>, and give the executor the main thread to execute in.</p>
+<p>Your refactored code might look like this:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.node</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExternalShutdownException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">std_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">String</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Talker</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;talker&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="s1">&#39;chatter&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_timer</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_publish</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_publish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hello_str</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+        <span class="n">hello_str</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;hello world </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_clock</span><span class="p">()</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">hello_str</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">hello_str</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rclpy</span><span class="o">.</span><span class="n">spin</span><span class="p">(</span><span class="n">Talker</span><span class="p">())</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">ExternalShutdownException</span><span class="p">,</span> <span class="ne">KeyboardInterrupt</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">rclpy</span><span class="o">.</span><span class="n">try_shutdown</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="conclusion">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Conclusion</a><a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
+<p>You have learned how to migrate an example Python ROS 1 package to ROS 2.
+From now on, refer to the <a class="reference internal" href="Migrating-Python-Packages.html"><span class="doc">Migrating Python Packages reference page</span></a> as you migrate your own Python packages.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="Migrating-CPP-Packages.html" class="btn btn-neutral float-left" title="Migrating C++ Packages Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="Migrating-Python-Packages.html" class="btn btn-neutral float-right" title="Migrating Python Packages Reference" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

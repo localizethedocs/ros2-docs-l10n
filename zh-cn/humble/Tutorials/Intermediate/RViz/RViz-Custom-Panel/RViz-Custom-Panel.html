@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building a Custom RViz Panel &mdash; ROS 2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html" />
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../../search.html" />
+    <link rel="next" title="Marker: Display types" href="../Marker-Display-types/Marker-Display-types.html" />
+    <link rel="prev" title="Building a Custom RViz Display" href="../RViz-Custom-Display/RViz-Custom-Display.html" />
+ 
+<script type="text/javascript" src="../../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../../../_static/humble-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Fedora-Development-Setup.html">Fedora (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../Tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../Intermediate.html">Intermediate</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-a-URDF-in-Gazebo.html">Using a URDF in Gazebo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="../RViz-Main.html">RViz</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Advanced.html">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../URDF/Using-a-URDF-in-Gazebo.html">Using a URDF in Gazebo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Rosbag-with-ROS1-Bridge.html">Recording and playing back data with <code class="docutils literal notranslate"><span class="pre">rosbag</span></code> using the ROS 1 bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../How-To-Guides.html">How-to Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Visualizing-ROS-2-Data-With-Foxglove-Studio.html">Visualizing ROS 2 data with Foxglove Studio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.html">Building ROS 2 with tracing instrumentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Concepts/Basic.html">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Nodes.html">Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Topics.html">Topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Concepts/Advanced.html">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Advanced/About-Build-System.html">构建系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Advanced/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../The-ROS2-Project.html">The ROS 2 Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Package-Docs.html">Package Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../Tutorials.html">Tutorials</a></li>
+          <li class="breadcrumb-item"><a href="../../../Intermediate.html">Intermediate</a></li>
+          <li class="breadcrumb-item"><a href="../RViz-Main.html">RViz</a></li>
+      <li class="breadcrumb-item active">Building a Custom RViz Panel</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition note">
+        <p class="admonition-title">备注</p>
+        <p>
+          You're reading the documentation for an older, but still supported, version of ROS 2. For information on the latest version, please have a look at <a href="../../../../../../zh-cn/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="building-a-custom-rviz-panel">
+<h1>Building a Custom RViz Panel<a class="headerlink" href="#building-a-custom-rviz-panel" title="Link to this heading"></a></h1>
+<p>This tutorial is for people who would like to work within the RViz environment to either display or interact with some data in a two-dimensional environment.</p>
+<p>In this tutorial you will learn how to do three things within RViz:</p>
+<ul class="simple">
+<li><p>Create a new QT panel within RViz.</p></li>
+<li><p>Create a topic subscriber within RViz that can monitor messages published on that topic and display them within the RViz panel.</p></li>
+<li><p>Create a topic publisher such button presses within RViz publish to an output topic in ROS.</p></li>
+</ul>
+<p>All of the code for this tutorial can be found in <a class="reference external" href="https://github.com/MetroRobots/rviz_panel_tutorial">this repository</a>.</p>
+<section id="boilerplate-code">
+<h2>Boilerplate Code<a class="headerlink" href="#boilerplate-code" title="Link to this heading"></a></h2>
+<section id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Link to this heading"></a></h3>
+<p>Here are the contents of <code class="docutils literal notranslate"><span class="pre">demo_panel.hpp</span></code></p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_</span>
+<span class="cp">#define RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rviz_common/panel.hpp&gt;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">rviz_panel_tutorial</span>
+<span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DemoPanel</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">rviz_common</span><span class="o">::</span><span class="n">Panel</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">Q_OBJECT</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="k">explicit</span><span class="w"> </span><span class="n">DemoPanel</span><span class="p">(</span><span class="n">QWidget</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="o">~</span><span class="n">DemoPanel</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="p">}</span><span class="w">  </span><span class="c1">// namespace rviz_panel_tutorial</span>
+
+<span class="cp">#endif  </span><span class="c1">// RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>We're extending the <a class="reference external" href="https://github.com/ros2/rviz/blob/9a94bdf2f5f92ccdac4037c9268b95940845d609/rviz_common/include/rviz_common/panel.hpp#L46">rviz_common::Panel</a> class.</p></li>
+<li><p><a class="reference external" href="https://doc.qt.io/qt-5/moc.html">For reasons outside the scope of this tutorial</a>, you need the <code class="docutils literal notranslate"><span class="pre">Q_OBJECT</span></code> macro in there to get the QT parts of the GUI to work.</p></li>
+<li><p>We start by declaring just a constructor and destructor, implemented in the cpp file.</p></li>
+</ul>
+</section>
+<section id="source-file">
+<h3>Source File<a class="headerlink" href="#source-file" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">demo_panel.cpp</span></code></p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rviz_panel_tutorial/demo_panel.hpp&gt;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">rviz_panel_tutorial</span>
+<span class="p">{</span>
+<span class="n">DemoPanel</span><span class="o">::</span><span class="n">DemoPanel</span><span class="p">(</span><span class="n">QWidget</span><span class="o">*</span><span class="w"> </span><span class="n">parent</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Panel</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="n">DemoPanel</span><span class="o">::~</span><span class="n">DemoPanel</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<span class="p">}</span><span class="w">  </span><span class="c1">// namespace rviz_panel_tutorial</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pluginlib/class_list_macros.hpp&gt;</span>
+<span class="n">PLUGINLIB_EXPORT_CLASS</span><span class="p">(</span><span class="n">rviz_panel_tutorial</span><span class="o">::</span><span class="n">DemoPanel</span><span class="p">,</span><span class="w"> </span><span class="n">rviz_common</span><span class="o">::</span><span class="n">Panel</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Overriding the constructor and deconstructor are not strictly necessary, but we can do more with them later.</p></li>
+<li><p>In order for RViz to find our plugin, we need this <code class="docutils literal notranslate"><span class="pre">PLUGINLIB</span></code> invocation in our code (as well as other things below).</p></li>
+</ul>
+</section>
+<section id="package-xml">
+<h3>package.xml<a class="headerlink" href="#package-xml" title="Link to this heading"></a></h3>
+<p>We need the following dependencies in our package.xml:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;depend&gt;</span>pluginlib<span class="nt">&lt;/depend&gt;</span>
+<span class="nt">&lt;depend&gt;</span>rviz_common<span class="nt">&lt;/depend&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="rviz-common-plugins-xml">
+<h3>rviz_common_plugins.xml<a class="headerlink" href="#rviz-common-plugins-xml" title="Link to this heading"></a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;library</span><span class="w"> </span><span class="na">path=</span><span class="s">&quot;demo_panel&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;class</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;rviz_panel_tutorial::DemoPanel&quot;</span><span class="w"> </span><span class="na">base_class_type=</span><span class="s">&quot;rviz_common::Panel&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/class&gt;</span>
+<span class="nt">&lt;/library&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This is standard <code class="docutils literal notranslate"><span class="pre">pluginlib</span></code> code.</p>
+<ul>
+<li><p>The library <code class="docutils literal notranslate"><span class="pre">path</span></code> is the name of the library we'll assign in the CMake.</p></li>
+<li><p>The class should match the <code class="docutils literal notranslate"><span class="pre">PLUGINLIB</span></code> invocation from above.</p></li>
+</ul>
+</li>
+<li><p>We'll come back to the description later, I promise.</p></li>
+</ul>
+</section>
+<section id="cmakelists-txt">
+<h3>CMakeLists.txt<a class="headerlink" href="#cmakelists-txt" title="Link to this heading"></a></h3>
+<p>Add the following lines to the top of the standard boilerplate.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">ament_cmake_ros</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">pluginlib</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">rviz_common</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_AUTOMOC</span><span class="w"> </span><span class="s">ON</span><span class="p">)</span>
+<span class="nb">qt5_wrap_cpp</span><span class="p">(</span><span class="s">MOC_FILES</span>
+<span class="w">  </span><span class="s">include/rviz_panel_tutorial/demo_panel.hpp</span>
+<span class="p">)</span>
+
+<span class="nb">add_library</span><span class="p">(</span><span class="s">demo_panel</span><span class="w"> </span><span class="s">src/demo_panel.cpp</span><span class="w"> </span><span class="o">${</span><span class="nv">MOC_FILES</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">demo_panel</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">  </span><span class="o">$&lt;</span><span class="nv">BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include</span><span class="o">&gt;</span>
+<span class="w">  </span><span class="o">$&lt;</span><span class="nv">INSTALL_INTERFACE:include</span><span class="o">&gt;</span>
+<span class="p">)</span>
+<span class="nb">ament_target_dependencies</span><span class="p">(</span><span class="s">demo_panel</span>
+<span class="w">  </span><span class="s">pluginlib</span>
+<span class="w">  </span><span class="s">rviz_common</span>
+<span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span><span class="w"> </span><span class="s">demo_panel</span>
+<span class="w">        </span><span class="s">EXPORT</span><span class="w"> </span><span class="s">export_rviz_panel_tutorial</span>
+<span class="w">        </span><span class="s">ARCHIVE</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">        </span><span class="s">LIBRARY</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">        </span><span class="s">RUNTIME</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">bin</span>
+<span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">DIRECTORY</span><span class="w"> </span><span class="s">include/</span>
+<span class="w">        </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">include</span>
+<span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">FILES</span><span class="w"> </span><span class="s">rviz_common_plugins.xml</span>
+<span class="w">        </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">share/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="p">)</span>
+<span class="nb">ament_export_include_directories</span><span class="p">(</span><span class="s">include</span><span class="p">)</span>
+<span class="nb">ament_export_targets</span><span class="p">(</span><span class="s">export_rviz_panel_tutorial</span><span class="p">)</span>
+<span class="nb">pluginlib_export_plugin_description_file</span><span class="p">(</span><span class="s">rviz_common</span><span class="w"> </span><span class="s">rviz_common_plugins.xml</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To generate the proper Qt files, we need to</p>
+<ul>
+<li><p>Turn <code class="docutils literal notranslate"><span class="pre">CMAKE_AUTOMOC</span></code> on.</p></li>
+<li><p>Wrap the headers by calling <code class="docutils literal notranslate"><span class="pre">qt5_wrap_cpp</span></code> with each header that has <code class="docutils literal notranslate"><span class="pre">Q_OBJECT</span></code> in it.</p></li>
+<li><p>Include the <code class="docutils literal notranslate"><span class="pre">MOC_FILES</span></code> in the library alongside our other cpp files.</p></li>
+</ul>
+</li>
+<li><p>A lot of the other code ensures that the plugin portion works.
+Namely, calling <code class="docutils literal notranslate"><span class="pre">pluginlib_export_plugin_description_file</span></code> is essential to getting RViz to find your new plugin.</p></li>
+</ul>
+</section>
+<section id="testing-it-out">
+<h3>Testing it out<a class="headerlink" href="#testing-it-out" title="Link to this heading"></a></h3>
+<p>Compile your code, source your workspace and run <code class="docutils literal notranslate"><span class="pre">rviz2</span></code>.</p>
+<p>In the top Menu bar, there should be a &quot;Panels&quot; menu.
+Select &quot;Add New Panel&quot; from that menu.</p>
+<a class="reference external image-reference" href="../../../../_images/Select0.png"><img alt="screenshot of Add New Panel dialog" src="../../../../_images/Select0.png" />
+</a>
+<p>A dialog will pop up showing all the panels accessible in your ROS environment, grouped into folders based on their ROS package.
+Create a new instance of your panel by either double clicking on its name, or selecting it and clicking OK.</p>
+<p>This should create a new panel in your RViz window, albeit with nothing but a title bar with the name of your panel.</p>
+<a class="reference external image-reference" href="../../../../_images/RViz0.png"><img alt="screenshot of the whole RViz window showing the new simple panel" src="../../../../_images/RViz0.png" />
+</a>
+</section>
+</section>
+<section id="filling-in-the-panel">
+<h2>Filling in the Panel<a class="headerlink" href="#filling-in-the-panel" title="Link to this heading"></a></h2>
+<p>We're going to update our panel with some very basic ROS/QT interaction.
+What we will do, roughly, is access the ROS node from within RViz that can both subscribe and publish to ROS topics.
+We will use our subscriber to monitor an <code class="docutils literal notranslate"><span class="pre">/input</span></code> topic within ROS and display the published <code class="docutils literal notranslate"><span class="pre">String</span></code> values in the widget.
+We use our publisher to map button presses within RViz to messages published on a ROS topic named <code class="docutils literal notranslate"><span class="pre">/output</span></code> .</p>
+<section id="updated-header-file">
+<h3>Updated Header File<a class="headerlink" href="#updated-header-file" title="Link to this heading"></a></h3>
+<p>Update <code class="docutils literal notranslate"><span class="pre">demo_panel.hpp</span></code> to include the following includes and class Body.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rviz_common/panel.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rviz_common/ros_integration/ros_node_abstraction_iface.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;std_msgs/msg/string.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;QLabel&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;QPushButton&gt;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">rviz_panel_tutorial</span>
+<span class="p">{</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DemoPanel</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">rviz_common</span><span class="o">::</span><span class="n">Panel</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">Q_OBJECT</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="k">explicit</span><span class="w"> </span><span class="n">DemoPanel</span><span class="p">(</span><span class="n">QWidget</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="o">~</span><span class="n">DemoPanel</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">onInitialize</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">rviz_common</span><span class="o">::</span><span class="n">ros_integration</span><span class="o">::</span><span class="n">RosNodeAbstractionIface</span><span class="o">&gt;</span><span class="w"> </span><span class="n">node_ptr_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Publisher</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">publisher_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Subscription</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">subscription_</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">topicCallback</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">QLabel</span><span class="o">*</span><span class="w"> </span><span class="n">label_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">QPushButton</span><span class="o">*</span><span class="w"> </span><span class="n">button_</span><span class="p">;</span>
+
+<span class="k">private</span><span class="w"> </span><span class="n">Q_SLOTS</span><span class="o">:</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">buttonActivated</span><span class="p">();</span>
+<span class="p">};</span>
+<span class="p">}</span><span class="w">  </span><span class="c1">// namespace rviz_panel_tutorial</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>On the ROS side, we declare an abstract node pointer, which we will use to create interfaces to the wider ROS ecosystem.
+We have a subscriber which will allow us to take information from ROS and use it in RViz.
+The publisher allows us to publish information/events from within RViz and make them available in ROS.
+We also have methods an initialization method for setting up the ROS components (<code class="docutils literal notranslate"><span class="pre">onInitialize</span></code>) and a callback for the subscriber (<code class="docutils literal notranslate"><span class="pre">topicCallback</span></code>).</p></li>
+<li><p>On the QT side, we declare a label and a button, as well as a callback for the button (<code class="docutils literal notranslate"><span class="pre">buttonActivated</span></code>).</p></li>
+</ul>
+</section>
+<section id="updated-source-file">
+<h3>Updated Source File<a class="headerlink" href="#updated-source-file" title="Link to this heading"></a></h3>
+<p>Update <code class="docutils literal notranslate"><span class="pre">demo_panel.cpp</span></code> to have the following contents:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rviz_panel_tutorial/demo_panel.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;QVBoxLayout&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rviz_common/display_context.hpp&gt;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">rviz_panel_tutorial</span>
+<span class="p">{</span>
+
+<span class="n">DemoPanel</span><span class="o">::</span><span class="n">DemoPanel</span><span class="p">(</span><span class="n">QWidget</span><span class="o">*</span><span class="w"> </span><span class="n">parent</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Panel</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">// Create a label and a button, displayed vertically (the V in VBox means vertical)</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// Create a button and a label for the button</span>
+<span class="w">  </span><span class="n">label_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">QLabel</span><span class="p">(</span><span class="s">&quot;[no data]&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">button_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">QPushButton</span><span class="p">(</span><span class="s">&quot;GO!&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// Add those elements to the GUI layout</span>
+<span class="w">  </span><span class="n">layout</span><span class="o">-&gt;</span><span class="n">addWidget</span><span class="p">(</span><span class="n">label_</span><span class="p">);</span>
+<span class="w">  </span><span class="n">layout</span><span class="o">-&gt;</span><span class="n">addWidget</span><span class="p">(</span><span class="n">button_</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Connect the event of when the button is released to our callback,</span>
+<span class="w">  </span><span class="c1">// so pressing the button results in the buttonActivated callback being called.</span>
+<span class="w">  </span><span class="n">QObject</span><span class="o">::</span><span class="n">connect</span><span class="p">(</span><span class="n">button_</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">QPushButton</span><span class="o">::</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DemoPanel</span><span class="o">::</span><span class="n">buttonActivated</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">DemoPanel</span><span class="o">::~</span><span class="n">DemoPanel</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">DemoPanel::onInitialize</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">// Access the abstract ROS Node and</span>
+<span class="w">  </span><span class="c1">// in the process lock it for exclusive use until the method is done.</span>
+<span class="w">  </span><span class="n">node_ptr_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getDisplayContext</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getRosNodeAbstraction</span><span class="p">().</span><span class="n">lock</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Get a pointer to the familiar rclcpp::Node for making subscriptions/publishers</span>
+<span class="w">  </span><span class="c1">// (as per normal rclcpp code)</span>
+<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span><span class="o">::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node_ptr_</span><span class="o">-&gt;</span><span class="n">get_raw_node</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Create a String publisher for the output</span>
+<span class="w">  </span><span class="n">publisher_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">create_publisher</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;/output&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Create a String subscription and bind it to the topicCallback inside this class.</span>
+<span class="w">  </span><span class="n">subscription_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">create_subscription</span><span class="o">&lt;</span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;/input&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">DemoPanel</span><span class="o">::</span><span class="n">topicCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="c1">// When the subscriber gets a message, this callback is triggered,</span>
+<span class="c1">// and then we copy its data into the widget&#39;s label</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">DemoPanel::topicCallback</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">label_</span><span class="o">-&gt;</span><span class="n">setText</span><span class="p">(</span><span class="n">QString</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">c_str</span><span class="p">()));</span>
+<span class="p">}</span>
+
+<span class="c1">// When the widget&#39;s button is pressed, this callback is triggered,</span>
+<span class="c1">// and then we publish a new message on our topic.</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">DemoPanel::buttonActivated</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">String</span><span class="p">();</span>
+<span class="w">  </span><span class="n">message</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Button clicked!&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="n">publisher_</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">}</span><span class="w">  </span><span class="c1">// namespace rviz_panel_tutorial</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pluginlib/class_list_macros.hpp&gt;</span>
+
+<span class="n">PLUGINLIB_EXPORT_CLASS</span><span class="p">(</span><span class="n">rviz_panel_tutorial</span><span class="o">::</span><span class="n">DemoPanel</span><span class="p">,</span><span class="w"> </span><span class="n">rviz_common</span><span class="o">::</span><span class="n">Panel</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="testing-with-ros">
+<h3>Testing with ROS<a class="headerlink" href="#testing-with-ros" title="Link to this heading"></a></h3>
+<p>Compile and launch RViz2 with your panel again.
+You should see your label and button in the panel now.</p>
+<a class="reference external image-reference" href="../../../../_images/RViz1.png"><img alt="screenshot of the RViz panel in its default state" src="../../../../_images/RViz1.png" />
+</a>
+<p>To change the label, we simply have to publish a message on the <code class="docutils literal notranslate"><span class="pre">/input</span></code> topic, which you can do with this command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/input<span class="w"> </span>std_msgs/msg/String<span class="w"> </span><span class="s2">&quot;{data: &#39;Please be kind.&#39;}&quot;</span>
+</pre></div>
+</div>
+<p>Since the widget is subscribed to this topic, it will trigger the callback and change the text of the label.</p>
+<a class="reference external image-reference" href="../../../../_images/RViz2.png"><img alt="screenshot of the RViz panel with custom string message displayed" src="../../../../_images/RViz2.png" />
+</a>
+<p>Pressing the button will publish a message, which you can see by echoing the <code class="docutils literal notranslate"><span class="pre">/output</span></code> topic, like with this command.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/output
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cleanup">
+<h2>Cleanup<a class="headerlink" href="#cleanup" title="Link to this heading"></a></h2>
+<p>Now its time to clean it up a bit.
+This makes things look nicer and be a little easier to use, but aren't strictly required.</p>
+<p>First, you should update the description of your plugin in <code class="docutils literal notranslate"><span class="pre">rviz_common_plugins.xml</span></code></p>
+<p>We also add an icon for the plugin at <code class="docutils literal notranslate"><span class="pre">icons/classes/DemoPanel.png</span></code>.
+The folder is hardcoded, and the filename should match the name from the plugin declaration (or the name of the class if not specified).</p>
+<p>We need to install the image file in the CMake.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">install</span><span class="p">(</span><span class="s">FILES</span><span class="w"> </span><span class="s">icons/classes/DemoPanel.png</span>
+<span class="w">        </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">share/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="s">/icons/classes</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now when you add the panel, it should show up with an icon and description.</p>
+<a class="reference external image-reference" href="../../../../_images/Select1.png"><img alt="screenshot of Add New Panel dialog with our custom icon and description" src="../../../../_images/Select1.png" />
+</a>
+<p>The panel will also have an updated icon.</p>
+<a class="reference external image-reference" href="../../../../_images/RViz3.png"><img alt="screenshot of the RViz panel with custom icon" src="../../../../_images/RViz3.png" />
+</a>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../RViz-Custom-Display/RViz-Custom-Display.html" class="btn btn-neutral float-left" title="Building a Custom RViz Display" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../Marker-Display-types/Marker-Display-types.html" class="btn btn-neutral float-right" title="Marker: Display types" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
