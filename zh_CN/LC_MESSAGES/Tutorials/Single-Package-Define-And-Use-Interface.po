@@ -1,0 +1,743 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation dashing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:8
+msgid "Expanding on ROS 2 interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:10
+msgid "**Goal:** Learn more ways to implement custom interfaces in ROS 2"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:12
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:14
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:23
+msgid ""
+"In a :ref:`previous tutorial <CustomInterfaces>`, you learned how to create "
+"custom msg and srv interfaces."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:25
+msgid ""
+"While best practice is to declare interfaces in dedicated interface "
+"packages, sometimes it can be convenient to declare, create and use an "
+"interface all in one package."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:27
+msgid ""
+"Recall that interfaces can currently only be defined in CMake packages. It "
+"is possible, however, to have Python libraries and nodes in CMake packages "
+"(using `ament_cmake_python <https://github.com/ament/ament_cmake/tree/"
+"dashing/ament_cmake_python>`_), so you could define interfaces and Python "
+"nodes together in one package. We'll use a CMake package and C++ nodes here "
+"for the sake of simplicity."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:31
+msgid ""
+"This tutorial will focus on the msg interface type, but the steps here are "
+"applicable to all interface types."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:34
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:36
+msgid ""
+"We assume you've reviewed the basics in the :ref:`CustomInterfaces` tutorial "
+"before working through this one."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:38
+msgid ""
+"You should have :ref:`ROS 2 installed <InstallationGuide>`, a :ref:"
+"`workspace <ROS2Workspace>`, and an understanding of :ref:`creating packages "
+"<CreatePkg>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:40
+msgid ""
+"As always, don’t forget to :ref:`source ROS 2 <ConfigROS2>` in every new "
+"terminal you open."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:43
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:46
+msgid "1 Create a package"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:48
+msgid ""
+"In your workspace ``src`` directory, create a package ``more_interfaces`` "
+"and make a folder within it for msg files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:50
+msgid ""
+"ros2 pkg create --build-type ament_cmake more_interfaces\n"
+"mkdir more_interfaces/msg"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:56
+msgid "2 Create a msg file"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:58
+msgid "Inside ``more_interfaces/msg``, create a new file ``AddressBook.msg``"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:60
+msgid ""
+"Paste the following code to create a message meant to carry information "
+"about an individual:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:64
+msgid ""
+"bool FEMALE=true\n"
+"bool MALE=false\n"
+"\n"
+"string first_name\n"
+"string last_name\n"
+"bool gender\n"
+"uint8 age\n"
+"string address"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:73
+msgid "This message is composed of 5 fields:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:75
+msgid "first_name: of type string"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:76
+msgid "last_name: of type string"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:77
+msgid "gender: of type bool, that can be either MALE or FEMALE"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:78
+msgid "age: of type uint8"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:79
+msgid "address: of type string"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:81
+msgid ""
+"Notice that it's possible to set default values for fields within the "
+"message definition. See :ref:`InterfaceConcept` for more ways you can "
+"customize interfaces."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:84
+msgid ""
+"Next, we need to make sure that the msg file is turned into source code for "
+"C++, Python, and other languages."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:87
+msgid "2.1 Build a msg file"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:89
+msgid "Open ``package.xml``, and add the following lines:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:91
+msgid ""
+"<buildtool_depend>rosidl_default_generators</buildtool_depend>\n"
+"\n"
+"<exec_depend>rosidl_default_runtime</exec_depend>\n"
+"\n"
+"<member_of_group>rosidl_interface_packages</member_of_group>"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:99
+msgid ""
+"Note that at build time, we need ``rosidl_default_generators``, while at "
+"runtime, we only need ``rosidl_default_runtime``."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:101
+msgid "Open ``CMakeLists.txt`` and add the following lines:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:103
+msgid "Find the package that generates message code from msg/srv files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:105
+msgid "find_package(rosidl_default_generators REQUIRED)"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:109
+msgid "Declare the list of messages you want to generate:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:111
+msgid ""
+"set(msg_files\n"
+"  \"msg/AddressBook.msg\"\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:117
+msgid ""
+"By adding the .msg files manually, we make sure that CMake knows when it has "
+"to reconfigure the project after you add other .msg files."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:119
+msgid "Generate the messages:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:121
+msgid ""
+"rosidl_generate_interfaces(${PROJECT_NAME}\n"
+"  ${msg_files}\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:127
+msgid "Also make sure you export the message runtime dependency:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:129
+msgid "ament_export_dependencies(rosidl_default_runtime)"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:133
+msgid ""
+"Now you're ready to generate source files from your msg definition. We'll "
+"skip the compile step for now as we do it all together below in step 4."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:137
+msgid "2.2 (Extra) Set multiple interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:141
+msgid "You can use ``set`` to neatly list all of your interfaces:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:143
+msgid ""
+"set(msg_files\n"
+"  \"msg/Message1.msg\"\n"
+"  \"msg/Message2.msg\"\n"
+"  # etc\n"
+"  )\n"
+"\n"
+"set(srv_files\n"
+"  \"srv/Service1.srv\"\n"
+"  \"srv/Service2.srv\"\n"
+"   # etc\n"
+"  )"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:157
+msgid "And generate all lists at once like so:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:159
+msgid ""
+"rosidl_generate_interfaces(${PROJECT_NAME}\n"
+"  ${msg_files}\n"
+"  ${srv_files}\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:168
+msgid "3 Use an interface from the same package"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:170
+msgid "Now we can start writing code that uses this message."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:172
+msgid ""
+"In ``more_interfaces/src`` create a file called ``publish_address_book.cpp`` "
+"and paste the following code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:174
+msgid ""
+"#include <chrono>\n"
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"more_interfaces/msg/address_book.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class AddressBookPublisher : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  AddressBookPublisher()\n"
+"  : Node(\"address_book_publisher\")\n"
+"  {\n"
+"    address_book_publisher_ =\n"
+"      this->create_publisher<more_interfaces::msg::"
+"AddressBook>(\"address_book\", 10);\n"
+"\n"
+"    auto publish_msg = [this]() -> void {\n"
+"        auto message = more_interfaces::msg::AddressBook();\n"
+"\n"
+"        message.first_name = \"John\";\n"
+"        message.last_name = \"Doe\";\n"
+"        message.age = 30;\n"
+"        message.gender = message.MALE;\n"
+"        message.address = \"unknown\";\n"
+"\n"
+"        std::cout << \"Publishing Contact\\nFirst:\" << message.first_name "
+"<<\n"
+"          \"  Last:\" << message.last_name << std::endl;\n"
+"\n"
+"        this->address_book_publisher_->publish(message);\n"
+"      };\n"
+"    timer_ = this->create_wall_timer(1s, publish_msg);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Publisher<more_interfaces::msg::AddressBook>::SharedPtr "
+"address_book_publisher_;\n"
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"};\n"
+"\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<AddressBookPublisher>());\n"
+"  rclcpp::shutdown();\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:226
+msgid "3.1 The code explained"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:228
+msgid "#include \"more_interfaces/msg/address_book.hpp\""
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:232
+msgid "Include the header of our newly created ``AddressBook.msg``."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:234
+msgid ""
+"using namespace std::chrono_literals;\n"
+"\n"
+"class AddressBookPublisher : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  AddressBookPublisher()\n"
+"  : Node(\"address_book_publisher\")\n"
+"  {\n"
+"    address_book_publisher_ =\n"
+"      this->create_publisher<more_interfaces::msg::"
+"AddressBook>(\"address_book\");"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:247
+msgid "Create a node and an ``AddressBook`` publisher."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:249
+msgid "auto publish_msg = [this]() -> void {"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:253
+msgid "Create a callback to publish the messages periodically."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:255
+msgid "auto message = more_interfaces::msg::AddressBook();"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:259
+msgid "Create an ``AddressBook`` message instance that we will later publish."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:261
+msgid ""
+"message.first_name = \"John\";\n"
+"message.last_name = \"Doe\";\n"
+"message.age = 30;\n"
+"message.gender = message.MALE;\n"
+"message.address = \"unknown\";"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:269
+msgid "Populate ``AddressBook`` fields."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:271
+msgid ""
+"std::cout << \"Publishing Contact\\nFirst:\" << message.first_name <<\n"
+"  \"  Last:\" << message.last_name << std::endl;\n"
+"\n"
+"this->address_book_publisher_->publish(message);"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:278
+msgid "Finally send the message periodically."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:280
+msgid "timer_ = this->create_wall_timer(1s, publish_msg);"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:284
+msgid ""
+"Create a 1 second timer to call our ``publish_msg`` function every second."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:287
+msgid "3.2 Build the publisher"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:289
+msgid "We need to create a new target for this node in the ``CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:291
+msgid ""
+"find_package(rclcpp REQUIRED)\n"
+"\n"
+"add_executable(publish_address_book\n"
+"  src/publish_address_book.cpp\n"
+")\n"
+"\n"
+"ament_target_dependencies(publish_address_book\n"
+"  \"rclcpp\"\n"
+")\n"
+"\n"
+"install(TARGETS publish_address_book\n"
+" DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:307
+msgid "3.3 Link against the interface"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:309
+msgid ""
+"In order to use the messages generated in the same package we need to use "
+"the following CMake code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:311
+msgid ""
+"rosidl_target_interfaces(publish_address_book\n"
+"  ${PROJECT_NAME} \"rosidl_typesupport_cpp\")"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:316
+msgid ""
+"This finds the relevant generated C++ code from ``AddressBook.msg`` and "
+"allows your target to link against it."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:318
+msgid ""
+"You may have noticed that this step was not necessary when the interfaces "
+"being used were from a package that was built separately. This CMake code is "
+"only required when you want to use interfaces in the same package as the one "
+"in which they are used."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:322
+msgid "4 Try it out"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:324
+msgid "Return to the root of the workspace to build the package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:328
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:353
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:387
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:330
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:337
+msgid ""
+"cd ~/dev_ws\n"
+"colcon build --packages-up-to more_interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:335
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:360
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:394
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:342
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:367
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:401
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:344
+msgid ""
+"cd /dev_ws\n"
+"colcon build --merge-install --packages-up-to more_interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:349
+msgid "Then source the workspace and run the publisher:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:355
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:362
+msgid ""
+". install/local_setup.bash\n"
+"ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:369
+msgid ""
+"call install/local_setup.bat\n"
+"ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:374
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:408
+msgid "Or using Powershell:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:376
+msgid ""
+"install/local_setup.ps1\n"
+"ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:381
+msgid ""
+"You should see the publisher relaying the msg you defined, including the "
+"values you set in ``publish_address_book.cpp``."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:383
+msgid ""
+"To confirm the message is being published on the ``address_book`` topic, "
+"open another terminal, source the workspace, and call ``topic echo``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:389
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:396
+msgid ""
+". install/setup.bash\n"
+"ros2 topic echo /address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:403
+msgid ""
+"call install/setup.bat\n"
+"ros2 topic echo /address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:410
+msgid ""
+"install/setup.ps1\n"
+"ros2 topic echo /address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:415
+msgid ""
+"We won't create a subscriber in this tutorial, but you can try to write one "
+"yourself for practice (use :ref:`CppPubSub` to help)."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:418
+msgid "5 (Extra) Use an existing interface definition"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:422
+msgid ""
+"You can use an existing interface definition in a new interface definition. "
+"For example, let's say there is a message named ``Contact.msg`` that belongs "
+"to an existing ROS 2 package named ``rosidl_tutorials_msgs``. Assume that "
+"its definition is identical to our custom-made ``AddressBook.msg`` interface "
+"from earlier."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:426
+msgid ""
+"In that case you could have defined ``AddressBook.msg`` (an interface in the "
+"package *with* your nodes) as type ``Contact`` (an interface in a *separate* "
+"package). You could even define ``AddressBook.msg`` as an *array* of type "
+"``Contact``, like so:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:431
+msgid "rosidl_tutorials_msgs/Contact[] address_book"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:433
+msgid ""
+"To generate this message you would need to declare a dependency on ``Contact."
+"msg's`` package, ``rosidl_tutorials_msgs``, in ``package.xml``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:435
+msgid ""
+"<build_depend>rosidl_tutorials_msgs</build_depend>\n"
+"\n"
+"<exec_depend>rosidl_tutorials_msgs</exec_depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:441
+msgid "And in ``CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:443
+msgid ""
+"find_package(rosidl_tutorials_msgs REQUIRED)\n"
+"\n"
+"rosidl_generate_interfaces(${PROJECT_NAME}\n"
+"  ${msg_files}\n"
+"  DEPENDENCIES rosidl_tutorials_msgs\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:452
+msgid ""
+"You would also need to include the header of ``Contact.msg`` in you "
+"publisher node in order to be able to add ``contacts`` to your "
+"``address_book``."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:454
+msgid "#include \"rosidl_tutorials_msgs/msg/contact.hpp\""
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:458
+msgid "You could change the call back to something like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:460
+msgid ""
+"auto publish_msg = [this]() -> void {\n"
+"   auto msg = std::make_shared<more_interfaces::msg::AddressBook>();\n"
+"   {\n"
+"     rosidl_tutorials_msgs::msg::Contact contact;\n"
+"     contact.first_name = \"John\";\n"
+"     contact.last_name = \"Doe\";\n"
+"     contact.age = 30;\n"
+"     contact.gender = contact.MALE;\n"
+"     contact.address = \"unknown\";\n"
+"     msg->address_book.push_back(contact);\n"
+"   }\n"
+"   {\n"
+"     rosidl_tutorials_msgs::msg::Contact contact;\n"
+"     contact.first_name = \"Jane\";\n"
+"     contact.last_name = \"Doe\";\n"
+"     contact.age = 20;\n"
+"     contact.gender = contact.FEMALE;\n"
+"     contact.address = \"unknown\";\n"
+"     msg->address_book.push_back(contact);\n"
+"   }\n"
+"\n"
+"   std::cout << \"Publishing address book:\" << std::endl;\n"
+"   for (auto contact : msg->address_book) {\n"
+"     std::cout << \"First:\" << contact.first_name << \"  Last:\" << contact."
+"last_name <<\n"
+"       std::endl;\n"
+"   }\n"
+"\n"
+"   address_book_publisher_->publish(*msg);\n"
+" };"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:492
+msgid ""
+"Building and running these changes would show the msg defined as expected, "
+"as well as the array of msgs defined above."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:495
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:497
+msgid ""
+"In this tutorial, you tried out different field types for defining "
+"interfaces, then built an interface in the same package where it's being "
+"used."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:499
+msgid ""
+"You also learned how to use another interface as a field type, as well as "
+"the ``package.xml``, ``CMakeLists.txt``, and ``#include`` statements "
+"necessary for utilizing that feature."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:502
+msgid "Next steps"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:504
+msgid ""
+"Next you will create a simple ROS 2 package with a custom parameter that you "
+"will learn to set from a launch file. Again, you can choose to write it in "
+"either :ref:`C++ <CppParamNode>` or :ref:`Python <PythonParamNode>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:508
+msgid "Related content"
+msgstr ""
+
+#: ../../../source/Tutorials/Single-Package-Define-And-Use-Interface.rst:510
+msgid ""
+"There are `several design articles <https://design.ros2.org/#interfaces>`_ "
+"on ROS 2 interfaces and the IDL (interface definition language)."
+msgstr ""
