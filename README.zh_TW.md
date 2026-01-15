@@ -29,6 +29,7 @@
   <li><a href="#support-this-project">支援此專案</a></li>
   <li><a href="#sponsorship">贊助</a></li>
   <li><a href="#code-contributors">程式碼貢獻者</a></li>
+  <li><a href="#translation-contributors">Translation Contributors</a></li>
   <li><a href="#financial-contributors">財務貢獻者</a></li>
   <li><a href="#licenses">授權條款</a></li>
 </ul>
@@ -247,6 +248,14 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
         <div>將 <code>.po</code> 檔案部署到 <code>po/${VERSION}</code> 分支。</div>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="1" colspan="1" align="right" style="text-align: right;">
+        <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-contributors.yml"><img alt="ci-update-contributors" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-contributors.yml/badge.svg" /></a></div>
+      </td>
+      <td rowspan="1" colspan="1" align="left" style="text-align: left;">
+        <div>Update contributors <code>.svg</code> files to <code>static</code> branch.</div>
       </td>
     </tr>
     <tr>
@@ -481,6 +490,12 @@ This project is currently maintained by:
 
 <div align="center">
 <img width="100%" alt="GitHub Contributors SVG" src="https://contrib.nn.ci/api?repo=localizethedocs/ros2-docs-l10n&no_bot=true" />
+</div>
+
+<h2 id="translation-contributors"><a href="#table-of-contents">Translation Contributors</a></h2>
+
+<div align="center">
+<img width="100%" alt="Crowdin Contributors SVG" src="https://cdn.jsdelivr.net/gh/localizethedocs/ros2-docs-l10n@static/crowdin-contributors.svg">
 </div>
 
 <h2 id="financial-contributors"><a href="#table-of-contents">財務貢獻者</a></h2>
