@@ -1,0 +1,903 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RViz User Guide &mdash; ROS 2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.html" />
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../../search.html" />
+    <link rel="next" title="Building a Custom RViz Display" href="../RViz-Custom-Display/RViz-Custom-Display.html" />
+    <link rel="prev" title="RViz" href="../RViz-Main.html" />
+ 
+<script type="text/javascript" src="../../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../../../_static/rolling-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../Tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../Intermediate.html">Intermediate</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="../RViz-Main.html">RViz</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Advanced.html">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Advanced/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Advanced/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Advanced/Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../How-To-Guides.html">How-to Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../How-To-Guides/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../How-To-Guides/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Concepts/Basic.html">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Nodes.html">Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Topics.html">Topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Concepts/Advanced.html">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Advanced/About-Build-System.html">构建系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Advanced/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../The-ROS2-Project.html">The ROS 2 Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Package-Docs.html">Package Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Related-Projects/Visualizing-Data-And-Teleoperating-With-Phantom-Bridge.html">Visualizing Data and Teleoperating with Phantom Bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../Tutorials.html">Tutorials</a></li>
+          <li class="breadcrumb-item"><a href="../../../Intermediate.html">Intermediate</a></li>
+          <li class="breadcrumb-item"><a href="../RViz-Main.html">RViz</a></li>
+      <li class="breadcrumb-item active">RViz User Guide</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition note">
+        <p class="admonition-title">备注</p>
+        <p>
+          You're reading the documentation for a development version. For the latest released version, please have a look at <a href="../../../../../../zh-cn/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="rviz-user-guide">
+<h1>RViz User Guide<a class="headerlink" href="#rviz-user-guide" title="Link to this heading"></a></h1>
+<p><strong>Goal:</strong> Understanding RViz</p>
+<p><strong>Tutorial level:</strong> Intermediate</p>
+<p><strong>Time:</strong> 25 Minutes</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id1">Background</a></p></li>
+<li><p><a class="reference internal" href="#install-or-build-rviz" id="id2">Install or build rviz</a></p></li>
+<li><p><a class="reference internal" href="#startup" id="id3">Startup</a></p></li>
+<li><p><a class="reference internal" href="#displays" id="id4">Displays</a></p>
+<ul>
+<li><p><a class="reference internal" href="#adding-a-new-display" id="id5">Adding a new display</a></p></li>
+<li><p><a class="reference internal" href="#display-properties" id="id6">Display Properties</a></p></li>
+<li><p><a class="reference internal" href="#display-status" id="id7">Display Status</a></p></li>
+<li><p><a class="reference internal" href="#built-in-display-types" id="id8">Built-in Display Types</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#configurations" id="id9">Configurations</a></p></li>
+<li><p><a class="reference internal" href="#views-panel" id="id10">Views Panel</a></p>
+<ul>
+<li><p><a class="reference internal" href="#orbital-camera-default" id="id11">Orbital Camera (default)</a></p></li>
+<li><p><a class="reference internal" href="#fps-first-person-camera" id="id12">FPS (first-person) Camera</a></p></li>
+<li><p><a class="reference internal" href="#top-down-orthographic" id="id13">Top-down Orthographic</a></p></li>
+<li><p><a class="reference internal" href="#xy-orbit" id="id14">XY Orbit</a></p></li>
+<li><p><a class="reference internal" href="#third-person-follower" id="id15">Third Person Follower</a></p></li>
+<li><p><a class="reference internal" href="#custom-views" id="id16">Custom Views</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#coordinate-frames" id="id17">Coordinate Frames</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-fixed-frame" id="id18">The Fixed Frame</a></p></li>
+<li><p><a class="reference internal" href="#the-target-frame" id="id19">The Target Frame</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#tools" id="id20">Tools</a></p>
+<ul>
+<li><p><a class="reference internal" href="#interact" id="id21">Interact</a></p></li>
+<li><p><a class="reference internal" href="#move-camera" id="id22">Move Camera</a></p></li>
+<li><p><a class="reference internal" href="#select" id="id23">Select</a></p></li>
+<li><p><a class="reference internal" href="#focus-camera" id="id24">Focus Camera</a></p></li>
+<li><p><a class="reference internal" href="#measure" id="id25">Measure</a></p></li>
+<li><p><a class="reference internal" href="#d-pose-estimate" id="id26">2D Pose Estimate</a></p></li>
+<li><p><a class="reference internal" href="#d-nav-goal" id="id27">2D Nav Goal</a></p></li>
+<li><p><a class="reference internal" href="#publish-point" id="id28">Publish Point</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#time" id="id29">Time</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Background</a><a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>RViz is a 3D visualizer for the Robot Operating System (ROS) framework.</p>
+</section>
+<section id="install-or-build-rviz">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Install or build rviz</a><a class="headerlink" href="#install-or-build-rviz" title="Link to this heading"></a></h2>
+<p>Follow the <a class="reference internal" href="../../../../Installation.html"><span class="doc">installation instructions</span></a> for your operating system to install RViz.</p>
+</section>
+<section id="startup">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Startup</a><a class="headerlink" href="#startup" title="Link to this heading"></a></h2>
+<p>Don't forget to source the setup file.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/opt/ros/rolling/setup.bash
+</pre></div>
+</div>
+<p>Then start the visualizer</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rviz2<span class="w"> </span>rviz2
+</pre></div>
+</div>
+<p>When RViz starts for the first time, you will see this window:</p>
+<img alt="../../../../_images/initial_startup.png" src="../../../../_images/initial_startup.png" />
+<p>The big black window in the middle is the 3D view (empty because there is nothing to see).
+On the left is the Displays list, which will show any displays you have loaded.
+Right now it just contains the global options and a Grid, which we'll get to later.
+On the right are some of the other panels, described below.</p>
+</section>
+<section id="displays">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Displays</a><a class="headerlink" href="#displays" title="Link to this heading"></a></h2>
+<p>A display is something that draws something in the 3D world, and likely has some options available in the displays list.
+An example is a point cloud, the robot state, etc.</p>
+<section id="adding-a-new-display">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Adding a new display</a><a class="headerlink" href="#adding-a-new-display" title="Link to this heading"></a></h3>
+<p>To add a display, click the Add button at the bottom:</p>
+<img alt="../../../../_images/add-button.png" src="../../../../_images/add-button.png" />
+<p>This will pop up the new display dialog:</p>
+<img alt="../../../../_images/add-display-dialog.png" src="../../../../_images/add-display-dialog.png" />
+<p>The list at the top contains the display type.
+The type details what kind of data this display will visualize.
+The text box in the middle gives a description of the selected display type.
+Finally, you must give the display a unique name.
+If you have, for example, two laser scanners on your robot, you might create two <code class="docutils literal notranslate"><span class="pre">Laser</span> <span class="pre">Scan</span></code> displays named &quot;Laser Base&quot; and &quot;Laser Head&quot;.</p>
+</section>
+<section id="display-properties">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Display Properties</a><a class="headerlink" href="#display-properties" title="Link to this heading"></a></h3>
+<p>Each display gets its own list of properties.
+For example:</p>
+<img alt="../../../../_images/display-properties.png" src="../../../../_images/display-properties.png" />
+</section>
+<section id="display-status">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Display Status</a><a class="headerlink" href="#display-status" title="Link to this heading"></a></h3>
+<p>Each display gets its own status to help let you know if everything is OK or not.
+The status can be one of: <code class="docutils literal notranslate"><span class="pre">OK</span></code>, <code class="docutils literal notranslate"><span class="pre">Warning</span></code>, <code class="docutils literal notranslate"><span class="pre">Error</span></code>, or <code class="docutils literal notranslate"><span class="pre">Disabled</span></code>.
+The status is indicated in the display's title by the background color,
+as well as in the Status category that you can see if the display is expanded:</p>
+<img alt="../../../../_images/display-status.png" src="../../../../_images/display-status.png" />
+<p>The <code class="docutils literal notranslate"><span class="pre">Status</span></code> category also expands to show specific status information.
+This information is different for different displays, and the messages should be self explanatory.</p>
+</section>
+<section id="built-in-display-types">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Built-in Display Types</a><a class="headerlink" href="#built-in-display-types" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 33.3%" />
+<col style="width: 33.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>描述</p></th>
+<th class="head"><p>Messages Used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Axes</p></td>
+<td><p>Displays a set of Axes</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Effort</p></td>
+<td><p>Shows the effort being put into each revolute joint of a robot</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/JointState.msg">sensor_msgs/msg/JointStates</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Camera</p></td>
+<td><p>Creates a new rendering window from the perspective of a camera, and overlays the image on top of it.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/Image.msg">sensor_msgs/msg/Image</a>, <a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/CameraInfo.msg">sensor_msgs/msg/CameraInfo</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Grid</p></td>
+<td><p>Displays a 2D or 3D grid along a plane</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Grid Cells</p></td>
+<td><p>Draws cells from a grid, usually obstacles from a costmap from the <a class="reference external" href="https://github.com/ros-planning/navigation2">navigation</a> stack.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/nav_msgs/msg/GridCells.msg">nav_msgs/msg/GridCells</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Image</p></td>
+<td><p>Creates a new rendering window with an Image.
+Unlike the Camera display, this display does not use a CameraInfo</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/Image.msg">sensor_msgs/msg/Image</a></p></td>
+</tr>
+<tr class="row-even"><td><p>InteractiveMarker</p></td>
+<td><p>Displays 3D objects from one or multiple Interactive Marker servers and allows mouse interaction with them</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/InteractiveMarker.msg">visualization_msgs/msg/InteractiveMarker</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Laser Scan</p></td>
+<td><p>Shows data from a laser scan, with different options for rendering modes, accumulation, etc.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/LaserScan.msg">sensor_msgs/msg/LaserScan</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Map</p></td>
+<td><p>Displays a map on the ground plane.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/nav_msgs/msg/OccupancyGrid.msg">nav_msgs/msg/OccupancyGrid</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Markers</p></td>
+<td><p>Allows programmers to display arbitrary primitive shapes through a topic</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/Marker.msg">visualization_msgs/msg/Marker</a>, <a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/visualization_msgs/msg/MarkerArray.msg">visualization_msgs/msg/MarkerArray</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Path</p></td>
+<td><p>Shows a path from the <a class="reference external" href="https://github.com/ros-planning/navigation2">navigation</a> stack.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/nav_msgs/msg/Path.msg">nav_msgs/msg/Path</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Point</p></td>
+<td><p>Draws a point as a small sphere.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/PointStamped.msg">geometry_msgs/msg/PointStamped</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Pose</p></td>
+<td><p>Draws a pose as either an arrow or axes.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/PoseStamped.msg">geometry_msgs/msg/PoseStamped</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pose Array</p></td>
+<td><p>Draws a &quot;cloud&quot; of arrows, one for each pose in a pose array</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/PoseArray.msg">geometry_msgs/msg/PoseArray</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Point Cloud(2)</p></td>
+<td><p>Shows data from a point cloud, with different options for rendering modes, accumulation, etc.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/PointCloud.msg">sensor_msgs/msg/PointCloud</a>, <a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/PointCloud2.msg">sensor_msgs/msg/PointCloud2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Polygon</p></td>
+<td><p>Draws the outline of a polygon as lines.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/Polygon.msg">geometry_msgs/msg/Polygon</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Odometry</p></td>
+<td><p>Accumulates odometry poses from over time.</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/nav_msgs/msg/Odometry.msg">nav_msgs/msg/Odometry</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Range</p></td>
+<td><p>Displays cones representing range measurements from sonar or IR range sensors.
+Version: Electric+</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/Range.msg">sensor_msgs/msg/Range</a></p></td>
+</tr>
+<tr class="row-even"><td><p>RobotModel</p></td>
+<td><p>Shows a visual representation of a robot in the correct pose (as defined by the current TF transforms).</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>TF</p></td>
+<td><p>Displays the <a class="reference external" href="https://github.com/ros2/geometry2">tf2</a> transform hierarchy.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Wrench</p></td>
+<td><p>Draws a wrench as arrow (force) and arrow + circle (torque)</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/WrenchStamped.msg">geometry_msgs/msg/WrenchStamped</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Twist</p></td>
+<td><p>Draws a twist as arrow (linear) and arrow + circle (angular)</p></td>
+<td><p><a class="reference external" href="https://github.com/ros2/common_interfaces/blob/rolling/geometry_msgs/msg/TwistStamped.msg">geometry_msgs/msg/TwistStamped</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="configurations">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Configurations</a><a class="headerlink" href="#configurations" title="Link to this heading"></a></h2>
+<p>Different configurations of displays are often useful for different uses of the visualizer.
+A configuration useful for a full PR2 is not necessarily useful for a test cart, for example.
+To this end, the visualizer lets you load and save different configurations.</p>
+<p>A configuration contains:</p>
+<ul class="simple">
+<li><p>Displays + their properties</p></li>
+<li><p>Tool properties</p></li>
+<li><p>The viewpoint and settings for the 3D visualization</p></li>
+</ul>
+</section>
+<section id="views-panel">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Views Panel</a><a class="headerlink" href="#views-panel" title="Link to this heading"></a></h2>
+<p>There are a number of different camera types available in the visualizer.</p>
+<img alt="../../../../_images/camera-types.png" src="../../../../_images/camera-types.png" />
+<p>Camera types consist both of different ways of controlling the camera and different types of projection (Orthographic vs. Perspective).</p>
+<section id="orbital-camera-default">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Orbital Camera (default)</a><a class="headerlink" href="#orbital-camera-default" title="Link to this heading"></a></h3>
+<p>The orbital camera simply rotates around a focal point, while always looking at that point.
+The focal point is visualized as a small disc while you're moving the camera:</p>
+<img alt="../../../../_images/focal-point.png" src="../../../../_images/focal-point.png" />
+<p>Controls:</p>
+<ul class="simple">
+<li><p><strong>Left mouse button</strong>: Click and drag to rotate around the focal point.</p></li>
+<li><p><strong>Middle mouse button</strong>: Click and drag to move the focal point in the plane formed by the camera's up and right vectors.
+The distance moved depends on the focal point -- if there is an object on the focal point, and you click on top of it, it will stay under your mouse.</p></li>
+<li><p><strong>Right mouse button</strong>: Click and drag to zoom in/out of the focal point.
+Dragging up zooms in, down zooms out.</p></li>
+<li><p><strong>Scrollwheel</strong>: Zoom in/out of the focal point</p></li>
+</ul>
+</section>
+<section id="fps-first-person-camera">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">FPS (first-person) Camera</a><a class="headerlink" href="#fps-first-person-camera" title="Link to this heading"></a></h3>
+<p>The FPS camera is a first-person camera, so it rotates as if you're looking with your head.</p>
+<p>Controls:</p>
+<ul class="simple">
+<li><p><strong>Left mouse button</strong>: Click and drag to rotate.
+Control-click to pick the object under the mouse and look directly at it.</p></li>
+<li><p><strong>Middle mouse button</strong>: Click and drag to move along the plane formed by the camera's up and right vectors.</p></li>
+<li><p><strong>Right mouse button</strong>: Click and drag to move along the camera's forward vector.
+Dragging up moves forward, down moves backward.</p></li>
+<li><p><strong>Scrollwheel</strong>: Move forward/backward.</p></li>
+</ul>
+</section>
+<section id="top-down-orthographic">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Top-down Orthographic</a><a class="headerlink" href="#top-down-orthographic" title="Link to this heading"></a></h3>
+<p>The top-down orthographic camera always looks down along the Z axis (in the robot frame),
+and is an orthographic view which means things do not get smaller as they get farther away.</p>
+<p>Controls:</p>
+<ul class="simple">
+<li><p><strong>Left mouse button</strong>: Click and drag to rotate around the Z axis.</p></li>
+<li><p><strong>Middle mouse button</strong>: Click and drag to move the camera along the XY plane.</p></li>
+<li><p><strong>Right mouse button</strong>: Click and drag to zoom the image.</p></li>
+<li><p><strong>Scrollwheel</strong>: Zoom the image.</p></li>
+</ul>
+</section>
+<section id="xy-orbit">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">XY Orbit</a><a class="headerlink" href="#xy-orbit" title="Link to this heading"></a></h3>
+<p>Same as the orbital camera, with the focus point restricted to the XY plane.</p>
+<p>Controls:</p>
+<p>See orbital camera.</p>
+</section>
+<section id="third-person-follower">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Third Person Follower</a><a class="headerlink" href="#third-person-follower" title="Link to this heading"></a></h3>
+<p>The camera maintains a constant viewing angle towards the target frame.
+In contrast to XY Orbit the camera turns if the target frame yaws.
+This could be handy if you are doing 3D mapping of a hallway with corners for example.</p>
+<p>Controls:</p>
+<p>See orbital camera.</p>
+</section>
+<section id="custom-views">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Custom Views</a><a class="headerlink" href="#custom-views" title="Link to this heading"></a></h3>
+<p>The views panel also lets you create different named views, which are saved and can be switched between.
+A view consists of a target frame, camera type and camera pose.
+You can save a view by clicking the Save button of the views panel.</p>
+<img alt="../../../../_images/views.png" src="../../../../_images/views.png" />
+<p>A view consists of:</p>
+<ul class="simple">
+<li><p>View controller type</p></li>
+<li><p>View configuration (position, orientation, etc; possibly different for each view controller type.)</p></li>
+<li><p>The Target Frame</p></li>
+</ul>
+<p>Views are saved per user, not in the config files.</p>
+</section>
+</section>
+<section id="coordinate-frames">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Coordinate Frames</a><a class="headerlink" href="#coordinate-frames" title="Link to this heading"></a></h2>
+<p>RViz uses the tf transform system for transforming data from the coordinate frame it arrives in into a global reference frame.
+There are two coordinate frames that are important to know about in the visualizer, the target frame and the fixed frame.</p>
+<section id="the-fixed-frame">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">The Fixed Frame</a><a class="headerlink" href="#the-fixed-frame" title="Link to this heading"></a></h3>
+<p>The more-important of the two frames is the fixed frame.
+The fixed frame is the reference frame used to denote the <code class="docutils literal notranslate"><span class="pre">world</span></code> frame.
+This is usually the <code class="docutils literal notranslate"><span class="pre">map</span></code>, or <code class="docutils literal notranslate"><span class="pre">world</span></code>, or something similar, but can also be, for example, your odometry frame.</p>
+<p>If the fixed frame is erroneously set to, say, the base of the robot, then all the objects the robot has ever seen will appear in front of the robot, at the position relative to the robot at which they were detected.
+For correct results, the fixed frame should not be moving relative to the world.</p>
+<p>If you change the fixed frame, all data currently being shown is cleared rather than re-transformed.</p>
+</section>
+<section id="the-target-frame">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">The Target Frame</a><a class="headerlink" href="#the-target-frame" title="Link to this heading"></a></h3>
+<p>The target frame is the reference frame for the camera view.
+For example, if your target frame is the map, you'll see the robot driving around the map.
+If your target frame is the base of the robot, the robot will stay in the same place while everything else moves relative to it.</p>
+</section>
+</section>
+<section id="tools">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Tools</a><a class="headerlink" href="#tools" title="Link to this heading"></a></h2>
+<p>The visualizer has a number of tools you can use on the toolbar.
+The following sections will give a short introduction into these tools.
+You can find some more information under Help -&gt; Show Help panel.</p>
+<img alt="../../../../_images/tool.png" src="../../../../_images/tool.png" />
+<section id="interact">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Interact</a><a class="headerlink" href="#interact" title="Link to this heading"></a></h3>
+<p>This tool lets you interact with the visualized environment.
+You can click on objects and depending on their properties simply select them, move them around and much more.</p>
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">i</span></code></p>
+</section>
+<section id="move-camera">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Move Camera</a><a class="headerlink" href="#move-camera" title="Link to this heading"></a></h3>
+<p>The Move Camera tool is the default tool.
+When this is selected and you click inside the 3D view, the viewpoint changes according to the options and camera type you have selected in the <code class="docutils literal notranslate"><span class="pre">Views</span></code> panel.
+See the previous section <code class="docutils literal notranslate"><span class="pre">Views</span> <span class="pre">Panel</span></code> for more information.</p>
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">m</span></code></p>
+</section>
+<section id="select">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Select</a><a class="headerlink" href="#select" title="Link to this heading"></a></h3>
+<p>The Select tool allows you to select items being displayed in the 3D view.
+It supports single-point selection as well as click/drag box selection.
+You can add to a selection with the Shift key, and remove from the selection with the Ctrl key.
+If you want to move the camera around while selecting without switching back to the Move Camera tool you can hold down the Alt key.
+The <code class="docutils literal notranslate"><span class="pre">f</span></code> key will focus the camera on the current selection.</p>
+<img alt="../../../../_images/selection_highlight.png" src="../../../../_images/selection_highlight.png" />
+<img alt="../../../../_images/selection_selected.png" src="../../../../_images/selection_selected.png" />
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">s</span></code></p>
+</section>
+<section id="focus-camera">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Focus Camera</a><a class="headerlink" href="#focus-camera" title="Link to this heading"></a></h3>
+<p>Focus camera lets you select a location in the visualizer.
+The camera will then focus that point by changing its orientation but not its position.</p>
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">c</span></code></p>
+</section>
+<section id="measure">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Measure</a><a class="headerlink" href="#measure" title="Link to this heading"></a></h3>
+<p>With the measure tool you can measure the distance between to points in the visualizer.
+The first click after activating the tool will set the starting point and the second one the end point of the measurement.
+The resulting distance will be displayed at the bottom of the RViz window.
+But notice that the measurement tool only works with actually rendered objects in the visualizer, you can not use it in empty space.</p>
+<img alt="../../../../_images/measure.png" src="../../../../_images/measure.png" />
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">n</span></code></p>
+</section>
+<section id="d-pose-estimate">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">2D Pose Estimate</a><a class="headerlink" href="#d-pose-estimate" title="Link to this heading"></a></h3>
+<p>This tool lets you set an initial pose to seed the localization system (sent on the <code class="docutils literal notranslate"><span class="pre">initialpose</span></code> ROS topic).
+Click on a location on the ground plane and drag to select the orientation.
+The output topic can be changed in the <code class="docutils literal notranslate"><span class="pre">Tool</span> <span class="pre">Properties</span></code> panel.</p>
+<img alt="../../../../_images/set_pose.png" src="../../../../_images/set_pose.png" />
+<p>This tool works with the <a class="reference external" href="https://github.com/ros-planning/navigation2">navigation</a> stack.</p>
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">p</span></code></p>
+</section>
+<section id="d-nav-goal">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">2D Nav Goal</a><a class="headerlink" href="#d-nav-goal" title="Link to this heading"></a></h3>
+<p>This tool lets you set a goal sent on the <code class="docutils literal notranslate"><span class="pre">goal_pose</span></code> ROS topic.
+Click on a location on the ground plane and drag to select the orientation.
+The output topic can be changed in the <code class="docutils literal notranslate"><span class="pre">Tool</span> <span class="pre">Properties</span></code> panel.</p>
+<p>This tool works with the <a class="reference external" href="https://github.com/ros-planning/navigation2">navigation</a> stack.</p>
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">g</span></code></p>
+</section>
+<section id="publish-point">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Publish Point</a><a class="headerlink" href="#publish-point" title="Link to this heading"></a></h3>
+<p>The publish point tool lets you select an object in the visualizer
+and the tool will publish the coordinates of that point based on the frame.
+The results are shown at the bottom like with the measure tool but are also published on the <code class="docutils literal notranslate"><span class="pre">clicked_point</span></code> topic.</p>
+<p>Keyboard shortcut: <code class="docutils literal notranslate"><span class="pre">u</span></code></p>
+</section>
+</section>
+<section id="time">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Time</a><a class="headerlink" href="#time" title="Link to this heading"></a></h2>
+<p>The Time panel is mostly useful when running in a simulator, since it allows you to see how much ROS Time has passed, vs. how much <code class="docutils literal notranslate"><span class="pre">Wall</span> <span class="pre">Clock</span></code> (aka real) time has passed.
+The time panel also lets you reset the visualizer's internal time state, which resets of all the displays as well as tf's internal cache of data.</p>
+<img alt="../../../../_images/time.png" src="../../../../_images/time.png" />
+<p>If you are not running in simulation, the time panel is mostly useless.
+In most cases it can be closed and you will probably not even notice (other than having a bit more screen real estate for the rest of rviz).</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../RViz-Main.html" class="btn btn-neutral float-left" title="RViz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../RViz-Custom-Display/RViz-Custom-Display.html" class="btn btn-neutral float-right" title="Building a Custom RViz Display" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

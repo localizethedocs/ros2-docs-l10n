@@ -1,0 +1,977 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-US" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating an rmw implementation &mdash; ROS 2 documentation  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Advanced/Creating-An-RMW-Implementation.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e39023b8"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Simulators" href="Simulators/Simulation-Main.html" />
+    <link rel="prev" title="How to use ros2_tracing to trace and analyze an application" href="ROS2-Tracing-Trace-and-Analyze.html" />
+ 
+<script type="text/javascript" src="../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../_static/humble-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Fedora-Development-Setup.html">Fedora (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename ‘kilted’; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename ‘lyrical’; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../Tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Intermediate.html">Intermediate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Using-a-URDF-in-Gazebo.html">Using a URDF in Gazebo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Intermediate/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Intermediate/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Advanced.html">Advanced</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Intermediate/URDF/Using-a-URDF-in-Gazebo.html">Using a URDF in Gazebo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Rosbag-with-ROS1-Bridge.html">Recording and playing back data with <code class="docutils literal notranslate"><span class="pre">rosbag</span></code> using the ROS 1 bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../How-To-Guides.html">How-to Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../How-To-Guides/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Visualizing-ROS-2-Data-With-Foxglove-Studio.html">Visualizing ROS 2 data with Foxglove Studio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Building-ROS-2-with-Tracing-Instrumentation.html">Building ROS 2 with tracing instrumentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../How-To-Guides/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Basic.html">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Nodes.html">Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Topics.html">Topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Advanced.html">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Advanced/About-Build-System.html">The build system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Advanced/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../The-ROS2-Project.html">The ROS 2 Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Package-Docs.html">Package Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../Tutorials.html">Tutorials</a></li>
+          <li class="breadcrumb-item"><a href="../Advanced.html">Advanced</a></li>
+      <li class="breadcrumb-item active">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Advanced/Creating-An-RMW-Implementation.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition note">
+        <p class="admonition-title">Note</p>
+        <p>
+          You're reading the documentation for an older, but still supported, version of ROS 2. For information on the latest version, please have a look at <a href="../../../../en-us/kilted/index.html">Kilted</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="creating-an-rmw-implementation">
+<h1>Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation<a class="headerlink" href="#creating-an-rmw-implementation" title="Link to this heading"></a></h1>
+<p><strong>Goal:</strong> Learn how to create a new <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation, from the features required from the underlying middleware to the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation details.</p>
+<p><strong>Tutorial level:</strong> Advanced</p>
+<p><strong>Time:</strong> 30+ minutes</p>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id8">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#the-rmw-interface" id="id9">The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-implementations" id="id10">Example implementations</a></p></li>
+<li><p><a class="reference internal" href="#build-time-and-runtime-rmw-implementation-selection-mechanism" id="id11">Build-time and runtime <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation selection mechanism</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#features" id="id12">Features</a></p>
+<ul>
+<li><p><a class="reference internal" href="#topics-pub-sub-services" id="id13">Topics, pub/sub, services</a></p></li>
+<li><p><a class="reference internal" href="#nodes" id="id14">Nodes</a></p></li>
+<li><p><a class="reference internal" href="#wait-sets-and-waiting" id="id15">Wait sets and waiting</a></p></li>
+<li><p><a class="reference internal" href="#taking-data" id="id16">Taking data</a></p></li>
+<li><p><a class="reference internal" href="#metadata-gids-timestamps-sequence-numbers" id="id17">Metadata: GIDs, timestamps, sequence numbers</a></p></li>
+<li><p><a class="reference internal" href="#type-support" id="id18">Type support</a></p></li>
+<li><p><a class="reference internal" href="#domain-id" id="id19">Domain ID</a></p></li>
+<li><p><a class="reference internal" href="#quality-of-service-qos" id="id20">Quality of service (QoS)</a></p></li>
+<li><p><a class="reference internal" href="#ros-graph-introspection" id="id21">ROS graph introspection</a></p></li>
+<li><p><a class="reference internal" href="#events" id="id22">Events</a></p></li>
+<li><p><a class="reference internal" href="#security" id="id23">Security</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#implementation" id="id24">Implementation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#implementation-skeleton" id="id25">Implementation skeleton</a></p></li>
+<li><p><a class="reference internal" href="#interface-functions-implementation" id="id26">Interface functions implementation</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id27">Type support</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#tests" id="id28">Tests</a></p></li>
+<li><p><a class="reference internal" href="#middleware-and-rmw-implementation-specific-configuration" id="id29">Middleware- and <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation-specific configuration</a></p></li>
+<li><p><a class="reference internal" href="#footnotes" id="id30">Footnotes</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>ROS 2’s architecture has two main <a class="reference internal" href="../../Concepts/Advanced/About-Internal-Interfaces.html"><span class="doc">abstraction layers</span></a>.
+From top to bottom:</p>
+<ol class="arabic simple">
+<li><p>The client library interface, <code class="docutils literal notranslate"><span class="pre">rcl</span></code>, which supports the user-facing <a class="reference internal" href="../../Concepts/Basic/About-Client-Libraries.html"><span class="doc">client libraries</span></a>, such as <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code> and <code class="docutils literal notranslate"><span class="pre">rclpy</span></code></p></li>
+<li><p>The middleware interface, <code class="docutils literal notranslate"><span class="pre">rmw</span></code>, which abstracts away the <a class="reference internal" href="../../Concepts/Intermediate/About-Different-Middleware-Vendors.html"><span class="doc">underlying middleware implementation</span></a>, such as a specific DDS implementation, Zenoh, etc.</p></li>
+</ol>
+<p>The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> <a class="reference external" href="https://docs.ros.org/en/rolling/p/rmw/generated/index.html#functions">API includes function-level documentation</a>, but there is no higher-level documentation on the features of the interface and what it expects from the underlying middleware.</p>
+<p>This guide is for developers who want to implement the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface for a specific middleware.
+It will first go over the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface and how it works.
+Then it will cover the main concepts or features that a middleware implementation must support.
+Finally, it will go over some implementation details, including how to create an implementation skeleton and some tips to implement the interface functions.</p>
+<p>This guide is intended to be an entry point to kickstart the development of a new <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+It will link to other pages and source code for more details where appropriate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ROS 2 design articles on <a class="reference external" href="https://design.ros2.org/">design.ros2.org</a> are historical documents and may not reflect the current state of ROS 2.
+However, in some cases, they provide useful context and information, so they may still be referenced by this guide or by pages that this guide links to.</p>
+</div>
+</section>
+<section id="the-rmw-interface">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface</a><a class="headerlink" href="#the-rmw-interface" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface is declared by the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> package through <a class="reference external" href="https://github.com/ros2/rmw/tree/rolling/rmw/include/rmw">C header files</a>.
+Implementations of the C functions declared in these headers are provided by <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations, which are separate packages.
+For example, the <code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_cpp</span></code> package implements the interface for eProsima Fast DDS.</p>
+<section id="example-implementations">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Example implementations</a><a class="headerlink" href="#example-implementations" title="Link to this heading"></a></h3>
+<p>The following <code class="docutils literal notranslate"><span class="pre">rmw</span></code> <a class="reference internal" href="../../Concepts/Advanced/About-Middleware-Implementations.html"><span class="doc">implementations</span></a> can be used as references.
+Note that there are different <a class="reference external" href="https://reps.openrobotics.org/rep-2000/#support-tiers">support tiers, which are defined by REP 2000</a>.</p>
+<ol class="arabic">
+<li><p>DDS:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_dynamic_cpp</span></code>: <a class="reference external" href="https://github.com/ros2/rmw_fastrtps">ros2/rmw_fastrtps</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_cyclonedds_cpp</span></code>: <a class="reference external" href="https://github.com/ros2/rmw_cyclonedds">ros2/rmw_cyclonedds</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_connextdds</span></code>: <a class="reference external" href="https://github.com/ros2/rmw_connextdds">ros2/rmw_connextdds</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_gurumdds_cpp</span></code>: <a class="reference external" href="https://github.com/ros2/rmw_gurumdds">ros2/rmw_gurumdds</a></p></li>
+</ol>
+<ul class="simple">
+<li><p>See <a class="reference internal" href="../../Concepts/Advanced/About-Middleware-Implementations.html#about-middleware-impls-struct-dds"><span class="std std-ref">this overview</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code>: <a class="reference external" href="https://github.com/ros2/rmw_zenoh">ros2/rmw_zenoh</a></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>See the <a class="reference external" href="https://github.com/ros2/rmw_zenoh/blob/rolling/docs/design.md">design document</a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_email_cpp</span></code>, an email-based implementation: <a class="reference external" href="https://github.com/christophebedard/rmw_email">christophebedard/rmw_email</a></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>See the <a class="reference external" href="https://christophebedard.com/rmw_email/design/email/">design document for the underlying email middleware</a> and the <a class="reference external" href="https://christophebedard.com/ros-2-over-email/">blog post for some context</a></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="build-time-and-runtime-rmw-implementation-selection-mechanism">
+<span id="rmw-impl-guide-selection-mechanism"></span><h3><a class="toc-backref" href="#id11" role="doc-backlink">Build-time and runtime <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation selection mechanism</a><a class="headerlink" href="#build-time-and-runtime-rmw-implementation-selection-mechanism" title="Link to this heading"></a></h3>
+<p>The dependency on the actual <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation is done through the <code class="docutils literal notranslate"><span class="pre">rmw_implementation</span></code> <a class="reference external" href="https://index.ros.org/p/rmw_implementation/#rolling">package</a>.
+Users of <code class="docutils literal notranslate"><span class="pre">rmw</span></code>, such as <code class="docutils literal notranslate"><span class="pre">rcl</span></code>, depend on the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> package for the interface (headers) and some utility functions.
+They also depend on the <code class="docutils literal notranslate"><span class="pre">rmw_implementation</span></code> package to get the actual implementation.</p>
+<p>By default, ROS 2 allows you to choose which <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation to use at runtime.
+This is convenient for comparing two implementations on the same machine, and it lets ROS 2 distribute a single set of binaries that is compatible with multiple <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations.
+The <a class="reference internal" href="../../How-To-Guides/Working-with-multiple-RMW-implementations.html"><span class="doc">implementation is selected at runtime</span></a> through the <code class="docutils literal notranslate"><span class="pre">RMW_IMPLEMENTATION</span></code> environment variable, or, if that variable is unset, a default <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation is loaded.</p>
+<p>This is accomplished by the <code class="docutils literal notranslate"><span class="pre">rmw_implementation</span></code> package, which acts as a proxy for an actual <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+It works by creating placeholder <code class="docutils literal notranslate"><span class="pre">rmw</span></code> functions.
+When they are called, it will <code class="docutils literal notranslate"><span class="pre">dlopen()</span></code> the appropriate library for the selected <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation and then look up the corresponding symbols in the loaded shared library using the <code class="docutils literal notranslate"><span class="pre">dlsym()</span></code> function before calling them.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">rmw_implementation</span></code> package can be configured at build-time to change the default option or disable runtime selection.
+The default implementation can be selected at build-time with the <code class="docutils literal notranslate"><span class="pre">RMW_IMPLEMENTATION</span></code> CMake variable (e.g., <code class="docutils literal notranslate"><span class="pre">-DRMW_IMPLEMENTATION=rmw_other</span></code>) or the <code class="docutils literal notranslate"><span class="pre">RMW_IMPLEMENTATION</span></code> environment variable.
+If only one implementation is available at build-time, or if runtime selection is disabled (<code class="docutils literal notranslate"><span class="pre">-DRMW_IMPLEMENTATION_DISABLE_RUNTIME_SELECTION=ON</span></code>), the <code class="docutils literal notranslate"><span class="pre">rmw_implementation</span></code> target will be a simple <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> library for the single implementation.</p>
+<p>Because of the proxy mechanism and the CMake logic described above, an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation that does not implement all of the functions in the interface will only fail at runtime, when the symbol lookup fails, as opposed to failing at build-time (specifically at link-time) if runtime selection is disabled.</p>
+</section>
+</section>
+<section id="features">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Features</a><a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<p>This section goes over the main features of the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface, which the underlying middleware must support or deal with.
+Depending on the middleware – and how similar it is to the features expected by the interface – the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation may be more or less trivial, i.e., it might have to do more “glue” work.
+For some non-critical features or configuration options, the implementation can indicate that they are not supported through <code class="docutils literal notranslate"><span class="pre">rmw_feature_supported()</span></code> or by returning <code class="docutils literal notranslate"><span class="pre">RMW_RET_UNSUPPORTED</span></code>.
+In any case, any special behavior of the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation should ideally be documented.</p>
+<section id="topics-pub-sub-services">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Topics, pub/sub, services</a><a class="headerlink" href="#topics-pub-sub-services" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="../../Concepts/Basic/About-Topics.html"><span class="doc">Topics</span></a> are a common concept in publish/subscribe middleware.
+However, ROS 2 has its own topic name conventions, which is validated using <code class="docutils literal notranslate"><span class="pre">rmw_validate_full_topic_name()</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation simply has to use the given (resolved) topic name.
+This might involve adapting or mangling the ROS topic name to fit the underlying middleware’s topic name conventions or constraints, or encode useful information.
+For example, a pub/sub topic called <code class="docutils literal notranslate"><span class="pre">/chatter</span></code> is usually mangled into <code class="docutils literal notranslate"><span class="pre">rt/chatter</span></code> for DDS-based implementations, making ROS topics on DDS easily distinguishable from normal DDS topics.
+See the <a class="reference external" href="https://design.ros2.org/articles/topic_and_service_names.html#mapping-of-ros-2-topic-and-service-names-to-dds-concepts">“Mapping of ROS 2 Topic and Service Names to DDS Concepts” section in this design document</a>.
+For Zenoh, the domain ID, resolved topic name, topic type name, and topic type hash are <a class="reference external" href="https://github.com/ros2/rmw_zenoh/blob/rolling/docs/design.md#topic-and-service-name-mapping-to-zenoh-key-expressions">encoded in the underlying Zenoh key</a> to avoid communications between different ROS topic names &amp; types.</p>
+<p>As for <a class="reference internal" href="../../Concepts/Basic/About-Services.html"><span class="doc">services</span></a>, they are not always natively supported by the underlying middleware.
+For DDS-based implementations, they are simply built on top of pub/sub: 1 request topic and 1 response topic.
+<a class="footnote-reference brackets" href="#fn-dds-rpc" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>
+On the other hand, Zenoh natively supports services through <a class="reference external" href="https://github.com/ros2/rmw_zenoh/blob/rolling/docs/design.md#service-servers">queryables</a>, so they are used to implement services in <code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code>.</p>
+<p>Note that, while services are a part of the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface, <a class="reference internal" href="../../Concepts/Basic/About-Actions.html"><span class="doc">actions</span></a> are not.
+They are an <code class="docutils literal notranslate"><span class="pre">rcl</span></code> concept implemented in the <code class="docutils literal notranslate"><span class="pre">rcl_action</span></code> package on top of services and pub/sub.</p>
+</section>
+<section id="nodes">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Nodes</a><a class="headerlink" href="#nodes" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="../../Concepts/Basic/About-Nodes.html"><span class="doc">Nodes</span></a> are mostly a ROS concept.
+Neither DDS nor Zenoh has a corresponding concept, so they are mostly a logical concept in the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+Topic names get resolved with the node namespace/name, if needed, by <code class="docutils literal notranslate"><span class="pre">rcl</span></code> before they are passed to <code class="docutils literal notranslate"><span class="pre">rmw</span></code> when creating a pub/sub object.
+Implementations just have to make sure to include nodes in <a class="reference internal" href="#rmw-impl-guide-introspection"><span class="std std-ref">introspection data</span></a>.</p>
+</section>
+<section id="wait-sets-and-waiting">
+<span id="rmw-impl-guide-waitsets"></span><h3><a class="toc-backref" href="#id15" role="doc-backlink">Wait sets and waiting</a><a class="headerlink" href="#wait-sets-and-waiting" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="../../Concepts/Intermediate/About-Executors.html"><span class="doc">Executors</span></a> are responsible for triggering user-provided callbacks when a new message is received, for example.
+Executors are implemented at the client library level (<code class="docutils literal notranslate"><span class="pre">rclcpp</span></code>, <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>), but they rely on the underlying middleware to wait for new messages using a polling mechanism.
+This is done using wait sets, which allow waiting on different entities at the same time in a standard way, e.g., subscriptions, service clients, and service servers.
+The <code class="docutils literal notranslate"><span class="pre">rmw_wait()</span></code> <a class="reference external" href="https://docs.ros.org/en/rolling/p/rmw/generated/function_rmw_8h_1a5f480dd59075e80288fb596b2951be2b.html">function</a> is called with lists of entities to wait on, as well as an implementation-specific wait set object.
+It adds all entities to the wait set and asks it to wait until at least one entity has new data available or until it times out.
+Then the executor checks the lists of entities to see which ones have new data available and triggers the corresponding callbacks.</p>
+<p>The key mechanism here is the ability to check if a given entity is ready, e.g., check if a subscription has a new message.
+Then waiting simply involves continuously checking entities one at a time until one is ready or until the wait times out.</p>
+<p>Take a look at how <code class="docutils literal notranslate"><span class="pre">rmw_email_cpp</span></code> <a class="reference external" href="https://github.com/christophebedard/rmw_email/blob/72742241d55f306d1dddcaf5dd6a5d6c2d402433/rmw_email_cpp/src/rmw_wait.cpp#L133">implements wait sets and waiting</a> and dig down to the middleware, <code class="docutils literal notranslate"><span class="pre">email</span></code>, since it’s fairly simple.</p>
+</section>
+<section id="taking-data">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Taking data</a><a class="headerlink" href="#taking-data" title="Link to this heading"></a></h3>
+<p>Once an <a class="reference internal" href="#rmw-impl-guide-waitsets"><span class="std std-ref">executor is done waiting</span></a> and there is a new message, request, or response, it takes it from the middleware and triggers the corresponding callback.
+For instance, <code class="docutils literal notranslate"><span class="pre">rmw_take()</span></code> is called with a subscription and a type-erased pointer to an instance of the corresponding message type to write to.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rmw_email_cpp</span></code> takes the new message (YAML string) from the underlying email middleware subscription object, and converts it into a ROS message by writing into the provided message.</p>
+</section>
+<section id="metadata-gids-timestamps-sequence-numbers">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Metadata: GIDs, timestamps, sequence numbers</a><a class="headerlink" href="#metadata-gids-timestamps-sequence-numbers" title="Link to this heading"></a></h3>
+<p>Aside from actual user-specified data, message publications, service requests, service responses, and so on also have metadata associated with them:</p>
+<ul>
+<li><p>GID: globally-unique ID that identifies an entity (e.g., pub, sub, client, server)</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The GID for an entity should be unique within a ROS domain and should be the same when reported both locally and remotely.
+For example, the publisher GID for a message being published should be the same publisher GID reported on the other side, when that message is received by a subscription.
+<a class="footnote-reference brackets" href="#fn-gid-remote-matching" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Source &amp; received timestamps: publication &amp; subscription reception timestamps, respectively</p></li>
+<li><p>Publication &amp; reception sequence numbers</p></li>
+</ul>
+<p>This means that service request metadata includes the GID of the client that made the request and the request sequence number.
+Service response metadata also includes the client GID &amp; sequence number of the request it is responding to.</p>
+<p>This metadata is available as structs through <code class="docutils literal notranslate"><span class="pre">rmw_take_with_info()</span></code> for subscription messages and <code class="docutils literal notranslate"><span class="pre">rmw_take_{request,response}()</span></code> for service requests/responses, which are wrapped &amp; provided to user callbacks by the client libraries.</p>
+<p>Part of this metadata might be natively supported and provided by the underlying middleware, while another part might have to be included and transmitted alongside the application data by the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+For instance, DDS natively supports all of it for pub/sub through DDS sample info, but the client request metadata needs to be wrapped alongside the service response data by the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+<code class="docutils literal notranslate"><span class="pre">email</span></code> natively supports all of this metadata, which is included in standard email headers (i.e., not in the email body).</p>
+</section>
+<section id="type-support">
+<span id="rmw-impl-guide-typesupport"></span><h3><a class="toc-backref" href="#id18" role="doc-backlink">Type support</a><a class="headerlink" href="#type-support" title="Link to this heading"></a></h3>
+<p>To bridge the gap between ROS 2 <a class="reference internal" href="../../Concepts/Basic/About-Interfaces.html"><span class="doc">interfaces</span></a> (specifically <a class="reference internal" href="../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html"><span class="doc">custom interfaces</span></a>) and the underlying middleware, some glue code is needed.
+This is referred to as <a class="reference internal" href="../../Concepts/Advanced/About-Internal-Interfaces.html#type-specific-interfaces"><span class="std std-ref">type support</span></a>.
+When publishing a message of type <a class="reference external" href="https://docs.ros.org/en/rolling/p/std_msgs/msg/String.html">std_msgs/msg/String</a>, <code class="docutils literal notranslate"><span class="pre">rmw_publish()</span></code> only gets a <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*</span></code> to the message, which could point to a C++ instance, or a C instance, and so on.
+The pointer will be interpreted based on the type support information provided when the publisher was created.</p>
+<p>First, code is generated for each combination of interface type and user-facing language, independent of the underlying middleware.
+For example, for the <a class="reference external" href="https://docs.ros.org/en/rolling/p/std_msgs/msg/String.html">std_msgs/msg/String</a> message type, data structures are generated:</p>
+<ol class="arabic simple">
+<li><p>C++: <code class="docutils literal notranslate"><span class="pre">std_msgs/msg/string.hpp</span></code> header with <code class="docutils literal notranslate"><span class="pre">std_msgs::msg::String</span></code> class generated by the <code class="docutils literal notranslate"><span class="pre">rosidl_generator_cpp</span></code> package</p></li>
+<li><p>C: <code class="docutils literal notranslate"><span class="pre">std_msgs/msg/string.h</span></code> header with <code class="docutils literal notranslate"><span class="pre">std_msgs__msg__String</span></code> struct generated by the <code class="docutils literal notranslate"><span class="pre">rosidl_generator_c</span></code> package</p></li>
+<li><p>Python: <code class="docutils literal notranslate"><span class="pre">std_msgs</span></code> module with <code class="docutils literal notranslate"><span class="pre">std_msgs.msg.String</span></code> class (which is just a wrapper around the C struct) generated by the <code class="docutils literal notranslate"><span class="pre">rosidl_generator_py</span></code> package</p></li>
+<li><p>(and so on, e.g., for Rust)</p></li>
+</ol>
+<p>Second, for the underlying middleware to be able to send and receive messages, it needs to know how to interpret the user-facing data structure.
+This is one of the most critical parts of an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+There are two options: <a class="reference internal" href="../../Concepts/Advanced/About-Internal-Interfaces.html#internal-interfaces-static-type-support"><span class="std std-ref">static type support</span></a> and <a class="reference internal" href="../../Concepts/Advanced/About-Internal-Interfaces.html#internal-interfaces-dynamic-type-support"><span class="std std-ref">dynamic type support</span></a>.
+Static type support involves generating middleware-specific code for each interface.
+For example, <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_fastrtps_cpp</span></code> generates code to serialize/deserialize C++ classes of each interface type into CDR using <a class="reference external" href="https://github.com/eProsima/Fast-CDR">Fast CDR</a> for <code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_cpp</span></code> to pass on to Fast DDS.
+<a class="footnote-reference brackets" href="#fn-ts-fastrtps" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>
+<code class="docutils literal notranslate"><span class="pre">rmw_connextdds</span></code> and even <code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code> use CDR for serialization, so they use this type support package as well.
+On the other hand, dynamic type support involves generating a bit of middleware-independent code that provides generic information about each interface type.
+<a class="footnote-reference brackets" href="#fn-ts-dynamic" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p>
+<p>This information can be used at runtime by any <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation to interpret a type-erased pointer to data: names &amp; types of fields, functions to read from/write to fields depending on their type, functions to get the size of an array field, etc.
+For C++, this is <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_introspection_cpp</span></code>, which is used by <code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_dynamic_cpp</span></code> (hence the “dynamic” part), for example.</p>
+<p>Dynamic type support is generally slower than static type support at runtime because it has to iterate over each message field, figure out what type it is, and then process it, e.g., serialize it.
+Static type support knows exactly how to process the message thanks to the code it generated for each interface type.
+This is why most <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations use static type support.
+However, dynamic type support does not require generating middleware-specific code.
+Choosing between static and dynamic type support is an orthogonal decision to the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation itself.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rmw_email_cpp</span></code> uses dynamic type support to convert messages to and from YAML string to be sent over email.
+It gets the type support introspection information, and passes it and the message to an external/experimental package, <a class="reference external" href="https://github.com/osrf/dynamic_message_introspection/">dynmsg</a>, which converts the message to/from YAML.
+The YAML object is then sent as a YAML-formatted string via email using the underlying middleware.
+When a new message is received by the middleware, the YAML string is converted into a message.</p>
+</section>
+<section id="domain-id">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Domain ID</a><a class="headerlink" href="#domain-id" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="../../Concepts/Intermediate/About-Domain-ID.html"><span class="doc">Domain IDs</span></a> are a way to have separate logical networks on the same physical network.
+It is a native feature of DDS, but not Zenoh.
+DDS achieves this by using the domain ID as a network port offset, while Zenoh implements it by making the domain ID the first component of the internal Zenoh key corresponding to each ROS 2 topic.</p>
+</section>
+<section id="quality-of-service-qos">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Quality of service (QoS)</a><a class="headerlink" href="#quality-of-service-qos" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="../../Concepts/Intermediate/About-Quality-of-Service-Settings.html"><span class="doc">Quality of service settings</span></a> in ROS 2 are largely derived from DDS.
+Basic QoS policies like history, depth, and durability are the same as ROS 1’s, but more advanced policies simply come from DDS.
+Implementations may simply ignore some settings.
+For instance, <code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code> doesn’t implement the deadline and lifespan QoS policies.</p>
+<p>One important aspect of QoS is that two profiles, e.g., a publisher’s profile and a subscription’s profile, may be incompatible, meaning they cannot communicate.
+It is up to the implementation to decide if two QoS profiles are compatible: <code class="docutils literal notranslate"><span class="pre">rmw_qos_profile_check_compatible()</span></code>.
+DDS-based implementations rely on <code class="docutils literal notranslate"><span class="pre">rmw_dds_common::qos_profile_check_compatible()</span></code>, since <a class="reference internal" href="../../Concepts/Intermediate/About-Quality-of-Service-Settings.html#about-qos-compatibilities"><span class="std std-ref">QoS profile compatibility</span></a> is standard in DDS.
+In Zenoh, <a class="reference external" href="https://github.com/ros2/rmw_zenoh/blob/rolling/docs/design.md#quality-of-service">QoS settings are essentially never incompatible</a>.</p>
+<p>To support a universal “default” behavior, QoS policies include a <code class="docutils literal notranslate"><span class="pre">*_SYSTEM_DEFAULT</span></code> setting (e.g., <code class="docutils literal notranslate"><span class="pre">rmw_qos_reliability_policy_t</span></code>’s <code class="docutils literal notranslate"><span class="pre">RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT</span></code>), which leaves the value up to the middleware implementation.
+Then the <code class="docutils literal notranslate"><span class="pre">rmw_*_get_actual_qos()</span></code> functions retrieve the actual QoS profile used by the implementation.</p>
+</section>
+<section id="ros-graph-introspection">
+<span id="rmw-impl-guide-introspection"></span><h3><a class="toc-backref" href="#id21" role="doc-backlink">ROS graph introspection</a><a class="headerlink" href="#ros-graph-introspection" title="Link to this heading"></a></h3>
+<p>Nodes are able to get a list of other nodes, topics, etc.
+This also allows publishers to know if any subscriptions exist for their topic, for example.
+This same mechanism is used to <a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html"><span class="doc">list nodes</span></a>, <a class="reference internal" href="../Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html"><span class="doc">topics</span></a>, and so on with the ROS 2 CLI: <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">node</span> <span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span></code>, etc.</p>
+<p>This is supported by a number of <code class="docutils literal notranslate"><span class="pre">rmw</span></code> functions: <code class="docutils literal notranslate"><span class="pre">rmw_get_node_names()</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_get_topic_names_and_types()</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_publisher_count_matched_subscriptions()</span></code>, and many more.
+While the implementation is not specified by the interface, <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations usually maintain a cache of the ROS graph.
+When they create a new entity (e.g., node, publisher, subscription, service, client), they note it in their internal graph cache and notify other participants through a middleware-specific mechanism so that they can add it to their cache.
+The graph cache belongs to the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> context, so it is initialized when <code class="docutils literal notranslate"><span class="pre">rmw_init()</span></code> is called.
+This context indirectly belongs to the <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code> context (e.g., initialized by <code class="docutils literal notranslate"><span class="pre">rclcpp::init()</span></code>), so there is usually only one graph cache per process.</p>
+<p>Since DDS-based <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations are very similar in this regard, they share a common graph cache implementation in the <code class="docutils literal notranslate"><span class="pre">rmw_dds_common</span></code> <a class="reference external" href="https://github.com/ros2/rmw_dds_common">package</a>.
+It uses an internal topic (usually <code class="docutils literal notranslate"><span class="pre">ros_discovery_info</span></code>) to share information about new entities.
+<code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code> <a class="reference external" href="https://github.com/ros2/rmw_zenoh/blob/rolling/docs/design.md#graph-cache">creates a Zenoh liveliness token</a> with the entity type &amp; info and shares it with other participants.</p>
+</section>
+<section id="events">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Events</a><a class="headerlink" href="#events" title="Link to this heading"></a></h3>
+<p>Users can provide callbacks for publishers &amp; subscriptions to be triggered by the middleware (but executed by the client library) on certain events (<code class="docutils literal notranslate"><span class="pre">rmw_event_type_t</span></code>), such as <a class="reference internal" href="../../Concepts/Intermediate/About-Quality-of-Service-Settings.html#about-qos-qos-events"><span class="std std-ref">quality of service-related events</span></a> and pub-sub match events.
+Some of these events could be triggered on relevant changes to the graph cache.</p>
+</section>
+<section id="security">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Security</a><a class="headerlink" href="#security" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="../../Concepts/Intermediate/About-Security.html"><span class="doc">Security</span></a> is not well-specified by the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface; most of it is specified by <a class="reference internal" href="Security/Introducing-ros2-security.html"><span class="doc">SROS2</span></a>.
+The interface only defines a few security options as part of the context initialization options, <code class="docutils literal notranslate"><span class="pre">rmw_init_options_t</span></code>:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rmw_security_options_t</span></code>, which includes a security policy (enforce/permissive) and a path to a directory containing security artifacts, i.e., a keystore.
+These are set by <code class="docutils literal notranslate"><span class="pre">rcl</span></code> based on environment variables: <code class="docutils literal notranslate"><span class="pre">ROS_SECURITY_ENABLE</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">ROS_SECURITY_STRATEGY</span></code> and <code class="docutils literal notranslate"><span class="pre">ROS_SECURITY_KEYSTORE</span></code>.</p></li>
+<li><p>The name of a security enclave from the keystore to use for the given process.
+This is set, for example, through the <code class="docutils literal notranslate"><span class="pre">--enclave</span></code> option when running a node with <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code>.</p></li>
+</ol>
+<p>However, in practice, the structure of the <a class="reference internal" href="Security/The-Keystore.html"><span class="doc">keystore</span></a> directory and its security enclaves is based on the DDS Security specification.
+Therefore, <a class="reference internal" href="Security/Introducing-ros2-security.html"><span class="doc">security artifacts generated</span></a> with the <code class="docutils literal notranslate"><span class="pre">sros2</span></code> package can only be directly used by DDS-based <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations.
+For <code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code>, <a class="reference external" href="https://github.com/ros2/rmw_zenoh/tree/rolling/zenoh_security_tools">Zenoh-specific security configuration files can be generated</a> from <code class="docutils literal notranslate"><span class="pre">sros2</span></code>-generated artifacts using the <code class="docutils literal notranslate"><span class="pre">zenoh_security_tools</span></code> package and provided through the <code class="docutils literal notranslate"><span class="pre">ZENOH_SESSION_CONFIG_URI</span></code> environment variable, bypassing the <code class="docutils literal notranslate"><span class="pre">ROS_SECURITY_*</span></code> environment variables.</p>
+</section>
+</section>
+<section id="implementation">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Implementation</a><a class="headerlink" href="#implementation" title="Link to this heading"></a></h2>
+<section id="implementation-skeleton">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Implementation skeleton</a><a class="headerlink" href="#implementation-skeleton" title="Link to this heading"></a></h3>
+<p>This section covers concrete steps to create the base files and directories for the new implementation package, including special handling in <code class="docutils literal notranslate"><span class="pre">package.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.</p>
+<p>Start with the <a class="reference internal" href="../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html"><span class="doc">package creation tutorial</span></a> to create an empty package.
+Then make the following changes:</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">package.xml</span></code></p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Define a package/implementation name</p>
+<blockquote>
+<div><p>The package name is also the name of the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation.
+It will be used to <a class="reference internal" href="#rmw-impl-guide-selection-mechanism"><span class="std std-ref">select the implementation</span></a> through the <code class="docutils literal notranslate"><span class="pre">RMW_IMPLEMENTATION</span></code> environment variable or CMake option, for example.
+The name usually starts with <code class="docutils literal notranslate"><span class="pre">rmw_</span></code> and is followed by the name of the underlying middleware.
+Most <a class="reference internal" href="../../Concepts/Intermediate/About-Different-Middleware-Vendors.html"><span class="doc">implementations in the ROS 2 ecosystem</span></a> then append a suffix such as <code class="docutils literal notranslate"><span class="pre">_cpp</span></code> to indicate that the implementation is written in C++.
+However, that is not required.
+Examples: <code class="docutils literal notranslate"><span class="pre">rmw_fastrtps_cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_cyclonedds_cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_connextdds</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code>, and <code class="docutils literal notranslate"><span class="pre">rmw_email_cpp</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- TODO replace with the actual implementation name --&gt;</span>
+<span class="nt">&lt;name&gt;</span>rmw_IMPLEMENTATION_NAME_cpp<span class="nt">&lt;/name&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Declare a dependency on <code class="docutils literal notranslate"><span class="pre">rmw</span></code></p>
+<blockquote>
+<div><p>Since the package will implement the interface declared in the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> package and will depend on some utility functions.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;depend&gt;</span>rmw<span class="nt">&lt;/depend&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Declare a dependency on the required type support packages</p>
+<blockquote>
+<div><p>See the <a class="reference internal" href="#rmw-impl-guide-typesupport"><span class="std std-ref">type support section</span></a> for details.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- keep or add what is necessary --&gt;</span>
+<span class="nt">&lt;depend&gt;</span>rosidl_typesupport_fastrtps_c<span class="nt">&lt;/depend&gt;</span>
+<span class="nt">&lt;depend&gt;</span>rosidl_typesupport_fastrtps_cpp<span class="nt">&lt;/depend&gt;</span>
+<span class="nt">&lt;depend&gt;</span>rosidl_typesupport_introspection_c<span class="nt">&lt;/depend&gt;</span>
+<span class="nt">&lt;depend&gt;</span>rosidl_typesupport_introspection_cpp<span class="nt">&lt;/depend&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Declare membership of the <code class="docutils literal notranslate"><span class="pre">rmw_implementation_packages</span></code> group</p>
+<blockquote>
+<div><p>This allows the <code class="docutils literal notranslate"><span class="pre">rmw_implementation</span></code> package to <a class="reference external" href="https://github.com/ros2/rmw_implementation/blob/4dd5d571a5bfa1a67183acf271dfa442932c7572/rmw_implementation/package.xml#L38">depend on the implementation</a> so that it gets built alongside other implementations, since no package otherwise explicitly depends on any <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations.
+This way it can be found and used if selected.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;member_of_group&gt;</span>rmw_implementation_packages<span class="nt">&lt;/member_of_group&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Create the library target</p>
+<blockquote>
+<div><p>The library has to be a shared library.
+It should depend on <code class="docutils literal notranslate"><span class="pre">rmw</span></code> for headers and utility functions as well as the required type support packages.
+It will also depend on the underlying middleware.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_library</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">SHARED</span>
+<span class="w">  </span><span class="s">src/file.cpp</span>
+<span class="w">  </span><span class="c"># ...</span>
+<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">  </span><span class="s">rmw::rmw</span>
+<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">PRIVATE</span>
+<span class="w">  </span><span class="s">rosidl_typesupport_fastrtps_c::rosidl_typesupport_fastrtps_c</span>
+<span class="w">  </span><span class="s">rosidl_typesupport_fastrtps_cpp::rosidl_typesupport_fastrtps_cpp</span>
+<span class="w">  </span><span class="s">rosidl_typesupport_introspection_c::rosidl_typesupport_introspection_c</span>
+<span class="w">  </span><span class="s">rosidl_typesupport_introspection_cpp::rosidl_typesupport_introspection_cpp</span>
+<span class="w">  </span><span class="c"># TODO add any implementation-specific dependencies, e.g., underlying middleware</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Configure the implementation library target</p>
+<blockquote>
+<div><p>In practice, this simply makes symbols hidden by default to hide internal symbols, i.e., non-<code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface symbols.
+If the implementation is written in C (not common), specify <code class="docutils literal notranslate"><span class="pre">LANGUAGE</span> <span class="pre">&quot;C&quot;</span></code>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">configure_rmw_library</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Register the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</p>
+<blockquote>
+<div><p>This registers the implementation in the <a class="reference internal" href="../../How-To-Guides/Ament-CMake-Documentation.html#ament-cmake-doc-adding-resources"><span class="std std-ref">ament index</span></a> so that it can be found at build-time (<code class="docutils literal notranslate"><span class="pre">get_available_rmw_implementations()</span></code>, <code class="docutils literal notranslate"><span class="pre">get_rmw_typesupport()</span></code>) or at runtime (<code class="docutils literal notranslate"><span class="pre">ament_index_cpp::get_resources(&quot;rmw_typesupport&quot;)</span></code>).
+It also registers the languages that the implementation supports and the list of type support packages.
+For example, if the implementation only uses type support introspection (i.e., dynamic and not static) for C and C++ messages:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">register_rmw_implementation</span><span class="p">(</span>
+<span class="w">  </span><span class="s2">&quot;c:rosidl_typesupport_introspection_c&quot;</span>
+<span class="w">  </span><span class="s2">&quot;cpp:rosidl_typesupport_introspection_cpp&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Install and export target</p>
+<blockquote>
+<div><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">install</span><span class="p">(</span>
+<span class="w">  </span><span class="s">TARGETS</span><span class="w"> </span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="s">EXPORT</span><span class="w"> </span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="s">ARCHIVE</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">  </span><span class="s">LIBRARY</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">  </span><span class="s">RUNTIME</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">bin</span>
+<span class="p">)</span>
+
+<span class="nb">ament_export_targets</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+<span class="c"># ament_export_libraries(${PROJECT_NAME})  # Old-style CMake</span>
+
+<span class="c"># ...</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="interface-functions-implementation">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Interface functions implementation</a><a class="headerlink" href="#interface-functions-implementation" title="Link to this heading"></a></h3>
+<p>The first step is to define the C interface functions declared in the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> headers.
+Start with empty functions that simply return <code class="docutils literal notranslate"><span class="pre">RMW_RET_OK</span></code>, and then implement them one by one in the order in which they are likely to be called at runtime.
+For example: <code class="docutils literal notranslate"><span class="pre">rmw_init()</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_create_node()</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_create_publisher()</span></code>, <code class="docutils literal notranslate"><span class="pre">rmw_create_subscription()</span></code>, and so on.
+This will allow building and running/testing the implementation incrementally.</p>
+<p>Most <code class="docutils literal notranslate"><span class="pre">rmw</span></code> functions have to perform input validation, as defined by the function’s documentation.
+There are various utility macros to simplify this, such as <code class="docutils literal notranslate"><span class="pre">RMW_CHECK_ARGUMENT_FOR_NULL()</span></code> and <code class="docutils literal notranslate"><span class="pre">RMW_CHECK_TYPE_IDENTIFIERS_MATCH()</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rmw</span></code> structs usually include a type-erased pointer (or sometimes an opaque pointer) for <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation-specific data.
+For instance, <code class="docutils literal notranslate"><span class="pre">rmw_publisher_t</span></code> has a <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">*</span> <span class="pre">data</span></code>.
+The implementation can place whatever it wants there, e.g., a pointer to an internal object that wraps the underlying middleware’s publisher object and any relevant information, like type support.
+This data/object can be fetched and used later when <code class="docutils literal notranslate"><span class="pre">rmw_publish()</span></code> is called with the corresponding <code class="docutils literal notranslate"><span class="pre">rmw_publisher_t</span></code>.
+To make sure that a different <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation doesn’t try to interpret this data, <code class="docutils literal notranslate"><span class="pre">rmw_publisher_t</span></code> includes the name of the implementation in its <code class="docutils literal notranslate"><span class="pre">implementation_identifier</span></code> field.</p>
+</section>
+<section id="id6">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Type support</a><a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>Type support structs can be confusing.
+Here is an example for message type support for publishers/subscriptions.</p>
+<p>A publisher is created through <code class="docutils literal notranslate"><span class="pre">rmw_create_publisher()</span></code>, which takes in a handle for the type support information: <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">rosidl_message_type_support_t</span> <span class="pre">*</span></code>.
+This is the base language-dependent type support: <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_c</span></code> / <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_cpp</span></code>.
+From this, we can get the concrete type support handle, depending on the available type supports, e.g., <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_fastrtps_c</span></code> / <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_fastrtps_cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_introspection_c</span></code> / <code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_introspection_cpp</span></code>.
+The confusing part is that these are also of type <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">rosidl_message_type_support_t</span> <span class="pre">*</span></code>!
+However, the concrete type support handles are the ones that contain actual useful information.
+See <a class="reference external" href="https://github.com/christophebedard/rmw_email/blob/f5e622bab24edaad8e0da054c7dbc698c6fb809c/rmw_email_cpp/src/type_support.cpp#L29-L62">this example function</a>, which extracts the concrete C or C++ dynamic message type support handle (<code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_introspection_{c,cpp}</span></code>) given a base type support handle (<code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_{c,cpp}</span></code>).
+Publishers created by <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code> will use C++ type support, while publishers created by <code class="docutils literal notranslate"><span class="pre">rclpy</span></code> will use C type support, since Python messages get converted into C messages.
+The <code class="docutils literal notranslate"><span class="pre">/rosout</span></code> publisher is managed by <code class="docutils literal notranslate"><span class="pre">rcl</span></code>, which is written in C, so it uses C type support.</p>
+<p>Then, using the concrete type support handle’s type-erased pointer, <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*</span> <span class="pre">data</span></code>, we get type support-specific information.
+For example, for C++ dynamic type support, this will be a <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">rosidl_typesupport_introspection_cpp::MessageMembers</span> <span class="pre">*</span></code>, which contains information about each field of the message.
+See <a class="reference external" href="https://github.com/christophebedard/rmw_email/blob/f5e622bab24edaad8e0da054c7dbc698c6fb809c/rmw_email_cpp/src/conversion.cpp#L116-L153">this example function</a>, which extracts language-dependent type support information from the concrete type support handle.
+The information is used to read the type-erased message pointer and convert the message to a YAML object and then convert that to a string for the underlying middleware to publish.</p>
+<p>Service type support is similar, but <code class="docutils literal notranslate"><span class="pre">rosidl_service_type_support_t</span></code> points to separate type support information for the request and response message types.</p>
+</section>
+</section>
+<section id="tests">
+<h2><a class="toc-backref" href="#id28" role="doc-backlink">Tests</a><a class="headerlink" href="#tests" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> package contains some tests, but they are mostly for utilities (e.g., getting zero-initialized structs) and non-implementation-specific functions such as topic/node name/namespace validation.</p>
+<p>As for testing the new <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation, the <code class="docutils literal notranslate"><span class="pre">test_rmw_implementation</span></code> package <a class="reference external" href="https://github.com/ros2/rmw_implementation/tree/rolling/test_rmw_implementation/test">contains tests for the interface</a>.
+Test executables are defined first and then a CMake function creates test targets for a given <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation by setting the <code class="docutils literal notranslate"><span class="pre">RMW_IMPLEMENTATION</span></code> environment variable.
+<code class="docutils literal notranslate"><span class="pre">rmw_implementation_cmake</span></code>’s <code class="docutils literal notranslate"><span class="pre">call_for_each_rmw_implementation()</span></code> is called and is provided with this CMake function, which is called with each available implementation.
+See the <a class="reference external" href="https://github.com/ros2/rmw_implementation/blob/rolling/test_rmw_implementation/CMakeLists.txt">CMakeLists.txt file</a>.
+Many other packages, including the <code class="docutils literal notranslate"><span class="pre">test_rclcpp</span></code> test-only package, also <a class="reference external" href="https://github.com/ros2/system_tests/blob/rolling/test_rclcpp/CMakeLists.txt">use this mechanism</a> to run tests against all available <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementations, otherwise tests are simply run with the default implementation.
+Packages can also use <code class="docutils literal notranslate"><span class="pre">get_available_rmw_implementations()</span></code> to get the actual list of available implementations.</p>
+<p>Some tests have implementation-specific code, which is done for various reasons, such as unsupported interface subsets.
+These tests can use <code class="docutils literal notranslate"><span class="pre">rmw</span></code>’s <code class="docutils literal notranslate"><span class="pre">rmw_get_implementation_identifier()</span></code> <a class="reference external" href="https://docs.ros.org/en/rolling/p/rmw/generated/function_rmw_8h_1aeb8a815b9be5eb3f38ab28363ef63920.html">function</a> for this.</p>
+</section>
+<section id="middleware-and-rmw-implementation-specific-configuration">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Middleware- and <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation-specific configuration</a><a class="headerlink" href="#middleware-and-rmw-implementation-specific-configuration" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface allows providing arbitrary implementation-specific configuration payloads for publishers and subscriptions through the type-erased <code class="docutils literal notranslate"><span class="pre">rmw_specific_publisher_payload</span></code> / <code class="docutils literal notranslate"><span class="pre">rmw_specific_subscription_payload</span></code> fields in <code class="docutils literal notranslate"><span class="pre">rmw_publisher_options_t</span></code> / <code class="docutils literal notranslate"><span class="pre">rmw_subscription_options_t</span></code>.
+This is set by users through <code class="docutils literal notranslate"><span class="pre">RMWImplementationSpecificPublisherPayload</span></code> / <code class="docutils literal notranslate"><span class="pre">RMWImplementationSpecificSubscriptionPayload</span></code> in <code class="docutils literal notranslate"><span class="pre">rclcpp</span></code>, for example.
+This is an advanced, non-portable feature that is not currently used by any (tier 1) implementations.</p>
+<p>For a bit more flexibility, some implementations use environment variables: <code class="docutils literal notranslate"><span class="pre">RMW_FASTRTPS_*</span></code>, <code class="docutils literal notranslate"><span class="pre">RMW_CONNEXT_*</span></code>, etc.
+The underlying middleware may also be configurable through environment variables: <code class="docutils literal notranslate"><span class="pre">FASTDDS_*</span></code>, <code class="docutils literal notranslate"><span class="pre">ZENOH_*</span></code>, <code class="docutils literal notranslate"><span class="pre">CYCLONEDDS_*</span></code>, <code class="docutils literal notranslate"><span class="pre">EMAIL_*</span></code>, etc.
+For example, the <code class="docutils literal notranslate"><span class="pre">CYCLONEDDS_URI</span></code>, <code class="docutils literal notranslate"><span class="pre">FASTRTPS_DEFAULT_PROFILES_FILE</span></code>, and <code class="docutils literal notranslate"><span class="pre">ZENOH_SESSION_CONFIG_URI</span></code> environment variables can be used to provide a path to a full configuration file if the relevant middleware is used.</p>
+</section>
+<section id="footnotes">
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">Footnotes</a><a class="headerlink" href="#footnotes" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="fn-dds-rpc" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>There now is a DDS RPC specification, but <a class="reference external" href="https://design.ros2.org/articles/ros_on_dds.html#services-and-actions">it was not finalized and wasn’t implemented by DDS vendors back when ROS 2 was initially designed</a>.
+Since the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> interface is also officially DDS-agnostic, services are up to the <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation, which explains why <a class="reference internal" href="../../Concepts/Intermediate/About-Different-Middleware-Vendors.html#different-middleware-vendors-cross-vendor-communication"><span class="std std-ref">cross-DDS vendor communications are not guaranteed</span></a>, even if pub/sub generally works.</p>
+</aside>
+<aside class="footnote brackets" id="fn-gid-remote-matching" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>In practice, this is not always the case, so this requirement is somewhat relaxed.
+See <a class="reference external" href="https://github.com/ros2/rmw_cyclonedds/issues/377">ros2/rmw_cyclonedds#377</a>.</p>
+</aside>
+<aside class="footnote brackets" id="fn-ts-fastrtps" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>For example, the C++ message Fast CDR serialization/deserialization code generated for <a class="reference external" href="https://docs.ros.org/en/rolling/p/std_msgs/msg/Header.html">std_msgs/msg/Header</a> is at <code class="docutils literal notranslate"><span class="pre">std_msgs/rosidl_typesupport_fastrtps_cpp/std_msgs/msg/detail/dds_fastrtps/header__type_support.cpp</span></code> under the <code class="docutils literal notranslate"><span class="pre">build/</span></code> directory.</p>
+</aside>
+<aside class="footnote brackets" id="fn-ts-dynamic" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">4</a><span class="fn-bracket">]</span></span>
+<p>For example, the C++ message introspection code generated for <a class="reference external" href="https://docs.ros.org/en/rolling/p/std_msgs/msg/Header.html">std_msgs/msg/Header</a> is at <code class="docutils literal notranslate"><span class="pre">std_msgs/rosidl_typesupport_introspection_cpp/std_msgs/msg/detail/header__type_support.cpp</span></code> under the <code class="docutils literal notranslate"><span class="pre">build/</span></code> directory.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ROS2-Tracing-Trace-and-Analyze.html" class="btn btn-neutral float-left" title="How to use ros2_tracing to trace and analyze an application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Simulators/Simulation-Main.html" class="btn btn-neutral float-right" title="Simulators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

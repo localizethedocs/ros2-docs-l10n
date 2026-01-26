@@ -1,0 +1,779 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-US" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Backtraces in ROS 2 &mdash; ROS 2 documentation  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/How-To-Guides/Getting-Backtraces-in-ROS-2.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e39023b8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=6dbb43f8"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IDEs and Debugging [community-contributed]" href="ROS-2-IDEs.html" />
+    <link rel="prev" title="Using Callback Groups" href="Using-callback-groups.html" />
+ 
+<script type="text/javascript" src="../ltd-provenance.js"></script>
+<script type="text/javascript" src="../ltd-current.js"></script>
+<script type="text/javascript" src="../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../_static/kilted-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename ‘kilted’; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename ‘lyrical’; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Intermediate.html">Intermediate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Intermediate/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Intermediate/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Advanced.html">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../Tutorials/Advanced/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Advanced/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tutorials/Advanced/Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Tutorials/Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Tutorials/Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../How-To-Guides.html">How-to Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/Basic.html">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Nodes.html">Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Topics.html">Topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/Advanced.html">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Advanced/About-Build-System.html">The build system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Advanced/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../The-ROS2-Project.html">The ROS 2 Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Package-Docs.html">Package Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../How-To-Guides.html">How-to Guides</a></li>
+      <li class="breadcrumb-item active">Getting Backtraces in ROS 2</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/How-To-Guides/Getting-Backtraces-in-ROS-2.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="getting-backtraces-in-ros-2">
+<h1>Getting Backtraces in ROS 2<a class="headerlink" href="#getting-backtraces-in-ros-2" title="Link to this heading"></a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p></li>
+<li><p><a class="reference internal" href="#preliminaries" id="id2">Preliminaries</a></p></li>
+<li><p><a class="reference internal" href="#debugging-a-specific-node-with-gdb" id="id3">Debugging a specific node with GDB</a></p></li>
+<li><p><a class="reference internal" href="#reading-the-stack-trace" id="id4">Reading the Stack Trace</a></p></li>
+<li><p><a class="reference internal" href="#from-a-launch-file" id="id5">From a Launch File</a></p></li>
+<li><p><a class="reference internal" href="#from-a-large-project" id="id6">From a Large Project</a></p></li>
+<li><p><a class="reference internal" href="#debugging-tests-with-gdb" id="id7">Debugging tests with GDB</a></p></li>
+<li><p><a class="reference internal" href="#automatic-backtrace-on-crash" id="id8">Automatic backtrace on crash</a></p></li>
+</ul>
+</nav>
+<p><strong>Goal:</strong> Show various methods for getting backtraces in ROS 2</p>
+<p><strong>Tutorial level:</strong> Intermediate</p>
+<p><strong>Time:</strong> 15 minutes</p>
+<p>The following steps show ROS 2 users how to get backtraces when they encounter a problem.</p>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p><strong>What is a Backtrace ?</strong></p>
+<ul class="simple">
+<li><p>Imagine your program is like a stack of pancakes where each pancake represents a function it’s currently executing.
+A backtrace is like a photo of the collapsed pancake stack, showing you the order they were in, revealing how the program ended up with the failure.</p></li>
+<li><p>It lists out the sequence of functions that were called, one on top of the other, leading up to the point of failure.</p></li>
+</ul>
+<p><strong>Why is it Useful?</strong></p>
+<ul class="simple">
+<li><p><strong>Pinpoints the Problem:</strong> Instead of guessing where in your code an error occurred, the backtrace shows you the exact line number responsible for the crash.</p></li>
+<li><p><strong>Reveals Context:</strong> You can see the chain of events (functions calling other functions) that ultimately triggered the failure.
+This helps you understand not just where things went wrong, but also why.</p></li>
+</ul>
+<p><strong>Visual Analogy</strong>:  Stack of Pancakes</p>
+<ol class="arabic simple">
+<li><p>Each Pancake is a Function: Imagine each pancake in a stack represents a function that your program is currently executing.
+The pancake at the bottom is your main() function, where it all begins.</p></li>
+<li><p>Adding Pancakes: Every time a function calls another function, a new pancake is placed on top of the stack.</p></li>
+<li><p>The Crash: A crash is like the plate slipping out from the bottom of the stack – something went disastrously wrong in the function currently executing.</p></li>
+<li><p>The Backtrace: The backtrace is like a photo of that fallen pancake stack.
+It shows the order of pancakes (functions) from top to bottom, revealing how you ended up at the crash site.</p></li>
+</ol>
+<p><strong>Code Example:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">functionC</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Something bad happens here, causing a crash</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">functionB</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">functionC</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">functionA</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">functionB</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">functionA</span><span class="p">();</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Backtrace from the Crash:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#0  functionC() at file.cpp:3 // Crash occurred here</span>
+<span class="c1">#1  functionB() at file.cpp:8</span>
+<span class="c1">#2  functionA() at file.cpp:13</span>
+<span class="c1">#3  main() at file.cpp:18</span>
+</pre></div>
+</div>
+<p><strong>How the Backtrace Helps:</strong></p>
+<ul class="simple">
+<li><p><strong>Crash Origin:</strong> Shows you the exact line in <code class="docutils literal notranslate"><span class="pre">functionC()</span></code> that triggered the crash.</p></li>
+<li><p><strong>Call Sequence:</strong> Reveals that <code class="docutils literal notranslate"><span class="pre">main()</span></code> called <code class="docutils literal notranslate"><span class="pre">functionA()</span></code>, which called <code class="docutils literal notranslate"><span class="pre">functionB()</span></code>, which ultimately led to the error in <code class="docutils literal notranslate"><span class="pre">functionC()</span></code>.</p></li>
+</ul>
+<p>The above example gave us a clear picture of what is a backtrace and how it can be useful.
+Now, the following steps show ROS 2 users how to get traces from specific nodes when they encounter a problem.
+This tutorial applies to both simulated and physical robots.</p>
+<p>This will cover how to get a backtrace from a specific node using <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code>, from a launch file representing a single node using <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">launch</span></code>, and from a more complex orchestration of nodes.
+By the end of this tutorial, you should be able to get a backtrace when you notice a node crashing in ROS 2.</p>
+</section>
+<section id="preliminaries">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Preliminaries</a><a class="headerlink" href="#preliminaries" title="Link to this heading"></a></h2>
+<p>GDB is the most popular debugger for C/C++ on Unix systems.
+It can be used to determine the reason for a crash and track threads.
+It may also be used to add breakpoints in your code to check values in memory at particular points in your software.</p>
+<p>Using GDB is a critical skill for all software developers working on C/C++.
+While many IDEs have some kind of debugger or profiler built in, it is important to understand how to use these raw tools you have available rather than relying on an IDE to provide them.
+Understanding these tools is a fundamental skill of C/C++ development and leaving it up to your IDE can be problematic if you change roles and no longer have access to it or are doing development on the fly through an ssh session to a remote asset.</p>
+<p>Using GDB luckily is fairly simple after you have the basics under your belt.
+Here’s how to ensure your ROS2 code is ready for debugging:</p>
+<ul class="simple">
+<li><p>By using <code class="docutils literal notranslate"><span class="pre">--cmake-args</span></code>: The easiest way to include debug symbols is by adding <code class="docutils literal notranslate"><span class="pre">--cmake-args</span> <span class="pre">-DCMAKE_BUILD_TYPE=Debug</span></code> to your <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code> command:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>colcon<span class="w"> </span>build<span class="w"> </span>--packages-up-to<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span>--cmake-args<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Debug
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>By editing <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> : Another way is to add <code class="docutils literal notranslate"><span class="pre">-g</span></code> to your compiler flags for the ROS package you want to profile / debug.
+This flag builds debug symbols that GDB can read to tell you specific lines of code in your project are failing and why.
+If you do not set this flag, you can still get backtraces but it will not provide line numbers for failures.</p></li>
+</ul>
+<p>Now you’re ready to debug your code!
+If this was a non-ROS project, at this point you might do something like below.
+Here we’re launching a GDB session and telling our program to immediately run.
+Once your program crashes, it will return a gdb session prompt denoted by <code class="docutils literal notranslate"><span class="pre">(gdb)</span></code>.
+At this prompt you can access the information you’re interested in.
+However, since this is a ROS project with lots of node configurations and other things going on, this isn’t a great option for beginners or those that don’t like tons of commandline work and understanding the filesystem.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gdb<span class="w"> </span>ex<span class="w"> </span>run<span class="w"> </span>--args<span class="w"> </span>/path/to/exe/program
+</pre></div>
+</div>
+<p>Below are sections to describe the three major situations you could run into with ROS 2-based systems.
+Read the section that best describes the problem you’re attempting to solve.</p>
+</section>
+<section id="debugging-a-specific-node-with-gdb">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Debugging a specific node with GDB</a><a class="headerlink" href="#debugging-a-specific-node-with-gdb" title="Link to this heading"></a></h2>
+<p>To easily set up a GDB session before launching a ROS 2 node, leverage the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> option to easily set up a GDB session before launching a ROS 2 node.
+For GDB debugging, use it as follows:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Keep in mind that a ROS 2 executable might contain multiple nodes.
+The <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> approach ensures you’re debugging the correct node within the process.</p>
+</div>
+<p><strong>Why Direct GDB Usage Can Be Tricky</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">--prefix</span></code> will execute some bits of code before our ROS 2 command allowing us to insert some information.
+If you attempted to do <code class="docutils literal notranslate"><span class="pre">gdb</span> <span class="pre">ex</span> <span class="pre">run</span> <span class="pre">--args</span> <span class="pre">ros2</span> <span class="pre">run</span> <span class="pre">&lt;pkg&gt;</span> <span class="pre">&lt;node&gt;</span></code> as analog to our example in the preliminaries, you’d find that it couldn’t find the <code class="docutils literal notranslate"><span class="pre">ros2</span></code> command.
+Additionally, trying to source your workspace within GDB would fail for similar reasons.
+This is because GDB, when launched this way, lacks the environment setup that normally makes the <code class="docutils literal notranslate"><span class="pre">ros2</span></code> command available.</p>
+<p><strong>Simplifying the Process with –prefix</strong></p>
+<p>Rather than having to revert to finding the install path of the executable and typing it all out, we can instead use <code class="docutils literal notranslate"><span class="pre">--prefix</span></code>.
+This allows us to use the same <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> syntax you’re used to without having to worry about some of the GDB details.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>--prefix<span class="w"> </span><span class="s1">&#39;gdb -ex run --args&#39;</span><span class="w"> </span>&lt;pkg&gt;<span class="w"> </span>&lt;node&gt;<span class="w"> </span>--all-other-launch<span class="w"> </span>arguments
+</pre></div>
+</div>
+<p><strong>The GDB Experience</strong></p>
+<p>Just as before, this prefix will launch a GDB session and run the node you requested with all the additional command-line arguments.
+You should now have your node running and should be chugging along with some debug printing.</p>
+</section>
+<section id="reading-the-stack-trace">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Reading the Stack Trace</a><a class="headerlink" href="#reading-the-stack-trace" title="Link to this heading"></a></h2>
+<p>After you obtain a backtrace using GDB, here’s how to interpret it:</p>
+<ul class="simple">
+<li><p>Start at the Bottom: Backtraces list function calls in reverse chronological order.
+The function at the bottom is where the crash originates.</p></li>
+<li><p>Follow the Stack Upwards: Each line above represents the function that called the function below it.
+Trace upwards until you reach a line of code within your own project.
+This often reveals where the problem initiated.</p></li>
+<li><p>Debugging Clues: Function names and their arguments can provide valuable clues about what went wrong.</p></li>
+</ul>
+<p><strong>How to Debug once your Node Crashes</strong></p>
+<p>Once your node crashes, you’ll see a prompt like below.
+At this point you can get a backtrace.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>gdb<span class="o">)</span>
+</pre></div>
+</div>
+<p>In this session, type <code class="docutils literal notranslate"><span class="pre">backtrace</span></code> and it will provide you with a backtrace.
+Copy this for your needs.</p>
+<p><strong>Example backtrace</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>backtrace
+<span class="c1">#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50</span>
+<span class="c1">#1  0x00007ffff79cc859 in __GI_abort () at abort.c:79</span>
+<span class="c1">#2  0x00007ffff7c52951 in ?? () from /usr/lib/x86_64-linux-gnu/libstdc++.so.6</span>
+<span class="c1">#3  0x00007ffff7c5e47c in ?? () from /usr/lib/x86_64-linux-gnu/libstdc++.so.6</span>
+<span class="c1">#4  0x00007ffff7c5e4e7 in std::terminate() () from /usr/lib/x86_64-linux-gnu/libstdc++.so.6</span>
+<span class="c1">#5  0x00007ffff7c5e799 in __cxa_throw () from /usr/lib/x86_64-linux-gnu/libstdc++.so.6</span>
+<span class="c1">#6  0x00007ffff7c553eb in ?? () from /usr/lib/x86_64-linux-gnu/libstdc++.so.6</span>
+<span class="c1">#7  0x000055555555936c in std::vector&lt;int, std::allocator&lt;int&gt; &gt;::_M_range_check (</span>
+<span class="w">    </span><span class="nv">this</span><span class="o">=</span>0x5555555cfdb0,<span class="w"> </span><span class="nv">__n</span><span class="o">=</span><span class="m">100</span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span>/usr/include/c++/9/bits/stl_vector.h:1070
+<span class="c1">#8  0x0000555555558e1d in std::vector&lt;int, std::allocator&lt;int&gt; &gt;::at (this=0x5555555cfdb0,</span>
+<span class="w">    </span><span class="nv">__n</span><span class="o">=</span><span class="m">100</span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span>/usr/include/c++/9/bits/stl_vector.h:1091
+<span class="c1">#9  0x000055555555828b in GDBTester::VectorCrash (this=0x5555555cfb40)</span>
+<span class="w">    </span>at<span class="w"> </span>/home/steve/Documents/nav2_ws/src/gdb_test_pkg/src/gdb_test_node.cpp:44
+<span class="c1">#10 0x0000555555559cfc in main (argc=1, argv=0x7fffffffc108)</span>
+<span class="w">    </span>at<span class="w"> </span>/home/steve/Documents/nav2_ws/src/gdb_test_pkg/src/main.cpp:25
+</pre></div>
+</div>
+<p>In this example you should read this in the following way, starting at the bottom:</p>
+<ul class="simple">
+<li><p>In the main function, on line 25 we call a function VectorCrash.</p></li>
+<li><p>In VectorCrash, on line 44, we crashed in the Vector’s <code class="docutils literal notranslate"><span class="pre">at()</span></code> method with input <code class="docutils literal notranslate"><span class="pre">100</span></code>.</p></li>
+<li><p>It crashed in <code class="docutils literal notranslate"><span class="pre">at()</span></code> on STL vector line 1091 after throwing an exception from a range check failure.</p></li>
+</ul>
+<p>These traces take some time to get used to reading, but in general, start at the bottom and follow it up the stack until you see the line it crashed on.
+Then you can deduce why it crashed.
+When you are done with GDB, type <code class="docutils literal notranslate"><span class="pre">quit</span></code> and it will exit the session and kill any processes still up.
+It may ask you if you want to kill some threads at the end, say yes.</p>
+</section>
+<section id="from-a-launch-file">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">From a Launch File</a><a class="headerlink" href="#from-a-launch-file" title="Link to this heading"></a></h2>
+<p>Just as in our non-ROS example, we need to setup a GDB session before launching our ROS 2 launch file.
+While we could set this up through the commandline, we can instead make use of the same mechanics that we did in the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> node example, now using a launch file.</p>
+<p>In your launch file, find the node that you’re interested in debugging.
+For this section, we assume that your launch file contains only a single node (and potentially other information as well).
+The <code class="docutils literal notranslate"><span class="pre">Node</span></code> function used in the <code class="docutils literal notranslate"><span class="pre">launch_ros</span></code> package will take in a field prefix taking a list of prefix arguments.
+We will insert the GDB snippet here.</p>
+<p><strong>Consider the following approaches, depending on your setup:</strong></p>
+<ul class="simple">
+<li><p><strong>Local Debugging with GUI :</strong>  If you are debugging locally and have a GUI system available, use:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;xterm -e gdb -ex run --args&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This will provide a more interactive debugging experience.
+Example usecase for debugging building upon <code class="docutils literal notranslate"><span class="pre">'start_sync_slam_toolbox_node'</span></code> -</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start_sync_slam_toolbox_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+  <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+      <span class="n">get_package_share_directory</span><span class="p">(</span><span class="s2">&quot;slam_toolbox&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/config/mapper_params_online_sync.yaml&#39;</span><span class="p">,</span>
+      <span class="p">{</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">:</span> <span class="n">use_sim_time</span><span class="p">}</span>
+  <span class="p">],</span>
+  <span class="n">package</span><span class="o">=</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">,</span>
+  <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;sync_slam_toolbox_node&#39;</span><span class="p">,</span>
+  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">,</span>
+  <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;xterm -e gdb -ex run --args&#39;</span><span class="p">],</span>  <span class="c1"># For interactive GDB in a separate window/GUI</span>
+  <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Remote Debugging (without GUI):</strong> If debugging without GUI, omit <code class="docutils literal notranslate"><span class="pre">xterm</span> <span class="pre">-e</span></code> :</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">prefix</span><span class="o">=[</span><span class="s1">&#39;gdb -ex run --args&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>GDB’s output and interaction will happen within the terminal session where you launched the ROS 2 application.
+Here’s an similar example for the <code class="docutils literal notranslate"><span class="pre">'start_sync_slam_toolbox_node'</span></code> -</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start_sync_slam_toolbox_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+  <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+      <span class="n">get_package_share_directory</span><span class="p">(</span><span class="s2">&quot;slam_toolbox&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/config/mapper_params_online_sync.yaml&#39;</span><span class="p">,</span>
+      <span class="p">{</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">:</span> <span class="n">use_sim_time</span><span class="p">}</span>
+  <span class="p">],</span>
+  <span class="n">package</span><span class="o">=</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">,</span>
+  <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;sync_slam_toolbox_node&#39;</span><span class="p">,</span>
+  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">,</span>
+  <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gdb -ex run --args&#39;</span><span class="p">],</span>  <span class="c1"># For GDB within the launch terminal</span>
+  <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Just as before, this prefix will launch a GDB session, now in <code class="docutils literal notranslate"><span class="pre">xterm</span></code> and run the launch file you requested with all the additional launch arguments defined.</p>
+<p>Once your node crashes, you’ll see a prompt like below, now in the <code class="docutils literal notranslate"><span class="pre">xterm</span></code> session.
+At this point you can now get a backtrace, and read it using the instructions in <a class="reference internal" href="#reading-the-stack-trace">Reading the Stack Trace</a>.</p>
+</section>
+<section id="from-a-large-project">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">From a Large Project</a><a class="headerlink" href="#from-a-large-project" title="Link to this heading"></a></h2>
+<p>Working with launch files with multiple nodes is a little different so you can interact with your GDB session without being bogged down by other logging in the same terminal.
+For this reason, when working with larger launch files, it is a good idea to pull out the specific node you’re interested in and launch it separately.</p>
+<p>If your node of interest is being launched from a nested launch file (e.g. an included launch file) you may want to do the following:</p>
+<ul class="simple">
+<li><p>Comment out the launch file inclusion from the parent launch file</p></li>
+<li><p>Recompile the package of interest with <code class="docutils literal notranslate"><span class="pre">-g</span></code> flag for debug symbols</p></li>
+<li><p>Launch the parent launch file in a terminal</p></li>
+<li><p>Launch the node’s launch file in another terminal following the instructions in <a class="reference internal" href="#from-a-launch-file">From a Launch File</a>.</p></li>
+</ul>
+<p>Alternatively, if your node of interest is being launched in these files directly (e.g. you see a <code class="docutils literal notranslate"><span class="pre">Node</span></code>, <code class="docutils literal notranslate"><span class="pre">LifecycleNode</span></code>, or inside a <code class="docutils literal notranslate"><span class="pre">ComponentContainer</span></code>), you will need to separate this from the others:</p>
+<ul class="simple">
+<li><p>Comment out the node’s inclusion from the parent launch file</p></li>
+<li><p>Recompile the package of interest with <code class="docutils literal notranslate"><span class="pre">-g</span></code> flag for debug symbols</p></li>
+<li><p>Launch the parent launch file in a terminal</p></li>
+<li><p>Launch the node in another terminal following the instructions in <a class="reference internal" href="#debugging-a-specific-node-with-gdb">Debugging a specific node with GDB</a>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this case you may need to remap or provide parameter files to this node if it was previously provided by the launch file.
+Using <code class="docutils literal notranslate"><span class="pre">--ros-args</span></code> you can give it the path to the new parameters file, remaps, or names.
+See <a class="reference internal" href="Node-arguments.html"><span class="doc">this tutorial</span></a> for the commandline arguments required.</p>
+<p>We understand this can be a pain, so it might encourage you to rather have each node possible as a separately included launch file to make debugging easier.
+An example set of arguments might be <code class="docutils literal notranslate"><span class="pre">--ros-args</span> <span class="pre">-r</span> <span class="pre">__node:=&lt;node_name&gt;</span> <span class="pre">--params-file</span> <span class="pre">/absolute/path/to/params.yaml</span></code> (as a template).</p>
+</div>
+<p>Once your node crashes, you’ll see a prompt like below in the terminal of the specific node.
+At this point you can now get a backtrace, and read it using the instructions in <a class="reference internal" href="#reading-the-stack-trace">Reading the Stack Trace</a>.</p>
+</section>
+<section id="debugging-tests-with-gdb">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Debugging tests with GDB</a><a class="headerlink" href="#debugging-tests-with-gdb" title="Link to this heading"></a></h2>
+<p>If a C++ test is failing, GDB can be used directly on the test executable in the build directory.
+Ensure to build the code in debug mode.
+Since the previous build type may be cached by CMake, clean the cache and rebuild.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>colcon<span class="w"> </span>build<span class="w"> </span>--cmake-clean-cache<span class="w"> </span>--mixin<span class="w"> </span>debug
+</pre></div>
+</div>
+<p>In order for GDB to load debug symbols for any shared libraries called, make sure to source your environment.
+This configures the value of <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+<p>Finally, run the test directly through GDB.
+For example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gdb<span class="w"> </span>-ex<span class="w"> </span>run<span class="w"> </span>./build/rcl/test/test_logging
+</pre></div>
+</div>
+<p>If the code is throwing an unhandled exception, you can catch it in GDB before gtest handles it.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gdb<span class="w"> </span>./build/rcl/test/test_logging
+<span class="gp">$ </span>catch<span class="w"> </span>throw
+<span class="gp">$ </span>run
+</pre></div>
+</div>
+</section>
+<section id="automatic-backtrace-on-crash">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Automatic backtrace on crash</a><a class="headerlink" href="#automatic-backtrace-on-crash" title="Link to this heading"></a></h2>
+<p>The <a class="reference external" href="https://github.com/pal-robotics/backward_ros">backward-cpp</a> library provides beautiful stack traces, and the <a class="reference external" href="https://github.com/pal-robotics/backward_ros">backward_ros</a> wrapper simplifies its integration.</p>
+<p>Just add it as a dependency and <code class="docutils literal notranslate"><span class="pre">find_package</span></code> it in your CMakeLists and the backward libraries will be injected in all your executables and libraries.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Using-callback-groups.html" class="btn btn-neutral float-left" title="Using Callback Groups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ROS-2-IDEs.html" class="btn btn-neutral float-right" title="IDEs and Debugging [community-contributed]" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

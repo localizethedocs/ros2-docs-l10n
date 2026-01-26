@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-TW" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>交叉編譯 &mdash; ros2 documentation  說明文件</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Cross-compilation.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=7da51243"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=cbf116e0"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜尋" href="../search.html" />
+    <link rel="next" title="Implement a custom memory allocator" href="Allocator-Template-Tutorial.html" />
+    <link rel="prev" title="On the mixing of ament and catkin (catment)" href="catment.html" />
+ 
+<script type="text/javascript" src="../ltd-provenance.js"></script>
+<script type="text/javascript" src="../ltd-current.js"></script>
+<script type="text/javascript" src="../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ros2 documentation
+              <img src="../_static/crystal-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">安裝</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Development-Setup.html">Building ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Binary.html">Installing ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Linux-Install-Debians.html">Installing ROS 2 via Debian Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Development-Setup.html">Building ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/macOS-Install-Binary.html">Installing ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Development-Setup.html">Building ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Windows-Install-Binary.html">Installing ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Fedora-Development-Setup.html">Building ROS 2 on Fedora Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Latest-Development-Setup.html">Installing the latest ROS 2 development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Maintaining-a-Source-Checkout.html">Maintaining a source checkout of ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/Prerelease-Testing.html">Pre-release Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Installation/DDS-Implementations.html">Installing DDS implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-Security-Plugins.html">Installing Connext security plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Install-Connext-University-Eval.html">Installing University or Evaluation versions of RTI Connext DDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Installation/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Tutorials.html">教學</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Configuring-ROS2-Environment.html">Configuring your ROS 2 environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Turtlesim/Introducing-Turtlesim.html">Introducing turtlesim and rqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Understanding-ROS2-Nodes.html">Understanding ROS 2 nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topics/Understanding-ROS2-Topics.html">Understanding ROS 2 topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Services/Understanding-ROS2-Services.html">Understanding ROS 2 services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters/Understanding-ROS2-Parameters.html">Understanding ROS 2 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Understanding-ROS2-Actions.html">Understanding ROS 2 actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Rqt-Console/Using-Rqt-Console.html">Using rqt_console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-Files/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ros2bag/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-Your-First-ROS2-Package.html">Creating your first ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Custom-ROS2-Interfaces.html">Creating custom ROS 2 msg and srv files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Single-Package-Define-And-Use-Interface.html">Expanding on ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Actions/Writing-a-Cpp-Action-Server-Client.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Actions/Writing-a-Py-Action-Server-Client.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Colcon-Tutorial.html">Using colcon to build packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ament-CMake-Documentation.html">ament_cmake 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-system.html">Launching/monitoring multiple nodes with Launch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introspection-with-command-line-tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RQt-Overview-Usage.html">Overview and usage of RQt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RQt-Source-Install.html">Building RQt from source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="RQt-Source-Install-MacOS.html">Building RQt from source on macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RQt-Source-Install-Windows10.html">Building RQt from source on Windows 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback.html">Overriding QoS Policies For Recording And Playback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="catment.html">On the mixing of ament and catkin (catment)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">交叉編譯</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Allocator-Template-Tutorial.html">Implement a custom memory allocator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Releasing-a-ROS-2-package-with-bloom.html">Releasing a ROS 2 package with bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RQt-Port-Plugin-Windows.html">Porting RQt plugins to Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run-2-nodes-in-a-single-docker-container.html">Running 2 nodes in a single docker container [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run-2-nodes-in-two-separate-docker-containers.html">Running 2 nodes in 2 separate docker containers [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Deploying-ROS-2-on-IBM-Cloud.html">ROS2 on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Launch-files-migration-guide.html">Migrating launch files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Eclipse Oxygen with ROS 2 and rviz2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Building-ROS-2-on-Linux-with-Eclipse-Oxygen.html">Building ROS 2 on Linux with Eclipse Oxygen [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building realtime Linux for ROS 2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parameters-YAML-files-migration-guide.html">Migrating YAML parameter files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quality-of-Service.html">Use quality-of-service settings to handle lossy networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Managed-Nodes.html">Management of nodes with managed lifecycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Intra-Process-Communication.html">Efficient intra-process communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Rosbag-with-ROS1-Bridge.html">Recording and playback of topic data with rosbag using the ROS 1 bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2.html">Using tf2 with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="URDF/Using-URDF-with-Robot-State-Publisher.html">Using URDF with robot_state_publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Real-Time-Programming.html">Real-time programming in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dummy-robot-demo.html">Trying the dummy robot demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Logging-and-logger-configuration.html">Logging and logger configuration demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Concepts.html">概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Different-Middleware-Vendors.html">About different ROS 2 DDS/RTPS vendors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Logging.html">About logging and logger configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Quality-of-Service-Settings.html">About Quality of Service settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Client-Libraries.html">About ROS 2 client libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-Interfaces.html">About ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-ROS-2-Parameters.html">About parameters in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Build-System.html">About the build system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Internal-Interfaces.html">About internal ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Middleware-Implementations.html">About ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Concepts/About-Client-Interfaces.html">ROS 2 Client Interfaces (Client Libraries)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/Installation-Troubleshooting.html">安裝疑難排解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Troubleshooting/DDS-tuning.html">DDS tuning information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/ROS-2-On-boarding-Guide.html">ROS 2 on-boarding guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Design-Guide.html">Design guide: common patterns in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Build-Cop-and-Build-Farmer-Guide.html">Build cop and build farmer guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/CI-Server-Setup.html">How to setup the Jenkins master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Set-up-a-new-Linux-CI-node.html">How to setup Linux Jenkins nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Set-up-a-new-macOS-CI-node.html">How to setup a macOS Jenkins node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Set-up-a-new-Windows-CI-node.html">How to setup a Windows Jenkins node</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Migration-Guide.html">Migration guide from ROS 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Contributing/Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Examples-and-Tools-for-ROS1----ROS2-Migrations.html">Examples and tools for ROS1-to-ROS2 migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Contributing/Inter-Sphinx-Support.html">Using Sphinx for cross-referencing packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Contact.html">聯絡</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ROSCon-Content.html">ROSCon Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Releases.html">散布版</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Alpha-Overview.html">ROS 2 alpha releases (Aug 2015 - Oct 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta1-Overview.html">Beta 1 (codename 'Asphalt'; December 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta2-Overview.html">Beta 2 (codename 'r2b2'; July 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Beta3-Overview.html">Beta 3 (codename 'r2b3'; September 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Ardent-Apalone.html">ROS 2 Ardent Apalone (codename 'ardent'; December 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Bouncy-Bolson.html">ROS 2 Bouncy Bolson (codename 'bouncy'; June 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Crystal-Clemmys.html">ROS 2 Crystal Clemmys (codename 'crystal'; December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Dashing-Diademata.html">ROS 2 Dashing Diademata (codename 'dashing'; May 31st, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Eloquent-Elusor.html">ROS 2 Eloquent Elusor (codename 'eloquent'; November 22nd, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy Fitzroy (codename 'foxy'; June 5th, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Galactic-Geochelone.html">ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Howto.html">How to release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releases/Release-Rolling-Ridley.html">ROS 2 Rolling Ridley (codename 'rolling'; June 2020)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Features.html">Features Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Governance.html">Project Governance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Governance/ROS2-TSC-Charter.html">ROS 2 Technical Steering Committee Charter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Marketing.html">Marketing Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Related-Projects.html">相關專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">詞彙表</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ros2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../Tutorials.html">教學</a></li>
+      <li class="breadcrumb-item active">交叉編譯</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Cross-compilation.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition warning">
+        <p class="admonition-title">警告</p>
+        <p>
+          您正在閱讀已達到生命週期結束（end-of-life，EOL）版本的 ROS 2 文件，該版本不再正式受支援。如果您想獲取最新資訊，請參見 <a href="../../../zh-tw/kilted/index.html">Kilted</a>。
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="cross-compilation">
+<h1>交叉編譯<a class="headerlink" href="#cross-compilation" title="連結到這個標頭"></a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">目次表</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">概覽</a></p></li>
+<li><p><a class="reference internal" href="#how-does-it-work" id="id2">How does it work ?</a></p></li>
+<li><p><a class="reference internal" href="#cross-compiling-ros-2" id="id3">Cross-compiling ROS 2</a></p></li>
+<li><p><a class="reference internal" href="#legacy-tool-instructions" id="id4">Legacy tool instructions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cmake-toolchain-file" id="id5">CMake toolchain-file</a></p></li>
+<li><p><a class="reference internal" href="#target-file-system" id="id6">Target file-system</a></p></li>
+<li><p><a class="reference internal" href="#build-process" id="id7">Build process</a></p></li>
+<li><p><a class="reference internal" href="#cross-compiling-examples-for-arm" id="id8">Cross-compiling examples for Arm</a></p></li>
+<li><p><a class="reference internal" href="#automated-cross-compilation" id="id9">Automated Cross-compilation</a></p></li>
+<li><p><a class="reference internal" href="#cross-compiling-against-a-pre-built-ros-2" id="id10">Cross-compiling against a pre-built ROS 2</a></p></li>
+<li><p><a class="reference internal" href="#run-on-the-target" id="id11">Run on the target</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">概覽</a><a class="headerlink" href="#overview" title="連結到這個標頭"></a></h2>
+<dl class="simple">
+<dt>Open Robotics provides pre-built ROS 2 packages for multiple platforms, but a number of developers still rely on <a class="reference external" href="https://en.wikipedia.org/wiki/Cross_compiler">cross-compilation</a> for different reasons such as:</dt><dd><ul class="simple">
+<li><p>The development machine does not match the target system.</p></li>
+<li><p>Tuning the build for specific core architecture (e.g. setting -mcpu=cortex-a53 -mfpu=neon-fp-armv8 when building for Raspberry Pi3).</p></li>
+<li><p>Targeting a different file systems other than the ones supported by the pre-built images released by Open Robotics.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This document provides you with details on how to cross-compile the ROS 2 software stack as well as provide examples for cross-compiling to systems based on the Arm cores.</p>
+</section>
+<section id="how-does-it-work">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">How does it work ?</a><a class="headerlink" href="#how-does-it-work" title="連結到這個標頭"></a></h2>
+<p>Cross-compiling simple software (e.g. no dependencies on external libraries) is relatively simple and only requiring a cross-compiler toolchain to be used instead of the native toolchain.</p>
+<dl class="simple">
+<dt>There are a number of factors which make this process more complex:</dt><dd><ul class="simple">
+<li><p>The software being built must support the target architecture. Architecture specific code must be properly isolated and enabled during the build according to the target architecture. Examples include assembly code.</p></li>
+<li><p>All dependencies (e.g. libraries) must be present, either as pre-built packages or also cross-compiled before the target software using them is cross-compiled.</p></li>
+<li><p>When building software stacks (as opposed to an standalone software) using build tools (e.g. colcon), it is expected from the build tool a mechanism to allow the developer to enable cross-compilation on the underlying build system used by each of software in the stack.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="cross-compiling-ros-2">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Cross-compiling ROS 2</a><a class="headerlink" href="#cross-compiling-ros-2" title="連結到這個標頭"></a></h2>
+<p>The ROS 2 cross-compile tool is under shared ownership of Open Robotics and ROS Tooling Working Group.</p>
+<p>It is a Python script that compiles ROS 2 source files for supported target architectures using an emulator in a docker container.
+Detailed design of the tool can be found on <a class="reference external" href="https://design.ros2.org/articles/cc_build_tools.html">ROS 2 design</a>.
+Instructions to use the tool are in the <a class="reference external" href="https://github.com/ros-tooling/cross_compile">cross_compile package</a>.</p>
+<p>If you are using an older version, please follow the <a class="reference internal" href="#legacy-tool-instructions">legacy tool instructions</a>.</p>
+</section>
+<section id="legacy-tool-instructions">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Legacy tool instructions</a><a class="headerlink" href="#legacy-tool-instructions" title="連結到這個標頭"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>Follow the steps below only if you are using the old version (release <a class="reference external" href="https://github.com/ros-tooling/cross_compile/releases/tag/0.0.1">0.0.1</a>) of the cross-compile tool. For all other purposes, follow the <a class="reference external" href="https://github.com/ros-tooling/cross_compile">cross_compile</a> package documentation.</p>
+</div>
+<dl class="simple">
+<dt>Although ROS 2 is a rich software stack with a number of dependencies, it primarily uses two different types of packages:</dt><dd><ul class="simple">
+<li><p>Python based software, which requires no cross-compilation.</p></li>
+<li><p>CMake based software, which provides a mechanism to do cross-compilation.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Furthermore, the ROS 2 software stack is built with <a class="reference external" href="https://github.com/colcon/colcon-core">Colcon</a> which provides a mechanism to forward parameters to the CMake instance used for the individual build of each package/library that is part of the ROS 2 distribution.</p>
+<p>When building ROS 2 natively, the developer is required to download all the dependencies (e.g. Python and other libraries) before compiling the packages that are part of the ROS 2 distribution. When cross-compiling, the same approach is required. The developer must first have the target system's filesystem with all dependencies already installed.</p>
+<p>The next sections of this document explain in detail the use of <a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html">cmake-toolchains</a> and the <a class="reference external" href="https://cmake.org/cmake/help/latest/variable/CMAKE_SYSROOT.html">CMAKE_SYSROOT</a> feature to cross-compile ROS 2.</p>
+<section id="cmake-toolchain-file">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">CMake toolchain-file</a><a class="headerlink" href="#cmake-toolchain-file" title="連結到這個標頭"></a></h3>
+<p>A CMake toolchain-file is a file which defines variables to configure CMake for cross-compilation. The basic entries are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_NAME</span></code>: the target platform, e.g. <code class="docutils literal notranslate"><span class="pre">linux</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_PROCESSOR</span></code>: the target architecture, e.g. <code class="docutils literal notranslate"><span class="pre">aarch64</span></code> or <code class="docutils literal notranslate"><span class="pre">arm</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_SYSROOT</span></code>: the path to the target file-system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_C_COMPILER</span></code>: the C cross-compiler, e.g. <code class="docutils literal notranslate"><span class="pre">aarch64-linux-gnu-gcc</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CXX_COMPILER</span></code>: the C++ cross-compiler, e.g. <code class="docutils literal notranslate"><span class="pre">aarch64-linux-gnu-g++</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_FIND_ROOT_PATH</span></code>: an alternative path used by the <code class="docutils literal notranslate"><span class="pre">find_*</span></code> command to find the file-system</p></li>
+</ul>
+</div></blockquote>
+<p>When cross-compiling ROS 2, the following options are required to be set:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_FIND_ROOT_PATH</span></code>: the alternative path used by the <code class="docutils literal notranslate"><span class="pre">find_*</span></code> command, use it to specify the path to ROS 2 <code class="docutils literal notranslate"><span class="pre">/install</span></code> folder</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_FIND_ROOT_PATH_MODE_*</span></code>: the search strategy for program,package,library, and include, usually: <code class="docutils literal notranslate"><span class="pre">NEVER</span></code> (look on the host-fs), <code class="docutils literal notranslate"><span class="pre">ONLY</span></code> (look on sysroot), and <code class="docutils literal notranslate"><span class="pre">BOTH</span></code> (look on both sysroot and host-fs)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PYTHON_SOABI</span></code>: the index name of the python libraries generated by ROS 2, e.g. <code class="docutils literal notranslate"><span class="pre">cpython-36m-aarch64-linux-gnu</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">THREADS_PTHREAD_ARG</span> <span class="pre">&quot;0&quot;</span> <span class="pre">CACHE</span> <span class="pre">STRING</span> <span class="pre">&quot;Result</span> <span class="pre">from</span> <span class="pre">TRY_RUN&quot;</span> <span class="pre">FORCE</span></code>: Force the result of the <code class="docutils literal notranslate"><span class="pre">TRY_RUN</span></code> cmd to 0 (success) because binaries can not run on the host system.</p></li>
+</ul>
+</div></blockquote>
+<p>The toolchain-file is provided to CMake with the <code class="docutils literal notranslate"><span class="pre">-DCMAKE_TOOLCHAIN_FILE=path/to/file</span></code> parameter. This will also set the <code class="docutils literal notranslate"><span class="pre">CMAKE_CROSSCOMPILING</span></code> variable to <code class="docutils literal notranslate"><span class="pre">true</span></code> which can be used by the software being built.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CMAKE_SYSROOT</span></code> is particularly important for ROS 2 as the packages need many dependencies (e.g. python, openssl, opencv, poco, eigen3, ...).
+Setting <code class="docutils literal notranslate"><span class="pre">CMAKE_SYSROOT</span></code> to a target file-system with all the dependencies installed on it will allow CMake to find them during the cross-compilation.</p>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>You can find more information on the CMake <a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html">documentation</a> page.</p>
+</div>
+<p>When downloading the ROS 2 source code, a generic toolchain-file is available in the repository <a class="reference external" href="https://github.com/ros-tooling/cross_compile">ros-tooling/cross_compile/cmake-toolchains</a> which can be downloaded separately. Further examples on using it can be found on the <a class="reference internal" href="#cross-compiling-examples-for-arm">Cross-compiling examples for Arm</a> section.</p>
+</section>
+<section id="target-file-system">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Target file-system</a><a class="headerlink" href="#target-file-system" title="連結到這個標頭"></a></h3>
+<p>As mentioned previously, ROS 2 requires different libraries which needs to be provided to cross-compile.</p>
+<dl class="simple">
+<dt>There are a number of ways to obtain the file-system:</dt><dd><ul class="simple">
+<li><p>downloading a pre-built image</p></li>
+<li><p>installing the dependencies on the target and exporting the file-system (e.g. with sshfs)</p></li>
+<li><p>using qemu + docker (or chroot) to generate the file-system on the host machine.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>You can find information on how to use Docker + qemu on the next <a class="reference internal" href="#cross-compiling-examples-for-arm">Cross-compiling examples for Arm</a> section.</p>
+</div>
+</section>
+<section id="build-process">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Build process</a><a class="headerlink" href="#build-process" title="連結到這個標頭"></a></h3>
+<p>The build process is similar to native compilation. The only difference is an extra argument to <code class="docutils literal notranslate"><span class="pre">Colcon</span></code> to specify the <code class="docutils literal notranslate"><span class="pre">toolchain-file</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span>--merge-install<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cmake-force-configure<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cmake-args<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-DCMAKE_TOOLCHAIN_FILE<span class="o">=</span><span class="s2">&quot;&lt;path_to_toolchain/toolchainfile.cmake&gt;&quot;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">toolchain-file</span></code> provide to CMake the information of the <code class="docutils literal notranslate"><span class="pre">cross-compiler</span></code> and the <code class="docutils literal notranslate"><span class="pre">target</span> <span class="pre">file-system</span></code>.
+<code class="docutils literal notranslate"><span class="pre">Colcon</span></code> will call CMake with the given toolchain-file on every package of ROS 2.</p>
+</section>
+<section id="cross-compiling-examples-for-arm">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Cross-compiling examples for Arm</a><a class="headerlink" href="#cross-compiling-examples-for-arm" title="連結到這個標頭"></a></h3>
+<p>After <a class="reference external" href="../../Installation/Linux-Development-Setup">downloading the ROS 2 source code</a>, you can add cross-compilation assets to the workspace via <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/ros-tooling/cross_compile.git</span> <span class="pre">-b</span> <span class="pre">0.0.1</span> <span class="pre">src/ros2/cross_compile</span></code>. These are working examples on how to cross-compile for Arm cores.</p>
+<dl class="simple">
+<dt>The following targets are supported:</dt><dd><ul class="simple">
+<li><p>Ubuntu-arm64: To be used with any ARMv8-A based system.</p></li>
+<li><p>Ubuntu-armhf: To be used with any modern ARMv7-A based system.</p></li>
+</ul>
+</dd>
+<dt>These are the main steps:</dt><dd><ul class="simple">
+<li><p>Installing development tools</p></li>
+<li><p>Downloading ROS 2 source code</p></li>
+<li><p>Downloading the ROS 2 cross-compilation assets</p></li>
+<li><p>Preparing the sysroot</p></li>
+<li><p>Cross-compiling the ROS 2 software stack</p></li>
+</ul>
+</dd>
+</dl>
+<p>The next sections explains in detail each of these steps.
+For a quick-setup, have a look at the <a class="reference internal" href="#automated-cross-compilation">Automated Cross-compilation</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>These steps were tested on an Ubuntu 18.04 (Bionic)</p>
+</div>
+<section id="install-development-tools">
+<h4>1. Install development tools<a class="headerlink" href="#install-development-tools" title="連結到這個標頭"></a></h4>
+<p>This step is similar to when building natively. The difference is that some of the libraries and tools are not required because they will be in the sysroot instead.
+The following packages are required</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>git<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>wget<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python3-pip<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>qemu-user-static<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>g++-aarch64-linux-gnu<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>g++-arm-linux-gnueabihf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>pkg-config-aarch64-linux-gnu
+
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>vcstool<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>colcon-common-extensions
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>You can install vcstool and colcon-common-extensions via pip. This
+means you are not required to add extra apt repositories.</p>
+</div>
+<p>Docker is used to build the target environment. Follow the official <a class="reference external" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">documentation</a> for the installation.</p>
+</section>
+<section id="download-ros-2-source-code">
+<h4>2. Download ROS 2 source code<a class="headerlink" href="#download-ros-2-source-code" title="連結到這個標頭"></a></h4>
+<p>Then create a workspace and download the ROS 2 source code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/cc_ws/ros2_ws/src
+<span class="nb">cd</span><span class="w"> </span>~/cc_ws/ros2_ws
+wget<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2/release-latest/ros2.repos
+vcs-import<span class="w"> </span>src<span class="w"> </span>&lt;<span class="w"> </span>ros2.repos
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ros-tooling/cross_compile.git<span class="w"> </span>-b<span class="w"> </span><span class="m">0</span>.0.1<span class="w"> </span>src/ros2/cross_compile
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+</section>
+<section id="prepare-the-sysroot">
+<h4>3. Prepare the sysroot<a class="headerlink" href="#prepare-the-sysroot" title="連結到這個標頭"></a></h4>
+<p>Build an arm Ubuntu image with all the ROS 2 dependencies using Docker and qemu:
+Copy the <code class="docutils literal notranslate"><span class="pre">qemu-static</span></code> binary to the workspace.
+It will be used to install the ROS 2 dependencies on the target file-system with docker.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>qemu-user-static
+cp<span class="w"> </span>/usr/bin/qemu-*-static<span class="w"> </span>qemu-user-static
+</pre></div>
+</div>
+<p>The standard <a class="reference external" href="../../Installation/Linux-Development-Setup">setup</a> process of ROS 2 is run inside an arm docker. This is possible thanks to <code class="docutils literal notranslate"><span class="pre">qemu-static</span></code>, which will emulate an arm machine. The base image used is an Ubuntu Bionic from Docker Hub.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>arm_ros2:latest<span class="w"> </span>-f<span class="w"> </span>ros2_ws/src/ros2/cross_compile/sysroot/Dockerfile_ubuntu_arm<span class="w"> </span>.
+docker<span class="w"> </span>run<span class="w"> </span>--name<span class="w"> </span>arm_sysroot<span class="w"> </span>arm_ros2:latest
+</pre></div>
+</div>
+<p>Export the resulting container to a tarball and extract it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>container<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-o<span class="w"> </span>sysroot_docker.tar<span class="w"> </span>arm_sysroot
+mkdir<span class="w"> </span>sysroot_docker
+tar<span class="w"> </span>-C<span class="w"> </span>sysroot_docker<span class="w"> </span>-xf<span class="w"> </span>sysroot_docker.tar<span class="w"> </span>lib<span class="w"> </span>usr<span class="w"> </span>opt<span class="w"> </span>etc
+docker<span class="w"> </span>rm<span class="w"> </span>arm_sysroot
+</pre></div>
+</div>
+<p>This container can be used later as virtual target to run the created file-system and run the demo code.</p>
+</section>
+<section id="build">
+<h4>4. Build<a class="headerlink" href="#build" title="連結到這個標頭"></a></h4>
+<p>Set the variables used by the generic toolchain-file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">TARGET_ARCH</span><span class="o">=</span>aarch64
+<span class="nb">export</span><span class="w"> </span><span class="nv">TARGET_TRIPLE</span><span class="o">=</span>aarch64-linux-gnu
+<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>/usr/bin/<span class="nv">$TARGET_TRIPLE</span>-gcc
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/usr/bin/<span class="nv">$TARGET_TRIPLE</span>-g++
+<span class="nb">export</span><span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span>/usr/bin/<span class="nv">$TARGET_TRIPLE</span>-
+<span class="nb">export</span><span class="w"> </span><span class="nv">SYSROOT</span><span class="o">=</span>~/cc_ws/sysroot_docker
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROS2_INSTALL_PATH</span><span class="o">=</span>~/cc_ws/ros2_ws/install
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHON_SOABI</span><span class="o">=</span>cpython-36m-<span class="nv">$TARGET_TRIPLE</span>
+</pre></div>
+</div>
+<p>The following packages still cause errors during the cross-compilation (under investigation) and must be disabled for now.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>touch<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ros2_ws/src/ros2/rviz/COLCON_IGNORE<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ros2_ws/src/ros-visualization/COLCON_IGNORE
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Poco</span></code> pre-built has a known issue where it is searching for <code class="docutils literal notranslate"><span class="pre">libz</span></code> and <code class="docutils literal notranslate"><span class="pre">libpcre</span></code> on the host system instead of SYSROOT.
+As a workaround for the moment, please link both libraries into the the host's file-system.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>/usr/lib/<span class="nv">$TARGET_TRIPLE</span>
+ln<span class="w"> </span>-s<span class="w"> </span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/sysroot_docker/lib/<span class="nv">$TARGET_TRIPLE</span>/libz.so.1<span class="w"> </span>/usr/lib/<span class="nv">$TARGET_TRIPLE</span>/libz.so
+ln<span class="w"> </span>-s<span class="w"> </span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/sysroot_docker/lib/<span class="nv">$TARGET_TRIPLE</span>/libpcre.so.3<span class="w"> </span>/usr/lib/<span class="nv">$TARGET_TRIPLE</span>/libpcre.so
+</pre></div>
+</div>
+<p>Then, start a build with colcon specifying the toolchain-file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ros2_ws
+
+colcon<span class="w"> </span>build<span class="w"> </span>--merge-install<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cmake-force-configure<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cmake-args<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-DCMAKE_VERBOSE_MAKEFILE:BOOL<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-DCMAKE_TOOLCHAIN_FILE<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/src/ros2/cross_compile/cmake-toolchains/generic_linux.cmake&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-DSECURITY<span class="o">=</span>ON
+</pre></div>
+</div>
+<p>Done! The install and build directories will contain the cross-compiled assets.</p>
+</section>
+</section>
+<section id="automated-cross-compilation">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Automated Cross-compilation</a><a class="headerlink" href="#automated-cross-compilation" title="連結到這個標頭"></a></h3>
+<p>All the steps above are also included into a Dockerfile and can be used for automation/CI.</p>
+<p>First, download the dockerfile and build the image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://raw.githubusercontent.com/ros-tooling/cross_compile/master/Dockerfile_cc_for_arm
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>ros2-crosscompiler:latest<span class="w"> </span>-<span class="w"> </span>&lt;<span class="w"> </span>Dockerfile_cc_for_arm
+</pre></div>
+</div>
+<p>Now run the image with:
+(it will take a while !)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--name<span class="w"> </span>ros2_cc<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span>/var/run/docker.sock:/var/run/docker.sock<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ros2-crosscompiler:latest
+</pre></div>
+</div>
+<p>..note:: The -v /var/run/docker.sock allow us to use Docker inside Docker.</p>
+<p>The result of the build will be inside the <code class="docutils literal notranslate"><span class="pre">ros2_ws</span></code> directory, which can be exported with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>cp<span class="w"> </span>ros2_cc:/root/cc_ws/ros2_ws<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="cross-compiling-against-a-pre-built-ros-2">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Cross-compiling against a pre-built ROS 2</a><a class="headerlink" href="#cross-compiling-against-a-pre-built-ros-2" title="連結到這個標頭"></a></h3>
+<p>It is possible to cross-compile your packages against a pre-built ROS 2. The steps are similar to the previous <a class="reference internal" href="#cross-compiling-examples-for-arm">Cross-compiling examples for Arm</a> section, with the following modifications:</p>
+<p>Instead of downloading the ROS 2 stack, just populate your workspace with your package (ros2 examples on this case) and the cross-compilation assets:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/cc_ws/ros2_ws/src
+<span class="nb">cd</span><span class="w"> </span>~/cc_ws/ros2_ws/src
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ros2/examples.git
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ros-tooling/cross_compile.git<span class="w"> </span>-b<span class="w"> </span><span class="m">0</span>.0.1
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+<p>Generate and export the file-system as described in <a class="reference internal" href="#prepare-the-sysroot">3. Prepare the sysroot</a>, but with the provided <code class="docutils literal notranslate"><span class="pre">Dockerfile_ubuntu_arm64_prebuilt</span></code>. These <code class="docutils literal notranslate"><span class="pre">_prebuilt</span></code> Dockerfile will use the <a class="reference external" href="https://index.ros.org/doc/ros2/Linux-Install-Debians/">binary packages</a> to install ROS 2 instead of building from source.</p>
+<p>Modify the environment variable <code class="docutils literal notranslate"><span class="pre">ROS2_INSTALL_PATH</span></code> to point to the installation directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">ROS2_INSTALL_PATH</span><span class="o">=</span>~/cc_ws/sysroot_docker/opt/ros/crystal
+</pre></div>
+</div>
+<p>Source the <code class="docutils literal notranslate"><span class="pre">setup.bash</span></code> script on the target file-system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="nv">$ROS2_INSTALL_PATH</span>/setup.bash
+</pre></div>
+</div>
+<p>Then, start a build with <code class="docutils literal notranslate"><span class="pre">Colcon</span></code> specifying the <code class="docutils literal notranslate"><span class="pre">toolchain-file</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--merge-install<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cmake-force-configure<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cmake-args<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-DCMAKE_VERBOSE_MAKEFILE:BOOL<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-DCMAKE_TOOLCHAIN_FILE<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/src/cross_compile/cmake-toolchains/generic_linux.cmake&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="run-on-the-target">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Run on the target</a><a class="headerlink" href="#run-on-the-target" title="連結到這個標頭"></a></h3>
+<p>Copy the file-system on your target or use the previously built docker image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/ros2_ws:/ros2_ws<span class="w"> </span>arm_ros2:latest
+</pre></div>
+</div>
+<p>Source the environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/ros2_ws/install/local_setup.bash
+</pre></div>
+</div>
+<p>Run some of the C++ or python examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>listener<span class="w"> </span><span class="p">&amp;</span>
+ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_py<span class="w"> </span>talker
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="catment.html" class="btn btn-neutral float-left" title="On the mixing of ament and catkin (catment)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Allocator-Template-Tutorial.html" class="btn btn-neutral float-right" title="Implement a custom memory allocator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EVD5Z6G6NH', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

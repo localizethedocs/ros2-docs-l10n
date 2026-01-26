@@ -1,0 +1,1255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-TW" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理大型專案 &mdash; ROS 2 documentation  說明文件</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=7da51243"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../_static/translations.js?v=cbf116e0"></script>
+      <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜尋" href="../../../search.html" />
+    <link rel="next" title="tf2" href="../Tf2/Tf2-Main.html" />
+    <link rel="prev" title="Using event handlers" href="Using-Event-Handlers.html" />
+ 
+<script type="text/javascript" src="../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../../_static/kilted-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../Installation.html">安裝</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Releases.html">散布版</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../Tutorials.html">教學</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Configuring-ROS2-Environment.html">組態環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">了解節點</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">了解參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../Intermediate.html">Intermediate</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="Launch-Main.html">Launch</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">管理大型專案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../URDF/Exporting-an-URDF-File.html">生成一個 URDF 檔案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Advanced.html">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../How-To-Guides.html">操作指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Installation-Troubleshooting.html">安裝疑難排解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Ament-CMake-Documentation.html">ament_cmake 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Ament-CMake-Python-Documentation.html">ament_cmake_python 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Cross-compilation.html">交叉編譯</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Concepts.html">概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Basic.html">基本概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Nodes.html">節點</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Interfaces.html">介面</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Topics.html">話題</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Services.html">服務</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Cross-Compilation.html">交叉編譯</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Security.html">ROS 2 安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Advanced.html">進階概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Build-System.html">建置系統</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Internal-Interfaces.html">內部 ROS 2 介面</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 中介軟體實現</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Contact.html">聯絡</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../The-ROS2-Project.html">ROS 2 專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Package-Docs.html">軟體包文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Related-Projects.html">相關專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 專案</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Glossary.html">詞彙表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Citations.html">引用</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../Tutorials.html">教學</a></li>
+          <li class="breadcrumb-item"><a href="../../Intermediate.html">Intermediate</a></li>
+          <li class="breadcrumb-item"><a href="Launch-Main.html">Launch</a></li>
+      <li class="breadcrumb-item active">管理大型專案</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="managing-large-projects">
+<span id="usingros2launchforlargeprojects"></span><h1>管理大型專案<a class="headerlink" href="#managing-large-projects" title="連結到這個標頭"></a></h1>
+<p><strong>Goal:</strong> Learn best practices of managing large projects using ROS 2 launch files.</p>
+<p><strong>Tutorial level:</strong> Intermediate</p>
+<p><strong>Time:</strong> 20 minutes</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id2">Background</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id3">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#introduction" id="id4">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#writing-launch-files" id="id5">Writing launch files</a></p>
+<ul>
+<li><p><a class="reference internal" href="#top-level-organization" id="id6">1 Top-level organization</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id7">2 Parameters</a></p>
+<ul>
+<li><p><a class="reference internal" href="#setting-parameters-in-the-launch-file" id="id8">2.1 Setting parameters in the launch file</a></p></li>
+<li><p><a class="reference internal" href="#loading-parameters-from-yaml-file" id="id9">2.2 Loading parameters from YAML file</a></p></li>
+<li><p><a class="reference internal" href="#using-wildcards-in-yaml-files" id="id10">2.3 Using wildcards in YAML files</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#namespaces" id="id11">3 Namespaces</a></p></li>
+<li><p><a class="reference internal" href="#reusing-nodes" id="id12">4 Reusing nodes</a></p></li>
+<li><p><a class="reference internal" href="#parameter-overrides" id="id13">5 Parameter overrides</a></p></li>
+<li><p><a class="reference internal" href="#remapping" id="id14">6 Remapping</a></p></li>
+<li><p><a class="reference internal" href="#config-files" id="id15">7 Config files</a></p></li>
+<li><p><a class="reference internal" href="#environment-variables" id="id16">8 Environment Variables</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#running-launch-files" id="id17">Running launch files</a></p>
+<ul>
+<li><p><a class="reference internal" href="#update-setup-py" id="id18">1 Update setup.py</a></p></li>
+<li><p><a class="reference internal" href="#build-and-run" id="id19">2 建置並執行</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id20">Summary</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Background</a><a class="headerlink" href="#background" title="連結到這個標頭"></a></h2>
+<p>This tutorial describes some tips for writing launch files for large projects.
+The focus is on how to structure launch files so they may be reused as much as possible in different situations.
+Additionally, it covers usage examples of different ROS 2 launch tools, like parameters, YAML files, remappings, namespaces, default arguments, and RViz configs.</p>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="連結到這個標頭"></a></h2>
+<p>This tutorial uses the <a class="reference internal" href="../../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html"><span class="doc">turtlesim</span></a> and <a class="reference internal" href="../Tf2/Introduction-To-Tf2.html"><span class="doc">turtle_tf2_py</span></a> packages.
+This tutorial also assumes you have <a class="reference internal" href="../../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html"><span class="doc">created a new package</span></a> of build type <code class="docutils literal notranslate"><span class="pre">ament_python</span></code> called <code class="docutils literal notranslate"><span class="pre">launch_tutorial</span></code>.</p>
+</section>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="連結到這個標頭"></a></h2>
+<p>Large applications on a robot typically involve several interconnected nodes, each of which can have many parameters.
+Simulation of multiple turtles in the turtle simulator can serve as a good example.
+The turtle simulation consists of multiple turtle nodes, the world configuration, and the TF broadcaster and listener nodes.
+Between all of the nodes, there are a large number of ROS parameters that affect the behavior and appearance of these nodes.
+ROS 2 launch files allow us to start all nodes and set corresponding parameters in one place.
+By the end of a tutorial, you will build the <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch</span></code> launch file in the <code class="docutils literal notranslate"><span class="pre">launch_tutorial</span></code> package.
+This launch file will bring up different nodes responsible for the simulation of two turtlesim simulations, starting TF broadcasters and listener, loading parameters, and launching an RViz configuration.
+In this tutorial, we'll go over this launch file and all related features used.</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>Launch files can be written in XML, YAML, or Python format.
+Throughout this tutorial, launch files are shown in all three formats using tabs.
+You can choose whichever format you prefer - they are functionally equivalent.
+Wherever you see the file name <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch</span></code> make sure to use the correct file extension for your launch file type (i.e. <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch.py</span></code> for Python, <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch.xml</span></code> for XML, and <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch.yaml</span></code> for YAML.</p>
+</div>
+</section>
+<section id="writing-launch-files">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Writing launch files</a><a class="headerlink" href="#writing-launch-files" title="連結到這個標頭"></a></h2>
+<section id="top-level-organization">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">1 Top-level organization</a><a class="headerlink" href="#top-level-organization" title="連結到這個標頭"></a></h3>
+<p>One of the aims in the process of writing launch files should be making them as reusable as possible.
+This could be done by clustering related nodes and configurations into separate launch files.
+Afterwards, a top-level launch file dedicated to a specific configuration could be written.
+This would allow moving between identical robots to be done without changing the launch files at all.
+Even a change such as moving from a real robot to a simulated one can be done with only a few changes.</p>
+<p>We will now go over the top-level launch file structure that makes this possible.
+Firstly, we will create a launch file that will call separate launch files.
+To do this, let's create a <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch</span></code> file in the <code class="docutils literal notranslate"><span class="pre">/launch</span></code> folder of our <code class="docutils literal notranslate"><span class="pre">launch_tutorial</span></code> package.</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>Earlier launch system versions may not support <code class="docutils literal notranslate"><span class="pre">let</span></code> inside <code class="docutils literal notranslate"><span class="pre">include</span></code> statements and require <code class="docutils literal notranslate"><span class="pre">arg</span></code> instead.
+The syntax is the same: <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">value</span></code> attributes remain unchanged (e.g., <code class="docutils literal notranslate"><span class="pre">&lt;arg</span> <span class="pre">name=&quot;target_frame&quot;</span> <span class="pre">value=&quot;carrot1&quot;</span> <span class="pre">/&gt;</span></code>).</p>
+</div>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-0-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-0-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-WE1M" class="sphinx-tabs-panel group-tab" id="panel-0-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/launch_turtlesim_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/turtlesim_world_1_launch.xml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/turtlesim_world_2_launch.xml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/broadcaster_listener_launch.xml&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;let</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;target_frame&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;carrot1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/include&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/mimic_launch.xml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/fixed_broadcaster_launch.xml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/turtlesim_rviz_launch.xml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/launch_turtlesim_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/turtlesim_world_1_launch.yaml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/turtlesim_world_2_launch.yaml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/broadcaster_listener_launch.yaml&quot;</span>
+<span class="w">      </span><span class="nt">let</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;target_frame&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;carrot1&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/mimic_launch.yaml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/fixed_broadcaster_launch.yaml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/turtlesim_rviz_launch.yaml&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/launch_turtlesim_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathJoinSubstitution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindPackageShare</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="n">launch_dir</span> <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">FindPackageShare</span><span class="p">(</span><span class="s1">&#39;launch_tutorial&#39;</span><span class="p">),</span> <span class="s1">&#39;launch&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;turtlesim_world_1_launch.py&#39;</span><span class="p">])</span>
+        <span class="p">),</span>
+        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;turtlesim_world_2_launch.py&#39;</span><span class="p">])</span>
+        <span class="p">),</span>
+        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;broadcaster_listener_launch.py&#39;</span><span class="p">]),</span>
+            <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;target_frame&#39;</span><span class="p">:</span> <span class="s1">&#39;carrot1&#39;</span><span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;mimic_launch.py&#39;</span><span class="p">])</span>
+        <span class="p">),</span>
+        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;fixed_broadcaster_launch.py&#39;</span><span class="p">])</span>
+        <span class="p">),</span>
+        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;turtlesim_rviz_launch.py&#39;</span><span class="p">])</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>This launch file includes a set of other launch files.
+Each of these included launch files contains nodes, parameters, and possibly, nested includes, which pertain to one part of the system.
+To be exact, we launch two turtlesim simulation worlds, TF broadcaster, TF listener, mimic, fixed frame broadcaster, and RViz nodes.</p>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>Design Tip: Top-level launch files should be short, consist of includes to other files corresponding to subcomponents of the application, and commonly changed parameters.</p>
+</div>
+<p>Writing launch files in the following manner makes it easy to swap out one piece of the system, as we'll see later.
+However, there are cases when some nodes or launch files have to be launched separately due to performance and usage reasons.</p>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>Design tip: Be aware of the tradeoffs when deciding how many top-level launch files your application requires.</p>
+</div>
+</section>
+<section id="parameters">
+<span id="id1"></span><h3><a class="toc-backref" href="#id7" role="doc-backlink">2 Parameters</a><a class="headerlink" href="#parameters" title="連結到這個標頭"></a></h3>
+<section id="setting-parameters-in-the-launch-file">
+<h4><a class="toc-backref" href="#id8" role="doc-backlink">2.1 Setting parameters in the launch file</a><a class="headerlink" href="#setting-parameters-in-the-launch-file" title="連結到這個標頭"></a></h4>
+<p>We will begin by writing a launch file that will start our first turtlesim simulation.
+First, create a new file called <code class="docutils literal notranslate"><span class="pre">turtlesim_world_1_launch</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-1-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-1-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-WE1M" class="sphinx-tabs-panel group-tab" id="panel-1-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_1_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;background_r&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;background_g&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;84&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;background_b&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;122&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtlesim&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;turtlesim_node&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sim&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;background_r&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(var background_r)&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;background_g&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(var background_g)&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;background_b&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(var background_b)&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_1_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">arg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;background_r&quot;</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">arg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;background_g&quot;</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;84&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">arg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;background_b&quot;</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;122&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim_node&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sim&quot;</span>
+<span class="w">      </span><span class="nt">param</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;background_r&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(var</span><span class="nv"> </span><span class="s">background_r)&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;background_g&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(var</span><span class="nv"> </span><span class="s">background_g)&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;background_b&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(var</span><span class="nv"> </span><span class="s">background_b)&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_1_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeclareLaunchArgument</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">DeclareLaunchArgument</span><span class="p">(</span><span class="s1">&#39;background_r&#39;</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">),</span>
+        <span class="n">DeclareLaunchArgument</span><span class="p">(</span><span class="s1">&#39;background_g&#39;</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="s1">&#39;84&#39;</span><span class="p">),</span>
+        <span class="n">DeclareLaunchArgument</span><span class="p">(</span><span class="s1">&#39;background_b&#39;</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="s1">&#39;122&#39;</span><span class="p">),</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtlesim&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;turtlesim_node&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;sim&#39;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span>
+                <span class="s1">&#39;background_r&#39;</span><span class="p">:</span> <span class="n">LaunchConfiguration</span><span class="p">(</span><span class="s1">&#39;background_r&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;background_g&#39;</span><span class="p">:</span> <span class="n">LaunchConfiguration</span><span class="p">(</span><span class="s1">&#39;background_g&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;background_b&#39;</span><span class="p">:</span> <span class="n">LaunchConfiguration</span><span class="p">(</span><span class="s1">&#39;background_b&#39;</span><span class="p">),</span>
+            <span class="p">}]</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>This launch file starts the <code class="docutils literal notranslate"><span class="pre">turtlesim_node</span></code> node, which starts the turtlesim simulation, with simulation configuration parameters that are defined and passed to the nodes.</p>
+</section>
+<section id="loading-parameters-from-yaml-file">
+<span id="loadingparametersfromyamlfile"></span><h4><a class="toc-backref" href="#id9" role="doc-backlink">2.2 Loading parameters from YAML file</a><a class="headerlink" href="#loading-parameters-from-yaml-file" title="連結到這個標頭"></a></h4>
+<p>In the second launch, we will start a second turtlesim simulation with a different configuration.
+Now create a <code class="docutils literal notranslate"><span class="pre">turtlesim_world_2_launch</span></code> file.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-2-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-2-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-2-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-WE1M" class="sphinx-tabs-panel group-tab" id="panel-2-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_2_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtlesim&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;turtlesim_node&quot;</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;turtlesim2&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sim&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/config/turtlesim.yaml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_2_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim_node&quot;</span>
+<span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim2&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sim&quot;</span>
+<span class="w">      </span><span class="nt">param</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/config/turtlesim.yaml&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_2_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathJoinSubstitution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindPackageShare</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtlesim&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;turtlesim_node&#39;</span><span class="p">,</span>
+            <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;turtlesim2&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;sim&#39;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">PathJoinSubstitution</span><span class="p">([</span>
+                <span class="n">FindPackageShare</span><span class="p">(</span><span class="s1">&#39;launch_tutorial&#39;</span><span class="p">),</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;turtlesim.yaml&#39;</span><span class="p">])</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>This launch file will launch the same <code class="docutils literal notranslate"><span class="pre">turtlesim_node</span></code> with parameter values that are loaded directly from the YAML configuration file.
+Defining arguments and parameters in YAML files make it easy to store and load a large number of variables.
+It is also worth noting that this YAML file is not another launch file, it is a configuration file for the <code class="docutils literal notranslate"><span class="pre">turtlesim_node</span></code> that sets parameters for the node.
+In addition, YAML files can be easily exported from the current <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> list.
+To learn how to do that, refer to the <a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html"><span class="doc">Understand parameters</span></a> tutorial.</p>
+<p>Let's now create a configuration file, <code class="docutils literal notranslate"><span class="pre">turtlesim.yaml</span></code>, in the <code class="docutils literal notranslate"><span class="pre">/config</span></code> folder of our package, which will be loaded by our launch file.</p>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">/turtlesim2/sim</span><span class="p">:</span>
+<span class="w">   </span><span class="nt">ros__parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">background_b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">255</span>
+<span class="w">      </span><span class="nt">background_g</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">86</span>
+<span class="w">      </span><span class="nt">background_r</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">150</span>
+</pre></div>
+</div>
+<p>To learn more about using parameters and using YAML files, take a look at the <a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html"><span class="doc">Understand parameters</span></a> tutorial.</p>
+</section>
+<section id="using-wildcards-in-yaml-files">
+<h4><a class="toc-backref" href="#id10" role="doc-backlink">2.3 Using wildcards in YAML files</a><a class="headerlink" href="#using-wildcards-in-yaml-files" title="連結到這個標頭"></a></h4>
+<p>There are cases when we want to set the same parameters in more than one node.
+These nodes could have different namespaces or names but still have the same parameters.
+Defining separate YAML files that explicitly define namespaces and node names is not efficient.
+A solution is to use wildcard characters, which act as substitutions for unknown characters in a text value, to apply parameters to several different nodes.</p>
+<p>Now let's create a new <code class="docutils literal notranslate"><span class="pre">turtlesim_world_3_launch</span></code> file similar to <code class="docutils literal notranslate"><span class="pre">turtlesim_world_2_launch</span></code> to include one more <code class="docutils literal notranslate"><span class="pre">turtlesim_node</span></code> node in a new namespace <code class="docutils literal notranslate"><span class="pre">turtlesim3</span></code>:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-3-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-3-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-3-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-3-WE1M" class="sphinx-tabs-panel group-tab" id="panel-3-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_3_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="hll"><span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtlesim&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;turtlesim_node&quot;</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;turtlesim3&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sim&quot;</span><span class="nt">&gt;</span>
+</span><span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/config/turtlesim.yaml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_3_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim_node&quot;</span>
+<span class="hll"><span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim3&quot;</span>
+</span><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sim&quot;</span>
+<span class="w">      </span><span class="nt">param</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/config/turtlesim.yaml&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_world_3_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathJoinSubstitution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindPackageShare</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtlesim&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;turtlesim_node&#39;</span><span class="p">,</span>
+<span class="hll">            <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;turtlesim3&#39;</span><span class="p">,</span>
+</span>            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;sim&#39;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">PathJoinSubstitution</span><span class="p">([</span>
+                    <span class="n">FindPackageShare</span><span class="p">(</span><span class="s1">&#39;launch_tutorial&#39;</span><span class="p">),</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;turtlesim.yaml&#39;</span><span class="p">]),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>Loading the same YAML file, however, will not affect the appearance of the third turtlesim world.
+The reason is that its parameters are stored under another namespace as shown below:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/turtlesim3/sim:</span>
+<span class="go">   background_b</span>
+<span class="go">   background_g</span>
+<span class="go">   background_r</span>
+</pre></div>
+</div>
+<p>Therefore, instead of creating a new configuration for the same node that use the same parameters, we can use wildcards syntax.
+<code class="docutils literal notranslate"><span class="pre">/**</span></code> will assign all the parameters in every node, despite differences in node names and namespaces.</p>
+<p>We will now update the <code class="docutils literal notranslate"><span class="pre">turtlesim.yaml</span></code>, in the <code class="docutils literal notranslate"><span class="pre">/config</span></code> folder in the following manner:</p>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">/**</span><span class="p">:</span>
+<span class="w">   </span><span class="nt">ros__parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">background_b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">255</span>
+<span class="w">      </span><span class="nt">background_g</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">86</span>
+<span class="w">      </span><span class="nt">background_r</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">150</span>
+</pre></div>
+</div>
+<p>Now include the <code class="docutils literal notranslate"><span class="pre">turtlesim_world_3_launch</span></code> launch description in our main launch file.
+Using that configuration file in our launch descriptions will assign <code class="docutils literal notranslate"><span class="pre">background_b</span></code>, <code class="docutils literal notranslate"><span class="pre">background_g</span></code>, and <code class="docutils literal notranslate"><span class="pre">background_r</span></code> parameters to specified values in <code class="docutils literal notranslate"><span class="pre">turtlesim3/sim</span></code> and <code class="docutils literal notranslate"><span class="pre">turtlesim2/sim</span></code> nodes.</p>
+</section>
+</section>
+<section id="namespaces">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">3 Namespaces</a><a class="headerlink" href="#namespaces" title="連結到這個標頭"></a></h3>
+<p>As you may have noticed, we have defined the namespace for the turlesim world in the <code class="docutils literal notranslate"><span class="pre">turtlesim_world_2_launch</span></code> file.
+Unique namespaces allow the system to start two similar nodes without node name or topic name conflicts.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;turtlesim2&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>However, if the launch file contains a large number of nodes, defining namespaces for each of them can become tedious.
+To solve that issue, the <code class="docutils literal notranslate"><span class="pre">PushROSNamespace</span></code> action can be used to define the global namespace for each launch file description.
+Every nested node will inherit that namespace automatically.</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p><code class="docutils literal notranslate"><span class="pre">PushROSNamespace</span></code> has to be the first action in the list for the following actions to apply the namespace.</p>
+</div>
+<p>To do that, firstly, we need to remove the <code class="docutils literal notranslate"><span class="pre">namespace='turtlesim2'</span></code> line from the <code class="docutils literal notranslate"><span class="pre">turtlesim_world_2_launch</span></code> file.
+Afterwards, we need to update the <code class="docutils literal notranslate"><span class="pre">launch_turtlesim_launch</span></code> to change the include statement to the following:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-4-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-4-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-4-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-4-WE1M" class="sphinx-tabs-panel group-tab" id="panel-4-WE1M" name="WE1M" role="tabpanel" tabindex="0"><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;group&gt;</span>
+<span class="w">  </span><span class="nt">&lt;push_ros_namespace</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;turtlesim2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/turtlesim_world_2_launch.xml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">group</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">push_ros_namespace</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim2&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/turtlesim_world_2_launch.yaml&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupAction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">PushROSNamespace</span>
+
+   <span class="o">...</span>
+   <span class="n">GroupAction</span><span class="p">(</span>
+     <span class="n">actions</span><span class="o">=</span><span class="p">[</span>
+         <span class="n">PushROSNamespace</span><span class="p">(</span><span class="s1">&#39;turtlesim2&#39;</span><span class="p">),</span>
+         <span class="n">IncludeLaunchDescription</span><span class="p">(</span><span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;turtlesim_world_2_launch.py&#39;</span><span class="p">])),</span>
+      <span class="p">]</span>
+   <span class="p">),</span>
+</pre></div>
+</div>
+</div></div>
+<p>As a result, each node in the <code class="docutils literal notranslate"><span class="pre">turtlesim_world_2_launch</span></code> launch description will have a <code class="docutils literal notranslate"><span class="pre">turtlesim2</span></code> namespace.</p>
+</section>
+<section id="reusing-nodes">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">4 Reusing nodes</a><a class="headerlink" href="#reusing-nodes" title="連結到這個標頭"></a></h3>
+<p>Now create a <code class="docutils literal notranslate"><span class="pre">broadcaster_listener_launch</span></code> file.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-5-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-5-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-5-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-5-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-5-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-5-WE1M" class="sphinx-tabs-panel group-tab" id="panel-5-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/broadcaster_listener_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;target_frame&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;turtle1&quot;</span><span class="w"> </span><span class="na">description=</span><span class="s">&quot;Target frame name.&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtle_tf2_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;turtle_tf2_broadcaster&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;broadcaster1&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;turtlename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;turtle1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtle_tf2_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;turtle_tf2_broadcaster&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;broadcaster2&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;turtlename&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;turtle2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtle_tf2_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;turtle_tf2_listener&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;listener&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;target_frame&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;$(var target_frame)&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-5-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/broadcaster_listener_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">arg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;target_frame&quot;</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle1&quot;</span>
+<span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Target</span><span class="nv"> </span><span class="s">frame</span><span class="nv"> </span><span class="s">name.&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_py&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_broadcaster&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;broadcaster1&quot;</span>
+<span class="w">      </span><span class="nt">param</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlename&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle1&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_py&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_broadcaster&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;broadcaster2&quot;</span>
+<span class="w">      </span><span class="nt">param</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlename&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle2&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_py&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_listener&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;listener&quot;</span>
+<span class="w">      </span><span class="nt">param</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;target_frame&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(var</span><span class="nv"> </span><span class="s">target_frame)&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-5-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/broadcaster_listener_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeclareLaunchArgument</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchConfiguration</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">DeclareLaunchArgument</span><span class="p">(</span>
+            <span class="s1">&#39;target_frame&#39;</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="s1">&#39;turtle1&#39;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Target frame name.&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_py&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_broadcaster&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;broadcaster1&#39;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s1">&#39;turtlename&#39;</span><span class="p">:</span> <span class="s1">&#39;turtle1&#39;</span><span class="p">}</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_py&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_broadcaster&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;broadcaster2&#39;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s1">&#39;turtlename&#39;</span><span class="p">:</span> <span class="s1">&#39;turtle2&#39;</span><span class="p">}</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_py&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_listener&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listener&#39;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s1">&#39;target_frame&#39;</span><span class="p">:</span> <span class="n">LaunchConfiguration</span><span class="p">(</span><span class="s1">&#39;target_frame&#39;</span><span class="p">)}</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>In this file, we have declared the <code class="docutils literal notranslate"><span class="pre">target_frame</span></code> launch argument with a default value of <code class="docutils literal notranslate"><span class="pre">turtle1</span></code>.
+The default value means that the launch file can receive an argument to forward to its nodes, or in case the argument is not provided, it will pass the default value to its nodes.</p>
+<p>Afterwards, we use the <code class="docutils literal notranslate"><span class="pre">turtle_tf2_broadcaster</span></code> node two times using different names and parameters during launch.
+This allows us to duplicate the same node without conflicts.</p>
+<p>We also start a <code class="docutils literal notranslate"><span class="pre">turtle_tf2_listener</span></code> node and set its <code class="docutils literal notranslate"><span class="pre">target_frame</span></code> parameter that we declared and acquired above.</p>
+</section>
+<section id="parameter-overrides">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">5 Parameter overrides</a><a class="headerlink" href="#parameter-overrides" title="連結到這個標頭"></a></h3>
+<p>Recall that we called the <code class="docutils literal notranslate"><span class="pre">broadcaster_listener_launch</span></code> file in our top-level launch file.
+In addition to that, we have passed it <code class="docutils literal notranslate"><span class="pre">target_frame</span></code> launch argument as shown below:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-6-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-6-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-6-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-6-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-6-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-6-WE1M" class="sphinx-tabs-panel group-tab" id="panel-6-WE1M" name="WE1M" role="tabpanel" tabindex="0"><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;$(find-pkg-share launch_tutorial)/launch/broadcaster_listener_launch.xml&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;let</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;target_frame&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;carrot1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/include&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-6-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(find-pkg-share</span><span class="nv"> </span><span class="s">launch_tutorial)/launch/broadcaster_listener_launch.yaml&quot;</span>
+<span class="w">      </span><span class="nt">let</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;target_frame&quot;</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;carrot1&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-6-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+            <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">launch_dir</span><span class="p">,</span> <span class="s1">&#39;broadcaster_listener_launch.py&#39;</span><span class="p">]),</span>
+            <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;target_frame&#39;</span><span class="p">:</span> <span class="s1">&#39;carrot1&#39;</span><span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">),</span>
+</pre></div>
+</div>
+</div></div>
+<p>This syntax allows us to change the default goal target frame to <code class="docutils literal notranslate"><span class="pre">carrot1</span></code>.
+If you would like <code class="docutils literal notranslate"><span class="pre">turtle2</span></code> to follow <code class="docutils literal notranslate"><span class="pre">turtle1</span></code> instead of the <code class="docutils literal notranslate"><span class="pre">carrot1</span></code>, just remove the line that passes the <code class="docutils literal notranslate"><span class="pre">target_frame</span></code> argument.
+This will assign <code class="docutils literal notranslate"><span class="pre">target_frame</span></code> its default value, which is <code class="docutils literal notranslate"><span class="pre">turtle1</span></code>.</p>
+</section>
+<section id="remapping">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">6 Remapping</a><a class="headerlink" href="#remapping" title="連結到這個標頭"></a></h3>
+<p>Now create a <code class="docutils literal notranslate"><span class="pre">mimic_launch</span></code> file.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-7-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-7-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-7-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-7-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-7-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-7-WE1M" class="sphinx-tabs-panel group-tab" id="panel-7-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/mimic_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtlesim&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;mimic&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mimic&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;/input/pose&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;/turtle2/pose&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;remap</span><span class="w"> </span><span class="na">from=</span><span class="s">&quot;/output/cmd_vel&quot;</span><span class="w"> </span><span class="na">to=</span><span class="s">&quot;/turtlesim2/turtle1/cmd_vel&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-7-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/mimic_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtlesim&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mimic&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mimic&quot;</span>
+<span class="w">      </span><span class="nt">remap</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/input/pose&quot;</span>
+<span class="w">          </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/turtle2/pose&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/output/cmd_vel&quot;</span>
+<span class="w">          </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/turtlesim2/turtle1/cmd_vel&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-7-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/mimic_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtlesim&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;mimic&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mimic&#39;</span><span class="p">,</span>
+            <span class="n">remappings</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s1">&#39;/input/pose&#39;</span><span class="p">,</span> <span class="s1">&#39;/turtle2/pose&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;/output/cmd_vel&#39;</span><span class="p">,</span> <span class="s1">&#39;/turtlesim2/turtle1/cmd_vel&#39;</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>This launch file will start the <code class="docutils literal notranslate"><span class="pre">mimic</span></code> node, which will give commands to one turtlesim to follow the other.
+The node is designed to receive the target pose on the topic <code class="docutils literal notranslate"><span class="pre">/input/pose</span></code>.
+In our case, we want to remap the target pose from <code class="docutils literal notranslate"><span class="pre">/turtle2/pose</span></code> topic.
+Finally, we remap the <code class="docutils literal notranslate"><span class="pre">/output/cmd_vel</span></code> topic to <code class="docutils literal notranslate"><span class="pre">/turtlesim2/turtle1/cmd_vel</span></code>.
+This way <code class="docutils literal notranslate"><span class="pre">turtle1</span></code> in our <code class="docutils literal notranslate"><span class="pre">turtlesim2</span></code> simulation world will follow <code class="docutils literal notranslate"><span class="pre">turtle2</span></code> in our initial turtlesim world.</p>
+</section>
+<section id="config-files">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">7 Config files</a><a class="headerlink" href="#config-files" title="連結到這個標頭"></a></h3>
+<p>Let's now create a file called <code class="docutils literal notranslate"><span class="pre">turtlesim_rviz_launch</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-8-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-8-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-8-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-8-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-8-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-8-WE1M" class="sphinx-tabs-panel group-tab" id="panel-8-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_rviz_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;rviz2&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;rviz2&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;rviz2&quot;</span>
+<span class="w">        </span><span class="na">args=</span><span class="s">&quot;-d $(find-pkg-share turtle_tf2_py)/rviz/turtle_rviz.rviz&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-8-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_rviz_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rviz2&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rviz2&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rviz2&quot;</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-d</span><span class="nv"> </span><span class="s">$(find-pkg-share</span><span class="nv"> </span><span class="s">turtle_tf2_py)/rviz/turtle_rviz.rviz&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-8-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/turtlesim_rviz_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathJoinSubstitution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindPackageShare</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;rviz2&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;rviz2&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;rviz2&#39;</span><span class="p">,</span>
+            <span class="n">arguments</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span>
+                <span class="n">FindPackageShare</span><span class="p">(</span><span class="s1">&#39;turtle_tf2_py&#39;</span><span class="p">),</span> <span class="s1">&#39;rviz&#39;</span><span class="p">,</span> <span class="s1">&#39;turtle_rviz.rviz&#39;</span><span class="p">])],</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>This launch file will start the RViz with the configuration file defined in the <code class="docutils literal notranslate"><span class="pre">turtle_tf2_py</span></code> package.
+This RViz configuration will set the world frame, enable TF visualization, and start RViz with a top-down view.</p>
+</section>
+<section id="environment-variables">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">8 Environment Variables</a><a class="headerlink" href="#environment-variables" title="連結到這個標頭"></a></h3>
+<p>Let's now create the last launch file called <code class="docutils literal notranslate"><span class="pre">fixed_broadcaster_launch</span></code> in our package.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-9-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-9-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-9-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-9-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-9-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-9-WE1M" class="sphinx-tabs-panel group-tab" id="panel-9-WE1M" name="WE1M" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/fixed_broadcaster_launch.xml</span></code> file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;arg</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;node_prefix&quot;</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;$(env USER &#39;&#39;)_&quot;</span><span class="w"> </span><span class="na">description=</span><span class="s">&quot;prefix for node name&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;node</span><span class="w"> </span><span class="na">pkg=</span><span class="s">&quot;turtle_tf2_py&quot;</span><span class="w"> </span><span class="na">exec=</span><span class="s">&quot;fixed_frame_tf2_broadcaster&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;$(var node_prefix)fixed_broadcaster&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-9-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-9-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/fixed_broadcaster_launch.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">%YAML</span><span class="w"> </span><span class="m">1.2</span>
+<span class="nn">---</span>
+<span class="nt">launch</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">arg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node_prefix&quot;</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(env</span><span class="nv"> </span><span class="s">USER</span><span class="nv"> </span><span class="s">&#39;&#39;)_&quot;</span>
+<span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;prefix</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">node</span><span class="nv"> </span><span class="s">name&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">node</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pkg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;turtle_tf2_py&quot;</span>
+<span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fixed_frame_tf2_broadcaster&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$(var</span><span class="nv"> </span><span class="s">node_prefix)fixed_broadcaster&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-9-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-9-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><p>Copy and paste the complete code into the <code class="docutils literal notranslate"><span class="pre">launch/fixed_broadcaster_launch.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">launch</span><span class="w"> </span><span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeclareLaunchArgument</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch.substitutions</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnvironmentVariable</span><span class="p">,</span> <span class="n">LaunchConfiguration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">launch_ros.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">LaunchDescription</span><span class="p">([</span>
+        <span class="n">DeclareLaunchArgument</span><span class="p">(</span>
+            <span class="s1">&#39;node_prefix&#39;</span><span class="p">,</span>
+            <span class="n">default_value</span><span class="o">=</span><span class="p">[</span><span class="n">EnvironmentVariable</span><span class="p">(</span><span class="s1">&#39;USER&#39;</span><span class="p">),</span> <span class="s1">&#39;_&#39;</span><span class="p">],</span>
+            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;prefix for node name&#39;</span>
+        <span class="p">),</span>
+        <span class="n">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="s1">&#39;turtle_tf2_py&#39;</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;fixed_frame_tf2_broadcaster&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="p">[</span><span class="n">LaunchConfiguration</span><span class="p">(</span><span class="s1">&#39;node_prefix&#39;</span><span class="p">),</span> <span class="s1">&#39;fixed_broadcaster&#39;</span><span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p>This launch file shows the way environment variables can be called inside the launch files.
+Environment variables can be used to define or push namespaces for distinguishing nodes on different computers or robots.</p>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>If you are running the launch file where the <code class="docutils literal notranslate"><span class="pre">USER</span></code> environment variable is not defined (like in the ROS docker file), then you can replace the environment variable reference above with any other word of your liking.</p>
+</div>
+</section>
+</section>
+<section id="running-launch-files">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Running launch files</a><a class="headerlink" href="#running-launch-files" title="連結到這個標頭"></a></h2>
+<section id="update-setup-py">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">1 Update setup.py</a><a class="headerlink" href="#update-setup-py" title="連結到這個標頭"></a></h3>
+<p>Open <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and add the following lines so that the launch files from the <code class="docutils literal notranslate"><span class="pre">launch/</span></code> folder and configuration file from the <code class="docutils literal notranslate"><span class="pre">config/</span></code> would be installed.
+The <code class="docutils literal notranslate"><span class="pre">data_files</span></code> field should now look like this:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
+<span class="o">...</span>
+
+<span class="n">data_files</span><span class="o">=</span><span class="p">[</span>
+      <span class="o">...</span>
+      <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;share&#39;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="s1">&#39;launch&#39;</span><span class="p">),</span>
+         <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;launch/*&#39;</span><span class="p">)),</span>
+      <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;share&#39;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">),</span>
+         <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;config/*.yaml&#39;</span><span class="p">)),</span>
+      <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;share&#39;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="s1">&#39;rviz&#39;</span><span class="p">),</span>
+         <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;config/*.rviz&#39;</span><span class="p">)),</span>
+   <span class="p">],</span>
+</pre></div>
+</div>
+</section>
+<section id="build-and-run">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">2 建置並執行</a><a class="headerlink" href="#build-and-run" title="連結到這個標頭"></a></h3>
+<p>To finally see the result of our code, build the package and launch the top-level launch file using the following command:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-WE1M" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-10-WE1M" name="WE1M" role="tab" tabindex="0">XML</button><button aria-controls="panel-10-WUFNTA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-10-WUFNTA==" name="WUFNTA==" role="tab" tabindex="-1">YAML</button><button aria-controls="panel-10-UHl0aG9u" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-10-UHl0aG9u" name="UHl0aG9u" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-10-WE1M" class="sphinx-tabs-panel group-tab" id="panel-10-WE1M" name="WE1M" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>launch_tutorial<span class="w"> </span>launch_turtlesim_launch.xml
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-10-WUFNTA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-10-WUFNTA==" name="WUFNTA==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>launch_tutorial<span class="w"> </span>launch_turtlesim_launch.yaml
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-10-UHl0aG9u" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-10-UHl0aG9u" name="UHl0aG9u" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>launch_tutorial<span class="w"> </span>launch_turtlesim_launch.py
+</pre></div>
+</div>
+</div></div>
+<p>You will now see the two turtlesim simulations started.
+There are two turtles in the first one and one in the second one.
+In the first simulation, <code class="docutils literal notranslate"><span class="pre">turtle2</span></code> is spawned in the bottom-left part of the world.
+Its aim is to reach the <code class="docutils literal notranslate"><span class="pre">carrot1</span></code> frame which is five meters away on the x-axis relative to the <code class="docutils literal notranslate"><span class="pre">turtle1</span></code> frame.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">turtlesim2/turtle1</span></code> in the second is designed to mimic the behavior of the <code class="docutils literal notranslate"><span class="pre">turtle2</span></code>.</p>
+<p>If you want to control the <code class="docutils literal notranslate"><span class="pre">turtle1</span></code>, run the teleop node.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtle_teleop_key
+</pre></div>
+</div>
+<p>As a result, you will see a similar picture:</p>
+<img alt="../../../_images/turtlesim_worlds.png" src="../../../_images/turtlesim_worlds.png" />
+<p>In addition to that, the RViz should have started.
+It will show all turtle frames relative to the <code class="docutils literal notranslate"><span class="pre">world</span></code> frame, whose origin is at the bottom-left corner.</p>
+<img alt="../../../_images/turtlesim_rviz1.png" src="../../../_images/turtlesim_rviz1.png" />
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="連結到這個標頭"></a></h2>
+<p>In this tutorial, you learned about various tips and practices of managing large projects using ROS 2 launch files.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Using-Event-Handlers.html" class="btn btn-neutral float-left" title="Using event handlers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Tf2/Tf2-Main.html" class="btn btn-neutral float-right" title="tf2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

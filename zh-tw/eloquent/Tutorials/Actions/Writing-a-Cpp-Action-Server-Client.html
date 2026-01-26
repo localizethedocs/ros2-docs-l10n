@@ -1,0 +1,955 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-TW" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing an action server and client (C++) &mdash; ros2 documentation  說明文件</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Actions/Writing-a-Cpp-Action-Server-Client.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7da51243"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=cbf116e0"></script>
+      <script src="../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜尋" href="../../search.html" />
+    <link rel="next" title="Writing an action server and client (Python)" href="Writing-a-Py-Action-Server-Client.html" />
+    <link rel="prev" title="Creating an action" href="Creating-an-Action.html" />
+ 
+<script type="text/javascript" src="../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ros2 documentation
+              <img src="../../_static/eloquent-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">安裝</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Linux-Development-Setup.html">Building ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Linux-Install-Binary.html">Installing ROS 2 on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Linux-Install-Debians.html">Installing ROS 2 via Debian Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/macOS-Development-Setup.html">Building ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/macOS-Install-Binary.html">Installing ROS 2 on macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Windows-Development-Setup.html">Building ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Windows-Install-Binary.html">Installing ROS 2 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Fedora-Development-Setup.html">Building ROS 2 on Fedora Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Latest-Development-Setup.html">Installing the latest ROS 2 development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Maintaining-a-Source-Checkout.html">Maintaining a source checkout of ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/Prerelease-Testing.html">Pre-release Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Installation/DDS-Implementations.html">Installing DDS implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/DDS-Implementations/Install-Connext-Security-Plugins.html">Installing Connext security plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/DDS-Implementations/Install-Connext-University-Eval.html">Installing University or Evaluation versions of RTI Connext DDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Installation/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../Tutorials.html">教學</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Configuring-ROS2-Environment.html">Configuring your ROS 2 environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Turtlesim/Introducing-Turtlesim.html">Introducing turtlesim and rqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Understanding-ROS2-Nodes.html">Understanding ROS 2 nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Topics/Understanding-ROS2-Topics.html">Understanding ROS 2 topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Services/Understanding-ROS2-Services.html">Understanding ROS 2 services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Parameters/Understanding-ROS2-Parameters.html">Understanding ROS 2 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Understanding-ROS2-Actions.html">Understanding ROS 2 actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Rqt-Console/Using-Rqt-Console.html">Using rqt_console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Launch-Files/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ros2bag/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Creating-Your-First-ROS2-Package.html">Creating your first ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Custom-ROS2-Interfaces.html">Creating custom ROS 2 msg and srv files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Single-Package-Define-And-Use-Interface.html">Expanding on ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Getting-Started-With-Ros2doctor.html">Getting started with ros2doctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Writing an action server and client (C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writing-a-Py-Action-Server-Client.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Colcon-Tutorial.html">Using colcon to build packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ament-CMake-Documentation.html">ament_cmake 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Launch-system.html">Launching/monitoring multiple nodes with Launch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introspection-with-command-line-tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RQt-Overview-Usage.html">Overview and usage of RQt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../RQt-Source-Install.html">Building RQt from source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../RQt-Source-Install-MacOS.html">Building RQt from source on macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RQt-Source-Install-Windows10.html">Building RQt from source on Windows 10</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback.html">Overriding QoS Policies For Recording And Playback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../catment.html">On the mixing of ament and catkin (catment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Cross-compilation.html">交叉編譯</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Allocator-Template-Tutorial.html">Implement a custom memory allocator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Releasing-a-ROS-2-package-with-bloom.html">Releasing a ROS 2 package with bloom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RQt-Port-Plugin-Windows.html">Porting RQt plugins to Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Run-2-nodes-in-a-single-docker-container.html">Running 2 nodes in a single docker container [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Run-2-nodes-in-two-separate-docker-containers.html">Running 2 nodes in 2 separate docker containers [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Deploying-ROS-2-on-IBM-Cloud.html">ROS2 on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Launch-files-migration-guide.html">Migrating launch files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Eclipse Oxygen with ROS 2 and rviz2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Building-ROS-2-on-Linux-with-Eclipse-Oxygen.html">Building ROS 2 on Linux with Eclipse Oxygen [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building realtime Linux for ROS 2 [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Parameters-YAML-files-migration-guide.html">Migrating YAML parameter files from ROS 1 to ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quality-of-Service.html">Use quality-of-service settings to handle lossy networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Managed-Nodes.html">Management of nodes with managed lifecycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Intra-Process-Communication.html">Efficient intra-process communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Rosbag-with-ROS1-Bridge.html">Recording and playback of topic data with rosbag using the ROS 1 bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tf2.html">Using tf2 with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../URDF/Using-URDF-with-Robot-State-Publisher.html">Using URDF with robot_state_publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Real-Time-Programming.html">Real-time programming in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dummy-robot-demo.html">Trying the dummy robot demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Logging-and-logger-configuration.html">Logging and logger configuration demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Concepts.html">概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/DDS-and-ROS-middleware-implementations.html">About different ROS 2 DDS/RTPS vendors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/About-Quality-of-Service-Settings.html">About Quality of Service settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/About-ROS-Interfaces.html">About ROS 2 interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/ROS-2-Client-Libraries.html">About ROS 2 client libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/Logging.html">About logging and logger configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Concepts/About-ROS-2-Parameters.html">About parameters in ROS 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Troubleshooting/Installation-Troubleshooting.html">安裝疑難排解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Troubleshooting/DDS-tuning.html">DDS tuning information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/ROS-2-On-boarding-Guide.html">ROS 2 on-boarding guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Design-Guide.html">Design guide: common patterns in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Build-Cop-and-Build-Farmer-Guide.html">Build cop and build farmer guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Contributing/CI-Server-Setup.html">How to setup the Jenkins master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Contributing/Set-up-a-new-Linux-CI-node.html">How to setup Linux Jenkins nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Contributing/Set-up-a-new-macOS-CI-node.html">How to setup a macOS Jenkins node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Contributing/Set-up-a-new-Windows-CI-node.html">How to setup a Windows Jenkins node</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Migration-Guide.html">Migration guide from ROS 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Contributing/Migration-Guide-Python.html">Python migration guide from ROS 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Examples-and-Tools-for-ROS1----ROS2-Migrations.html">Examples and tools for ROS1-to-ROS2 migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Contributing/Inter-Sphinx-Support.html">Using Sphinx for cross-referencing packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Contact.html">聯絡</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ROSCon-Content.html">ROSCon Content</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Releases.html">散布版</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Alpha-Overview.html">ROS 2 alpha releases (Aug 2015 - Oct 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Beta1-Overview.html">Beta 1 (codename 'Asphalt'; December 2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Beta2-Overview.html">Beta 2 (codename 'r2b2'; July 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Beta3-Overview.html">Beta 3 (codename 'r2b3'; September 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Ardent-Apalone.html">ROS 2 Ardent Apalone (codename 'ardent'; December 2017)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Bouncy-Bolson.html">ROS 2 Bouncy Bolson (codename 'bouncy'; June 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Crystal-Clemmys.html">ROS 2 Crystal Clemmys (codename 'crystal'; December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Dashing-Diademata.html">ROS 2 Dashing Diademata (codename 'dashing'; May 31st, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Eloquent-Elusor.html">ROS 2 Eloquent Elusor (codename 'eloquent'; November 22nd, 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy Fitzroy (codename 'foxy'; June 5th, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Galactic-Geochelone.html">ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Howto.html">How to release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Releases/Release-Rolling-Ridley.html">ROS 2 Rolling Ridley (codename 'rolling'; June 2020)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Features.html">Features Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Governance.html">Project Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Marketing.html">Marketing Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Related-Projects.html">相關專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ros2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../Tutorials.html">教學</a></li>
+      <li class="breadcrumb-item active">Writing an action server and client (C++)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Actions/Writing-a-Cpp-Action-Server-Client.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition warning">
+        <p class="admonition-title">警告</p>
+        <p>
+          您正在閱讀已達到生命週期結束（end-of-life，EOL）版本的 ROS 2 文件，該版本不再正式受支援。如果您想獲取最新資訊，請參見 <a href="../../../../zh-tw/kilted/index.html">Kilted</a>。
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="writing-an-action-server-and-client-c">
+<span id="actionscpp"></span><h1>Writing an action server and client (C++)<a class="headerlink" href="#writing-an-action-server-and-client-c" title="連結到這個標頭"></a></h1>
+<p><strong>Goal:</strong> Implement an action server and client in C++.</p>
+<p><strong>Tutorial level:</strong> Intermediate</p>
+<p><strong>Time:</strong> 15 minutes</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id2">背景</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id3">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#tasks" id="id4">Tasks</a></p>
+<ul>
+<li><p><a class="reference internal" href="#creating-the-action-tutorials-cpp-package" id="id5">1 Creating the action_tutorials_cpp package</a></p></li>
+<li><p><a class="reference internal" href="#writing-an-action-server" id="id6">2 Writing an action server</a></p></li>
+<li><p><a class="reference internal" href="#writing-an-action-client" id="id7">3 Writing an action client</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id8">Summary</a></p></li>
+<li><p><a class="reference internal" href="#related-content" id="id9">相關內容</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">背景</a><a class="headerlink" href="#background" title="連結到這個標頭"></a></h2>
+<p>Actions are a form of asynchronous communication in ROS.
+<em>Action clients</em> send goal requests to <em>action servers</em>.
+<em>Action servers</em> send goal feedback and results to <em>action clients</em>.</p>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="連結到這個標頭"></a></h2>
+<p>You will need the <code class="docutils literal notranslate"><span class="pre">action_tutorials_interfaces</span></code> package and the <code class="docutils literal notranslate"><span class="pre">Fibonacci.action</span></code>
+interface defined in the previous tutorial, <a class="reference internal" href="Creating-an-Action.html#actioncreate"><span class="std std-ref">Creating an action</span></a>.</p>
+</section>
+<section id="tasks">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Tasks</a><a class="headerlink" href="#tasks" title="連結到這個標頭"></a></h2>
+<section id="creating-the-action-tutorials-cpp-package">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">1 Creating the action_tutorials_cpp package</a><a class="headerlink" href="#creating-the-action-tutorials-cpp-package" title="連結到這個標頭"></a></h3>
+<p>As we saw in the <a class="reference internal" href="../Creating-Your-First-ROS2-Package.html#createpkg"><span class="std std-ref">Creating your first ROS 2 package</span></a> tutorial, we need to create a new package to hold our C++ and supporting code.</p>
+<section id="id1">
+<h4>1.1 Creating the action_tutorials_cpp package<a class="headerlink" href="#id1" title="連結到這個標頭"></a></h4>
+<p>Go into the action workspace you created in the previous tutorial, and create a new package for the C++ action server:</p>
+<p>(Remember to <a class="reference internal" href="Creating-an-Action.html#actioncreate"><span class="std std-ref">source the workspace from the previous tutorial</span></a> first.)</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-0-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-0-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/action_ws/src
+ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>--dependencies<span class="w"> </span>action_tutorials_interfaces<span class="w"> </span>rclcpp<span class="w"> </span>rclcpp_action<span class="w"> </span>rclcpp_components<span class="w"> </span>--<span class="w"> </span>action_tutorials_cpp
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/action_ws/src
+ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>--dependencies<span class="w"> </span>action_tutorials_interfaces<span class="w"> </span>rclcpp<span class="w"> </span>rclcpp_action<span class="w"> </span>rclcpp_components<span class="w"> </span>--<span class="w"> </span>action_tutorials_cpp
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="se">\d</span>ev<span class="se">\a</span>ction_ws<span class="se">\s</span>rc
+ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>--dependencies<span class="w"> </span>action_tutorials_interfaces<span class="w"> </span>rclcpp<span class="w"> </span>rclcpp_action<span class="w"> </span>rclcpp_components<span class="w"> </span>--<span class="w"> </span>action_tutorials_cpp
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="adding-in-visibility-control">
+<h4>1.2 Adding in visibility control<a class="headerlink" href="#adding-in-visibility-control" title="連結到這個標頭"></a></h4>
+<p>In order to make the package compile and work on Windows, we need to add in some &quot;visibility control&quot;.
+For details on why this is needed, see <a class="reference external" href="https://docs.microsoft.com/en-us/cpp/cpp/dllexport-dllimport">here</a>.</p>
+<p>Open up <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp/include/action_tutorials_cpp/visibility_control.h</span></code>, and put the following code in:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_</span>
+<span class="cp">#define ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_</span>
+
+<span class="cp">#ifdef __cplusplus</span>
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span>
+<span class="p">{</span>
+<span class="cp">#endif</span>
+
+<span class="c1">// This logic was borrowed (then namespaced) from the examples on the gcc wiki:</span>
+<span class="c1">//     https://gcc.gnu.org/wiki/Visibility</span>
+
+<span class="cp">#if defined _WIN32 || defined __CYGWIN__</span>
+<span class="w">  </span><span class="cp">#ifdef __GNUC__</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_EXPORT __attribute__ ((dllexport))</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_IMPORT __attribute__ ((dllimport))</span>
+<span class="w">  </span><span class="cp">#else</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_EXPORT __declspec(dllexport)</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_IMPORT __declspec(dllimport)</span>
+<span class="w">  </span><span class="cp">#endif</span>
+<span class="w">  </span><span class="cp">#ifdef ACTION_TUTORIALS_CPP_BUILDING_DLL</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_PUBLIC ACTION_TUTORIALS_CPP_EXPORT</span>
+<span class="w">  </span><span class="cp">#else</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_PUBLIC ACTION_TUTORIALS_CPP_IMPORT</span>
+<span class="w">  </span><span class="cp">#endif</span>
+<span class="w">  </span><span class="cp">#define ACTION_TUTORIALS_CPP_PUBLIC_TYPE ACTION_TUTORIALS_CPP_PUBLIC</span>
+<span class="w">  </span><span class="cp">#define ACTION_TUTORIALS_CPP_LOCAL</span>
+<span class="cp">#else</span>
+<span class="w">  </span><span class="cp">#define ACTION_TUTORIALS_CPP_EXPORT __attribute__ ((visibility(&quot;default&quot;)))</span>
+<span class="w">  </span><span class="cp">#define ACTION_TUTORIALS_CPP_IMPORT</span>
+<span class="w">  </span><span class="cp">#if __GNUC__ &gt;= 4</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_PUBLIC __attribute__ ((visibility(&quot;default&quot;)))</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_LOCAL  __attribute__ ((visibility(&quot;hidden&quot;)))</span>
+<span class="w">  </span><span class="cp">#else</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_PUBLIC</span>
+<span class="w">    </span><span class="cp">#define ACTION_TUTORIALS_CPP_LOCAL</span>
+<span class="w">  </span><span class="cp">#endif</span>
+<span class="w">  </span><span class="cp">#define ACTION_TUTORIALS_CPP_PUBLIC_TYPE</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifdef __cplusplus</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#endif  </span><span class="c1">// ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="writing-an-action-server">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">2 Writing an action server</a><a class="headerlink" href="#writing-an-action-server" title="連結到這個標頭"></a></h3>
+<p>Let's focus on writing an action server that computes the Fibonacci sequence using the action we created in the <a class="reference internal" href="Creating-an-Action.html#actioncreate"><span class="std std-ref">Creating an action</span></a> tutorial.</p>
+<section id="writing-the-action-server-code">
+<h4>2.1 Writing the action server code<a class="headerlink" href="#writing-the-action-server-code" title="連結到這個標頭"></a></h4>
+<p>Open up <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp/src/fibonacci_action_server.cpp</span></code>, and put the following code in:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;functional&gt;</span>
+<span class="linenos">  2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="linenos">  3</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;action_tutorials_interfaces/action/fibonacci.hpp&quot;</span>
+<span class="linenos">  6</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp/rclcpp.hpp&quot;</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp_action/rclcpp_action.hpp&quot;</span>
+<span class="linenos">  8</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp_components/register_node_macro.hpp&quot;</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;action_tutorials_cpp/visibility_control.h&quot;</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="k">namespace</span><span class="w"> </span><span class="nn">action_tutorials_cpp</span>
+<span class="linenos"> 13</span><span class="p">{</span>
+<span class="linenos"> 14</span><span class="k">class</span><span class="w"> </span><span class="nc">FibonacciActionServer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span>
+<span class="linenos"> 15</span><span class="p">{</span>
+<span class="linenos"> 16</span><span class="k">public</span><span class="o">:</span>
+<span class="linenos"> 17</span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">Fibonacci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">action_tutorials_interfaces</span><span class="o">::</span><span class="n">action</span><span class="o">::</span><span class="n">Fibonacci</span><span class="p">;</span>
+<span class="linenos"> 18</span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">GoalHandleFibonacci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">ServerGoalHandle</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="linenos"> 19</span>
+<span class="linenos"> 20</span><span class="w">  </span><span class="n">ACTION_TUTORIALS_CPP_PUBLIC</span>
+<span class="linenos"> 21</span><span class="w">  </span><span class="k">explicit</span><span class="w"> </span><span class="n">FibonacciActionServer</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="p">())</span>
+<span class="linenos"> 22</span><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;fibonacci_action_server&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="linenos"> 23</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 24</span><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">placeholders</span><span class="p">;</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">action_server_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">create_server</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="linenos"> 27</span><span class="w">      </span><span class="k">this</span><span class="p">,</span>
+<span class="linenos"> 28</span><span class="w">      </span><span class="s">&quot;fibonacci&quot;</span><span class="p">,</span>
+<span class="linenos"> 29</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">handle_goal</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="p">),</span>
+<span class="linenos"> 30</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">handle_cancel</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">),</span>
+<span class="linenos"> 31</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">handle_accepted</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">));</span>
+<span class="linenos"> 32</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 33</span>
+<span class="linenos"> 34</span><span class="k">private</span><span class="o">:</span>
+<span class="linenos"> 35</span><span class="w">  </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">Server</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">action_server_</span><span class="p">;</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="w">  </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">GoalResponse</span><span class="w"> </span><span class="nf">handle_goal</span><span class="p">(</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">GoalUUID</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">uuid</span><span class="p">,</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Goal</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal</span><span class="p">)</span>
+<span class="linenos"> 40</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Received goal request with order %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">goal</span><span class="o">-&gt;</span><span class="n">order</span><span class="p">);</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">uuid</span><span class="p">;</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">GoalResponse</span><span class="o">::</span><span class="n">ACCEPT_AND_EXECUTE</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 45</span>
+<span class="linenos"> 46</span><span class="w">  </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">CancelResponse</span><span class="w"> </span><span class="nf">handle_cancel</span><span class="p">(</span>
+<span class="linenos"> 47</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">)</span>
+<span class="linenos"> 48</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Received request to cancel goal&quot;</span><span class="p">);</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">goal_handle</span><span class="p">;</span>
+<span class="linenos"> 51</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">CancelResponse</span><span class="o">::</span><span class="n">ACCEPT</span><span class="p">;</span>
+<span class="linenos"> 52</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 53</span>
+<span class="linenos"> 54</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle_accepted</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">)</span>
+<span class="linenos"> 55</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 56</span><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">placeholders</span><span class="p">;</span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="c1">// this needs to return quickly to avoid blocking the executor, so spin up a new thread</span>
+<span class="linenos"> 58</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">execute</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">),</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">}.</span><span class="n">detach</span><span class="p">();</span>
+<span class="linenos"> 59</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 60</span>
+<span class="linenos"> 61</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">execute</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">)</span>
+<span class="linenos"> 62</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 63</span><span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Executing goal&quot;</span><span class="p">);</span>
+<span class="linenos"> 64</span><span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Rate</span><span class="w"> </span><span class="nf">loop_rate</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">goal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">get_goal</span><span class="p">();</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">feedback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Feedback</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="linenos"> 67</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feedback</span><span class="o">-&gt;</span><span class="n">partial_sequence</span><span class="p">;</span>
+<span class="linenos"> 68</span><span class="w">    </span><span class="n">sequence</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 69</span><span class="w">    </span><span class="n">sequence</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Result</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">goal</span><span class="o">-&gt;</span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 73</span><span class="w">      </span><span class="c1">// Check if there is a cancel request</span>
+<span class="linenos"> 74</span><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">is_canceling</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 75</span><span class="w">        </span><span class="n">result</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sequence</span><span class="p">;</span>
+<span class="linenos"> 76</span><span class="w">        </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">canceled</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="linenos"> 77</span><span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal canceled&quot;</span><span class="p">);</span>
+<span class="linenos"> 78</span><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="linenos"> 79</span><span class="w">      </span><span class="p">}</span>
+<span class="linenos"> 80</span><span class="w">      </span><span class="c1">// Update sequence</span>
+<span class="linenos"> 81</span><span class="w">      </span><span class="n">sequence</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sequence</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
+<span class="linenos"> 82</span><span class="w">      </span><span class="c1">// Publish feedback</span>
+<span class="linenos"> 83</span><span class="w">      </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">publish_feedback</span><span class="p">(</span><span class="n">feedback</span><span class="p">);</span>
+<span class="linenos"> 84</span><span class="w">      </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Publish feedback&quot;</span><span class="p">);</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="w">      </span><span class="n">loop_rate</span><span class="p">.</span><span class="n">sleep</span><span class="p">();</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="c1">// Check if goal is done</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 91</span><span class="w">      </span><span class="n">result</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sequence</span><span class="p">;</span>
+<span class="linenos"> 92</span><span class="w">      </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">succeed</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="linenos"> 93</span><span class="w">      </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal succeeded&quot;</span><span class="p">);</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 95</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 96</span><span class="p">};</span><span class="w">  </span><span class="c1">// class FibonacciActionServer</span>
+<span class="linenos"> 97</span>
+<span class="linenos"> 98</span><span class="p">}</span><span class="w">  </span><span class="c1">// namespace action_tutorials_cpp</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="n">RCLCPP_COMPONENTS_REGISTER_NODE</span><span class="p">(</span><span class="n">action_tutorials_cpp</span><span class="o">::</span><span class="n">FibonacciActionServer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first few lines include all of the headers we need to compile.</p>
+<p>Next we create a class that is a derived class of <code class="docutils literal notranslate"><span class="pre">rclcpp::Node</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">FibonacciActionServer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span>
+</pre></div>
+</div>
+<p>The constructor for the <code class="docutils literal notranslate"><span class="pre">FibonacciActionServer</span></code> class initializes the node name as <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">explicit</span><span class="w"> </span><span class="n">FibonacciActionServer</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="p">())</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;fibonacci_action_server&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The constructor also instantiates a new action server:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">action_server_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">create_server</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">      </span><span class="k">this</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;fibonacci&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">handle_goal</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="p">),</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">handle_cancel</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">),</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">handle_accepted</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>An action server requires 6 things:</p>
+<ol class="arabic simple">
+<li><p>The templated action type name: <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code>.</p></li>
+<li><p>A ROS 2 node to add the action to: <code class="docutils literal notranslate"><span class="pre">this</span></code>.</p></li>
+<li><p>The action name: <code class="docutils literal notranslate"><span class="pre">'fibonacci'</span></code>.</p></li>
+<li><p>A callback function for handling goals: <code class="docutils literal notranslate"><span class="pre">handle_goal</span></code></p></li>
+<li><p>A callback function for handling cancellation: <code class="docutils literal notranslate"><span class="pre">handle_cancel</span></code>.</p></li>
+<li><p>A callback function for handling goal accept: <code class="docutils literal notranslate"><span class="pre">handle_accept</span></code>.</p></li>
+</ol>
+<p>The implementation of the various callbacks is next in the file.
+Note that all of the callbacks need to return quickly, otherwise we risk starving the executor.</p>
+<p>We start with the callback for handling new goals:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">GoalResponse</span><span class="w"> </span><span class="nf">handle_goal</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">GoalUUID</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">uuid</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Goal</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Received goal request with order %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">goal</span><span class="o">-&gt;</span><span class="n">order</span><span class="p">);</span>
+<span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">uuid</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">GoalResponse</span><span class="o">::</span><span class="n">ACCEPT_AND_EXECUTE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This implementation just accepts all goals.</p>
+<p>Next up is the callback for dealing with cancellation:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">CancelResponse</span><span class="w"> </span><span class="nf">handle_cancel</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Received request to cancel goal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">goal_handle</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">CancelResponse</span><span class="o">::</span><span class="n">ACCEPT</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This implementation just tells the client that it accepted the cancellation.</p>
+<p>The last of the callbacks accepts a new goal and starts processing it:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle_accepted</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">placeholders</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// this needs to return quickly to avoid blocking the executor, so spin up a new thread</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionServer</span><span class="o">::</span><span class="n">execute</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">),</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">}.</span><span class="n">detach</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Since the execution is a long-running operation, we spawn off a thread to do the actual work and return from <code class="docutils literal notranslate"><span class="pre">handle_accepted</span></code> quickly.</p>
+<p>All further processing and updates are done in the <code class="docutils literal notranslate"><span class="pre">execute</span></code> method in the new thread:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">&gt;</span><span class="w"> </span><span class="n">goal_handle</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Executing goal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Rate</span><span class="w"> </span><span class="n">loop_rate</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">goal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">get_goal</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">feedback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Feedback</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feedback</span><span class="o">-&gt;</span><span class="n">partial_sequence</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sequence</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">sequence</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Result</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">goal</span><span class="o">-&gt;</span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Check if there is a cancel request</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">is_canceling</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">result</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sequence</span><span class="p">;</span>
+<span class="w">        </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">canceled</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal canceled&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="c1">// Update sequence</span>
+<span class="w">      </span><span class="n">sequence</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sequence</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">      </span><span class="c1">// Publish feedback</span>
+<span class="w">      </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">publish_feedback</span><span class="p">(</span><span class="n">feedback</span><span class="p">);</span>
+<span class="w">      </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Publish feedback&quot;</span><span class="p">);</span>
+
+<span class="w">      </span><span class="n">loop_rate</span><span class="p">.</span><span class="n">sleep</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Check if goal is done</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">result</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sequence</span><span class="p">;</span>
+<span class="w">      </span><span class="n">goal_handle</span><span class="o">-&gt;</span><span class="n">succeed</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">      </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal succeeded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This work thread processes one sequence number of the Fibonacci sequence every second, publishing a feedback update for each step.
+When it has finished processing, it marks the <code class="docutils literal notranslate"><span class="pre">goal_handle</span></code> as succeeded, and quits.</p>
+<p>We now have a fully functioning action server.  Let's get it built and running.</p>
+</section>
+<section id="compiling-the-action-server">
+<h4>2.2 Compiling the action server<a class="headerlink" href="#compiling-the-action-server" title="連結到這個標頭"></a></h4>
+<p>In the previous section we put the action server code into place.
+To get it to compile and run, we need to do a couple of additional things.</p>
+<p>First we need to setup the CMakeLists.txt so that the action server is compiled.
+Open up <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp/CMakeLists.txt</span></code>, and add the following right after the <code class="docutils literal notranslate"><span class="pre">find_package</span></code> calls:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">add_library(action_server SHARED</span>
+<span class="go">  src/fibonacci_action_server.cpp)</span>
+<span class="go">target_include_directories(action_server PRIVATE</span>
+<span class="gp">  $</span>&lt;BUILD_INTERFACE:<span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span>/include&gt;
+<span class="gp">  $</span>&lt;INSTALL_INTERFACE:include&gt;<span class="o">)</span>
+<span class="go">target_compile_definitions(action_server</span>
+<span class="go">  PRIVATE &quot;ACTION_TUTORIALS_CPP_BUILDING_DLL&quot;)</span>
+<span class="go">ament_target_dependencies(action_server</span>
+<span class="go">  &quot;action_tutorials_interfaces&quot;</span>
+<span class="go">  &quot;rclcpp&quot;</span>
+<span class="go">  &quot;rclcpp_action&quot;</span>
+<span class="go">  &quot;rclcpp_components&quot;)</span>
+<span class="go">rclcpp_components_register_node(action_server PLUGIN &quot;action_tutorials_cpp::FibonacciActionServer&quot; EXECUTABLE fibonacci_action_server)</span>
+<span class="go">install(TARGETS</span>
+<span class="go">  action_server</span>
+<span class="go">  ARCHIVE DESTINATION lib</span>
+<span class="go">  LIBRARY DESTINATION lib</span>
+<span class="go">  RUNTIME DESTINATION bin)</span>
+</pre></div>
+</div>
+<p>And now we can compile the package.  Go to the top-level of the <code class="docutils literal notranslate"><span class="pre">action_ws</span></code>, and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<p>This should compile the entire workspace, including the <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code> in the <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp</span></code> package.</p>
+</section>
+<section id="running-the-action-server">
+<h4>2.3 Running the action server<a class="headerlink" href="#running-the-action-server" title="連結到這個標頭"></a></h4>
+<p>Now that we have the action server built, we can run it.
+Source the workspace we just built (<code class="docutils literal notranslate"><span class="pre">action_ws</span></code>), and try to run the action server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>action_tutorials_cpp<span class="w"> </span>fibonacci_action_server
+</pre></div>
+</div>
+</section>
+</section>
+<section id="writing-an-action-client">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">3 Writing an action client</a><a class="headerlink" href="#writing-an-action-client" title="連結到這個標頭"></a></h3>
+<section id="writing-the-action-client-code">
+<h4>3.1 Writing the action client code<a class="headerlink" href="#writing-the-action-client-code" title="連結到這個標頭"></a></h4>
+<p>Open up <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp/src/fibonacci_action_client.cpp</span></code>, and put the following code in:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;functional&gt;</span>
+<span class="linenos">  2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;future&gt;</span>
+<span class="linenos">  3</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="linenos">  4</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="linenos">  5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;action_tutorials_interfaces/action/fibonacci.hpp&quot;</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp/rclcpp.hpp&quot;</span>
+<span class="linenos"> 10</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp_action/rclcpp_action.hpp&quot;</span>
+<span class="linenos"> 11</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;rclcpp_components/register_node_macro.hpp&quot;</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="k">namespace</span><span class="w"> </span><span class="nn">action_tutorials_cpp</span>
+<span class="linenos"> 14</span><span class="p">{</span>
+<span class="linenos"> 15</span><span class="k">class</span><span class="w"> </span><span class="nc">FibonacciActionClient</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span>
+<span class="linenos"> 16</span><span class="p">{</span>
+<span class="linenos"> 17</span><span class="k">public</span><span class="o">:</span>
+<span class="linenos"> 18</span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">Fibonacci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">action_tutorials_interfaces</span><span class="o">::</span><span class="n">action</span><span class="o">::</span><span class="n">Fibonacci</span><span class="p">;</span>
+<span class="linenos"> 19</span><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="n">GoalHandleFibonacci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">ClientGoalHandle</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="w">  </span><span class="k">explicit</span><span class="w"> </span><span class="n">FibonacciActionClient</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="linenos"> 22</span><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;fibonacci_action_client&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="linenos"> 23</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 24</span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">client_ptr_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">create_client</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="linenos"> 25</span><span class="w">      </span><span class="k">this</span><span class="p">,</span>
+<span class="linenos"> 26</span><span class="w">      </span><span class="s">&quot;fibonacci&quot;</span><span class="p">);</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">timer_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_wall_timer</span><span class="p">(</span>
+<span class="linenos"> 29</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span>
+<span class="linenos"> 30</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">send_goal</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">));</span>
+<span class="linenos"> 31</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">send_goal</span><span class="p">()</span>
+<span class="linenos"> 34</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 35</span><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">placeholders</span><span class="p">;</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">timer_</span><span class="o">-&gt;</span><span class="n">cancel</span><span class="p">();</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">client_ptr_</span><span class="o">-&gt;</span><span class="n">wait_for_action_server</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 40</span><span class="w">      </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Action server not available after waiting&quot;</span><span class="p">);</span>
+<span class="linenos"> 41</span><span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">goal_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Goal</span><span class="p">();</span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="n">goal_msg</span><span class="p">.</span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Sending goal&quot;</span><span class="p">);</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">send_goal_options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">Client</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;::</span><span class="n">SendGoalOptions</span><span class="p">();</span>
+<span class="linenos"> 50</span><span class="w">    </span><span class="n">send_goal_options</span><span class="p">.</span><span class="n">goal_response_callback</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos"> 51</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">goal_response_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">);</span>
+<span class="linenos"> 52</span><span class="w">    </span><span class="n">send_goal_options</span><span class="p">.</span><span class="n">feedback_callback</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos"> 53</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">feedback_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="p">);</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="n">send_goal_options</span><span class="p">.</span><span class="n">result_callback</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos"> 55</span><span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">result_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">);</span>
+<span class="linenos"> 56</span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">client_ptr_</span><span class="o">-&gt;</span><span class="n">async_send_goal</span><span class="p">(</span><span class="n">goal_msg</span><span class="p">,</span><span class="w"> </span><span class="n">send_goal_options</span><span class="p">);</span>
+<span class="linenos"> 57</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="k">private</span><span class="o">:</span>
+<span class="linenos"> 60</span><span class="w">  </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">Client</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">client_ptr_</span><span class="p">;</span>
+<span class="linenos"> 61</span><span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">TimerBase</span><span class="o">::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">timer_</span><span class="p">;</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">goal_response_callback</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_future</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">::</span><span class="n">SharedPtr</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="p">)</span>
+<span class="linenos"> 64</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">goal_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">goal_handle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 67</span><span class="w">      </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal was rejected by server&quot;</span><span class="p">);</span>
+<span class="linenos"> 68</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 69</span><span class="w">      </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal accepted by server, waiting for result&quot;</span><span class="p">);</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 71</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">feedback_callback</span><span class="p">(</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="n">GoalHandleFibonacci</span><span class="o">::</span><span class="n">SharedPtr</span><span class="p">,</span>
+<span class="linenos"> 75</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Feedback</span><span class="o">&gt;</span><span class="w"> </span><span class="n">feedback</span><span class="p">)</span>
+<span class="linenos"> 76</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Next number in sequence received: &quot;</span><span class="p">;</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">feedback</span><span class="o">-&gt;</span><span class="n">partial_sequence</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 80</span><span class="w">      </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="linenos"> 83</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">result_callback</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">GoalHandleFibonacci</span><span class="o">::</span><span class="n">WrappedResult</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">result</span><span class="p">)</span>
+<span class="linenos"> 86</span><span class="w">  </span><span class="p">{</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 88</span><span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">rclcpp_action</span><span class="o">::</span><span class="no">ResultCode</span><span class="o">::</span><span class="no">SUCCEEDED</span><span class="p">:</span>
+<span class="linenos"> 89</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos"> 90</span><span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">rclcpp_action</span><span class="o">::</span><span class="no">ResultCode</span><span class="o">::</span><span class="no">ABORTED</span><span class="p">:</span>
+<span class="linenos"> 91</span><span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal was aborted&quot;</span><span class="p">);</span>
+<span class="linenos"> 92</span><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="linenos"> 93</span><span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">rclcpp_action</span><span class="o">::</span><span class="no">ResultCode</span><span class="o">::</span><span class="no">CANCELED</span><span class="p">:</span>
+<span class="linenos"> 94</span><span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal was canceled&quot;</span><span class="p">);</span>
+<span class="linenos"> 95</span><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="linenos"> 96</span><span class="w">      </span><span class="k">default</span><span class="o">:</span>
+<span class="linenos"> 97</span><span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Unknown result code&quot;</span><span class="p">);</span>
+<span class="linenos"> 98</span><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">100</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="linenos">101</span><span class="w">    </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Result received: &quot;</span><span class="p">;</span>
+<span class="linenos">102</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">result</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">103</span><span class="w">      </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="linenos">104</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">105</span><span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="linenos">106</span><span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="linenos">107</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">108</span><span class="p">};</span><span class="w">  </span><span class="c1">// class FibonacciActionClient</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="p">}</span><span class="w">  </span><span class="c1">// namespace action_tutorials_cpp</span>
+<span class="linenos">111</span>
+<span class="linenos">112</span><span class="n">RCLCPP_COMPONENTS_REGISTER_NODE</span><span class="p">(</span><span class="n">action_tutorials_cpp</span><span class="o">::</span><span class="n">FibonacciActionClient</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first few lines include all of the headers we need to compile.</p>
+<p>Next we create a class that is a derived class of <code class="docutils literal notranslate"><span class="pre">rclcpp::Node</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">FibonacciActionClient</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span>
+</pre></div>
+</div>
+<p>The constructor for the <code class="docutils literal notranslate"><span class="pre">FibonacciActionClient</span></code> class initializes the node name as <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">explicit</span><span class="w"> </span><span class="n">FibonacciActionClient</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;fibonacci_action_client&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The constructor also instantiates a new action client:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">client_ptr_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">create_client</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">      </span><span class="k">this</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;fibonacci&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>An action client requires 3 things:</p>
+<ol class="arabic simple">
+<li><p>The templated action type name: <code class="docutils literal notranslate"><span class="pre">Fibonacci</span></code>.</p></li>
+<li><p>A ROS 2 node to add the action client to: <code class="docutils literal notranslate"><span class="pre">this</span></code>.</p></li>
+<li><p>The action name: <code class="docutils literal notranslate"><span class="pre">'fibonacci'</span></code>.</p></li>
+</ol>
+<p>We also instantiate a ROS timer that will kick off the one and only call to <code class="docutils literal notranslate"><span class="pre">send_goal</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">timer_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_wall_timer</span><span class="p">(</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">send_goal</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>When the timer expires, it will call <code class="docutils literal notranslate"><span class="pre">send_goal</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">send_goal</span><span class="p">()</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">placeholders</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">timer_</span><span class="o">-&gt;</span><span class="n">cancel</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">client_ptr_</span><span class="o">-&gt;</span><span class="n">wait_for_action_server</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Action server not available after waiting&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">goal_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Goal</span><span class="p">();</span>
+<span class="w">    </span><span class="n">goal_msg</span><span class="p">.</span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Sending goal&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">send_goal_options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rclcpp_action</span><span class="o">::</span><span class="n">Client</span><span class="o">&lt;</span><span class="n">Fibonacci</span><span class="o">&gt;::</span><span class="n">SendGoalOptions</span><span class="p">();</span>
+<span class="w">    </span><span class="n">send_goal_options</span><span class="p">.</span><span class="n">goal_response_callback</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">goal_response_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">send_goal_options</span><span class="p">.</span><span class="n">feedback_callback</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">feedback_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">_2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">send_goal_options</span><span class="p">.</span><span class="n">result_callback</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FibonacciActionClient</span><span class="o">::</span><span class="n">result_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">_1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">client_ptr_</span><span class="o">-&gt;</span><span class="n">async_send_goal</span><span class="p">(</span><span class="n">goal_msg</span><span class="p">,</span><span class="w"> </span><span class="n">send_goal_options</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This function does the following:</p>
+<ol class="arabic simple">
+<li><p>Cancels the timer (so it is only called once).</p></li>
+<li><p>Waits for the action server to come up.</p></li>
+<li><p>Instantiates a new <code class="docutils literal notranslate"><span class="pre">Fibonacci::Goal</span></code>.</p></li>
+<li><p>Sets the response, feedback, and result callbacks.</p></li>
+<li><p>Sends the goal to the server.</p></li>
+</ol>
+<p>When the server receives and accepts the goal, it will send a response to the client.
+That response is handled by <code class="docutils literal notranslate"><span class="pre">goal_response_callback</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">goal_response_callback</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_future</span><span class="o">&lt;</span><span class="n">GoalHandleFibonacci</span><span class="o">::</span><span class="n">SharedPtr</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">goal_handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">goal_handle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal was rejected by server&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal accepted by server, waiting for result&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Assuming the goal was accepted by the server, it will start processing.
+Any feedback to the client will be handled by the <code class="docutils literal notranslate"><span class="pre">feedback_callback</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">feedback_callback</span><span class="p">(</span>
+<span class="w">    </span><span class="n">GoalHandleFibonacci</span><span class="o">::</span><span class="n">SharedPtr</span><span class="p">,</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Fibonacci</span><span class="o">::</span><span class="n">Feedback</span><span class="o">&gt;</span><span class="w"> </span><span class="n">feedback</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Next number in sequence received: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">feedback</span><span class="o">-&gt;</span><span class="n">partial_sequence</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>When the server is finished processing, it will return a result to the client.
+The result is handled by the <code class="docutils literal notranslate"><span class="pre">result_callback</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">result_callback</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">GoalHandleFibonacci</span><span class="o">::</span><span class="n">WrappedResult</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">result</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">rclcpp_action</span><span class="o">::</span><span class="no">ResultCode</span><span class="o">::</span><span class="no">SUCCEEDED</span><span class="p">:</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">rclcpp_action</span><span class="o">::</span><span class="no">ResultCode</span><span class="o">::</span><span class="no">ABORTED</span><span class="p">:</span>
+<span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal was aborted&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">rclcpp_action</span><span class="o">::</span><span class="no">ResultCode</span><span class="o">::</span><span class="no">CANCELED</span><span class="p">:</span>
+<span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Goal was canceled&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">      </span><span class="k">default</span><span class="o">:</span>
+<span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Unknown result code&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Result received: &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">result</span><span class="o">-&gt;</span><span class="n">sequence</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">ss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">shutdown</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>We now have a fully functioning action client.  Let's get it built and running.</p>
+</section>
+<section id="compiling-the-action-client">
+<h4>3.2 Compiling the action client<a class="headerlink" href="#compiling-the-action-client" title="連結到這個標頭"></a></h4>
+<p>In the previous section we put the action client code into place.
+To get it to compile and run, we need to do a couple of additional things.</p>
+<p>First we need to setup the CMakeLists.txt so that the action client is compiled.
+Open up <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp/CMakeLists.txt</span></code>, and add the following right after the <code class="docutils literal notranslate"><span class="pre">find_package</span></code> calls:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">add_library(action_client SHARED</span>
+<span class="go">  src/fibonacci_action_client.cpp)</span>
+<span class="go">target_include_directories(action_client PRIVATE</span>
+<span class="gp">  $</span>&lt;BUILD_INTERFACE:<span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span>/include&gt;
+<span class="gp">  $</span>&lt;INSTALL_INTERFACE:include&gt;<span class="o">)</span>
+<span class="go">target_compile_definitions(action_client</span>
+<span class="go">  PRIVATE &quot;ACTION_TUTORIALS_CPP_BUILDING_DLL&quot;)</span>
+<span class="go">ament_target_dependencies(action_client</span>
+<span class="go">  &quot;action_tutorials_interfaces&quot;</span>
+<span class="go">  &quot;rclcpp&quot;</span>
+<span class="go">  &quot;rclcpp_action&quot;</span>
+<span class="go">  &quot;rclcpp_components&quot;)</span>
+<span class="go">rclcpp_components_register_node(action_client PLUGIN &quot;action_tutorials_cpp::FibonacciActionClient&quot; EXECUTABLE fibonacci_action_client)</span>
+<span class="go">install(TARGETS</span>
+<span class="go">  action_client</span>
+<span class="go">  ARCHIVE DESTINATION lib</span>
+<span class="go">  LIBRARY DESTINATION lib</span>
+<span class="go">  RUNTIME DESTINATION bin)</span>
+</pre></div>
+</div>
+<p>And now we can compile the package.  Go to the top-level of the <code class="docutils literal notranslate"><span class="pre">action_ws</span></code>, and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+<p>This should compile the entire workspace, including the <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code> in the <code class="docutils literal notranslate"><span class="pre">action_tutorials_cpp</span></code> package.</p>
+</section>
+<section id="running-the-action-client">
+<h4>3.3 Running the action client<a class="headerlink" href="#running-the-action-client" title="連結到這個標頭"></a></h4>
+<p>Now that we have the action client built, we can run it.
+First make sure that an action server is running in a separate terminal.
+Now source the workspace we just built (<code class="docutils literal notranslate"><span class="pre">action_ws</span></code>), and try to run the action client:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>run<span class="w"> </span>action_tutorials_cpp<span class="w"> </span>fibonacci_action_client
+</pre></div>
+</div>
+<p>You should see logged messages for the goal being accepted, feedback being printed, and the final result.</p>
+</section>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="連結到這個標頭"></a></h2>
+<p>In this tutorial, you put together a C++ action server and action client line by line, and configured them to exchange goals, feedback, and results.</p>
+</section>
+<section id="related-content">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">相關內容</a><a class="headerlink" href="#related-content" title="連結到這個標頭"></a></h2>
+<ul class="simple">
+<li><p>There are several ways you could write an action server and client in C++; check out the <code class="docutils literal notranslate"><span class="pre">minimal_action_server</span></code> and <code class="docutils literal notranslate"><span class="pre">minimal_action_client</span></code> packages in the <a class="reference external" href="https://github.com/ros2/examples/tree/eloquent/rclcpp">ros2/examples</a> repo.</p></li>
+<li><p>For more detailed information about ROS actions, please refer to the <a class="reference external" href="http://design.ros2.org/articles/actions.html">design article</a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Creating-an-Action.html" class="btn btn-neutral float-left" title="Creating an action" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Writing-a-Py-Action-Server-Client.html" class="btn btn-neutral float-right" title="Writing an action server and client (Python)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EVD5Z6G6NH', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
