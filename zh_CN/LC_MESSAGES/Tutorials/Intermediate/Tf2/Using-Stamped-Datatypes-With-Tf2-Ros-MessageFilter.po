@@ -1,0 +1,1061 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-19 08:36+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:8
+msgid "Using stamped datatypes with ``tf2_ros::MessageFilter``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:10
+msgid ""
+"**Goal:** Learn how to use ``tf2_ros::MessageFilter`` to process stamped "
+"datatypes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:12
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:14
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:23
+msgid ""
+"This tutorial explains how to use sensor data with tf2. Some real-world "
+"examples of sensor data are:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:26
+msgid "cameras, both mono and stereo"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:28
+msgid "laser scans"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:30
+msgid ""
+"Suppose that a new turtle named ``turtle3`` is created and it doesn't have "
+"good odometry, but there is an overhead camera tracking its position and "
+"publishing it as a ``PointStamped`` message in relation to the ``world`` "
+"frame."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:32
+msgid "``turtle1`` wants to know where ``turtle3`` is compared to itself."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:34
+msgid ""
+"To do this ``turtle1`` must listen to the topic where ``turtle3``'s pose is "
+"being published, wait until transforms into the desired frame are ready, and "
+"then do its operations. To make this easier the ``tf2_ros::MessageFilter`` "
+"is very useful. The ``tf2_ros::MessageFilter`` will take a subscription to "
+"any ROS 2 message with a header and cache it until it is possible to "
+"transform it into the target frame."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:39
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:41
+msgid "This tutorial expects you to have ``turtle_tf2_py`` package installed."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:45
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:75
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:297
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:315
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:344
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:617
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:635
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:657
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:47
+msgid "$ sudo apt install ros-rolling-turtle-tf2-py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:51
+msgid "From Source"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:53
+msgid ""
+"# Clone the required package repository inside src directory of the ros2_ws\n"
+"$ git clone https://github.com/ros/geometry_tutorials.git -b ros2\n"
+"# Build the required package\n"
+"$ colcon build --packages-select turtle_tf2_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:61
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:64
+msgid "1 Write the broadcaster node of PointStamped messages"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:66
+msgid ""
+"For this tutorial we will set up a demo application which has a node (in "
+"Python) to broadcast the ``PointStamped`` position messages of ``turtle3``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:68
+msgid "First, let's create the source file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:70
+msgid ""
+"Go to the ``learning_tf2_py`` :doc:`package <./Writing-A-Tf2-Static-"
+"Broadcaster-Py>` we created in the previous tutorial. Inside the ``src/"
+"learning_tf2_py/learning_tf2_py`` directory download the example sensor "
+"message broadcaster code by entering the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:77
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:83
+msgid ""
+"$ wget https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_py/turtle_tf2_py/turtle_tf2_message_broadcaster.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:81
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:303
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:321
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:350
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:623
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:641
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:663
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:87
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:307
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:327
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:356
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:627
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:647
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:669
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:89
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:358
+msgid "In a Windows command line prompt:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:91
+msgid ""
+"$ curl -sk https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_py/turtle_tf2_py/turtle_tf2_message_broadcaster.py -o "
+"turtle_tf2_message_broadcaster.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:95
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:364
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:677
+msgid "Or in powershell:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:97
+msgid ""
+"$ curl https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_py/turtle_tf2_py/turtle_tf2_message_broadcaster.py -o "
+"turtle_tf2_message_broadcaster.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:101
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:370
+msgid "Open the file using your preferred text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:103
+msgid ""
+"from geometry_msgs.msg import PointStamped\n"
+"from geometry_msgs.msg import Twist\n"
+"\n"
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from rclpy.node import Node\n"
+"\n"
+"from turtlesim_msgs.msg import Pose\n"
+"from turtlesim_msgs.srv import Spawn\n"
+"\n"
+"\n"
+"class PointPublisher(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('turtle_tf2_message_broadcaster')\n"
+"\n"
+"        # Create a client to spawn a turtle\n"
+"        self.spawner = self.create_client(Spawn, 'spawn')\n"
+"        # Boolean values to store the information\n"
+"        # if the service for spawning turtle is available\n"
+"        self.turtle_spawning_service_ready = False\n"
+"        # if the turtle was successfully spawned\n"
+"        self.turtle_spawned = False\n"
+"        # if the topics of turtle3 can be subscribed\n"
+"        self.turtle_pose_cansubscribe = False\n"
+"\n"
+"        self.timer = self.create_timer(1.0, self.on_timer)\n"
+"\n"
+"    def on_timer(self):\n"
+"        if self.turtle_spawning_service_ready:\n"
+"            if self.turtle_spawned:\n"
+"                self.turtle_pose_cansubscribe = True\n"
+"            else:\n"
+"                if self.result.done():\n"
+"                    self.get_logger().info(\n"
+"                        f'Successfully spawned {self.result.result()."
+"name}')\n"
+"                    self.turtle_spawned = True\n"
+"                else:\n"
+"                    self.get_logger().info('Spawn is not finished')\n"
+"        else:\n"
+"            if self.spawner.service_is_ready():\n"
+"                # Initialize request with turtle name and coordinates\n"
+"                # Note that x, y and theta are defined as floats in "
+"turtlesim_msgs/srv/Spawn\n"
+"                request = Spawn.Request()\n"
+"                request.name = 'turtle3'\n"
+"                request.x = 4.0\n"
+"                request.y = 2.0\n"
+"                request.theta = 0.0\n"
+"                # Call request\n"
+"                self.result = self.spawner.call_async(request)\n"
+"                self.turtle_spawning_service_ready = True\n"
+"            else:\n"
+"                # Check if the service is ready\n"
+"                self.get_logger().info('Service is not ready')\n"
+"\n"
+"        if self.turtle_pose_cansubscribe:\n"
+"            self.vel_pub = self.create_publisher(Twist, 'turtle3/cmd_vel', "
+"10)\n"
+"            self.sub = self.create_subscription(Pose, 'turtle3/pose', self."
+"handle_turtle_pose, 10)\n"
+"            self.pub = self.create_publisher(PointStamped, 'turtle3/"
+"turtle_point_stamped', 10)\n"
+"\n"
+"    def handle_turtle_pose(self, msg):\n"
+"        vel_msg = Twist()\n"
+"        vel_msg.linear.x = 1.0\n"
+"        vel_msg.angular.z = 1.0\n"
+"        self.vel_pub.publish(vel_msg)\n"
+"\n"
+"        ps = PointStamped()\n"
+"        ps.header.stamp = self.get_clock().now().to_msg()\n"
+"        ps.header.frame_id = 'world'\n"
+"        ps.point.x = msg.x\n"
+"        ps.point.y = msg.y\n"
+"        ps.point.z = 0.0\n"
+"        self.pub.publish(ps)\n"
+"\n"
+"\n"
+"def main():\n"
+"    try:\n"
+"        with rclpy.init():\n"
+"            node = PointPublisher()\n"
+"            rclpy.spin(node)\n"
+"    except (KeyboardInterrupt, ExternalShutdownException):\n"
+"        pass"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:190
+msgid "1.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:192
+msgid ""
+"Now let's take a look at the code. First, in the ``on_timer`` callback "
+"function, we spawn the ``turtle3`` by asynchronously calling the ``Spawn`` "
+"service of ``turtlesim_msgs``, and initialize its position at (4, 2, 0), "
+"when the turtle spawning service is ready."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:195
+msgid ""
+"# Initialize request with turtle name and coordinates\n"
+"# Note that x, y and theta are defined as floats in turtlesim_msgs/srv/"
+"Spawn\n"
+"request = Spawn.Request()\n"
+"request.name = 'turtle3'\n"
+"request.x = 4.0\n"
+"request.y = 2.0\n"
+"request.theta = 0.0\n"
+"# Call request\n"
+"self.result = self.spawner.call_async(request)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:207
+msgid ""
+"Afterward, the node publishes the topic ``turtle3/cmd_vel``, topic ``turtle3/"
+"turtle_point_stamped``, and subscribes to topic ``turtle3/pose`` and runs "
+"callback function ``handle_turtle_pose`` on every incoming message."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:209
+msgid ""
+"self.vel_pub = self.create_publisher(Twist, '/turtle3/cmd_vel', 10)\n"
+"self.sub = self.create_subscription(Pose, '/turtle3/pose', self."
+"handle_turtle_pose, 10)\n"
+"self.pub = self.create_publisher(PointStamped, '/turtle3/"
+"turtle_point_stamped', 10)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:215
+msgid ""
+"Finally, in the callback function ``handle_turtle_pose``, we initialize the "
+"``Twist`` messages of ``turtle3`` and publish them, which will make the "
+"``turtle3`` move along a circle. Then we fill up the ``PointStamped`` "
+"messages of ``turtle3`` with incoming ``Pose`` messages and publish them."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:218
+msgid ""
+"vel_msg = Twist()\n"
+"vel_msg.linear.x = 1.0\n"
+"vel_msg.angular.z = 1.0\n"
+"self.vel_pub.publish(vel_msg)\n"
+"\n"
+"ps = PointStamped()\n"
+"ps.header.stamp = self.get_clock().now().to_msg()\n"
+"ps.header.frame_id = 'world'\n"
+"ps.point.x = msg.x\n"
+"ps.point.y = msg.y\n"
+"ps.point.z = 0.0\n"
+"self.pub.publish(ps)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:234
+msgid "1.2 Write the launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:236
+msgid ""
+"In order to run this demo, we need to create a launch file "
+"``turtle_tf2_sensor_message_launch`` with extension ``.py``, ``.xml``, or ``."
+"yaml`` in the ``launch`` subdirectory of package ``learning_tf2_py``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:240
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:702
+msgid "Python"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:242
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch.actions import DeclareLaunchArgument\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    return LaunchDescription([\n"
+"        DeclareLaunchArgument(\n"
+"            'target_frame', default_value='turtle1',\n"
+"            description='Target frame name.'\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtlesim',\n"
+"            executable='turtlesim_node',\n"
+"            name='sim',\n"
+"            output='screen'\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtle_tf2_py',\n"
+"            executable='turtle_tf2_broadcaster',\n"
+"            name='broadcaster1',\n"
+"            parameters=[\n"
+"                {'turtlename': 'turtle1'}\n"
+"            ]\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtle_tf2_py',\n"
+"            executable='turtle_tf2_broadcaster',\n"
+"            name='broadcaster2',\n"
+"            parameters=[\n"
+"                {'turtlename': 'turtle3'}\n"
+"            ]\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtle_tf2_py',\n"
+"            executable='turtle_tf2_message_broadcaster',\n"
+"            name='message_broadcaster',\n"
+"        ),\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:245
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:690
+msgid "XML"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:247
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<launch>\n"
+"  <arg name=\"target_frame\" default=\"turtle1\" description=\"Target frame "
+"name.\" />\n"
+"  <node pkg=\"turtlesim\" exec=\"turtlesim_node\" name=\"sim\" "
+"output=\"screen\" />\n"
+"  <node pkg=\"turtle_tf2_py\" exec=\"turtle_tf2_broadcaster\" "
+"name=\"broadcaster1\">\n"
+"    <param name=\"turtlename\" value=\"turtle1\" />\n"
+"  </node>\n"
+"  <node pkg=\"turtle_tf2_py\" exec=\"turtle_tf2_broadcaster\" "
+"name=\"broadcaster2\">\n"
+"    <param name=\"turtlename\" value=\"turtle3\" />\n"
+"  </node>\n"
+"  <node pkg=\"turtle_tf2_py\" exec=\"turtle_tf2_message_broadcaster\" "
+"name=\"message_broadcaster\" />\n"
+"</launch>\n"
+"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:250
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:696
+msgid "YAML"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:252
+msgid ""
+"%YAML 1.2\n"
+"---\n"
+"launch:\n"
+"  - arg:\n"
+"      name: \"target_frame\"\n"
+"      default: \"turtle1\"\n"
+"      description: \"Target frame name.\"\n"
+"  - node:\n"
+"      pkg: \"turtlesim\"\n"
+"      exec: \"turtlesim_node\"\n"
+"      name: \"sim\"\n"
+"      output: \"screen\"\n"
+"  - node:\n"
+"      pkg: \"turtle_tf2_py\"\n"
+"      exec: \"turtle_tf2_broadcaster\"\n"
+"      name: \"broadcaster1\"\n"
+"      param:\n"
+"      - name: \"turtlename\"\n"
+"        value: \"turtle1\"\n"
+"  - node:\n"
+"      pkg: \"turtle_tf2_py\"\n"
+"      exec: \"turtle_tf2_broadcaster\"\n"
+"      name: \"broadcaster2\"\n"
+"      param:\n"
+"      - name: \"turtlename\"\n"
+"        value: \"turtle3\"\n"
+"  - node:\n"
+"      pkg: \"turtle_tf2_py\"\n"
+"      exec: \"turtle_tf2_message_broadcaster\"\n"
+"      name: \"message_broadcaster\"\n"
+"\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:257
+msgid "1.3 Add an entry point"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:259
+msgid ""
+"To allow the ``ros2 run`` command to run your node, you must add the entry "
+"point to ``setup.py`` (located in the ``src/learning_tf2_py`` directory)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:261
+msgid "Add the following line between the ``'console_scripts':`` brackets:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:263
+msgid ""
+"'turtle_tf2_message_broadcaster = learning_tf2_py."
+"turtle_tf2_message_broadcaster:main',"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:268
+msgid "1.4 Add an data file"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:270
+msgid ""
+"To allow the ``ros2 launch`` command to launch your launch file, you must "
+"add the data file to ``setup.py`` (located in the ``src/learning_tf2_py`` "
+"directory)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:272
+msgid "Import the following libraries at the top, in ``setup.py``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:274
+msgid ""
+"...\n"
+"import os\n"
+"from glob import glob"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:281
+msgid "Add the following line between the ``'data_files':`` brackets:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:283
+msgid ""
+"data_files=[\n"
+"    ...\n"
+"    (os.path.join('share', package_name, 'launch'), glob('launch/*')),\n"
+"],"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:291
+msgid "1.5 Build"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:293
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:613
+msgid ""
+"Run ``rosdep`` in the root of your workspace to check for missing "
+"dependencies."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:299
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:619
+msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:305
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:309
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:625
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:629
+msgid ""
+"rosdep only runs on Linux, so you will need to install ``geometry_msgs`` and "
+"``turtlesim_msgs`` dependencies yourself"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:311
+msgid "And then we can build the package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:317
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:323
+msgid "$ colcon build --packages-select learning_tf2_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:329
+msgid "$ colcon build --merge-install --packages-select learning_tf2_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:335
+msgid "2 Writing the message filter/listener node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:337
+msgid ""
+"Now, to get the streaming ``PointStamped`` data of ``turtle3`` in the frame "
+"of ``turtle1`` reliably, we will create the source file of the message "
+"filter/listener node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:339
+msgid ""
+"Go to the ``learning_tf2_cpp`` :doc:`package <./Writing-A-Tf2-Static-"
+"Broadcaster-Cpp>` we created in the previous tutorial. Inside the ``src/"
+"learning_tf2_cpp/src`` directory download file ``turtle_tf2_message_filter."
+"cpp`` by entering the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:346
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:352
+msgid ""
+"$ wget https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_message_filter.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:360
+msgid ""
+"$ curl -sk https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_message_filter.cpp -o "
+"turtle_tf2_message_filter.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:366
+msgid ""
+"$ curl https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_message_filter.cpp -o "
+"turtle_tf2_message_filter.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:372
+msgid ""
+"#include <chrono>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"geometry_msgs/msg/point_stamped.hpp\"\n"
+"#include \"message_filters/subscriber.h\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tf2_ros/buffer.h\"\n"
+"#include \"tf2_ros/create_timer_ros.h\"\n"
+"#include \"tf2_ros/message_filter.h\"\n"
+"#include \"tf2_ros/transform_listener.h\"\n"
+"#ifdef TF2_CPP_HEADERS\n"
+"  #include \"tf2_geometry_msgs/tf2_geometry_msgs.hpp\"\n"
+"#else\n"
+"  #include \"tf2_geometry_msgs/tf2_geometry_msgs.h\"\n"
+"#endif\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class PoseDrawer : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  PoseDrawer()\n"
+"  : Node(\"turtle_tf2_pose_drawer\")\n"
+"  {\n"
+"    // Declare and acquire `target_frame` parameter\n"
+"    target_frame_ = this->declare_parameter<std::string>(\"target_frame\", "
+"\"turtle1\");\n"
+"\n"
+"    std::chrono::duration<int> buffer_timeout(1);\n"
+"\n"
+"    tf2_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());\n"
+"    // Create the timer interface before call to waitForTransform,\n"
+"    // to avoid a tf2_ros::CreateTimerInterfaceException exception\n"
+"    auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(\n"
+"      this->get_node_base_interface(),\n"
+"      this->get_node_timers_interface());\n"
+"    tf2_buffer_->setCreateTimerInterface(timer_interface);\n"
+"    tf2_listener_ =\n"
+"      std::make_shared<tf2_ros::TransformListener>(*tf2_buffer_);\n"
+"\n"
+"    point_sub_.subscribe(this, \"/turtle3/turtle_point_stamped\");\n"
+"    tf2_filter_ = std::make_shared<tf2_ros::MessageFilter<geometry_msgs::"
+"msg::PointStamped>>(\n"
+"      point_sub_, *tf2_buffer_, target_frame_, 100, this-"
+">get_node_logging_interface(),\n"
+"      this->get_node_clock_interface(), buffer_timeout);\n"
+"    // Register a callback with tf2_ros::MessageFilter to be called when "
+"transforms are available\n"
+"    tf2_filter_->registerCallback(&PoseDrawer::msgCallback, this);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  void msgCallback(const geometry_msgs::msg::PointStamped::SharedPtr "
+"point_ptr)\n"
+"  {\n"
+"    geometry_msgs::msg::PointStamped point_out;\n"
+"    try {\n"
+"      tf2_buffer_->transform(*point_ptr, point_out, target_frame_);\n"
+"      RCLCPP_INFO(\n"
+"        this->get_logger(), \"Point of turtle3 in frame of turtle1: x:%f y:"
+"%f z:%f\\n\",\n"
+"        point_out.point.x,\n"
+"        point_out.point.y,\n"
+"        point_out.point.z);\n"
+"    } catch (const tf2::TransformException & ex) {\n"
+"      RCLCPP_WARN(\n"
+"        // Print exception which was caught\n"
+"        this->get_logger(), \"Failure %s\\n\", ex.what());\n"
+"    }\n"
+"  }\n"
+"\n"
+"  std::string target_frame_;\n"
+"  std::shared_ptr<tf2_ros::Buffer> tf2_buffer_;\n"
+"  std::shared_ptr<tf2_ros::TransformListener> tf2_listener_;\n"
+"  message_filters::Subscriber<geometry_msgs::msg::PointStamped> point_sub_;\n"
+"  std::shared_ptr<tf2_ros::MessageFilter<geometry_msgs::msg::PointStamped>> "
+"tf2_filter_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<PoseDrawer>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:457
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:459
+msgid ""
+"First, you must include the ``tf2_ros::MessageFilter`` headers from the "
+"``tf2_ros`` package, as well as the previously used ``tf2`` and ``ros2`` "
+"related headers."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:461
+msgid ""
+"#include \"geometry_msgs/msg/point_stamped.hpp\"\n"
+"#include \"message_filters/subscriber.h\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tf2_ros/buffer.h\"\n"
+"#include \"tf2_ros/create_timer_ros.h\"\n"
+"#include \"tf2_ros/message_filter.h\"\n"
+"#include \"tf2_ros/transform_listener.h\"\n"
+"#ifdef TF2_CPP_HEADERS\n"
+"  #include \"tf2_geometry_msgs/tf2_geometry_msgs.hpp\"\n"
+"#else\n"
+"  #include \"tf2_geometry_msgs/tf2_geometry_msgs.h\"\n"
+"#endif"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:477
+msgid ""
+"Second, there needs to be persistent instances of ``tf2_ros::Buffer``, "
+"``tf2_ros::TransformListener`` and ``tf2_ros::MessageFilter``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:479
+msgid ""
+"std::string target_frame_;\n"
+"std::shared_ptr<tf2_ros::Buffer> tf2_buffer_;\n"
+"std::shared_ptr<tf2_ros::TransformListener> tf2_listener_;\n"
+"message_filters::Subscriber<geometry_msgs::msg::PointStamped> point_sub_;\n"
+"std::shared_ptr<tf2_ros::MessageFilter<geometry_msgs::msg::PointStamped>> "
+"tf2_filter_;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:488
+msgid ""
+"Third, the ROS 2 ``message_filters::Subscriber`` must be initialized with "
+"the topic. And the ``tf2_ros::MessageFilter`` must be initialized with that "
+"``Subscriber`` object. The other arguments of note in the ``MessageFilter`` "
+"constructor are the ``target_frame`` and the callback function. The target "
+"frame is the frame into which it will make sure ``canTransform`` will "
+"succeed. And the callback function is the function that will be called when "
+"the data is ready."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:494
+msgid ""
+"PoseDrawer()\n"
+": Node(\"turtle_tf2_pose_drawer\")\n"
+"{\n"
+"  // Declare and acquire `target_frame` parameter\n"
+"  target_frame_ = this->declare_parameter<std::string>(\"target_frame\", "
+"\"turtle1\");\n"
+"\n"
+"  std::chrono::duration<int> buffer_timeout(1);\n"
+"\n"
+"  tf2_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());\n"
+"  // Create the timer interface before call to waitForTransform,\n"
+"  // to avoid a tf2_ros::CreateTimerInterfaceException exception\n"
+"  auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(\n"
+"    this->get_node_base_interface(),\n"
+"    this->get_node_timers_interface());\n"
+"  tf2_buffer_->setCreateTimerInterface(timer_interface);\n"
+"  tf2_listener_ =\n"
+"    std::make_shared<tf2_ros::TransformListener>(*tf2_buffer_);\n"
+"\n"
+"  point_sub_.subscribe(this, \"/turtle3/turtle_point_stamped\");\n"
+"  tf2_filter_ = std::make_shared<tf2_ros::MessageFilter<geometry_msgs::msg::"
+"PointStamped>>(\n"
+"    point_sub_, *tf2_buffer_, target_frame_, 100, this-"
+">get_node_logging_interface(),\n"
+"    this->get_node_clock_interface(), buffer_timeout);\n"
+"  // Register a callback with tf2_ros::MessageFilter to be called when "
+"transforms are available\n"
+"  tf2_filter_->registerCallback(&PoseDrawer::msgCallback, this);\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:523
+msgid ""
+"And last, the callback method will call ``tf2_buffer_->transform`` when the "
+"data is ready and print output to the console."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:525
+msgid ""
+"private:\n"
+"  void msgCallback(const geometry_msgs::msg::PointStamped::SharedPtr "
+"point_ptr)\n"
+"  {\n"
+"    geometry_msgs::msg::PointStamped point_out;\n"
+"    try {\n"
+"      tf2_buffer_->transform(*point_ptr, point_out, target_frame_);\n"
+"      RCLCPP_INFO(\n"
+"        this->get_logger(), \"Point of turtle3 in frame of turtle1: x:%f y:"
+"%f z:%f\\n\",\n"
+"        point_out.point.x,\n"
+"        point_out.point.y,\n"
+"        point_out.point.z);\n"
+"    } catch (const tf2::TransformException & ex) {\n"
+"      RCLCPP_WARN(\n"
+"        // Print exception which was caught\n"
+"        this->get_logger(), \"Failure %s\\n\", ex.what());\n"
+"    }\n"
+"  }"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:547
+msgid "2.2 Add dependencies"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:549
+msgid ""
+"Before building the package ``learning_tf2_cpp``, please add two another "
+"dependencies in the ``package.xml`` file of this package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:551
+msgid ""
+"<depend>message_filters</depend>\n"
+"<depend>tf2_geometry_msgs</depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:557
+msgid "2.3 CMakeLists.txt"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:559
+msgid ""
+"And in the ``CMakeLists.txt`` file, add two lines below the existing "
+"dependencies:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:561
+msgid ""
+"find_package(message_filters REQUIRED)\n"
+"find_package(tf2_geometry_msgs REQUIRED)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:566
+msgid "The lines below will deal with differences between ROS distributions:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:568
+msgid ""
+"if(TARGET tf2_geometry_msgs::tf2_geometry_msgs)\n"
+"  get_target_property(_include_dirs tf2_geometry_msgs::tf2_geometry_msgs "
+"INTERFACE_INCLUDE_DIRECTORIES)\n"
+"else()\n"
+"  set(_include_dirs ${tf2_geometry_msgs_INCLUDE_DIRS})\n"
+"endif()\n"
+"\n"
+"find_file(TF2_CPP_HEADERS\n"
+"  NAMES tf2_geometry_msgs.hpp\n"
+"  PATHS ${_include_dirs}\n"
+"  NO_CACHE\n"
+"  PATH_SUFFIXES tf2_geometry_msgs\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:583
+msgid ""
+"After that, add the executable and name it ``turtle_tf2_message_filter``, "
+"which you'll use later with ``ros2 run``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:585
+msgid ""
+"add_executable(turtle_tf2_message_filter src/turtle_tf2_message_filter.cpp)\n"
+"target_link_libraries(\n"
+"  turtle_tf2_message_filter PUBLIC\n"
+"  ${geometry_msgs_TARGETS}\n"
+"  message_filters::message_filters\n"
+"  rclcpp::rclcpp\n"
+"  tf2::tf2\n"
+"  ${tf2_geometry_msgs_TARGETS}\n"
+"  tf2_ros::tf2_ros\n"
+")\n"
+"\n"
+"if(EXISTS ${TF2_CPP_HEADERS})\n"
+"  target_compile_definitions(turtle_tf2_message_filter PUBLIC -"
+"DTF2_CPP_HEADERS)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:602
+msgid ""
+"Finally, add the ``install(TARGETS…)`` section (below other existing nodes) "
+"so ``ros2 run`` can find your executable:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:604
+msgid ""
+"install(TARGETS\n"
+"  turtle_tf2_message_filter\n"
+"  DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:611
+msgid "2.4 Build"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:631
+msgid ""
+"Now open a new terminal, navigate to the root of your workspace, and rebuild "
+"the package with command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:637
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:643
+msgid "$ colcon build --packages-select learning_tf2_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:649
+msgid "$ colcon build --merge-install --packages-select learning_tf2_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:653
+msgid ""
+"Open a new terminal, navigate to the root of your workspace, and source the "
+"setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:659
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:665
+msgid "$ . install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:671
+msgid "In a windows command line prompt:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:673
+msgid "$ call install\\setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:679
+msgid "$ .\\install\\setup.ps1"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:684
+msgid "3 Run"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:686
+msgid ""
+"First we need to run several nodes (including the broadcaster node of "
+"PointStamped messages) by launching the launch file "
+"``turtle_tf2_sensor_message_launch``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:692
+msgid "$ ros2 launch learning_tf2_py turtle_tf2_sensor_message_launch.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:698
+msgid "$ ros2 launch learning_tf2_py turtle_tf2_sensor_message_launch.yaml"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:704
+msgid "$ ros2 launch learning_tf2_py turtle_tf2_sensor_message_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:708
+msgid ""
+"This will bring up the ``turtlesim`` window with two turtles, where "
+"``turtle3`` is moving along a circle, while ``turtle1`` isn't moving at "
+"first. But you can run the ``turtle_teleop_key`` node in another terminal to "
+"drive ``turtle1`` to move:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:711
+msgid "$ ros2 run turtlesim turtle_teleop_key"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:717
+msgid "Now if you echo the topic ``turtle3/turtle_point_stamped``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:719
+msgid ""
+"$ ros2 topic echo /turtle3/turtle_point_stamped\n"
+"header:\n"
+"  stamp:\n"
+"    sec: 1629877510\n"
+"    nanosec: 902607040\n"
+"  frame_id: world\n"
+"point:\n"
+"  x: 4.989276885986328\n"
+"  y: 3.073937177658081\n"
+"  z: 0.0\n"
+"---\n"
+"header:\n"
+"  stamp:\n"
+"    sec: 1629877510\n"
+"    nanosec: 918389395\n"
+"  frame_id: world\n"
+"point:\n"
+"  x: 4.987966060638428\n"
+"  y: 3.089883327484131\n"
+"  z: 0.0\n"
+"---\n"
+"header:\n"
+"  stamp:\n"
+"    sec: 1629877510\n"
+"    nanosec: 934186680\n"
+"  frame_id: world\n"
+"point:\n"
+"  x: 4.986400127410889\n"
+"  y: 3.105806589126587\n"
+"  z: 0.0\n"
+"---"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:753
+msgid ""
+"When the demo is running, open another terminal and run the message filter/"
+"listener node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:755
+msgid ""
+"$ ros2 run learning_tf2_cpp turtle_tf2_message_filter\n"
+"[INFO] [1630016162.006173900] [turtle_tf2_pose_drawer]: Point of turtle3 in "
+"frame of turtle1: x:-6.493231 y:-2.961614 z:0.000000\n"
+"\n"
+"[INFO] [1630016162.006291983] [turtle_tf2_pose_drawer]: Point of turtle3 in "
+"frame of turtle1: x:-6.472169 y:-3.004742 z:0.000000\n"
+"\n"
+"[INFO] [1630016162.006326234] [turtle_tf2_pose_drawer]: Point of turtle3 in "
+"frame of turtle1: x:-6.479420 y:-2.990479 z:0.000000\n"
+"\n"
+"[INFO] [1630016162.006355644] [turtle_tf2_pose_drawer]: Point of turtle3 in "
+"frame of turtle1: x:-6.486441 y:-2.976102 z:0.000000"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:768
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.rst:770
+msgid ""
+"In this tutorial you learned how to use sensor data/messages in tf2. "
+"Specifically speaking, you learned how to publish ``PointStamped`` messages "
+"on a topic, and how to listen to the topic and transform the frame of "
+"``PointStamped`` messages with ``tf2_ros::MessageFilter``."
+msgstr ""
