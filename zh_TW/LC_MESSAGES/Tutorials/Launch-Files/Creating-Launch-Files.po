@@ -1,0 +1,393 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation dashing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:4
+msgid "Creating a launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:6
+msgid "**Goal:** Create a launch file to run a complex ROS 2 system."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:8
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:10
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:14
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:17
+msgid "Background"
+msgstr "背景"
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:19
+msgid ""
+"In the tutorials up until now, you have been opening new terminals for every "
+"new node you run. As you create more complex systems with more and more "
+"nodes running simultaneously, opening terminals and reentering configuration "
+"details becomes tedious."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:22
+msgid ""
+"Launch files allow you to start up and configure a number of executables "
+"containing ROS 2 nodes simultaneously."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:24
+msgid ""
+"Running a single launch file with the ``ros2 launch`` command will start up "
+"your entire system - all nodes and their configurations - at once."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:28
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:30
+msgid ""
+"This tutorial uses the :ref:`rqt_graph and turtlesim <Turtlesim>` packages."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:32
+msgid "You will also need to use a text editor of your preference."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:34
+msgid ""
+"As always, don’t forget to source ROS 2 in :ref:`every new terminal you open "
+"<ConfigROS2>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:38
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:41
+msgid "1 Setup"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:43
+msgid "Create a new directory to store your launch file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:45
+msgid "mkdir launch"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:49
+msgid ""
+"Create a launch file named ``turtlesim_mimic_launch.py`` by entering the "
+"following command in the terminal:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:53
+msgid "Linux"
+msgstr "Linux"
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:55
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:61
+msgid "touch launch/turtlesim_mimic_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:59
+msgid "macOS"
+msgstr "macOS"
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:65
+msgid "Windows"
+msgstr "Windows"
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:67
+msgid "type nul > launch/turtlesim_mimic_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:71
+msgid ""
+"You can also go into your system’s file directory using the GUI and create a "
+"new file that way."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:73
+msgid "Open the new file in your preferred text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:76
+msgid "2 Write the launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:78
+msgid ""
+"Let’s put together a ROS 2 launch file using the ``turtlesim`` package and "
+"its executables."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:80
+msgid ""
+"Copy and paste the complete code into the ``turtlesim_mimic_launch.py`` file:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:83
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"def generate_launch_description():\n"
+"    return LaunchDescription([\n"
+"        Node(\n"
+"            package='turtlesim',\n"
+"            node_namespace='turtlesim1',\n"
+"            node_executable='turtlesim_node',\n"
+"            node_name='sim'\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtlesim',\n"
+"            node_namespace='turtlesim2',\n"
+"            node_executable='turtlesim_node',\n"
+"            node_name='sim'\n"
+"        ),\n"
+"        Node(\n"
+"            package='turtlesim',\n"
+"            node_executable='mimic',\n"
+"            node_name='mimic',\n"
+"            remappings=[\n"
+"                ('/input/pose', '/turtlesim1/turtle1/pose'),\n"
+"                ('/output/cmd_vel', '/turtlesim2/turtle1/cmd_vel'),\n"
+"            ]\n"
+"        )\n"
+"    ])"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:115
+msgid "2.1 Examine the launch file"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:117
+msgid "These import statements pull in some Python ``launch`` modules."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:119
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch_ros.actions import Node"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:124
+msgid "Next, the launch description itself begins:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:126
+msgid ""
+"def generate_launch_description():\n"
+"   return LaunchDescription([\n"
+"\n"
+"   ])"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:133
+msgid ""
+"Within the ``LaunchDescription`` is a system of three nodes, all from the "
+"``turtlesim`` package. The goal of the system is to launch two turtlesim "
+"windows, and have one turtle mimic the movements of the other."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:136
+msgid ""
+"The first two actions in the launch description launch two turtlesim windows:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:138
+msgid ""
+"Node(\n"
+"    package='turtlesim',\n"
+"    node_namespace='turtlesim1',\n"
+"    node_executable='turtlesim_node',\n"
+"    node_name='sim'\n"
+"),\n"
+"Node(\n"
+"    package='turtlesim',\n"
+"    node_namespace='turtlesim2',\n"
+"    node_executable='turtlesim_node',\n"
+"    node_name='sim'\n"
+"),"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:153
+msgid ""
+"Note the only difference between the two nodes is their namespace values. "
+"Unique namespaces allow the system to start two simulators without node name "
+"nor topic name conflicts."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:156
+msgid ""
+"Both turtles in this system receive commands over the same topic and publish "
+"their pose over the same topic. Without unique namespaces, there would be no "
+"way to distinguish between messages meant for one turtle or the other."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:159
+msgid ""
+"The final node is also from the ``turtlesim`` package, but a different "
+"executable: ``mimic``."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:162
+msgid ""
+"Node(\n"
+"    package='turtlesim',\n"
+"    node_executable='mimic',\n"
+"    node_name='mimic',\n"
+"    remappings=[\n"
+"      ('/input/pose', '/turtlesim1/turtle1/pose'),\n"
+"      ('/output/cmd_vel', '/turtlesim2/turtle1/cmd_vel'),\n"
+"    ]\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:175
+msgid "This node has added configuration details in the form of remappings."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:177
+msgid ""
+"``mimic``'s ``/input/pose`` topic is remapped to ``/turtlesim1/turtle1/"
+"pose`` and it's ``/output/cmd_vel`` topic to ``/turtlesim2/turtle1/"
+"cmd_vel``. This means ``mimic`` will subscribe to ``/turtlesim1/sim``'s pose "
+"topic and republish it for ``/turtlesim2/sim``'s velocity command topic to "
+"subscribe to. In other words, ``turtlesim2`` will mimic ``turtlesim1``'s "
+"movements."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:183
+msgid "3 ros2 launch"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:185
+msgid ""
+"To launch ``turtlesim_mimic_launch.py``, enter into the directory you "
+"created earlier and run the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:187
+msgid ""
+"cd launch\n"
+"ros2 launch turtlesim_mimic_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:194
+msgid ""
+"It is possible to launch a launch file directly (as we do above), or "
+"provided by a package. When it is provided by a package, the syntax is:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:197
+msgid "ros2 launch <package_name> <launch_file_name>"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:201
+msgid ""
+"You will learn more about :ref:`creating packages <CreatePkg>` in a later "
+"tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:203
+msgid ""
+"Two turtlesim windows will open, and you will see the following ``[INFO]`` "
+"messages telling you which nodes your launch file has started:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:205
+msgid ""
+"[INFO] [launch]: Default logging verbosity is set to INFO\n"
+"[INFO] [turtlesim_node-1]: process started with pid [11714]\n"
+"[INFO] [turtlesim_node-2]: process started with pid [11715]\n"
+"[INFO] [mimic-3]: process started with pid [11716]"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:212
+msgid ""
+"To see the system in action, open a new terminal and run the ``ros2 topic "
+"pub`` command on the ``/turtlesim1/turtle1/cmd_vel`` topic to get the first "
+"turtle moving:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:214
+msgid ""
+"ros2 topic pub -r 1 /turtlesim1/turtle1/cmd_vel geometry_msgs/msg/Twist "
+"\"{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: -1.8}}\""
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:218
+msgid "You will see both turtles following the same path."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:223
+msgid "4 Introspect the system with rqt_graph"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:225
+msgid ""
+"While the system is still running, open a new terminal and run ``rqt_graph`` "
+"to get a better idea of the relationship between the nodes in your launch "
+"file."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:227
+msgid "Run the command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:229
+msgid "rqt_graph"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:235
+msgid ""
+"A hidden node (the ``ros2 topic pub`` command you ran) is publishing data to "
+"the ``/turtlesim1/turtle1/cmd_vel`` topic on the left, which the ``/"
+"turtlesim1/sim`` node is subscribed to. The rest of the graph shows what was "
+"described earlier: ``mimic`` is subscribed to ``/turtlesim1/sim``'s pose "
+"topic, and publishes to ``/turtlesim2/sim``'s velocity command topic."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:239
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:241
+msgid ""
+"Launch files simplify running complex systems with many nodes and specific "
+"configuration details. You can create launch files using Python, and run "
+"them using the ``ros2 launch`` command."
+msgstr ""
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:245
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../../source/Tutorials/Launch-Files/Creating-Launch-Files.rst:247
+msgid ""
+"In the next tutorial, :ref:`ROS2Bag`, you'll learn about another helpful "
+"tool, ``ros2bag``."
+msgstr ""
