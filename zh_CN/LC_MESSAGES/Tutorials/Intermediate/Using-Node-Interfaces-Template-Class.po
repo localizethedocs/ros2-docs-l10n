@@ -1,0 +1,369 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 08:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:2
+msgid "Using the Node Interfaces Template Class (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:4
+msgid ""
+"**Goal:** Learn how to access ``Node`` information using ``rclcpp::"
+"NodeInterfaces<>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:8
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:13
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:16
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:18
+msgid ""
+"Not all ROS Nodes are created equally! The ``rclcpp::Node`` and "
+"``rclcpp_lifecycle::LifecycleNode`` classes do not share an inheritance "
+"tree, which means ROS developers can run into compile time type issues when "
+"they want to write a function that takes in a ROS node pointer as an "
+"argument. To address this issue, ``rclcpp`` includes the ``rclcpp::"
+"NodeInterfaces<>`` template type that should be used as the preferred "
+"convention for passing for both conventional and lifecycle nodes to "
+"functions. This `ROSCon 2023 lightning talk <https://vimeo."
+"com/879001243#t=16m0s>`_ summarizes the issue and remedy succinctly. The "
+"following tutorial will show you how to use ``rclcpp::NodeInterfaces<>`` as "
+"reliable and compact interface for all ROS node types."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:24
+msgid ""
+"The ``rclcpp::NodeInterfaces<>`` template class provides a compact and "
+"efficient way to manage Node Interfaces in ROS 2. This is particularly "
+"useful when working with different types of ``Nodes``, such as ``rclcpp::"
+"Node`` and ``rclcpp_lifecycle::LifecycleNode``, which do not share the same "
+"inheritance tree."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:28
+msgid "1 Accessing Node Information with a ``SharedPtr``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:30
+msgid ""
+"In the example below, we create a simple ``Node`` called ``Simple_Node`` and "
+"define a function ``node_info`` that accepts a ``SharedPtr`` to the "
+"``Node``. The function retrieves and prints the name of the ``Node``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:33
+msgid ""
+"#include <memory>\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"\n"
+"void node_info(rclcpp::Node::SharedPtr node)\n"
+"{\n"
+"  RCLCPP_INFO(node->get_logger(), \"Node name: %s\", node->get_name());\n"
+"}\n"
+"\n"
+"class SimpleNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  SimpleNode(const std::string & node_name)\n"
+"  : Node(node_name)\n"
+"  {\n"
+"  }\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  auto node = std::make_shared<SimpleNode>(\"Simple_Node\");\n"
+"  node_info(*node);\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:59
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:110
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:176
+msgid "Output:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:61
+msgid "[INFO] [Simple_Node]: Node name: Simple_Node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:65
+msgid ""
+"While this approach works well for arguments of type ``rclcpp::Node``, it "
+"does not work for other node types like ``rclcpp_lifecycle::LifecycleNode``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:68
+msgid "2 Explicitly pass ``rclcpp::node_interfaces``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:70
+msgid ""
+"A more robust approach, applicable to all node types, is to explicitly pass "
+"``rclcpp::node_interfaces`` as function arguments, as demonstrated in the "
+"example below. In the example that follows, we create function called "
+"``node_info`` that take as arguments two ``rclcpp::node_interfaces``, "
+"``NodeBaseInterface`` and ``NodeLoggingInterface`` and prints the ``Node`` "
+"name. We then create two nodes of type ``rclcpp_lifecycle::LifecycleNode`` "
+"and ``rclcpp::Node`` and pass their interfaces in ``node_info``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:74
+msgid ""
+"void node_info(std::shared_ptr<rclcpp::node_interfaces::NodeBaseInterface> "
+"base_interface,\n"
+"               std::shared_ptr<rclcpp::node_interfaces::"
+"NodeLoggingInterface> logging_interface)\n"
+"{\n"
+"  RCLCPP_INFO(logging_interface->get_logger(), \"Node name: %s\", "
+"base_interface->get_name());\n"
+"}\n"
+"\n"
+"class SimpleNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  SimpleNode(const std::string & node_name)\n"
+"  : Node(node_name)\n"
+"  {\n"
+"  }\n"
+"};\n"
+"\n"
+"class LifecycleTalker : public rclcpp_lifecycle::LifecycleNode\n"
+"{\n"
+"public:\n"
+"  explicit LifecycleTalker(const std::string & node_name, bool "
+"intra_process_comms = false)\n"
+"  : rclcpp_lifecycle::LifecycleNode(node_name,\n"
+"      rclcpp::NodeOptions().use_intra_process_comms(intra_process_comms))\n"
+"  {}\n"
+"}\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::executors::SingleThreadedExecutor exe;\n"
+"  auto node = std::make_shared<SimpleNode>(\"Simple_Node\");\n"
+"  auto lc_node = std::"
+"make_shared<LifecycleTalker>(\"Simple_LifeCycle_Node\");\n"
+"  node_info(node->get_node_base_interface(),node-"
+">get_node_logging_interface());\n"
+"  node_info(lc_node->get_node_base_interface(),lc_node-"
+">get_node_logging_interface());\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:112
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:178
+msgid ""
+"[INFO] [Simple_Node]: Node name: Simple_Node\n"
+"[INFO] [Simple_LifeCycle_Node]: Node name: Simple_LifeCycle_Node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:117
+msgid ""
+"As functions grow in complexity, the number of ``rclcpp::node_interfaces`` "
+"arguments also increases, leading to readability and compactness issues. To "
+"make the code more flexible and compatible with different node types, we use "
+"``rclcpp::NodeInterfaces<>``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:121
+msgid "3 Using ``rclcpp::NodeInterfaces<>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:123
+msgid ""
+"The recommended way of accessing a ``Node`` type's information is through "
+"the ``Node Interfaces``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:125
+msgid ""
+"Below, similar to the previous example, a ``rclcpp_lifecycle::"
+"LifecycleNode`` and a ``rclcpp::Node`` are created."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:127
+msgid ""
+"#include <memory>\n"
+"#include <string>\n"
+"#include <thread>\n"
+"#include \"lifecycle_msgs/msg/transition.hpp\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"rclcpp_lifecycle/lifecycle_node.hpp\"\n"
+"#include \"rclcpp_lifecycle/lifecycle_publisher.hpp\"\n"
+"#include \"rclcpp/node_interfaces/node_interfaces.hpp\"\n"
+"\n"
+"using MyNodeInterfaces =\n"
+"  rclcpp::node_interfaces::NodeInterfaces<rclcpp::node_interfaces::"
+"NodeBaseInterface, rclcpp::node_interfaces::NodeLoggingInterface>;\n"
+"\n"
+"void node_info(MyNodeInterfaces interfaces)\n"
+"{\n"
+"  auto base_interface = interfaces.get_node_base_interface();\n"
+"  auto logging_interface = interfaces.get_node_logging_interface();\n"
+"  RCLCPP_INFO(logging_interface->get_logger(), \"Node name: %s\", "
+"base_interface->get_name());\n"
+"}\n"
+"\n"
+"class SimpleNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  SimpleNode(const std::string & node_name)\n"
+"  : Node(node_name)\n"
+"  {\n"
+"  }\n"
+"};\n"
+"\n"
+"class LifecycleTalker : public rclcpp_lifecycle::LifecycleNode\n"
+"{\n"
+"public:\n"
+"  explicit LifecycleTalker(const std::string & node_name, bool "
+"intra_process_comms = false)\n"
+"  : rclcpp_lifecycle::LifecycleNode(node_name,\n"
+"      rclcpp::NodeOptions().use_intra_process_comms(intra_process_comms))\n"
+"  {}\n"
+"}\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::executors::SingleThreadedExecutor exe;\n"
+"  auto node = std::make_shared<SimpleNode>(\"Simple_Node\");\n"
+"  auto lc_node = std::"
+"make_shared<LifecycleTalker>(\"Simple_LifeCycle_Node\");\n"
+"  node_info(*node);\n"
+"  node_info(*lc_node);\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:184
+msgid "3.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:186
+msgid ""
+"using MyNodeInterfaces =\n"
+"  rclcpp::node_interfaces::NodeInterfaces<rclcpp::node_interfaces::"
+"NodeBaseInterface, rclcpp::node_interfaces::NodeLoggingInterface>;\n"
+"\n"
+"void node_info(MyNodeInterfaces interfaces)\n"
+"{\n"
+"  auto base_interface = interfaces.get_node_base_interface();\n"
+"  auto logging_interface = interfaces.get_node_logging_interface();\n"
+"  RCLCPP_INFO(logging_interface->get_logger(), \"Node name: %s\", "
+"base_interface->get_name());\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:198
+msgid ""
+"Instead of accepting ``SharedPtr`` or a node interface, this function takes "
+"a reference to a ``rclcpp::node_interfaces::NodeInterfaces`` object. Another "
+"advantage of using this approach is the support for implicit conversion of "
+"node-like objects. This means that it is possible to directly pass any node-"
+"like object to a function expecting a ``rclcpp::node_interfaces::"
+"NodeInterfaces`` object."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:202
+msgid "It extracts:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:204
+msgid "``NodeBaseInterface`` Provides basic node functionalities."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:205
+msgid "``NodeLoggingInterface`` Enables logging."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:207
+msgid "Then, it retrieves and prints the node name."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:209
+msgid ""
+"class SimpleNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  SimpleNode(const std::string & node_name)\n"
+"  : Node(node_name)\n"
+"  {\n"
+"  }\n"
+"};\n"
+"\n"
+"class LifecycleTalker : public rclcpp_lifecycle::LifecycleNode\n"
+"{\n"
+"public:\n"
+"  explicit LifecycleTalker(const std::string & node_name, bool "
+"intra_process_comms = false)\n"
+"  : rclcpp_lifecycle::LifecycleNode(node_name,\n"
+"      rclcpp::NodeOptions().use_intra_process_comms(intra_process_comms))\n"
+"  {}\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:229
+msgid ""
+"Next, we create a ``rclcpp::Node`` as well as a ``rclcpp_lifecycle::"
+"LifecycleNode`` class. The ``rclcpp_lifecycle::LifecycleNode`` class often "
+"includes functions for the state transitions  ``Unconfigured``, "
+"``Inactive``, ``Active``, and ``Finalized``. However, they are not included "
+"for demonstration purposes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:233
+msgid ""
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::executors::SingleThreadedExecutor exe;\n"
+"  auto node = std::make_shared<SimpleNode>(\"Simple_Node\");\n"
+"  auto lc_node = std::"
+"make_shared<LifecycleTalker>(\"Simple_LifeCycle_Node\");\n"
+"  node_info(*node);\n"
+"  node_info(*lc_node);\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:245
+msgid ""
+"In the main function, a ``SharedPtr`` to both ``rclcpp_lifecycle::"
+"LifecycleNode`` and ``rclcpp::Node`` is created. The function declared above "
+"is called once with each node type as an argument."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Node-Interfaces-Template-Class.rst:248
+msgid ""
+"The ``SharedPtr`` needs to be dereferenced as the template accepts a "
+"reference to the ``NodeT`` object."
+msgstr ""
