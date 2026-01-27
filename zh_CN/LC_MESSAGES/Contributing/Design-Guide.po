@@ -1,0 +1,209 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation eloquent\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Contributing/Design-Guide.rst:7
+msgid "Design guide: common patterns in ROS 2"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:10
+msgid "Composable nodes as shared libraries"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:12
+#: ../../../source/Contributing/Design-Guide.rst:31
+#: ../../../source/Contributing/Design-Guide.rst:58
+#: ../../../source/Contributing/Design-Guide.rst:92
+msgid "**Context**"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:14
+msgid ""
+"You want to export a composable node as a shared library from a package and "
+"use that node in another package that does link-time composition."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:16
+#: ../../../source/Contributing/Design-Guide.rst:39
+#: ../../../source/Contributing/Design-Guide.rst:66
+#: ../../../source/Contributing/Design-Guide.rst:96
+msgid "**Solution**"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:19
+msgid ""
+"Add code to the CMake file which imports the actual targets in downstream "
+"packages"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:21
+msgid "Install the generated file"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:22
+msgid "Export the generated file"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:24
+msgid "**Example**"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:26
+msgid ""
+"`ROS Discourse - Ament best practice for sharing libraries <https://"
+"discourse.ros.org/t/ament-best-practice-for-sharing-libraries/3602>`__"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:29
+msgid "Fast RTPS large data transfer"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:33
+msgid "You want to transfer large data via Fast RTPS."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:35
+#: ../../../source/Contributing/Design-Guide.rst:62
+msgid "**Problem**"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:37
+msgid "DDS/RTPS uses UDP with a maximum message size of 64k"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:41
+msgid "Configure the middleware so that it fragments large data into messages"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:43
+#: ../../../source/Contributing/Design-Guide.rst:71
+#: ../../../source/Contributing/Design-Guide.rst:100
+msgid "**Implementation**"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:45
+msgid "Use Asynchronous publication mode:"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:47
+msgid ""
+"<publishMode>\n"
+"  <kind>ASYNCHRONOUS</kind>\n"
+"</publishMode>"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:53
+#: ../../../source/Contributing/Design-Guide.rst:87
+#: ../../../source/Contributing/Design-Guide.rst:129
+msgid ""
+"`ROS2 Fine Tuning <https://roscon.ros.org/2017/presentations/"
+"ROSCon%202017%20ROS2%20Fine%20Tuning.pdf>`__"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:56
+msgid "Fast RTPS Best Effort Video Streaming"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:60
+msgid ""
+"You want to transfer video streams and provide up-to-date data. It is OK to "
+"lose some of the images."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:64
+msgid ""
+"Acknowledged data transmission mechanisms (also known as \"reliable\" "
+"delivery) ensure every packet is delivered, which can cause the video stream "
+"to fall behind."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:68
+msgid ""
+"Use \"best effort\" communication (instead of the usual acknowledgement "
+"based mechanism) and prioritize the last frame."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:73
+msgid "Configure \"best effort\" reliability mechanism"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:74
+msgid "Configure Quality of service history to keep last frame"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:76
+msgid ""
+"<reliability>\n"
+"  <kind>BEST_EFFORT</kind>\n"
+"</reliability>\n"
+"\n"
+"<historyQos>\n"
+"  <kind>KEEP_LAST</kind>\n"
+"  <depth>1</depth>\n"
+"</historyQos>"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:90
+msgid "Fast RTPS Reliable Video Streaming"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:94
+msgid "You want to transfer video streams in unreliable network settings."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:98
+msgid ""
+"Use a reliable communication mechanism. Use fast response by writer and "
+"reader."
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:102
+msgid "Configure \"reliable\" reliability mechanism"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:103
+msgid "Configure NACK response delay and suppression duration of writer to 0"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:104
+msgid "Configure heartbeat response delay of reader to 0"
+msgstr ""
+
+#: ../../../source/Contributing/Design-Guide.rst:106
+msgid ""
+"<reliability>\n"
+"  <kind>RELIABLE</kind>\n"
+"</reliability>\n"
+"\n"
+"# writer\n"
+"<times>\n"
+"  <nackResponseDelay>\n"
+"    <durationbyname>ZERO</durationbyname>\n"
+"  </nackResponseDelay>\n"
+"  <nackSupressionDuration>\n"
+"    <durationbyname>ZERO</durationbyname>\n"
+"  </nackSupressionDuration>\n"
+"</times>\n"
+"\n"
+"# reader\n"
+"<times>\n"
+"  <heartbeatResponseDelay>\n"
+"    <durationbyname>ZERO</durationbyname>\n"
+"  </heartbeatResponseDelay>\n"
+"</times>"
+msgstr ""
