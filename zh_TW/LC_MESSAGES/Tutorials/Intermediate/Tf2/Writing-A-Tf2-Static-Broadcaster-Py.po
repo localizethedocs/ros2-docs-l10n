@@ -1,0 +1,660 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation galactic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:8
+msgid "Writing a static broadcaster (Python)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:10
+msgid "**Goal:** Learn how to broadcast static coordinate frames to tf2."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:12
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:14
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:23
+msgid ""
+"Publishing static transforms is useful to define the relationship between a "
+"robot base and its sensors or non-moving parts. For example, it is easiest "
+"to reason about laser scan measurements in a frame at the center of the "
+"laser scanner."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:26
+msgid ""
+"This is a standalone tutorial covering the basics of static transforms, "
+"which consists of two parts. In the first part we will write code to publish "
+"static transforms to tf2. In the second part we will explain how to use the "
+"commandline ``static_transform_publisher`` executable tool in ``tf2_ros``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:30
+msgid ""
+"In the next two tutorials we will write the code to reproduce the demo from "
+"the :doc:`Introduction to tf2 <./Introduction-To-Tf2>` tutorial. After that, "
+"the following tutorials focus on extending the demo with more advanced tf2 "
+"features."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:34
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:36
+msgid ""
+"In previous tutorials, you learned how to :doc:`create a workspace <../../"
+"Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace>` and :"
+"doc:`create a package <../../Beginner-Client-Libraries/Creating-Your-First-"
+"ROS2-Package>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:39
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:42
+msgid "1 Create a package"
+msgstr "1 建立軟體包"
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:44
+msgid ""
+"First we will create a package that will be used for this tutorial and the "
+"following ones. The package called ``learning_tf2_py`` will depend on "
+"``geometry_msgs``, ``python3-numpy``, ``rclpy``, ``tf2_ros_py``, and "
+"``turtlesim``. Code for this tutorial is stored `here <https://raw."
+"githubusercontent.com/ros/geometry_tutorials/ros2/turtle_tf2_py/"
+"turtle_tf2_py/static_turtle_tf2_broadcaster.py>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:48
+msgid ""
+"Open a new terminal and :doc:`source your ROS 2 installation <../../Beginner-"
+"CLI-Tools/Configuring-ROS2-Environment>` so that ``ros2`` commands will "
+"work. Navigate to workspace's ``src`` folder and create a new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:51
+msgid "ros2 pkg create --build-type ament_python learning_tf2_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:55
+msgid ""
+"Your terminal will return a message verifying the creation of your package "
+"``learning_tf2_py`` and all its necessary files and folders."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:58
+msgid "2 Write the static broadcaster node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:60
+msgid ""
+"Let's first create the source files. Inside the ``src/learning_tf2_py/"
+"learning_tf2_py`` directory download the example static broadcaster code by "
+"entering the following command:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:65
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:310
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:328
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:350
+msgid "Linux"
+msgstr "Linux"
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:67
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:73
+msgid ""
+"wget https://raw.githubusercontent.com/ros/geometry_tutorials/ros2/"
+"turtle_tf2_py/turtle_tf2_py/static_turtle_tf2_broadcaster.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:71
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:316
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:334
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:356
+msgid "macOS"
+msgstr "macOS"
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:77
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:320
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:340
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:362
+msgid "Windows"
+msgstr "Windows"
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:79
+msgid "In a Windows command line prompt:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:81
+msgid ""
+"curl -sk https://raw.githubusercontent.com/ros/geometry_tutorials/ros2/"
+"turtle_tf2_py/turtle_tf2_py/static_turtle_tf2_broadcaster.py -o "
+"static_turtle_tf2_broadcaster.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:85
+msgid "Or in powershell:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:87
+msgid ""
+"curl https://raw.githubusercontent.com/ros/geometry_tutorials/ros2/"
+"turtle_tf2_py/turtle_tf2_py/static_turtle_tf2_broadcaster.py -o "
+"static_turtle_tf2_broadcaster.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:91
+msgid "Open the file using your preferred text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:93
+msgid ""
+"import math\n"
+"import sys\n"
+"\n"
+"from geometry_msgs.msg import TransformStamped\n"
+"\n"
+"import numpy as np\n"
+"\n"
+"import rclpy\n"
+"from rclpy.node import Node\n"
+"\n"
+"from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster\n"
+"\n"
+"\n"
+"def quaternion_from_euler(ai, aj, ak):\n"
+"    ai /= 2.0\n"
+"    aj /= 2.0\n"
+"    ak /= 2.0\n"
+"    ci = math.cos(ai)\n"
+"    si = math.sin(ai)\n"
+"    cj = math.cos(aj)\n"
+"    sj = math.sin(aj)\n"
+"    ck = math.cos(ak)\n"
+"    sk = math.sin(ak)\n"
+"    cc = ci*ck\n"
+"    cs = ci*sk\n"
+"    sc = si*ck\n"
+"    ss = si*sk\n"
+"\n"
+"    q = np.empty((4, ))\n"
+"    q[0] = cj*sc - sj*cs\n"
+"    q[1] = cj*ss + sj*cc\n"
+"    q[2] = cj*cs - sj*sc\n"
+"    q[3] = cj*cc + sj*ss\n"
+"\n"
+"    return q\n"
+"\n"
+"\n"
+"class StaticFramePublisher(Node):\n"
+"    \"\"\"\n"
+"    Broadcast transforms that never change.\n"
+"\n"
+"    This example publishes transforms from `world` to a static turtle "
+"frame.\n"
+"    The transforms are only published once at startup, and are constant for "
+"all\n"
+"    time.\n"
+"    \"\"\"\n"
+"\n"
+"    def __init__(self, transformation):\n"
+"        super().__init__('static_turtle_tf2_broadcaster')\n"
+"\n"
+"        self.tf_static_broadcaster = StaticTransformBroadcaster(self)\n"
+"\n"
+"        # Publish static transforms once at startup\n"
+"        self.make_transforms(transformation)\n"
+"\n"
+"    def make_transforms(self, transformation):\n"
+"        t = TransformStamped()\n"
+"\n"
+"        t.header.stamp = self.get_clock().now().to_msg()\n"
+"        t.header.frame_id = 'world'\n"
+"        t.child_frame_id = transformation[1]\n"
+"\n"
+"        t.transform.translation.x = float(transformation[2])\n"
+"        t.transform.translation.y = float(transformation[3])\n"
+"        t.transform.translation.z = float(transformation[4])\n"
+"        quat = quaternion_from_euler(\n"
+"            float(transformation[5]), float(transformation[6]), "
+"float(transformation[7]))\n"
+"        t.transform.rotation.x = quat[0]\n"
+"        t.transform.rotation.y = quat[1]\n"
+"        t.transform.rotation.z = quat[2]\n"
+"        t.transform.rotation.w = quat[3]\n"
+"\n"
+"        self.tf_static_broadcaster.sendTransform(t)\n"
+"\n"
+"\n"
+"def main():\n"
+"    logger = rclpy.logging.get_logger('logger')\n"
+"\n"
+"    # obtain parameters from command line arguments\n"
+"    if len(sys.argv) != 8:\n"
+"        logger.info('Invalid number of parameters. Usage: \\n'\n"
+"                    '$ ros2 run learning_tf2_py "
+"static_turtle_tf2_broadcaster'\n"
+"                    'child_frame_name x y z roll pitch yaw')\n"
+"        sys.exit(1)\n"
+"\n"
+"    if sys.argv[1] == 'world':\n"
+"        logger.info('Your static turtle name cannot be \"world\"')\n"
+"        sys.exit(2)\n"
+"\n"
+"    # pass parameters and initialize node\n"
+"    rclpy.init()\n"
+"    node = StaticFramePublisher(sys.argv)\n"
+"    try:\n"
+"        rclpy.spin(node)\n"
+"    except KeyboardInterrupt:\n"
+"        pass\n"
+"\n"
+"    rclpy.shutdown()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:194
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:196
+msgid ""
+"Now let's look at the code that is relevant to publishing the static turtle "
+"pose to tf2. The first lines import required packages. First we import the "
+"``TransformStamped`` from the ``geometry_msgs``, which provides us a "
+"template for the message that we will publish to the transformation tree."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:200
+msgid "from geometry_msgs.msg import TransformStamped"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:204
+msgid "Afterward, ``rclpy`` is imported so its ``Node`` class can be used."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:206
+msgid ""
+"import rclpy\n"
+"from rclpy.node import Node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:211
+msgid ""
+"The ``tf2_ros`` package provides a ``StaticTransformBroadcaster`` to make "
+"the publishing of static transforms easy. To use the "
+"``StaticTransformBroadcaster``, we need to import it from the ``tf2_ros`` "
+"module."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:214
+msgid ""
+"from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:218
+msgid ""
+"The ``StaticFramePublisher`` class constructor initializes the node with the "
+"name ``static_turtle_tf2_broadcaster``. Then, ``StaticTransformBroadcaster`` "
+"is created, which will send one static transformation upon the startup."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:221
+msgid ""
+"self.tf_static_broadcaster = StaticTransformBroadcaster(self)\n"
+"self.make_transforms(transformation)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:226
+msgid ""
+"Here we create a ``TransformStamped`` object, which will be the message we "
+"will send over once populated. Before passing the actual transform values we "
+"need to give it the appropriate metadata."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:229
+msgid ""
+"We need to give the transform being published a timestamp and we'll just "
+"stamp it with the current time, ``self.get_clock().now()``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:231
+msgid ""
+"Then we need to set the name of the parent frame of the link we're creating, "
+"in this case ``world``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:233
+msgid ""
+"Finally, we need to set the name of the child frame of the link we're "
+"creating"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:235
+msgid ""
+"t = TransformStamped()\n"
+"\n"
+"t.header.stamp = self.get_clock().now().to_msg()\n"
+"t.header.frame_id = 'world'\n"
+"t.child_frame_id = transformation[1]"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:243
+msgid "Here we populate the 6D pose (translation and rotation) of the turtle."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:245
+msgid ""
+"t.transform.translation.x = float(transformation[2])\n"
+"t.transform.translation.y = float(transformation[3])\n"
+"t.transform.translation.z = float(transformation[4])\n"
+"quat = quaternion_from_euler(\n"
+"    float(transformation[5]), float(transformation[6]), "
+"float(transformation[7]))\n"
+"t.transform.rotation.x = quat[0]\n"
+"t.transform.rotation.y = quat[1]\n"
+"t.transform.rotation.z = quat[2]\n"
+"t.transform.rotation.w = quat[3]"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:257
+msgid ""
+"Finally, we broadcast static transform using the ``sendTransform()`` "
+"function."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:259
+msgid "self.tf_static_broadcaster.sendTransform(t)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:264
+msgid "2.2 Add dependencies"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:266
+msgid ""
+"Navigate one level back to the ``src/learning_tf2_py`` directory, where the "
+"``setup.py``, ``setup.cfg``, and ``package.xml`` files have been created for "
+"you."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:268
+msgid "Open ``package.xml`` with your text editor."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:270
+msgid ""
+"As mentioned in the :doc:`Create a package <../../Beginner-Client-Libraries/"
+"Creating-Your-First-ROS2-Package>` tutorial, make sure to fill in the "
+"``<description>``, ``<maintainer>`` and ``<license>`` tags:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:272
+msgid ""
+"<description>Learning tf2 with rclpy</description>\n"
+"<maintainer email=\"you@email.com\">Your Name</maintainer>\n"
+"<license>Apache License 2.0</license>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:278
+msgid ""
+"After the lines above, add the following dependencies corresponding to your "
+"node’s import statements:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:280
+msgid ""
+"<exec_depend>geometry_msgs</exec_depend>\n"
+"<exec_depend>python3-numpy</exec_depend>\n"
+"<exec_depend>rclpy</exec_depend>\n"
+"<exec_depend>tf2_ros_py</exec_depend>\n"
+"<exec_depend>turtlesim</exec_depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:288
+msgid ""
+"This declares the required ``geometry_msgs``, ``python3-numpy``, ``rclpy``, "
+"``tf2_ros_py``, and ``turtlesim`` dependencies when its code is executed."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:290
+msgid "Make sure to save the file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:293
+msgid "2.3 Add an entry point"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:295
+msgid ""
+"To allow the ``ros2 run`` command to run your node, you must add the entry "
+"point to ``setup.py`` (located in the ``src/learning_tf2_py`` directory)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:297
+msgid "Add the following line between the ``'console_scripts':`` brackets:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:299
+msgid ""
+"'static_turtle_tf2_broadcaster = learning_tf2_py."
+"static_turtle_tf2_broadcaster:main',"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:304
+msgid "3 Build"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:306
+msgid ""
+"It's good practice to run ``rosdep`` in the root of your workspace to check "
+"for missing dependencies before building:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:312
+msgid "rosdep install -i --from-path src --rosdistro rolling -y"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:318
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:322
+msgid ""
+"rosdep only runs on Linux, so you will need to install ``geometry_msgs`` and "
+"``turtlesim`` dependencies yourself"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:324
+msgid "Still in the root of your workspace, build your new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:330
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:336
+msgid "colcon build --packages-select learning_tf2_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:342
+msgid "colcon build --merge-install --packages-select learning_tf2_py"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:346
+msgid ""
+"Open a new terminal, navigate to the root of your workspace, and source the "
+"setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:352
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:358
+msgid ". install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:364
+msgid ""
+"# CMD\n"
+"call install\\setup.bat\n"
+"\n"
+"# Powershell\n"
+".\\install\\setup.ps1"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:373
+msgid "4 Run"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:375
+msgid "Now run the ``static_turtle_tf2_broadcaster`` node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:377
+msgid ""
+"ros2 run learning_tf2_py static_turtle_tf2_broadcaster mystaticturtle 0 0 1 "
+"0 0 0"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:381
+msgid ""
+"This sets a turtle pose broadcast for ``mystaticturtle`` to float 1 meter "
+"above the ground."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:383
+msgid ""
+"We can now check that the static transform has been published by echoing the "
+"``tf_static`` topic"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:385
+msgid ""
+"ros2 topic echo --qos-reliability reliable --qos-durability transient_local /"
+"tf_static"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:389
+msgid "If everything went well you should see a single static transform"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:391
+msgid ""
+"transforms:\n"
+"- header:\n"
+"   stamp:\n"
+"      sec: 1622908754\n"
+"      nanosec: 208515730\n"
+"   frame_id: world\n"
+"child_frame_id: mystaticturtle\n"
+"transform:\n"
+"   translation:\n"
+"      x: 0.0\n"
+"      y: 0.0\n"
+"      z: 1.0\n"
+"   rotation:\n"
+"      x: 0.0\n"
+"      y: 0.0\n"
+"      z: 0.0\n"
+"      w: 1.0"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:412
+msgid "The proper way to publish static transforms"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:414
+msgid ""
+"This tutorial aimed to show how ``StaticTransformBroadcaster`` can be used "
+"to publish static transforms. In your real development process you shouldn't "
+"have to write this code yourself and should use the dedicated ``tf2_ros`` "
+"tool to do so. ``tf2_ros`` provides an executable named "
+"``static_transform_publisher`` that can be used either as a commandline tool "
+"or a node that you can add to your launchfiles."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:418
+msgid ""
+"Publish a static coordinate transform to tf2 using an x/y/z offset in meters "
+"and roll/pitch/yaw in radians. In our case, roll/pitch/yaw refers to "
+"rotation about the x/y/z-axis, respectively."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:421
+msgid ""
+"ros2 run tf2_ros static_transform_publisher x y z yaw pitch roll frame_id "
+"child_frame_id"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:425
+msgid ""
+"Publish a static coordinate transform to tf2 using an x/y/z offset in meters "
+"and quaternion."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:427
+msgid ""
+"ros2 run tf2_ros static_transform_publisher x y z qx qy qz qw frame_id "
+"child_frame_id"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:431
+msgid ""
+"``static_transform_publisher`` is designed both as a command-line tool for "
+"manual use, as well as for use within ``launch`` files for setting static "
+"transforms. For example:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:433
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"def generate_launch_description():\n"
+"    return LaunchDescription([\n"
+"        Node(\n"
+"            package='tf2_ros',\n"
+"            executable='static_transform_publisher',\n"
+"            arguments = ['0', '0', '1', '0', '0', '0', 'world', "
+"'mystaticturtle']\n"
+"        ),\n"
+"    ])"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:448
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.rst:450
+msgid ""
+"In this tutorial you learned how static transforms are useful to define "
+"static relationships between frames, like ``mystaticturtle`` in relation to "
+"the ``world`` frame. In addition, you learned how static transforms can be "
+"useful for understanding sensor data, such as from laser scanners, by "
+"relating the data to a common coordinate frame. Finally, you wrote your own "
+"node to publish static transforms to tf2 and learned how to publish required "
+"static transformations using ``static_transform_publisher`` executable and "
+"launch files."
+msgstr ""
