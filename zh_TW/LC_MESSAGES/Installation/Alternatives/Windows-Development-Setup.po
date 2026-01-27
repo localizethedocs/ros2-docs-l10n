@@ -1,0 +1,491 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-07 08:27+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:6
+msgid "Windows (source)"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:10
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:12
+msgid ""
+"This page explains how to setup a development environment for ROS 2 on "
+"Windows."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:15
+msgid "System requirements"
+msgstr "系統要求"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:17
+msgid "Only Windows 10 is supported."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:21
+msgid ""
+"We recommend using a clean Windows environment for the build, such as a "
+"fresh install, Docker container, or Virtual Machine. This is because "
+"existing software, such as other Python versions, can pollute the build "
+"configuration and cause compilation errors."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:25
+msgid "Language support"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:27
+msgid ""
+"Make sure you have a locale which supports ``UTF-8``. For example, for a "
+"Chinese-language Windows 10 installation, you may need to install an "
+"`English language pack <https://support.microsoft.com/en-us/windows/language-"
+"packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8>`_."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:31
+msgid "Create a location for the ROS 2 installation"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:33
+msgid ""
+"This location will contain both the installed binary packages, plus the ROS "
+"2 installation itself."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:35
+msgid ""
+"Start a powershell session (usually by clicking on the start menu, then "
+"typing ``powershell``)."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:37
+msgid ""
+"Then create a directory to store the installation. Because of Windows path-"
+"length limitations, this should be as short as possible. We'll use ``C:"
+"\\dev`` for the rest of these instructions."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:41
+msgid "$ md C:\\dev"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:46
+msgid "Increase the Windows maximum path length"
+msgstr "增加 Windows 最大路徑長度"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:48
+msgid ""
+"By default, Windows is restricted to a maximum path length (MAX_PATH) of 260 "
+"characters. The ROS 2 build will use significantly longer path lengths, so "
+"we will increase that. Using the powershell session you started above, run "
+"the following:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:52
+msgid ""
+"$ New-ItemProperty -Path \"HKLM:"
+"\\SYSTEM\\CurrentControlSet\\Control\\FileSystem\" -Name "
+"\"LongPathsEnabled\" -Value 1 -PropertyType DWORD -Force"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:56
+msgid ""
+"You can read more about this limitation in `Microsoft's documentation "
+"<https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-"
+"limitation?tabs=registry>`__."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:60
+msgid "Install prerequisites"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:63
+msgid "Install MSVC"
+msgstr "安裝 MSVC"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:65
+msgid ""
+"In order to compile the ROS 2 code, the MSVC compiler must be installed. "
+"Currently it is recommended to use MSVC 2019."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:68
+msgid ""
+"Continue using the previous powershell session, and run the following "
+"command to download it:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:70
+msgid ""
+"$ irm https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile "
+"vs_buildtools_2019.exe"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:74
+msgid "Now install MSVC 2019:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:76
+msgid ""
+"$ .\\vs_buildtools_2019.exe --quiet --wait --norestart --add Microsoft."
+"Component.MSBuild --add Microsoft.Net.Component.4.6.1.TargetingPack --add "
+"Microsoft.Net.Component.4.8.SDK --add Microsoft.VisualStudio.Component."
+"CoreBuildTools --add Microsoft.VisualStudio.Component.Roslyn.Compiler --add "
+"Microsoft.VisualStudio.Component.TextTemplating --add Microsoft.VisualStudio."
+"Component.VC.CLI.Support --add Microsoft.VisualStudio.Component.VC."
+"CoreBuildTools --add Microsoft.VisualStudio.Component.VC.CoreIde --add "
+"Microsoft.VisualStudio.Component.VC.Redist.14.Latest --add Microsoft."
+"VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio."
+"Component.Windows10SDK --add Microsoft.VisualStudio.Component."
+"Windows10SDK.19041 --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop."
+"Core --add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft."
+"VisualStudio.Workload.VCTools"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:82
+msgid ""
+"The installation of MSVC can take a long time, and there is no feedback "
+"while it is progressing."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:85
+msgid "Install pixi"
+msgstr "安裝 pixi"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:87
+msgid ""
+"ROS 2 uses `conda-forge <https://conda-forge.org/>`__ as a backend for "
+"packages, with `pixi <https://pixi.sh/latest/>`__ as the frontend."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:89
+msgid ""
+"Continue using the previous powershell session, and use the instructions "
+"from https://pixi.sh/latest/ to install ``pixi``. Once ``pixi`` has been "
+"installed, close the powershell session and start it again, which will "
+"ensure ``pixi`` is on the PATH."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:93
+msgid "Install dependencies"
+msgstr "安裝相依項"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:95
+msgid ""
+"Download the pixi configuration file in the existing powershell session:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:97
+msgid ""
+"$ cd C:\\dev\n"
+"$ irm https://raw.githubusercontent.com/ros2/ros2/refs/heads/rolling/pixi."
+"toml -OutFile pixi.toml"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:102
+msgid "Install dependencies:"
+msgstr "安裝相依項："
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:104
+msgid "$ pixi install"
+msgstr "$ pixi install"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:108
+msgid ""
+"You should now close the powershell session, as the rest of the instructions "
+"will use the Windows command prompt."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:111
+msgid "Build ROS 2"
+msgstr "建置 ROS 2"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:113
+msgid "Start a new Windows command prompt, which will be used for the build."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:116
+msgid "Source the MSVC compiler"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:118
+msgid ""
+"This is required in the command prompt you'll use to compile ROS 2, but it "
+"is *not* required when running:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:120
+msgid ""
+"$ call \"C:\\Program Files (x86)\\Microsoft Visual "
+"Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvarsall.bat\" x86_amd64"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:125
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:184
+msgid "Source the pixi environment"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:127
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:186
+msgid ""
+"This is required in every command prompt you open to set up paths to the "
+"dependencies:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:129
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:188
+msgid ""
+"$ cd C:\\dev\n"
+"$ pixi shell"
+msgstr ""
+"$ cd C:\\dev\n"
+"$ pixi shell"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:135
+msgid "Get ROS 2 code"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:137
+msgid ""
+"Now that we have the development tools we can get the ROS 2 source code."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:139
+msgid "Setup a development folder, for example ``C:\\dev\\rolling``:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:141
+msgid ""
+"$ md C:\\dev\\rolling\\src\n"
+"$ cd C:\\dev\\rolling"
+msgstr ""
+"$ md C:\\dev\\rolling\\src\n"
+"$ cd C:\\dev\\rolling"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:146
+msgid ""
+"Get the ``ros2.repos`` file which defines the repositories to clone from:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:148
+msgid ""
+"$ vcs import --input https://raw.githubusercontent.com/ros2/ros2/rolling/"
+"ros2.repos src"
+msgstr ""
+"$ vcs import --input https://raw.githubusercontent.com/ros2/ros2/rolling/"
+"ros2.repos src"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:153
+msgid "Install additional RMW implementations (optional)"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:155
+msgid ""
+"The default middleware that ROS 2 uses is ``Fast DDS``, but the middleware "
+"(RMW) can be replaced at build or runtime. See the :doc:`guide <../../How-To-"
+"Guides/Working-with-multiple-RMW-implementations>` on how to work with "
+"multiple RMWs."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:159
+msgid "Build the code in the workspace"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:163
+msgid "To build the ``\\rolling`` folder tree:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:165
+msgid "$ colcon build --merge-install"
+msgstr "$ colcon build --merge-install"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:171
+msgid ""
+"We're using ``--merge-install`` here to avoid a ``PATH`` variable that is "
+"too long at the end of the build. If you're adapting these instructions to "
+"build a smaller workspace then you might be able to use the default behavior "
+"which is isolated install, i.e. where each package is installed to a "
+"different folder."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:176
+msgid ""
+"Source installation can take a long time given the large number of packages "
+"being pulled into the workspace."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:179
+msgid "Setup environment"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:181
+msgid "Start a new Windows command prompt, which will be used in the examples."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:194
+msgid "Source the ROS 2 environment"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:196
+msgid ""
+"This is required in every command prompt you open to setup the ROS 2 "
+"workspace:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:198
+msgid "$ call C:\\dev\\rolling\\install\\local_setup.bat"
+msgstr "$ call C:\\dev\\rolling\\install\\local_setup.bat"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:202
+msgid ""
+"This will automatically set up the environment for any DDS vendors that "
+"support was built for."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:204
+msgid ""
+"It is normal that the previous command, if nothing else went wrong, outputs "
+"``The system cannot find the path specified.`` exactly once."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:207
+msgid "Try some examples"
+msgstr "嘗試一些範例"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:209
+msgid ""
+"Note that the first time you run any executable you will have to allow "
+"access to the network through a Windows Firewall popup."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:211
+msgid "You can run the tests using this command:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:213
+msgid "$ colcon test --merge-install"
+msgstr "$ colcon test --merge-install"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:219
+msgid ""
+"``--merge-install`` should only be used if it was also used in the build "
+"step."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:221
+msgid "Afterwards you can get a summary of the tests using this command:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:223
+msgid "$ colcon test-result"
+msgstr "$ colcon test-result"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:227
+msgid ""
+"To run the examples, first open a clean new ``cmd.exe`` and set up the "
+"workspace by sourcing the ``local_setup.bat`` file. Then, run a C++ "
+"``talker``\\ :"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:230
+msgid ""
+"$ call install\\local_setup.bat\n"
+"$ ros2 run demo_nodes_cpp talker"
+msgstr ""
+"$ call install\\local_setup.bat\n"
+"$ ros2 run demo_nodes_cpp talker"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:235
+msgid ""
+"In a separate command prompt you can do the same, but instead run a Python "
+"``listener``\\ :"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:237
+msgid ""
+"$ call install\\local_setup.bat\n"
+"$ ros2 run demo_nodes_py listener"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:242
+msgid ""
+"You should see the ``talker`` saying that it's ``Publishing`` messages and "
+"the ``listener`` saying ``I heard`` those messages. This verifies both the C+"
+"+ and Python APIs are working properly. Hooray!"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:248
+msgid ""
+"It is not recommended to build in the same cmd prompt that you've sourced "
+"the ``local_setup.bat``."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:251
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:253
+msgid ""
+"Continue with the :doc:`tutorials and demos <../../Tutorials>` to configure "
+"your environment, create your own workspace and packages, and learn ROS 2 "
+"core concepts."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:256
+msgid "Stay up to date"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:258
+msgid ""
+"See :doc:`../Maintaining-a-Source-Checkout` to periodically refresh your "
+"source installation."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:261
+msgid "Troubleshoot"
+msgstr "疑難排解"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:263
+msgid ""
+"Troubleshooting techniques can be found :ref:`here <windows-"
+"troubleshooting>`."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:266
+msgid "Uninstall"
+msgstr "解除安裝"
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:268
+msgid ""
+"If you installed your workspace with colcon as instructed above, "
+"\"uninstalling\" could be just a matter of opening a new terminal and not "
+"sourcing the workspace's ``setup`` file. This way, your environment will "
+"behave as though there is no Rolling install on your system."
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:271
+msgid ""
+"If you're also trying to free up space, you can delete the entire workspace "
+"directory with:"
+msgstr ""
+
+#: ../../../source/Installation/Alternatives/Windows-Development-Setup.rst:273
+msgid "$ rmdir /s /q C:\\dev\\rolling"
+msgstr "$ rmdir /s /q C:\\dev\\rolling"
