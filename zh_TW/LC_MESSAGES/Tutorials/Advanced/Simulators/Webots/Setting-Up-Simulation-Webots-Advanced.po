@@ -1,0 +1,686 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation foxy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:2
+msgid "Setting up a robot simulation (Advanced)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:4
+msgid "**Goal:** Extend a robot simulation with an obstacle avoider node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:6
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:8
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:12
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:15
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:17
+msgid ""
+"In this tutorial you will extend the package created in the first part of "
+"the tutorial: :doc:`./Setting-Up-Simulation-Webots-Basic`. The aim is to "
+"implement a ROS 2 node that avoids obstacles using the robot's distance "
+"sensors. This tutorial focuses on using robot devices with the "
+"``webots_ros2_driver`` interface."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:22
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:24
+msgid ""
+"This is a continuation of the first part of the tutorial: :doc:`./Setting-Up-"
+"Simulation-Webots-Basic`. It is mandatory to start with the first part to "
+"set up the custom packages and necessary files."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:28
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:31
+msgid "1 Updating ``my_robot.urdf``"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:33
+msgid ""
+"As mentioned in :doc:`./Setting-Up-Simulation-Webots-Basic`, "
+"``webots_ros2_driver`` contains plugins to interface most of Webots devices "
+"with ROS 2 directly. These plugins can be loaded using the ``<device>`` tag "
+"in the URDF file of the robot. The ``reference`` attribute should match the "
+"Webots device ``name`` parameter. The list of all existing interfaces and "
+"the corresponding parameters can be found `on the devices reference page "
+"<https://github.com/cyberbotics/webots_ros2/wiki/References-Devices>`_. For "
+"available devices that are not configured in the URDF file, the interface "
+"will be automatically created and default values will be used for ROS "
+"parameters (e.g. ``update rate``, ``topic name``, and ``frame name``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:39
+msgid "In ``my_robot.urdf`` replace the whole contents with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:43
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:61
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:133
+msgid "Python"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:45
+msgid ""
+"<?xml version=\"1.0\" ?>\n"
+"<robot name=\"My robot\">\n"
+"    <webots>\n"
+"        <device reference=\"ds0\" type=\"DistanceSensor\">\n"
+"            <ros>\n"
+"                <topicName>/left_sensor</topicName>\n"
+"                <alwaysOn>true</alwaysOn>\n"
+"            </ros>\n"
+"        </device>\n"
+"        <device reference=\"ds1\" type=\"DistanceSensor\">\n"
+"            <ros>\n"
+"                <topicName>/right_sensor</topicName>\n"
+"                <alwaysOn>true</alwaysOn>\n"
+"            </ros>\n"
+"        </device>\n"
+"        <plugin type=\"my_package.my_robot_driver.MyRobotDriver\" />\n"
+"    </webots>\n"
+"</robot>\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:48
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:92
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:144
+msgid "C++"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:50
+msgid ""
+"<?xml version=\"1.0\" ?>\n"
+"<robot name=\"My robot\">\n"
+"    <webots>\n"
+"        <device reference=\"ds0\" type=\"DistanceSensor\">\n"
+"            <ros>\n"
+"                <topicName>/left_sensor</topicName>\n"
+"                <alwaysOn>true</alwaysOn>\n"
+"            </ros>\n"
+"        </device>\n"
+"        <device reference=\"ds1\" type=\"DistanceSensor\">\n"
+"            <ros>\n"
+"                <topicName>/right_sensor</topicName>\n"
+"                <alwaysOn>true</alwaysOn>\n"
+"            </ros>\n"
+"        </device>\n"
+"        <plugin type=\"my_robot_driver::MyRobotDriver\" />\n"
+"    </webots>\n"
+"</robot>\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:54
+msgid ""
+"In addition to your custom plugin, the ``webots_ros2_driver`` will parse the "
+"``<device>`` tags referring to the **DistanceSensor** nodes and use the "
+"standard parameters in the ``<ros>`` tags to enable the sensors and name "
+"their topics."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:57
+msgid "2 Creating a ROS node to avoid obstacles"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:63
+msgid ""
+"The robot will use a standard ROS node to detect the wall and send motor "
+"commands to avoid it. In the ``my_package/my_package/`` folder, create a "
+"file named ``obstacle_avoider.py`` with this code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:66
+msgid ""
+"import rclpy\n"
+"from rclpy.node import Node\n"
+"from sensor_msgs.msg import Range\n"
+"from geometry_msgs.msg import Twist\n"
+"\n"
+"\n"
+"MAX_RANGE = 0.15\n"
+"\n"
+"\n"
+"class ObstacleAvoider(Node):\n"
+"    def __init__(self):\n"
+"        super().__init__('obstacle_avoider')\n"
+"\n"
+"        self.__publisher = self.create_publisher(Twist, 'cmd_vel', 1)\n"
+"\n"
+"        self.create_subscription(Range, 'left_sensor', self."
+"__left_sensor_callback, 1)\n"
+"        self.create_subscription(Range, 'right_sensor', self."
+"__right_sensor_callback, 1)\n"
+"\n"
+"    def __left_sensor_callback(self, message):\n"
+"        self.__left_sensor_value = message.range\n"
+"\n"
+"    def __right_sensor_callback(self, message):\n"
+"        self.__right_sensor_value = message.range\n"
+"\n"
+"        command_message = Twist()\n"
+"\n"
+"        command_message.linear.x = 0.1\n"
+"\n"
+"        if self.__left_sensor_value < 0.9 * MAX_RANGE or self."
+"__right_sensor_value < 0.9 * MAX_RANGE:\n"
+"            command_message.angular.z = -2.0\n"
+"\n"
+"        self.__publisher.publish(command_message)\n"
+"\n"
+"\n"
+"def main(args=None):\n"
+"    rclpy.init(args=args)\n"
+"    avoider = ObstacleAvoider()\n"
+"    rclpy.spin(avoider)\n"
+"    # Destroy the node explicitly\n"
+"    # (optional - otherwise it will be done automatically\n"
+"    # when the garbage collector destroys the node object)\n"
+"    avoider.destroy_node()\n"
+"    rclpy.shutdown()\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:69
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:105
+msgid ""
+"This node will create a publisher for the command and subscribe to the "
+"sensors topics here:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:71
+msgid ""
+"self.__publisher = self.create_publisher(Twist, 'cmd_vel', 1)\n"
+"\n"
+"self.create_subscription(Range, 'left_sensor', self.__left_sensor_callback, "
+"1)\n"
+"self.create_subscription(Range, 'right_sensor', self."
+"__right_sensor_callback, 1)\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:76
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:111
+msgid ""
+"When a measurement is received from the left sensor it will be copied to a "
+"member field:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:78
+msgid ""
+"def __left_sensor_callback(self, message):\n"
+"    self.__left_sensor_value = message.range\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:83
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:117
+msgid ""
+"Finally, a message will be sent to the ``/cmd_vel`` topic when a measurement "
+"from the right sensor is received. The ``command_message`` will register at "
+"least a forward speed in ``linear.x`` in order to make the robot move when "
+"no obstacle is detected. If any of the two sensors detect an obstacle, "
+"``command_message`` will also register a rotational speed in ``angular.z`` "
+"in order to make the robot turn right."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:87
+msgid ""
+"def __right_sensor_callback(self, message):\n"
+"    self.__right_sensor_value = message.range\n"
+"\n"
+"    command_message = Twist()\n"
+"\n"
+"    command_message.linear.x = 0.1\n"
+"\n"
+"    if self.__left_sensor_value < 0.9 * MAX_RANGE or self."
+"__right_sensor_value < 0.9 * MAX_RANGE:\n"
+"        command_message.angular.z = -2.0\n"
+"\n"
+"    self.__publisher.publish(command_message)\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:94
+msgid ""
+"The robot will use a standard ROS node to detect the wall and send motor "
+"commands to avoid it. In the ``my_package/include/my_package`` folder, "
+"create a header file named ``ObstacleAvoider.hpp`` with this code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:97
+msgid ""
+"#include <memory>\n"
+"\n"
+"#include \"geometry_msgs/msg/twist.hpp\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"sensor_msgs/msg/range.hpp\"\n"
+"\n"
+"class ObstacleAvoider : public rclcpp::Node {\n"
+"public:\n"
+"  explicit ObstacleAvoider();\n"
+"\n"
+"private:\n"
+"  void leftSensorCallback(const sensor_msgs::msg::Range::SharedPtr msg);\n"
+"  void rightSensorCallback(const sensor_msgs::msg::Range::SharedPtr msg);\n"
+"\n"
+"  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;\n"
+"  rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr "
+"left_sensor_sub_;\n"
+"  rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr "
+"right_sensor_sub_;\n"
+"\n"
+"  double left_sensor_value{0.0};\n"
+"  double right_sensor_value{0.0};\n"
+"};\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:100
+msgid ""
+"In the ``my_package/src`` folder, create a source file named "
+"``ObstacleAvoider.cpp`` with this code:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:102
+msgid ""
+"#include \"my_package/ObstacleAvoider.hpp\"\n"
+"\n"
+"#define MAX_RANGE 0.15\n"
+"\n"
+"ObstacleAvoider::ObstacleAvoider() : Node(\"obstacle_avoider\") {\n"
+"  publisher_ = create_publisher<geometry_msgs::msg::Twist>(\"/cmd_vel\", "
+"1);\n"
+"\n"
+"  left_sensor_sub_ = create_subscription<sensor_msgs::msg::Range>(\n"
+"      \"/left_sensor\", 1,\n"
+"      std::bind(&ObstacleAvoider::leftSensorCallback, this,\n"
+"                std::placeholders::_1));\n"
+"\n"
+"  right_sensor_sub_ = create_subscription<sensor_msgs::msg::Range>(\n"
+"      \"/right_sensor\", 1,\n"
+"      std::bind(&ObstacleAvoider::rightSensorCallback, this,\n"
+"                std::placeholders::_1));\n"
+"}\n"
+"\n"
+"void ObstacleAvoider::leftSensorCallback(\n"
+"    const sensor_msgs::msg::Range::SharedPtr msg) {\n"
+"  left_sensor_value = msg->range;\n"
+"}\n"
+"\n"
+"void ObstacleAvoider::rightSensorCallback(\n"
+"    const sensor_msgs::msg::Range::SharedPtr msg) {\n"
+"  right_sensor_value = msg->range;\n"
+"\n"
+"  auto command_message = std::make_unique<geometry_msgs::msg::Twist>();\n"
+"\n"
+"  command_message->linear.x = 0.1;\n"
+"\n"
+"  if (left_sensor_value < 0.9 * MAX_RANGE ||\n"
+"      right_sensor_value < 0.9 * MAX_RANGE) {\n"
+"    command_message->angular.z = -2.0;\n"
+"  }\n"
+"\n"
+"  publisher_->publish(std::move(command_message));\n"
+"}\n"
+"\n"
+"int main(int argc, char *argv[]) {\n"
+"  rclcpp::init(argc, argv);\n"
+"  auto avoider = std::make_shared<ObstacleAvoider>();\n"
+"  rclcpp::spin(avoider);\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:107
+msgid ""
+"  publisher_ = create_publisher<geometry_msgs::msg::Twist>(\"/cmd_vel\", "
+"1);\n"
+"\n"
+"  left_sensor_sub_ = create_subscription<sensor_msgs::msg::Range>(\n"
+"      \"/left_sensor\", 1,\n"
+"      std::bind(&ObstacleAvoider::leftSensorCallback, this,\n"
+"                std::placeholders::_1));\n"
+"\n"
+"  right_sensor_sub_ = create_subscription<sensor_msgs::msg::Range>(\n"
+"      \"/right_sensor\", 1,\n"
+"      std::bind(&ObstacleAvoider::rightSensorCallback, this,\n"
+"                std::placeholders::_1));\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:113
+msgid ""
+"void ObstacleAvoider::leftSensorCallback(\n"
+"    const sensor_msgs::msg::Range::SharedPtr msg) {\n"
+"  left_sensor_value = msg->range;\n"
+"}\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:121
+msgid ""
+"void ObstacleAvoider::rightSensorCallback(\n"
+"    const sensor_msgs::msg::Range::SharedPtr msg) {\n"
+"  right_sensor_value = msg->range;\n"
+"\n"
+"  auto command_message = std::make_unique<geometry_msgs::msg::Twist>();\n"
+"\n"
+"  command_message->linear.x = 0.1;\n"
+"\n"
+"  if (left_sensor_value < 0.9 * MAX_RANGE ||\n"
+"      right_sensor_value < 0.9 * MAX_RANGE) {\n"
+"    command_message->angular.z = -2.0;\n"
+"  }\n"
+"\n"
+"  publisher_->publish(std::move(command_message));\n"
+"}\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:127
+msgid "3 Updating additional files"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:129
+msgid "You have to modify these two other files to launch your new node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:135
+msgid "Edit ``setup.py`` and replace ``'console_scripts'`` with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:137
+msgid ""
+"'console_scripts': [\n"
+"    'my_robot_driver = my_package.my_robot_driver:main',\n"
+"    'obstacle_avoider = my_package.obstacle_avoider:main'\n"
+"],\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:142
+msgid "This will add an entry point for the ``obstacle_avoider`` node."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:146
+msgid ""
+"Edit ``CMakeLists.txt`` and add the compilation and installation of the "
+"``obstacle_avoider``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:148
+msgid ""
+"cmake_minimum_required(VERSION 3.5)\n"
+"project(my_package)\n"
+"\n"
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 14)\n"
+"endif()\n"
+"\n"
+"# Besides the package specific dependencies we also need the `pluginlib` and "
+"`webots_ros2_driver`\n"
+"find_package(ament_cmake REQUIRED)\n"
+"find_package(rclcpp REQUIRED)\n"
+"find_package(std_msgs REQUIRED)\n"
+"find_package(geometry_msgs REQUIRED)\n"
+"find_package(pluginlib REQUIRED)\n"
+"find_package(webots_ros2_driver REQUIRED)\n"
+"\n"
+"# Export the plugin configuration file\n"
+"pluginlib_export_plugin_description_file(webots_ros2_driver my_robot_driver."
+"xml)\n"
+"\n"
+"# Obstacle avoider\n"
+"include_directories(\n"
+"  include\n"
+")\n"
+"add_executable(obstacle_avoider\n"
+"  src/ObstacleAvoider.cpp\n"
+")\n"
+"ament_target_dependencies(obstacle_avoider\n"
+"  rclcpp\n"
+"  geometry_msgs\n"
+"  sensor_msgs\n"
+")\n"
+"install(TARGETS\n"
+"  obstacle_avoider\n"
+"  DESTINATION lib/${PROJECT_NAME}\n"
+")\n"
+"install(\n"
+"  DIRECTORY include/\n"
+"  DESTINATION include\n"
+")\n"
+"\n"
+"# MyRobotDriver library\n"
+"add_library(\n"
+"  ${PROJECT_NAME}\n"
+"  SHARED\n"
+"  src/MyRobotDriver.cpp\n"
+")\n"
+"target_include_directories(\n"
+"  ${PROJECT_NAME}\n"
+"  PRIVATE\n"
+"  include\n"
+")\n"
+"ament_target_dependencies(\n"
+"  ${PROJECT_NAME}\n"
+"  pluginlib\n"
+"  rclcpp\n"
+"  webots_ros2_driver\n"
+")\n"
+"install(TARGETS\n"
+"  ${PROJECT_NAME}\n"
+"  ARCHIVE DESTINATION lib\n"
+"  LIBRARY DESTINATION lib\n"
+"  RUNTIME DESTINATION bin\n"
+")\n"
+"# Install additional directories.\n"
+"install(DIRECTORY\n"
+"  launch\n"
+"  resource\n"
+"  worlds\n"
+"  DESTINATION share/${PROJECT_NAME}/\n"
+")\n"
+"\n"
+"ament_export_include_directories(\n"
+"  include\n"
+")\n"
+"ament_export_libraries(\n"
+"  ${PROJECT_NAME}\n"
+")\n"
+"ament_package()\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:152
+msgid ""
+"Go to the file ``robot_launch.py`` and replace ``def "
+"generate_launch_description():`` with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:154
+msgid ""
+"def generate_launch_description():\n"
+"    package_dir = get_package_share_directory('my_package')\n"
+"    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', "
+"'my_robot.urdf')).read_text()\n"
+"\n"
+"    webots = WebotsLauncher(\n"
+"        world=os.path.join(package_dir, 'worlds', 'my_world.wbt')\n"
+"    )\n"
+"\n"
+"    my_robot_driver = Node(\n"
+"        package='webots_ros2_driver',\n"
+"        executable='driver',\n"
+"        output='screen',\n"
+"        additional_env={'WEBOTS_CONTROLLER_URL': controller_url_prefix() + "
+"'my_robot'},\n"
+"        parameters=[\n"
+"            {'robot_description': robot_description},\n"
+"        ]\n"
+"    )\n"
+"\n"
+"    obstacle_avoider = Node(\n"
+"        package='my_package',\n"
+"        executable='obstacle_avoider',\n"
+"    )\n"
+"\n"
+"    return LaunchDescription([\n"
+"        webots,\n"
+"        my_robot_driver,\n"
+"        obstacle_avoider,\n"
+"        launch.actions.RegisterEventHandler(\n"
+"            event_handler=launch.event_handlers.OnProcessExit(\n"
+"                target_action=webots,\n"
+"                on_exit=[launch.actions.EmitEvent(event=launch.events."
+"Shutdown())],\n"
+"            )\n"
+"        )\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:158
+msgid ""
+"This will create an ``obstacle_avoider`` node that will be included in the "
+"``LaunchDescription``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:161
+msgid "4 Test the obstacle avoidance code"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:163
+msgid "Launch the simulation from a terminal in your ROS 2 workspace:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:167
+msgid "Linux"
+msgstr "Linux"
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:169
+msgid "From a terminal in your ROS 2 workspace run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:171
+msgid ""
+"colcon build\n"
+"source install/local_setup.bash\n"
+"ros2 launch my_package robot_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:177
+msgid "Windows"
+msgstr "Windows"
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:179
+msgid "From a terminal in your WSL ROS 2 workspace run:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:181
+msgid ""
+"colcon build\n"
+"export WEBOTS_HOME=/mnt/c/Program\\ Files/Webots\n"
+"source install/local_setup.bash\n"
+"ros2 launch my_package robot_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:188
+msgid ""
+"Be sure to use the ``/mnt`` prefix in front of your path to the Webots "
+"installation folder to access the Windows file system from WSL."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:190
+msgid "macOS"
+msgstr "macOS"
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:192
+msgid ""
+"In a terminal of the host machine (not in the VM), if not done already, "
+"specify the Webots installation folder (e.g. ``/Applications/Webots.app``) "
+"and start the server using the following commands:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:194
+msgid ""
+"export WEBOTS_HOME=/Applications/Webots.app\n"
+"python3 local_simulation_server.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:199
+msgid ""
+"Note that the server keeps running once the ROS 2 nodes are ended. You don't "
+"need to restart it every time you want to launch a new simulation. From a "
+"terminal in the Linux VM in your ROS 2 workspace, build and launch your "
+"custom package with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:203
+msgid ""
+"cd ~/ros2_ws\n"
+"colcon build\n"
+"source install/local_setup.bash\n"
+"ros2 launch my_package robot_launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:210
+msgid ""
+"Your robot should go forward and before hitting the wall it should turn "
+"clockwise. You can press ``Ctrl+F10`` in Webots or go to the ``View`` menu, "
+"``Optional Rendering`` and ``Show DistanceSensor Rays`` to display the range "
+"of the distance sensors of the robot."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:216
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:218
+msgid ""
+"In this tutorial, you extended the basic simulation with a obstacle avoider "
+"ROS 2 node that publishes velocity commands based on the distance sensor "
+"values of the robot."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:221
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:223
+msgid ""
+"You might want to improve the plugin or create new nodes to change the "
+"behavior of the robot. Taking inspiration from these previous tutorials "
+"could be a starting point:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.rst:226
+msgid ":doc:`../../../Intermediate/Tf2/Tf2-Main`."
+msgstr ""
