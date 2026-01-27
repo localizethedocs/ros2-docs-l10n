@@ -1,0 +1,413 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation iron\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-13 08:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:6
+msgid "Managing Dependencies with rosdep"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:10
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:12
+msgid "**Goal:** Manage external dependencies using ``rosdep``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:14
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:16
+msgid "**Time:** 5 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:18
+msgid ""
+"This tutorial will explain how to manage external dependencies using "
+"``rosdep``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:22
+msgid ""
+"Currently rosdep only works on Linux and macOS; Windows is not supported. "
+"There are long-term plans to add support for Windows to https://github.com/"
+"ros-infrastructure/rosdep."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:26
+msgid "What is rosdep?"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:28
+msgid ""
+"``rosdep`` is a dependency management utility that can work with packages "
+"and external libraries. It is a command-line utility for identifying and "
+"installing dependencies to build or install a package. ``rosdep`` is *not* a "
+"package manager in its own right; it is a meta-package manager that uses its "
+"own knowledge of the system and the dependencies to find the appropriate "
+"package to install on a particular platform. The actual installation is done "
+"using the system package manager (e.g. ``apt`` on Debian/Ubuntu, ``dnf`` on "
+"Fedora/RHEL, etc)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:33
+msgid ""
+"It is most often invoked before building a workspace, where it is used to "
+"install the dependencies of the packages within that workspace."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:35
+msgid ""
+"It has the ability to work over a single package or over a directory of "
+"packages (e.g. workspace)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:39
+msgid ""
+"While the name suggests it is for ROS, ``rosdep`` is semi-agnostic to ROS. "
+"You can utilize this powerful tool in non-ROS software projects by "
+"installing it as a standalone Python package. Successfully running "
+"``rosdep`` relies on ``rosdep keys`` to be available, which can be "
+"downloaded from a public git repository with a few simple commands."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:44
+msgid "A little about package.xml files"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:46
+msgid ""
+"The ``package.xml`` is the file in your software where ``rosdep`` finds the "
+"set of dependencies. It is important that the list of dependencies in the "
+"``package.xml`` is complete and correct, which allows all of the tooling to "
+"determine the packages dependencies. Missing or incorrect dependencies can "
+"lead to users not being able to use your package, to packages in a workspace "
+"being built out-of-order, and to packages not being able to be released."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:50
+msgid ""
+"The dependencies in the ``package.xml`` file are generally referred to as "
+"\"rosdep keys\". These dependencies are manually populated in the ``package."
+"xml`` file by the package's creators and should be an exhaustive list of any "
+"non-builtin libraries and packages it requires."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:53
+msgid ""
+"These are represented in the following tags (see `REP-149 <https://ros.org/"
+"reps/rep-0149.html>`__ for the full specification):"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:56
+msgid "``<depend>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:58
+msgid ""
+"These are dependencies that should be provided at both build time and run "
+"time for your package. For C++ packages, if in doubt, use this tag. Pure "
+"Python packages generally don't have a build phase, so should never use this "
+"and should use ``<exec_depend>`` instead."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:63
+msgid "``<build_depend>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:65
+msgid ""
+"If you only use a particular dependency for building your package, and not "
+"at execution time, you can use the ``<build_depend>`` tag."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:67
+msgid ""
+"With this type of dependency, an installed binary of your package does not "
+"require that particular package to be installed."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:69
+msgid ""
+"However, that can create a problem if your package exports a header that "
+"includes a header from this dependency. In that case you also need a "
+"``<build_export_depend>``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:73
+msgid "``<build_export_depend>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:75
+msgid ""
+"If you export a header that includes a header from a dependency, it will be "
+"needed by other packages that ``<build_depend>`` on yours. This mainly "
+"applies to headers and CMake configuration files. Library packages "
+"referenced by libraries you export should normally specify ``<depend>``, "
+"because they are also needed at execution time."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:80
+msgid "``<exec_depend>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:82
+msgid ""
+"This tag declares dependencies for shared libraries, executables, Python "
+"modules, launch scripts and other files required when running your package."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:85
+msgid "``<test_depend>``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:87
+msgid ""
+"This tag declares dependencies needed only by tests. Dependencies here "
+"should *not* be duplicated with keys specified by ``<build_depend>``, "
+"``<exec_depend>``, or ``<depend>``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:91
+msgid "How does rosdep work?"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:93
+msgid ""
+"``rosdep`` will check for ``package.xml`` files in its path or for a "
+"specific package and find the rosdep keys stored within. These keys are then "
+"cross-referenced against a central index to find the appropriate ROS package "
+"or software library in various package managers. Finally, once the packages "
+"are found, they are installed and ready to go!"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:97
+msgid ""
+"``rosdep`` works by retrieving the central index on to your local machine so "
+"that it doesn't have to access the network every time it runs (on Debian/"
+"Ubuntu the configuration for it is stored in ``/etc/ros/rosdep/sources.list."
+"d/20-default.list``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:99
+msgid ""
+"The central index is known as ``rosdistro``, which `may be found online "
+"<https://github.com/ros/rosdistro>`_. We'll explore that more in the next "
+"section."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:103
+msgid "How do I know what keys to put in my package.xml?"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:105
+msgid "Great question, I'm glad you asked!"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:107
+msgid ""
+"If the package you want to depend in your package is ROS-based, AND has been "
+"released into the ROS ecosystem [1]_, e.g. ``nav2_bt_navigator``, you may "
+"simply use the name of the package. You can find a list of all released ROS "
+"packages in https://github.com/ros/rosdistro at ``<distro>/distribution."
+"yaml`` (e.g. ``humble/distribution.yaml``) for your given ROS distribution."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:108
+msgid ""
+"If you want to depend on a non-ROS package, something often called \"system "
+"dependencies\", you will need to find the keys for a particular library. In "
+"general, there are two files of interest:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:110
+msgid ""
+"`rosdep/base.yaml <https://github.com/ros/rosdistro/blob/master/rosdep/base."
+"yaml>`_ contains the ``apt`` system dependencies"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:111
+msgid ""
+"`rosdep/python.yaml <https://github.com/ros/rosdistro/blob/master/rosdep/"
+"python.yaml>`_ contains the Python dependencies"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:113
+msgid ""
+"To find a key, search for your library in these files and find the name. "
+"This is the key to put in a ``package.xml`` file."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:116
+msgid ""
+"For example, imagine a package had a dependency on ``doxygen`` because it is "
+"a great piece of software that cares about quality documentation (hint "
+"hint). We would search ``rosdep/base.yaml`` for ``doxygen`` and come across:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:119
+msgid ""
+"doxygen:\n"
+"  arch: [doxygen]\n"
+"  debian: [doxygen]\n"
+"  fedora: [doxygen]\n"
+"  freebsd: [doxygen]\n"
+"  gentoo: [app-doc/doxygen]\n"
+"  macports: [doxygen]\n"
+"  nixos: [doxygen]\n"
+"  openembedded: [doxygen@meta-oe]\n"
+"  opensuse: [doxygen]\n"
+"  rhel: [doxygen]\n"
+"  ubuntu: [doxygen]"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:134
+msgid ""
+"That means our rosdep key is ``doxygen``, which would resolve to those "
+"various names in different operating system's package managers for "
+"installation."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:137
+msgid "What if my library isn't in rosdistro?"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:139
+msgid ""
+"If your library isn't in ``rosdistro``, you can experience the greatness "
+"that is open-source software development: you can add it yourself! Pull "
+"requests for rosdistro are typically merged well within a week."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:142
+msgid ""
+"`Detailed instructions may be found here <https://github.com/ros/rosdistro/"
+"blob/master/CONTRIBUTING.md#rosdep-rules-contributions>`_ for how to "
+"contribute new rosdep keys. If for some reason these may not be contributed "
+"openly, it is possible to fork rosdistro and maintain a alternate index for "
+"use."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:146
+msgid "How do I use the rosdep tool?"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:149
+msgid "rosdep installation"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:151
+msgid ""
+"If you are using ``rosdep`` with ROS, it is conveniently packaged along with "
+"the ROS distribution. This is the recommended way to get ``rosdep``. You can "
+"install it with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:155
+msgid "apt-get install python3-rosdep"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:161
+msgid ""
+"On Debian and Ubuntu, there is another, similarly named package called "
+"``python3-rosdep2``. If that package is installed, make sure to remove it "
+"before installing ``python3-rosdep``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:164
+msgid ""
+"If you are using ``rosdep`` outside of ROS, the system package may not be "
+"available. In that case, you can install it directly from https://pypi.org:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:167
+msgid "pip install rosdep"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:172
+msgid "rosdep operation"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:174
+msgid ""
+"Now that we have some understanding of ``rosdep``, ``package.xml``, and "
+"``rosdistro``, we're ready to use the utility itself! Firstly, if this is "
+"the first time using ``rosdep``, it must be initialized via:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:177
+msgid ""
+"sudo rosdep init\n"
+"rosdep update"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:182
+msgid ""
+"This will initialize rosdep and ``update`` will update the locally cached "
+"rosdistro index. It is a good idea to ``update`` rosdep on occasion to get "
+"the latest index."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:185
+msgid ""
+"Finally, we can run ``rosdep install`` to install dependencies. Typically, "
+"this is run over a workspace with many packages in a single call to install "
+"all dependencies. A call for that would appear as the following, if in the "
+"root of the workspace with directory ``src`` containing source code."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:189
+msgid "rosdep install --from-paths src -y --ignore-src"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:193
+msgid "Breaking that down:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:195
+msgid ""
+"``--from-paths src`` specifies the path to check for ``package.xml`` files "
+"to resolve keys for"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:196
+msgid ""
+"``-y`` means to default yes to all prompts from the package manager to "
+"install without prompts"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:197
+msgid ""
+"``--ignore-src`` means to ignore installing dependencies, even if a rosdep "
+"key exists, if the package itself is also in the workspace."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:199
+msgid ""
+"There are additional arguments and options available. Use ``rosdep -h`` to "
+"see them, or look at the more complete documentation for rosdep at http://"
+"docs.ros.org/en/independent/api/rosdep/html/ ."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Rosdep.rst:202
+msgid ""
+"\"released into the ROS ecosystem\" means the package is listed in one or "
+"more of the ``<distro>/distribution.yaml`` directories in the `rosdistro "
+"database <https://github.com/ros/rosdistro>`_."
+msgstr ""
