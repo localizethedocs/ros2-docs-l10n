@@ -37,6 +37,9 @@
 <h2 id="introduction"><a href="#table-of-contents">Introduction</a></h2>
 
 <div align="center">
+<a href="https://localizethedocs.zulipchat.com" title="Zulip Chat" target="_blank">
+  <img alt="Zulip Chat" src="https://img.shields.io/badge/Zulip-Chat-blue.svg?logo=zulip&style=flat&logoColor=white" />
+</a>
 <a href="https://github.com/localizethedocs/ros2-docs-l10n/stargazers" title="GitHub Stars" target="_blank">
   <img alt="GitHub Stars" src="https://img.shields.io/github/stars/localizethedocs/ros2-docs-l10n.svg?logo=github&style=flat&color=blue" />
 </a>
