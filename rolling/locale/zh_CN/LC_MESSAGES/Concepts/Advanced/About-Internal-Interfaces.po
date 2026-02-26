@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 08:35+0000\n"
+"POT-Creation-Date: 2026-02-23 08:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -463,17 +463,80 @@ msgid ""
 "section above for more details."
 msgstr ""
 
-#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:188
-msgid ""
-"For more information on what exactly is in the ``rosidl`` |API| (static and "
-"generated) see this page:"
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:189
+msgid "The ``rosidl_generator_cpp`` package"
 msgstr ""
 
-#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:191
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:190
+msgid ""
+"This package is responsible for generating the C++ structures representing "
+"the IDL. It also generates utilities for user-convenience and to facilitate "
+"interoperability with the C++ language."
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:194
+msgid "Message member names"
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:195
+msgid ""
+"The names of the members in a message can be retrieved at compile-time using "
+"``rosidl_generator_traits::MessageTraits``."
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:197
+msgid ""
+"#include <builtin_interfaces/msg/time.hpp>\n"
+"\n"
+"// ...\n"
+"\n"
+"using MessageTraitsTime = rosidl_generator_traits::"
+"MessageTraits<builtin_interfaces::msg::Time>;\n"
+"std::array<std::string_view, 2> member_names = MessageTraitsTime::"
+"member_names;  // Returns {\"sec\", \"nanosec\"}"
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:207
+msgid "Message member metaprogramming"
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:208
+msgid ""
+"To facilitate metaprogramming techniques ahead of C++26 reflection, an "
+"``as_tuple_ref`` utility has been added to the code generation. It returns "
+"references to each member of the structure as a tuple. This makes it "
+"possible to both read and write message contents without accessing it "
+"through the member name."
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:212
+msgid ""
+"#include <tuple>\n"
+"#include <builtin_interfaces/msg/time.hpp>\n"
+"\n"
+"// ...\n"
+"\n"
+"// Increment both members using ``std::apply`` and a fold-expression\n"
+"builtin_interfaces::msg::Time time;\n"
+"std::apply([](auto & ... member) {\n"
+"    ((member += 1), ...);\n"
+"  }, as_tuple_ref(msg));"
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:227
+msgid ""
+"Members of the same type can be swapped without detection using this "
+"technique. Use with care if the interfaces can change. The ``as_tuple_ref`` "
+"function does not extend the lifetime of the message passed to is. It is the "
+"responsibility of the programmer to ensure that the lifetime of the message "
+"object exceeds the use of the references."
+msgstr ""
+
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:233
 msgid "The ``rcutils`` repository"
 msgstr ""
 
-#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:193
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:235
 msgid ""
 "ROS 2 C Utilities (``rcutils``) is a C |API| composed of macros, functions, "
 "and data structures used throughout the ROS 2 codebase. These are mainly "
@@ -481,14 +544,14 @@ msgid ""
 "not specific to the client or middleware layers and can be shared by both."
 msgstr ""
 
-#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:196
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:238
 msgid ""
 "The ``rcutils`` |API| and implementation are located in the `ros2/rcutils "
 "<https://github.com/ros2/rcutils>`_ repository on |GitHub|_ which contains "
 "the interface as C headers."
 msgstr ""
 
-#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:198
+#: ../../../source/Concepts/Advanced/About-Internal-Interfaces.rst:240
 msgid ""
 "For a complete definition of the ``rcutils`` |API|, see `the rcutils docs "
 "<https://docs.ros.org/en/rolling/p/rcutils/>`_."
