@@ -1,0 +1,1103 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recording and playing back data &mdash; ROS 2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+      <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" />
+    <link rel="next" title="Beginner: Client libraries" href="../../Beginner-Client-Libraries.html" />
+    <link rel="prev" title="Launching nodes" href="../Launching-Multiple-Nodes/Launching-Multiple-Nodes.html" />
+ 
+<script type="text/javascript" src="../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../../_static/kilted-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../Tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Intermediate.html">Intermediate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Advanced.html">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Advanced/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Advanced/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Advanced/Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../How-To-Guides.html">How-to Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Basic.html">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Nodes.html">Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Topics.html">Topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Advanced.html">Advanced Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Build-System.html">构建系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../The-ROS2-Project.html">The ROS 2 Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Package-Docs.html">Package Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../Tutorials.html">Tutorials</a></li>
+          <li class="breadcrumb-item"><a href="../../Beginner-CLI-Tools.html">Beginner: CLI tools</a></li>
+      <li class="breadcrumb-item active">Recording and playing back data</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="recording-and-playing-back-data">
+<span id="ros2bag"></span><h1>Recording and playing back data<a class="headerlink" href="#recording-and-playing-back-data" title="Link to this heading"></a></h1>
+<p><strong>Goal:</strong> Record data published on a topic, a service and an action so you can replay and examine it any time.</p>
+<p><strong>Tutorial level:</strong> Beginner</p>
+<p><strong>Time:</strong> 20 minutes</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id3">Background</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id4">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#managing-topic-data" id="id5">Managing Topic Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#setup" id="id6">1 Setup</a></p></li>
+<li><p><a class="reference internal" href="#choose-a-topic" id="id7">2 Choose a topic</a></p></li>
+<li><p><a class="reference internal" href="#record-topics" id="id8">3 Record topics</a></p></li>
+<li><p><a class="reference internal" href="#inspect-topic-data" id="id9">4 Inspect topic data</a></p></li>
+<li><p><a class="reference internal" href="#play-topic-data" id="id10">5 Play topic data</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#managing-service-data" id="id11">Managing Service Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id12">1 Setup</a></p></li>
+<li><p><a class="reference internal" href="#check-service-availability" id="id13">2 Check service availability</a></p></li>
+<li><p><a class="reference internal" href="#record-services" id="id14">3 Record services</a></p></li>
+<li><p><a class="reference internal" href="#inspect-service-data" id="id15">4 Inspect service data</a></p></li>
+<li><p><a class="reference internal" href="#play-service-data" id="id16">5 Play service data</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#managing-action-data" id="id17">Managing Action Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id2" id="id18">1 Setup</a></p></li>
+<li><p><a class="reference internal" href="#check-action-availability" id="id19">2 Check action availability</a></p></li>
+<li><p><a class="reference internal" href="#record-actions" id="id20">3 Record actions</a></p></li>
+<li><p><a class="reference internal" href="#inspect-action-data" id="id21">4 Inspect action data</a></p></li>
+<li><p><a class="reference internal" href="#play-action-data" id="id22">5 Play action data</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id23">Summary</a></p></li>
+<li><p><a class="reference internal" href="#next-steps" id="id24">Next steps</a></p></li>
+<li><p><a class="reference internal" href="#related-content" id="id25">Related content</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Background</a><a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> is a command line tool for recording data published on topics, services and actions in your ROS 2 system.
+It accumulates the data passed on any number of topics, services and actions, then saves it in a database.
+You can then replay the data to reproduce the results of your tests and experiments.
+Recording topics, services and actions is also a great way to share your work and allow others to recreate it.</p>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>You should have <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> installed as a part of your regular ROS 2 setup.</p>
+<p>If you need to install ROS 2, see the <a class="reference internal" href="../../../Installation.html"><span class="doc">Installation instructions</span></a>.</p>
+<p>This tutorial talks about concepts covered in previous tutorials, like <a class="reference internal" href="../Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html"><span class="doc">nodes</span></a>, <a class="reference internal" href="../Understanding-ROS2-Topics/Understanding-ROS2-Topics.html"><span class="doc">topics</span></a>, <a class="reference internal" href="../Understanding-ROS2-Services/Understanding-ROS2-Services.html"><span class="doc">services</span></a> and <a class="reference internal" href="../Understanding-ROS2-Actions/Understanding-ROS2-Actions.html"><span class="doc">actions</span></a>.
+It also uses the <a class="reference internal" href="../Introducing-Turtlesim/Introducing-Turtlesim.html"><span class="doc">turtlesim package</span></a>, <a class="reference internal" href="../../Demos/Service-Introspection.html"><span class="doc">Service Introspection Demo</span></a> and <a class="reference internal" href="../../Demos/Action-Introspection.html"><span class="doc">Action Introspection Demo</span></a>.</p>
+<p>As always, don't forget to source ROS 2 in <a class="reference internal" href="../Configuring-ROS2-Environment.html"><span class="doc">every new terminal you open</span></a>.</p>
+</section>
+<section id="managing-topic-data">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Managing Topic Data</a><a class="headerlink" href="#managing-topic-data" title="Link to this heading"></a></h2>
+<section id="setup">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">1 Setup</a><a class="headerlink" href="#setup" title="Link to this heading"></a></h3>
+<p>You'll be recording your keyboard input in the <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code> system to save and replay later on, so begin by starting up the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> and <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> nodes.</p>
+<p>Open a new terminal and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtlesim_node
+</pre></div>
+</div>
+<p>Open another terminal and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtle_teleop_key
+</pre></div>
+</div>
+<p>Let's also make a new directory to store our saved recordings, just as good practice:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-0-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-0-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>bag_files
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>bag_files
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>bag_files
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>bag_files
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>md<span class="w"> </span>bag_files
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>bag_files
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="choose-a-topic">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">2 Choose a topic</a><a class="headerlink" href="#choose-a-topic" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> can record data from messages published to topics.
+To see the list of your system's topics, open a new terminal and run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>list
+<span class="go">/parameter_events</span>
+<span class="go">/rosout</span>
+<span class="go">/turtle1/cmd_vel</span>
+<span class="go">/turtle1/color_sensor</span>
+<span class="go">/turtle1/pose</span>
+</pre></div>
+</div>
+<p>In the topics tutorial, you learned that the <code class="docutils literal notranslate"><span class="pre">/turtle_teleop</span></code> node publishes commands on the <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> topic to make the turtle move in turtlesim.</p>
+<p>To see the data that <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> is publishing, run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/turtle1/cmd_vel
+</pre></div>
+</div>
+<p>Nothing will show up at first because no data is being published by the teleop.
+Return to the terminal where you ran the teleop and select it so it's active.
+Use the arrow keys to move the turtle around, and you will see data being published on the terminal running <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">linear:</span>
+<span class="go">  x: 2.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">angular:</span>
+<span class="go">  x: 0.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">  ---</span>
+</pre></div>
+</div>
+</section>
+<section id="record-topics">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">3 Record topics</a><a class="headerlink" href="#record-topics" title="Link to this heading"></a></h3>
+<section id="record-a-single-topic">
+<h4>3.1 Record a single topic<a class="headerlink" href="#record-a-single-topic" title="Link to this heading"></a></h4>
+<p>To record the data published to a topic use the command syntax:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--topics<span class="w"> </span>&lt;topic_name&gt;
+</pre></div>
+</div>
+<p>Before running this command on your chosen topic, open a new terminal and move into the <code class="docutils literal notranslate"><span class="pre">bag_files</span></code> directory you created earlier, because the rosbag file will save in the directory where you run it.</p>
+<p>Run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--topics<span class="w"> </span>/turtle1/cmd_vel
+<span class="go">[INFO] [rosbag2_storage]: Opened database &#39;rosbag2_2019_10_11-05_18_45&#39;.</span>
+<span class="go">[INFO] [rosbag2_transport]: Listening for topics...</span>
+<span class="go">[INFO] [rosbag2_transport]: Subscribed to topic &#39;/turtle1/cmd_vel&#39;</span>
+<span class="go">[INFO] [rosbag2_transport]: All requested topics are subscribed. Stopping discovery...</span>
+</pre></div>
+</div>
+<p>Now <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> is recording the data published on the <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> topic.
+Return to the teleop terminal and move the turtle around again.
+The movements don't matter, but try to make a recognizable pattern to see when you replay the data later.</p>
+<img alt="../../../_images/record.png" src="../../../_images/record.png" />
+<p>Press <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> to stop recording.</p>
+<p>The data will be accumulated in a new bag directory with a name in the pattern of <code class="docutils literal notranslate"><span class="pre">rosbag2_year_month_day-hour_minute_second</span></code>.
+This directory will contain a <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> along with the bag file in the recorded format.</p>
+</section>
+<section id="record-multiple-topics">
+<h4>3.2 Record multiple topics<a class="headerlink" href="#record-multiple-topics" title="Link to this heading"></a></h4>
+<p>You can also record multiple topics, as well as change the name of the bag directory <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> saves to.</p>
+<p>Run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>-o<span class="w"> </span>subset<span class="w"> </span>--topics<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>/turtle1/pose
+<span class="go">[INFO] [rosbag2_storage]: Opened database &#39;subset&#39;.</span>
+<span class="go">[INFO] [rosbag2_transport]: Listening for topics...</span>
+<span class="go">[INFO] [rosbag2_transport]: Subscribed to topic &#39;/turtle1/cmd_vel&#39;</span>
+<span class="go">[INFO] [rosbag2_transport]: Subscribed to topic &#39;/turtle1/pose&#39;</span>
+<span class="go">[INFO] [rosbag2_transport]: All requested topics are subscribed. Stopping discovery...</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-o</span></code> option allows you to choose a unique name for your bag directory.
+The following string, in this case <code class="docutils literal notranslate"><span class="pre">subset</span></code>, is the bag directory name.</p>
+<p>To record more than one topic at a time, simply list each topic separated by a space after <code class="docutils literal notranslate"><span class="pre">--topics</span></code>.
+In this case, the command output above confirms that both topics are being recorded.</p>
+<p>You can move the turtle around and press <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> when you're finished.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>There is another option you can add to the command, <code class="docutils literal notranslate"><span class="pre">-a</span></code>, which records all the topics on your system.</p>
+</div>
+</section>
+<section id="split-recording-into-multiple-files">
+<h4>3.3 Split recording into multiple files<a class="headerlink" href="#split-recording-into-multiple-files" title="Link to this heading"></a></h4>
+<p>You can also split your recording into multiple files, based on either recording duration or file size.
+<code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">&lt;max_bag_duration&gt;</span></code> ensures that each file only lasts <code class="docutils literal notranslate"><span class="pre">&lt;max_bag_duration&gt;</span></code> seconds before it starts writing to a new file, or <code class="docutils literal notranslate"><span class="pre">-b</span> <span class="pre">&lt;max_bag_size&gt;</span></code> ensures that each file does not exceed <code class="docutils literal notranslate"><span class="pre">&lt;max_bag_size&gt;</span></code> bytes in file size.
+This prevents large and unwieldy file sizes, and protects against losing all data if the recording operation becomes corrupted at some point.</p>
+<p>Run the following for at least 15 seconds, allowing for three 5-second bag files to be written:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>-o<span class="w"> </span>subset_split<span class="w"> </span>-d<span class="w"> </span><span class="m">5</span><span class="w"> </span>--topics<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>/turtle1/pose
+<span class="go">[INFO] [rosbag2_recorder]: Press SPACE for pausing/resuming</span>
+<span class="go">[INFO] [rosbag2_recorder]: Listening for topics...</span>
+<span class="go">[INFO] [rosbag2_recorder]: Event publisher thread: Starting</span>
+<span class="go">[INFO] [rosbag2_recorder]: Recording...</span>
+<span class="go">[INFO] [rosbag2_recorder]: Subscribed to topic &#39;/turtle1/cmd_vel&#39;</span>
+<span class="go">[INFO] [rosbag2_recorder]: Subscribed to topic &#39;/turtle1/pose&#39;</span>
+<span class="go">[INFO] [rosbag2_recorder]: All requested topics are subscribed. Stopping discovery...</span>
+<span class="go">[INFO] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while</span>
+<span class="go">[INFO] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while</span>
+<span class="go">[INFO] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while</span>
+</pre></div>
+</div>
+<p>Press <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> when you're finished.
+You should find a <code class="docutils literal notranslate"><span class="pre">subset_split</span></code> directory with these files inside: <code class="docutils literal notranslate"><span class="pre">subset_split_0.mcap</span></code>, <code class="docutils literal notranslate"><span class="pre">subset_split_1.mcap</span></code>, and so on.</p>
+</section>
+</section>
+<section id="inspect-topic-data">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">4 Inspect topic data</a><a class="headerlink" href="#inspect-topic-data" title="Link to this heading"></a></h3>
+<p>You can see details about your recording by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>info<span class="w"> </span>&lt;bag_name&gt;
+</pre></div>
+</div>
+<p>Running this command on the <code class="docutils literal notranslate"><span class="pre">subset</span></code> bag recording will return a list of information:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>info<span class="w"> </span>subset
+<span class="go">Files:             subset_0.mcap</span>
+<span class="go">Bag size:          228.5 KiB</span>
+<span class="go">Storage id:        mcap</span>
+<span class="go">Duration:          48.47s</span>
+<span class="go">Start:             Oct 11 2019 06:09:09.12 (1570799349.12)</span>
+<span class="go">End                Oct 11 2019 06:09:57.60 (1570799397.60)</span>
+<span class="go">Messages:          3013</span>
+<span class="go">Topic information: Topic: /turtle1/cmd_vel | Type: geometry_msgs/msg/Twist | Count: 9 | Serialization Format: cdr</span>
+<span class="go">                   Topic: /turtle1/pose | Type: turtlesim_msgs/msg/Pose | Count: 3004 | Serialization Format: cdr</span>
+<span class="go">Services:          0</span>
+<span class="go">Service information:</span>
+<span class="go">Actions:           0</span>
+<span class="go">Action information:</span>
+</pre></div>
+</div>
+<p>Alternatively, you can also call <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">info</span></code> on an individual file, such as <code class="docutils literal notranslate"><span class="pre">subset_split/subset_split_0.mcap</span></code>, and it will only show information for that portion of the recording; in this case, the first 5 seconds.</p>
+</section>
+<section id="play-topic-data">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">5 Play topic data</a><a class="headerlink" href="#play-topic-data" title="Link to this heading"></a></h3>
+<section id="play-a-single-bag">
+<h4>5.1 Play a single bag<a class="headerlink" href="#play-a-single-bag" title="Link to this heading"></a></h4>
+<p>Before replaying the bag, enter <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> in the terminal where the teleop is running.
+Then make sure your turtlesim window is visible so you can see the bag file in action.</p>
+<p>Enter the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>play<span class="w"> </span>subset
+<span class="go">[INFO] [rosbag2_player]: Set rate to 1</span>
+<span class="go">[INFO] [rosbag2_player]: Adding keyboard callbacks.</span>
+<span class="go">[INFO] [rosbag2_player]: Press SPACE for Pause/Resume</span>
+<span class="go">[INFO] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message</span>
+<span class="go">[INFO] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%</span>
+<span class="go">[INFO] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%</span>
+<span class="go">Progress bar enabled at 3 Hz.</span>
+<span class="go">Progress bar [?]: [R]unning, [P]aused, [B]urst, [D]elayed, [S]topped</span>
+<span class="go">[INFO] [rosbag2_player]: Playback until timestamp: -1</span>
+
+
+<span class="go">====== Playback Progress ======</span>
+<span class="go">[1751923361.427372456] Duration 0.00/48.47 [R]</span>
+</pre></div>
+</div>
+<p>Your turtle will follow the same path you entered while recording (though not 100% exactly; turtlesim is sensitive to small changes in the system's timing).</p>
+<img alt="../../../_images/playback.png" src="../../../_images/playback.png" />
+<p>Because the <code class="docutils literal notranslate"><span class="pre">subset</span></code> file recorded the <code class="docutils literal notranslate"><span class="pre">/turtle1/pose</span></code> topic, the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> command won't quit for as long as you had turtlesim running, even if you weren't moving.</p>
+<p>This is because as long as the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node is active, it publishes data on the  <code class="docutils literal notranslate"><span class="pre">/turtle1/pose</span></code> topic at regular intervals.
+You may have noticed in the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">info</span></code> example result above that the  <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> topic's <code class="docutils literal notranslate"><span class="pre">Count</span></code> information was only 9; that's how many times we pressed the arrow keys while recording.</p>
+<p>Notice that <code class="docutils literal notranslate"><span class="pre">/turtle1/pose</span></code> has a <code class="docutils literal notranslate"><span class="pre">Count</span></code> value of over 3000; while we were recording, data was published on that topic 3000 times.</p>
+<p>To get an idea of how often position data is published, you can run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>hz<span class="w"> </span>/turtle1/pose
+</pre></div>
+</div>
+</section>
+<section id="play-multiple-bags">
+<h4>5.2 Play multiple bags<a class="headerlink" href="#play-multiple-bags" title="Link to this heading"></a></h4>
+<p>At times, it is relevant to split the desired recorded topics amongst multiple recordings, as a way to distribute the recording workload.
+As an example, we can record <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> and <code class="docutils literal notranslate"><span class="pre">/turtle1/pose</span></code> each to their own bag.</p>
+<p>Create two terminal instances.
+In the first one, run the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>-o<span class="w"> </span>subset_cmd_vel<span class="w"> </span>--topics<span class="w"> </span>/turtle1/cmd_vel
+</pre></div>
+</div>
+<p>In the second terminal, run this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>-o<span class="w"> </span>subset_pose<span class="w"> </span>--topics<span class="w"> </span>/turtle1/pose
+</pre></div>
+</div>
+<p>Move the turtle around as you did before, then end both recordings with <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> when finished.</p>
+<p>To have these two recordings play in parallel with correct timing, call <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> with <code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">&lt;bag_name&gt;</span></code> for each bag you want to include.
+In this case, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>play<span class="w"> </span>-i<span class="w"> </span>subset_cmd_vel<span class="w"> </span>-i<span class="w"> </span>subset_pose
+</pre></div>
+</div>
+<p>This will play the <code class="docutils literal notranslate"><span class="pre">subset_cmd_vel</span></code> and <code class="docutils literal notranslate"><span class="pre">subset_pose</span></code> recordings together, with the playback synced to replicate the original order of messages.
+If used, the optional argument <code class="docutils literal notranslate"><span class="pre">--message-order</span> <span class="pre">{received,sent}</span></code> determines whether the messages are sequenced according to the time they were received or published (defaults to received).
+This applies to playing a single bag as well.</p>
+</section>
+</section>
+</section>
+<section id="managing-service-data">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Managing Service Data</a><a class="headerlink" href="#managing-service-data" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">1 Setup</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>You'll be recording service data between <code class="docutils literal notranslate"><span class="pre">introspection_client</span></code> and <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code>, then display and replay that same data later on.
+To record service data between service client and server, <code class="docutils literal notranslate"><span class="pre">Service</span> <span class="pre">Introspection</span></code> must be enabled on the node.</p>
+<p>Let's start <code class="docutils literal notranslate"><span class="pre">introspection_client</span></code> and <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code> nodes and enable <code class="docutils literal notranslate"><span class="pre">Service</span> <span class="pre">Introspection</span></code>.
+You can see more details for <a class="reference internal" href="../../Demos/Service-Introspection.html"><span class="doc">Service Introspection Demo</span></a>.</p>
+<p>Open a new terminal and run <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code>, enabling <code class="docutils literal notranslate"><span class="pre">Service</span> <span class="pre">Introspection</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>introspection_service<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>service_configure_introspection:<span class="o">=</span>contents
+</pre></div>
+</div>
+<p>Open another terminal and run <code class="docutils literal notranslate"><span class="pre">introspection_client</span></code>, enabling <code class="docutils literal notranslate"><span class="pre">Service</span> <span class="pre">Introspection</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_cpp<span class="w"> </span>introspection_client<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>client_configure_introspection:<span class="o">=</span>contents
+</pre></div>
+</div>
+</section>
+<section id="check-service-availability">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">2 Check service availability</a><a class="headerlink" href="#check-service-availability" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> can only record data from available services.
+To see the list of your system's services, open a new terminal and run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>service<span class="w"> </span>list
+<span class="go">/add_two_ints</span>
+<span class="go">/introspection_client/describe_parameters</span>
+<span class="go">/introspection_client/get_parameter_types</span>
+<span class="go">/introspection_client/get_parameters</span>
+<span class="go">/introspection_client/get_type_description</span>
+<span class="go">/introspection_client/list_parameters</span>
+<span class="go">/introspection_client/set_parameters</span>
+<span class="go">/introspection_client/set_parameters_atomically</span>
+<span class="go">/introspection_service/describe_parameters</span>
+<span class="go">/introspection_service/get_parameter_types</span>
+<span class="go">/introspection_service/get_parameters</span>
+<span class="go">/introspection_service/get_type_description</span>
+<span class="go">/introspection_service/list_parameters</span>
+<span class="go">/introspection_service/set_parameters</span>
+<span class="go">/introspection_service/set_parameters_atomically</span>
+</pre></div>
+</div>
+<p>To check if <code class="docutils literal notranslate"><span class="pre">Service</span> <span class="pre">Introspection</span></code> is enabled on the client and service, run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>service<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>--flow-style<span class="w"> </span>/add_two_ints
+<span class="go">info:</span>
+<span class="go">  event_type: REQUEST_SENT</span>
+<span class="go">  stamp:</span>
+<span class="go">    sec: 1713995389</span>
+<span class="go">    nanosec: 386809259</span>
+<span class="go">  client_gid: [1, 15, 96, 219, 162, 1, 108, 201, 0, 0, 0, 0, 0, 0, 21, 3]</span>
+<span class="go">  sequence_number: 133</span>
+<span class="go">request: [{a: 2, b: 3}]</span>
+<span class="go">response: []</span>
+<span class="go">---</span>
+</pre></div>
+</div>
+<p>You should see the service communication.</p>
+</section>
+<section id="record-services">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">3 Record services</a><a class="headerlink" href="#record-services" title="Link to this heading"></a></h3>
+<p>To record service data, the following options are supported.
+Service data can be recorded with topics at the same time.</p>
+<p>To record specific services:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--service<span class="w"> </span>&lt;service_names&gt;
+</pre></div>
+</div>
+<p>To record all services:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--all-services
+</pre></div>
+</div>
+<p>Run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--service<span class="w"> </span>/add_two_ints
+<span class="go">[INFO] [1713995957.643573503] [rosbag2_recorder]: Press SPACE for pausing/resuming</span>
+<span class="go">[INFO] [1713995957.662067587] [rosbag2_recorder]: Event publisher thread: Starting</span>
+<span class="go">[INFO] [1713995957.662067614] [rosbag2_recorder]: Listening for topics...</span>
+<span class="go">[INFO] [1713995957.666048323] [rosbag2_recorder]: Subscribed to topic &#39;/add_two_ints/_service_event&#39;</span>
+<span class="go">[INFO] [1713995957.666092458] [rosbag2_recorder]: Recording...</span>
+</pre></div>
+</div>
+<p>Now <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> is recording the service data published on the <code class="docutils literal notranslate"><span class="pre">/add_two_ints</span></code> service.
+To stop the recording, enter <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> in the terminal.</p>
+<p>The data will be accumulated in a new bag directory with a name in the pattern of <code class="docutils literal notranslate"><span class="pre">rosbag2_year_month_day-hour_minute_second</span></code>.
+This directory will contain a <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> along with the bag file in the recorded format.</p>
+</section>
+<section id="inspect-service-data">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">4 Inspect service data</a><a class="headerlink" href="#inspect-service-data" title="Link to this heading"></a></h3>
+<p>You can see details about your recording by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>info<span class="w"> </span>&lt;bag_file_name&gt;
+<span class="go">Files:             rosbag2_2024_04_24-14_59_17_0.mcap</span>
+<span class="go">Bag size:          15.1 KiB</span>
+<span class="go">Storage id:        mcap</span>
+<span class="go">ROS Distro:        rolling</span>
+<span class="go">Duration:          9.211s</span>
+<span class="go">Start:             Apr 24 2024 14:59:17.676 (1713995957.676)</span>
+<span class="go">End:               Apr 24 2024 14:59:26.888 (1713995966.888)</span>
+<span class="go">Messages:          0</span>
+<span class="go">Topic information:</span>
+<span class="go">Service:           1</span>
+<span class="go">Service information: Service: /add_two_ints | Type: example_interfaces/srv/AddTwoInts | Event Count: 78 | Serialization Format: cdr</span>
+</pre></div>
+</div>
+</section>
+<section id="play-service-data">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">5 Play service data</a><a class="headerlink" href="#play-service-data" title="Link to this heading"></a></h3>
+<p>Before replaying the bag file, enter <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> in the terminal where <code class="docutils literal notranslate"><span class="pre">introspection_client</span></code> is running.
+When <code class="docutils literal notranslate"><span class="pre">introspection_client</span></code> stops running, <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code> also stops printing the result because there are no incoming requests.</p>
+<p>Replaying the service data from the bag file will start sending the requests to <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code>.</p>
+<p>Enter the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>play<span class="w"> </span>--publish-service-requests<span class="w"> </span>&lt;bag_file_name&gt;
+<span class="go">[INFO] [1713997477.870856190] [rosbag2_player]: Set rate to 1</span>
+<span class="go">[INFO] [1713997477.877417477] [rosbag2_player]: Adding keyboard callbacks.</span>
+<span class="go">[INFO] [1713997477.877442404] [rosbag2_player]: Press SPACE for Pause/Resume</span>
+<span class="go">[INFO] [1713997477.877447855] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message</span>
+<span class="go">[INFO] [1713997477.877452655] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%</span>
+<span class="go">[INFO] [1713997477.877456954] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%</span>
+<span class="go">[INFO] [1713997477.877573647] [rosbag2_player]: Playback until timestamp: -1</span>
+</pre></div>
+</div>
+<p>Your <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code> terminal will once again start printing the following service messages:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[INFO] [1713997478.090466075] [introspection_service]: Incoming request</span>
+<span class="go">a: 2 b: 3</span>
+</pre></div>
+</div>
+<p>This is because <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> sends the service request data from the bag file to the <code class="docutils literal notranslate"><span class="pre">/add_two_ints</span></code> service.</p>
+<p>We can also introspect service communication as <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> is playing it back to verify the <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code>.</p>
+<p>Run this command before <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> to see the <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>service<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>--flow-style<span class="w"> </span>/add_two_ints
+</pre></div>
+</div>
+<p>You can see the service request from the bag file and the service response from  <code class="docutils literal notranslate"><span class="pre">introspection_service</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">info:</span>
+<span class="go">  event_type: REQUEST_RECEIVED</span>
+<span class="go">  stamp:</span>
+<span class="go">    sec: 1713998176</span>
+<span class="go">    nanosec: 372700698</span>
+<span class="go">  client_gid: [1, 15, 96, 219, 80, 2, 158, 123, 0, 0, 0, 0, 0, 0, 20, 4]</span>
+<span class="go">  sequence_number: 1</span>
+<span class="go">request: [{a: 2, b: 3}]</span>
+<span class="go">response: []</span>
+<span class="go">---</span>
+<span class="go">info:</span>
+<span class="go">  event_type: RESPONSE_SENT</span>
+<span class="go">  stamp:</span>
+<span class="go">    sec: 1713998176</span>
+<span class="go">    nanosec: 373016882</span>
+<span class="go">  client_gid: [1, 15, 96, 219, 80, 2, 158, 123, 0, 0, 0, 0, 0, 0, 20, 4]</span>
+<span class="go">  sequence_number: 1</span>
+<span class="go">request: []</span>
+<span class="go">response: [{sum: 5}]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="managing-action-data">
+<span id="record-play-data-action"></span><h2><a class="toc-backref" href="#id17" role="doc-backlink">Managing Action Data</a><a class="headerlink" href="#managing-action-data" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">1 Setup</a><a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>You'll be recording action data between <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code> and <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>, then display and replay that same data later on.
+To record action data between action client and server, <code class="docutils literal notranslate"><span class="pre">Action</span> <span class="pre">Introspection</span></code> must be enabled on the nodes.</p>
+<p>Let's start <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code> and <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code> nodes and enable <code class="docutils literal notranslate"><span class="pre">Action</span> <span class="pre">Introspection</span></code>.
+You can see more details for <a class="reference internal" href="../../Demos/Action-Introspection.html"><span class="doc">Action Introspection Demo</span></a>.</p>
+<p>Open a new terminal and run <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>, enabling <code class="docutils literal notranslate"><span class="pre">Action</span> <span class="pre">Introspection</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>action_tutorials_py<span class="w"> </span>fibonacci_action_server<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>action_server_configure_introspection:<span class="o">=</span>contents
+</pre></div>
+</div>
+<p>Open another terminal and run <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code>, enabling <code class="docutils literal notranslate"><span class="pre">Action</span> <span class="pre">Introspection</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>action_tutorials_cpp<span class="w"> </span>fibonacci_action_client<span class="w"> </span>--ros-args<span class="w"> </span>-p<span class="w"> </span>action_client_configure_introspection:<span class="o">=</span>contents
+</pre></div>
+</div>
+</section>
+<section id="check-action-availability">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">2 Check action availability</a><a class="headerlink" href="#check-action-availability" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> can only record data from available actions.
+To see the list of your system's actions, open a new terminal and run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>action<span class="w"> </span>list
+<span class="go">/fibonacci</span>
+</pre></div>
+</div>
+<p>To check if <code class="docutils literal notranslate"><span class="pre">Action</span> <span class="pre">Introspection</span></code> is enabled on the action, run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>action<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>--flow-style<span class="w"> </span>/fibonacci
+<span class="go">interface: GOAL_SERVICE</span>
+<span class="go">info:</span>
+<span class="go">  event_type: REQUEST_SENT</span>
+<span class="go">  stamp:</span>
+<span class="go">    sec: 1744917904</span>
+<span class="go">    nanosec: 760683446</span>
+<span class="go">  client_gid: [1, 15, 165, 231, 234, 109, 65, 202, 0, 0, 0, 0, 0, 0, 19, 4]</span>
+<span class="go">  sequence_number: 1</span>
+<span class="go">request: [{goal_id: {uuid: [81, 55, 121, 145, 81, 66, 209, 93, 214, 113, 255, 100, 120, 6, 102, 83]}, goal: {order: 10}}]</span>
+<span class="go">response: []</span>
+<span class="go">---</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</section>
+<section id="record-actions">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">3 Record actions</a><a class="headerlink" href="#record-actions" title="Link to this heading"></a></h3>
+<p>To record action data, the following options are supported.
+Action data can be recorded with topics and services at the same time.</p>
+<p>To record specific actions:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--action<span class="w"> </span>&lt;action_names&gt;
+</pre></div>
+</div>
+<p>To record all actions:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--all-actions
+</pre></div>
+</div>
+<p>Run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>record<span class="w"> </span>--action<span class="w"> </span>/fibonacci
+<span class="go">[INFO] [1744953225.214114862] [rosbag2_recorder]: Press SPACE for pausing/resuming</span>
+<span class="go">[INFO] [1744953225.218369761] [rosbag2_recorder]: Listening for topics...</span>
+<span class="go">[INFO] [1744953225.218386223] [rosbag2_recorder]: Event publisher thread: Starting</span>
+<span class="go">[INFO] [1744953225.218580294] [rosbag2_recorder]: Recording...</span>
+<span class="go">[INFO] [1744953225.725417634] [rosbag2_recorder]: Subscribed to topic &#39;/fibonacci/_action/cancel_goal/_service_event&#39;</span>
+<span class="go">[INFO] [1744953225.727901848] [rosbag2_recorder]: Subscribed to topic &#39;/fibonacci/_action/feedback&#39;</span>
+<span class="go">[INFO] [1744953225.729655213] [rosbag2_recorder]: Subscribed to topic &#39;/fibonacci/_action/get_result/_service_event&#39;</span>
+<span class="go">[INFO] [1744953225.731315612] [rosbag2_recorder]: Subscribed to topic &#39;/fibonacci/_action/send_goal/_service_event&#39;</span>
+<span class="go">[INFO] [1744953225.735061252] [rosbag2_recorder]: Subscribed to topic &#39;/fibonacci/_action/status&#39;</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>Now <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> is recording the action data for the <code class="docutils literal notranslate"><span class="pre">/fibonacci</span></code> action: goal, result, and feedback.
+To stop the recording, enter <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> in the terminal.</p>
+<p>The data will be accumulated in a new bag directory with a name in the pattern of <code class="docutils literal notranslate"><span class="pre">rosbag2_year_month_day-hour_minute_second</span></code>.
+This directory will contain a <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> along with the bag file in the recorded format.</p>
+</section>
+<section id="inspect-action-data">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">4 Inspect action data</a><a class="headerlink" href="#inspect-action-data" title="Link to this heading"></a></h3>
+<p>You can see details about your recording by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>info<span class="w"> </span>&lt;bag_file_name&gt;
+<span class="go">Files:             rosbag2_2025_04_17-22_20_40_0.mcap</span>
+<span class="go">Bag size:          20.7 KiB</span>
+<span class="go">Storage id:        mcap</span>
+<span class="go">ROS Distro:        rolling</span>
+<span class="go">Duration:          9.019568080s</span>
+<span class="go">Start:             Apr 17 2025 22:20:47.263125070 (1744953647.263125070)</span>
+<span class="go">End:               Apr 17 2025 22:20:56.282693150 (1744953656.282693150)</span>
+<span class="go">Messages:          0</span>
+<span class="go">Topic information:</span>
+<span class="go">Services:          0</span>
+<span class="go">Service information:</span>
+<span class="go">Actions:           1</span>
+<span class="go">Action information:</span>
+<span class="go">  Action: /fibonacci | Type: example_interfaces/action/Fibonacci | Topics: 2 | Service: 3 | Serialization Format: cdr</span>
+<span class="go">    Topic: feedback | Count: 9</span>
+<span class="go">    Topic: status | Count: 3</span>
+<span class="go">    Service: send_goal | Event Count: 4</span>
+<span class="go">    Service: cancel_goal | Event Count: 0</span>
+<span class="go">    Service: get_result | Event Count: 4</span>
+</pre></div>
+</div>
+</section>
+<section id="play-action-data">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">5 Play action data</a><a class="headerlink" href="#play-action-data" title="Link to this heading"></a></h3>
+<p>Before replaying the bag file, enter <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> in the terminal where <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code> is running.
+When <code class="docutils literal notranslate"><span class="pre">fibonacci_action_client</span></code> stops running, <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code> also stops printing the result because there are no incoming requests.</p>
+<p>Replaying the action data from the bag file will start sending the requests to <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>.</p>
+<p>Enter the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>bag<span class="w"> </span>play<span class="w"> </span>--send-actions-as-client<span class="w"> </span>&lt;bag_file_name&gt;
+<span class="go">[INFO] [1744953720.691068674] [rosbag2_player]: Set rate to 1</span>
+<span class="go">[INFO] [1744953720.702365209] [rosbag2_player]: Adding keyboard callbacks.</span>
+<span class="go">[INFO] [1744953720.702409447] [rosbag2_player]: Press SPACE for Pause/Resume</span>
+<span class="go">[INFO] [1744953720.702423063] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message</span>
+<span class="go">[INFO] [1744953720.702431404] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%</span>
+<span class="go">[INFO] [1744953720.702437677] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%</span>
+<span class="go">Progress bar enabled at 3 Hz.</span>
+<span class="go">Progress bar [?]: [R]unning, [P]aused, [B]urst, [D]elayed, [S]topped</span>
+<span class="go">[INFO] [1744953720.702577680] [rosbag2_player]: Playback until timestamp: -1</span>
+
+
+<span class="go">====== Playback Progress ======</span>
+<span class="go">[1744953656.281683207] Duration 9.02/9.02 [R]</span>
+</pre></div>
+</div>
+<p>Your <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code> terminal will once again start printing the following service messages:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[INFO] [1744953720.815577088] [fibonacci_action_server]: Executing goal...</span>
+<span class="go">[INFO] [1744953720.815927050] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1])</span>
+<span class="go">[INFO] [1744953721.816509658] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2])</span>
+<span class="go">[INFO] [1744953722.817220270] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3])</span>
+<span class="go">[INFO] [1744953723.817876426] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3, 5])</span>
+<span class="go">[INFO] [1744953724.818498515] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3, 5, 8])</span>
+<span class="go">[INFO] [1744953725.819182228] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3, 5, 8, 13])</span>
+<span class="go">[INFO] [1744953726.820032562] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3, 5, 8, 13, 21])</span>
+<span class="go">[INFO] [1744953727.820738690] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3, 5, 8, 13, 21, 34])</span>
+<span class="go">[INFO] [1744953728.821449308] [fibonacci_action_server]: Feedback: array(&#39;i&#39;, [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])</span>
+</pre></div>
+</div>
+<p>This is because <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> sends the action goal request data from the bag file to the <code class="docutils literal notranslate"><span class="pre">/fibonacci</span></code> action.</p>
+<p>We can also introspect action communication as <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> is playing it back to verify the <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>.</p>
+<p>Run this command before <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span> <span class="pre">play</span></code> to see the <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>.
+You can see the action goal request from the bag file and the service response from  <code class="docutils literal notranslate"><span class="pre">fibonacci_action_server</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>action<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>--flow-style<span class="w"> </span>/fibonacci
+<span class="go">interface: STATUS_TOPIC</span>
+<span class="go">status_list: [{goal_info: {goal_id: {uuid: [34, 116, 225, 217, 48, 121, 146, 36, 240, 98, 99, 134, 55, 227, 184, 72]}, stamp: {sec: 1744953720, nanosec: 804984321}}, status: 4}]</span>
+<span class="go">---</span>
+<span class="go">interface: GOAL_SERVICE</span>
+<span class="go">info:</span>
+<span class="go">  event_type: REQUEST_RECEIVED</span>
+<span class="go">  stamp:</span>
+<span class="go">    sec: 1744953927</span>
+<span class="go">    nanosec: 957359210</span>
+<span class="go">  client_gid: [1, 15, 165, 231, 190, 254, 1, 50, 0, 0, 0, 0, 0, 0, 19, 4]</span>
+<span class="go">  sequence_number: 1</span>
+<span class="go">request: [{goal_id: {uuid: [191, 200, 153, 122, 221, 251, 152, 172, 60, 69, 94, 20, 212, 160, 40, 12]}, goal: {order: 10}}]</span>
+<span class="go">response: []</span>
+<span class="go">---</span>
+<span class="go">interface: GOAL_SERVICE</span>
+<span class="go">info:</span>
+<span class="go">  event_type: RESPONSE_SENT</span>
+<span class="go">  stamp:</span>
+<span class="go">    sec: 1744953927</span>
+<span class="go">    nanosec: 957726145</span>
+<span class="go">  client_gid: [1, 15, 165, 231, 190, 254, 1, 50, 0, 0, 0, 0, 0, 0, 19, 4]</span>
+<span class="go">  sequence_number: 1</span>
+<span class="go">request: []</span>
+<span class="go">response: [{accepted: true, stamp: {sec: 1744953927, nanosec: 957615866}}]</span>
+<span class="go">---</span>
+<span class="go">interface: STATUS_TOPIC</span>
+<span class="go">status_list: [{goal_info: {goal_id: {uuid: [191, 200, 153, 122, 221, 251, 152, 172, 60, 69, 94, 20, 212, 160, 40, 12]}, stamp: {sec: 1744953927, nanosec: 957663383}}, status: 2}]</span>
+<span class="go">---</span>
+<span class="go">interface: FEEDBACK_TOPIC</span>
+<span class="go">goal_id:</span>
+<span class="go">  uuid: [191, 200, 153, 122, 221, 251, 152, 172, 60, 69, 94, 20, 212, 160, 40, 12]</span>
+<span class="go">feedback:</span>
+<span class="go">  sequence: [0, 1, 1]</span>
+<span class="go">---</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>You can record data passed on topics, services and actions in your ROS 2 system using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> command.
+Whether you're sharing your work with others or introspecting your own experiments, it's a great tool to know about.</p>
+</section>
+<section id="next-steps">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Next steps</a><a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>You've completed the &quot;Beginner: CLI Tools&quot; tutorials!
+The next step is tackling the &quot;Beginner: Client Libraries&quot; tutorials, starting with <a class="reference internal" href="../../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html"><span class="doc">Creating a workspace</span></a>.</p>
+</section>
+<section id="related-content">
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">Related content</a><a class="headerlink" href="#related-content" title="Link to this heading"></a></h2>
+<p>A more thorough explanation of <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code> can be found in the README <a class="reference external" href="https://github.com/ros2/rosbag2">here</a>.
+For more information on service recording and playback can be found in the design document <a class="reference external" href="https://github.com/ros2/rosbag2/blob/rolling/docs/design/rosbag2_record_replay_service.md">here</a>.
+For more information on action recording and playback can be found in the design document <a class="reference external" href="https://github.com/ros2/rosbag2/blob/rolling/docs/design/rosbag2_record_replay_action.md">here</a>.
+For more information on QoS compatibility and <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">bag</span></code>, see <a class="reference internal" href="../../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html"><span class="doc">rosbag2: Overriding QoS Policies</span></a>.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../Launching-Multiple-Nodes/Launching-Multiple-Nodes.html" class="btn btn-neutral float-left" title="Launching nodes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../../Beginner-Client-Libraries.html" class="btn btn-neutral float-right" title="Beginner: Client libraries" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

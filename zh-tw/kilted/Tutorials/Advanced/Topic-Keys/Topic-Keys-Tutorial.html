@@ -1,0 +1,937 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-TW" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topic Keys Tutorial &mdash; ROS 2 documentation  說明文件</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d85a351e" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/Tutorials/Advanced/Topic-Keys/Topic-Keys-Tutorial.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=7da51243"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../_static/translations.js?v=cbf116e0"></script>
+      <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜尋" href="../../../search.html" />
+    <link rel="next" title="Topic Keys Subscription Filtering Tutorial" href="Filtered-Topic-Keys-Tutorial.html" />
+    <link rel="prev" title="Enabling topic statistics (C++)" href="../Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html" />
+ 
+<script type="text/javascript" src="../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../../_static/kilted-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../Installation.html">安裝</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Ubuntu-Install-Debs.html">Ubuntu (deb packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Alternatives.html">Alternatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Releases.html">散布版</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Releases/Release-Process.html">Development process for a release</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../Tutorials.html">教學</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Beginner-CLI-Tools.html">Beginner: CLI tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Configuring-ROS2-Environment.html">組態環境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">了解節點</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">了解參數</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Beginner-Client-Libraries.html">Beginner: Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Beginner-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Intermediate.html">Intermediate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Launch/Launch-Main.html">Launch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Launch/Using-ROS2-Launch-For-Large-Projects.html">管理大型專案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/Testing/Testing-Main.html">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/URDF/Exporting-an-URDF-File.html">生成一個 URDF 檔案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Intermediate/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Intermediate/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../Advanced.html">Advanced</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Topic Keys Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Security/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Security/Access-Controls.html">Setting access controls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Security/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Demos.html">Demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Managed-Nodes.html">Managing nodes with managed lifecycles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Real-Time-Programming.html">Understanding real-time programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Demos/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Miscellaneous/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../How-To-Guides.html">操作指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Installation-Troubleshooting.html">安裝疑難排解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Ament-CMake-Documentation.html">ament_cmake 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Ament-CMake-Python-Documentation.html">ament_cmake_python 使用者文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Cross-compilation.html">交叉編譯</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../How-To-Guides/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../How-To-Guides/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Concepts.html">概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Basic.html">基本概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Nodes.html">節點</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Interfaces.html">介面</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Topics.html">話題</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Services.html">服務</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Actions.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Launch.html">Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Basic/About-Client-Libraries.html">Client libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Intermediate.html">Intermediate Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Cross-Compilation.html">交叉編譯</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Security.html">ROS 2 安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Intermediate/About-Tf2.html">Tf2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Concepts/Advanced.html">進階概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Build-System.html">建置系統</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Internal-Interfaces.html">內部 ROS 2 介面</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Concepts/Advanced/About-Middleware-Implementations.html">ROS 2 中介軟體實現</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Contact.html">聯絡</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../The-ROS2-Project.html">ROS 2 專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-To-ROS-2-Documentation.html">Contributing to ROS 2 Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Package-Docs.html">軟體包文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Related-Projects.html">相關專案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 專案</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Glossary.html">詞彙表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Citations.html">引用</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../Tutorials.html">教學</a></li>
+          <li class="breadcrumb-item"><a href="../../Advanced.html">Advanced</a></li>
+      <li class="breadcrumb-item active">Topic Keys Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Tutorials/Advanced/Topic-Keys/Topic-Keys-Tutorial.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="topic-keys-tutorial">
+<span id="id1"></span><h1>Topic Keys Tutorial<a class="headerlink" href="#topic-keys-tutorial" title="連結到這個標頭"></a></h1>
+<p>This tutorial aims to demonstrate the use of topic keys by simulating a scenario in which multiple sensors are transmitting their readings to a controller that processes them.</p>
+<nav class="contents local" id="id2">
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id4">Background</a></p></li>
+<li><p><a class="reference internal" href="#rmw-support" id="id5">RMW Support</a></p>
+<ul>
+<li><p><a class="reference internal" href="#creating-custom-idl-messages" id="id6">Creating custom IDL messages</a></p></li>
+<li><p><a class="reference internal" href="#creating-keyed-messages" id="id7">Creating Keyed Messages</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#prerequisites" id="id8">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#preparing-the-demo-package" id="id9">Preparing the demo package</a></p>
+<ul>
+<li><p><a class="reference internal" href="#retrieving-the-sources" id="id10">Retrieving the sources</a></p></li>
+<li><p><a class="reference internal" href="#generating-the-idl-files" id="id11">Generating the IDL files</a></p></li>
+<li><p><a class="reference internal" href="#building-the-demo-package" id="id12">Building the demo package</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#running-the-demo" id="id13">Running the demo</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="連結到這個標頭"></a></h2>
+<p>In ROS 2, a <a class="reference internal" href="../../../Concepts/Basic/About-Topics.html"><span class="doc">Topic</span></a> is a communication channel used for publishing and subscribing to updates of object states.
+The value of data associated with a topic changes over time and each of these values are known as <em>data samples</em>.
+Keyed topics refer to topics where each data sample represent an update of the state of a specific object (known as <em>instance</em>) among all those objects represented in the topic.</p>
+<p>Unlike standard topics, where each data sample updates the entire object state with every data sample, keyed topics allow the user to reduce the number of required resources (topics, along with its associated publisher and subscriber) by multiplexing updates of several objects of the same kind into a single resource.</p>
+<a class="reference internal image-reference" href="../../../_images/keyed-topics.gif"><img alt="../../../_images/keyed-topics.gif" class="align-center" src="../../../_images/keyed-topics.gif" style="width: 70%;" />
+</a>
+</section>
+<section id="rmw-support">
+<h2>RMW Support<a class="headerlink" href="#rmw-support" title="連結到這個標頭"></a></h2>
+<p>Keyed topics require RMW implementation support.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Keyed Topics Support Status</span><a class="headerlink" href="#id3" title="連結到這個表格"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>rmw_fastrtps</p></td>
+<td><p>supported</p></td>
+</tr>
+<tr class="row-even"><td><p>rmw_connextdds</p></td>
+<td><p>supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>rmw_cyclonedds</p></td>
+<td><p>not supported</p></td>
+</tr>
+</tbody>
+</table>
+<p>Implementations not supporting the feature will treat keyed topics as standard topics.
+The implications are explained throughout the tutorial.
+In addition, endpoints using <a class="reference external" href="https://index.ros.org/p/rmw_cyclonedds_cpp/">Cyclone DDS</a> will not even match with Fast DDS or Connext DDS endpoints for this kind of topics.</p>
+<section id="creating-custom-idl-messages">
+<h3>Creating custom IDL messages<a class="headerlink" href="#creating-custom-idl-messages" title="連結到這個標頭"></a></h3>
+<p>ROS 2 users can define their own <a class="reference internal" href="../../Beginner-Client-Libraries/Custom-ROS2-Interfaces.html#custominterfaces"><span class="std std-ref">custom topic messages</span></a> in the <code class="docutils literal notranslate"><span class="pre">.msg</span></code> format.
+Then, the ROS 2 message generation stack translates it to the DDS native <a class="reference external" href="https://www.omg.org/spec/IDL/4.2/About-IDL">OMG IDL (Interface Definition Language)</a> message format.</p>
+<p>One of the advantages of defining messages in IDL is the ability to use annotations.
+Annotations are metadata to the data structure definition that provide additional information about IDL constructs such as modules, interfaces, operations, attributes, and data types.
+They are relevant for code generation, documentation, or other purposes.
+Annotations in IDL typically follow the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> symbol and can be applied to various IDL constructs.
+The <code class="docutils literal notranslate"><span class="pre">&#64;key</span></code> annotation is used to designate a member as key, which is covered in the following section.</p>
+<p>Users can define their own messages in the IDL format directly (following the <a class="reference external" href="https://design.ros2.org/articles/idl_interface_definition.html">ROS 2 interface design documentation</a>) or use the <code class="docutils literal notranslate"><span class="pre">msg2idl</span></code> tool within the <code class="docutils literal notranslate"><span class="pre">rosidl_adapter</span></code> package.</p>
+</section>
+<section id="creating-keyed-messages">
+<h3>Creating Keyed Messages<a class="headerlink" href="#creating-keyed-messages" title="連結到這個標頭"></a></h3>
+<p>Keyed topics exist when one or more fields in the data structure are annotated as keys.
+These key fields serve as unique identifiers for topic instances in order to organize and manage the data samples, facilitating efficient access, retrieval, and filtering of data based on the specified key criteria.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&#64;key</span></code> annotation designates a field as a key for the given topic type, which can have zero or more key fields and can be applied to structure fields of various types:</p>
+<ul class="simple">
+<li><p>Any primitive, such as booleans, integers, characters, strings or sequences.</p></li>
+<li><p>Other existing or defined messages.
+If those have defined an inner key member, then those fields will we used as part of the key.
+Otherwise, the key will be the concatenation of all the fields.</p></li>
+</ul>
+<p>In order to specify multiple keys, separate <code class="docutils literal notranslate"><span class="pre">&#64;key</span></code> annotations are used.
+The following example shows how to define a keyed message using the IDL format:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>KeyedMsgName.idl
+<span class="go">module package_name {</span>
+<span class="go">  module msg {</span>
+<span class="go">    struct KeyedMsgName {</span>
+<span class="go">      @key long key;</span>
+<span class="go">      string data;</span>
+<span class="go">    };</span>
+<span class="go">  };</span>
+<span class="go">};</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>Currently, the only supported message format that can be annotated with <code class="docutils literal notranslate"><span class="pre">&#64;key</span></code> is <em>.idl</em>.
+Neither <code class="docutils literal notranslate"><span class="pre">.msg</span></code> nor <code class="docutils literal notranslate"><span class="pre">.srv</span></code> files support annotations yet.</p>
+</div>
+</section>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="連結到這個標頭"></a></h2>
+<ul class="simple">
+<li><p>An up-to-date ROS 2 installation and setup.
+Either installed in local host, or using Docker images.</p></li>
+</ul>
+</section>
+<section id="preparing-the-demo-package">
+<h2>Preparing the demo package<a class="headerlink" href="#preparing-the-demo-package" title="連結到這個標頭"></a></h2>
+<p>Lets start by setting up the environment.
+For this, there are two possible options:</p>
+<ol class="arabic">
+<li><p>Running a ROS 2 Docker image.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>osrt/ros:rolling-desktop
+</pre></div>
+</div>
+</li>
+<li><p>Running the tutorial on the local host.
+Please, follow the <a class="reference internal" href="../../../Installation.html"><span class="doc">installation instructions</span></a> for details on installing ROS 2.</p></li>
+</ol>
+<p>Source the following file to setup the ROS 2 environment:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-0-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-0-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/opt/ros/rolling/setup.bash
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">.bash</span></code> with your shell if you're not using bash.
+Possible values are: <code class="docutils literal notranslate"><span class="pre">setup.bash</span></code>, <code class="docutils literal notranslate"><span class="pre">setup.sh</span></code>, <code class="docutils literal notranslate"><span class="pre">setup.zsh</span></code>.</p>
+</div><div aria-labelledby="tab-0-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>.<span class="w"> </span>~/ros2_install/ros2-osx/setup.bash
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\d</span>ev<span class="se">\r</span>os2<span class="se">\l</span>ocal_setup.bat
+</pre></div>
+</div>
+</div></div>
+<section id="retrieving-the-sources">
+<h3>Retrieving the sources<a class="headerlink" href="#retrieving-the-sources" title="連結到這個標頭"></a></h3>
+<p>In order to retrieve the example demo code, create a new workspace and download the demo package sources as indicated below:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-1-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-1-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-1-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Create<span class="w"> </span>directory<span class="w"> </span>structure
+<span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp
+<span class="gp">$ </span>mkdir<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/msg
+<span class="gp">$ </span>mkdir<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/src
+<span class="gp">$ </span>mkdir<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/launch
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp
+
+<span class="gp"># </span>Download<span class="w"> </span>demo<span class="w"> </span>package<span class="w"> </span><span class="nb">source</span><span class="w"> </span>code
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>CMakeLists.txt<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/CMakeLists.txt
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>package.xml<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/package.xml
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>README.md<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/README.md
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>msg/SensorDataMsg.msg<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/msg/SensorDataMsg.msg
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>msg/KeyedSensorDataMsg.msg<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/msg/KeyedSensorDataMsg.msg
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/multiple_topic_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/multiple_topic_sensor.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/multiple_topic_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/multiple_topic_controller.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/single_topic_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/single_topic_sensor.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/single_topic_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/single_topic_controller.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/keyed_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/keyed_sensor.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/keyed_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/keyed_controller.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>launch/multiple_topic_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/multiple_topic_sensors_launch.py
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>launch/single_topic_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/single_topic_sensors_launch.py
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>launch/keyed_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/keyed_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Create<span class="w"> </span>directory<span class="w"> </span>structure
+<span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp
+<span class="gp">$ </span>mkdir<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/msg
+<span class="gp">$ </span>mkdir<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/src
+<span class="gp">$ </span>mkdir<span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/launch
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp
+
+<span class="gp"># </span>Download<span class="w"> </span>demo<span class="w"> </span>package<span class="w"> </span><span class="nb">source</span><span class="w"> </span>code
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>CMakeLists.txt<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/CMakeLists.txt
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>package.xml<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/package.xml
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>README.md<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/README.md
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>msg/SensorDataMsg.msg<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/msg/SensorDataMsg.msg
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>msg/KeyedSensorDataMsg.msg<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/msg/KeyedSensorDataMsg.msg
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/multiple_topic_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/multiple_topic_sensor.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/multiple_topic_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/multiple_topic_controller.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/single_topic_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/single_topic_sensor.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/single_topic_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/single_topic_controller.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/keyed_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/keyed_sensor.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>src/keyed_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/keyed_controller.cpp
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>launch/multiple_topic_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/multiple_topic_sensors_launch.py
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>launch/single_topic_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/single_topic_sensors_launch.py
+<span class="gp">$ </span>wget<span class="w"> </span>-O<span class="w"> </span>launch/keyed_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/keyed_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Create<span class="w"> </span>directory<span class="w"> </span>structure
+<span class="gp">$ </span>mkdir<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\s</span>rc<span class="se">\d</span>emo_keys_cpp<span class="se">\m</span>sg
+<span class="gp">$ </span>mkdir<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\s</span>rc<span class="se">\d</span>emo_keys_cpp<span class="se">\s</span>rc
+<span class="gp">$ </span>mkdir<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\s</span>rc<span class="se">\d</span>emo_keys_cpp<span class="se">\l</span>aunch
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\s</span>rc<span class="se">\d</span>emo_keys_cpp
+
+<span class="gp"># </span>Download<span class="w"> </span>demo<span class="w"> </span>package<span class="w"> </span><span class="nb">source</span><span class="w"> </span>code
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>CMakeLists.txt<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/CMakeLists.txt
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>package.xml<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/package.xml
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>README.md<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/README.md
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>msg/SensorDataMsg.msg<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/msg/SensorDataMsg.msg
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>msg/KeyedSensorDataMsg.msg<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/msg/KeyedSensorDataMsg.msg
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>src/multiple_topic_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/multiple_topic_sensor.cpp
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>src/multiple_topic_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/multiple_topic_controller.cpp
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>src/single_topic_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/single_topic_sensor.cpp
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>src/single_topic_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/single_topic_controller.cpp
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>src/keyed_sensor.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/keyed_sensor.cpp
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>src/keyed_controller.cpp<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/src/keyed_controller.cpp
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>launch/multiple_topic_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/multiple_topic_sensors_launch.py
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>launch/single_topic_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/single_topic_sensors_launch.py
+<span class="gp">$ </span>irm<span class="w"> </span>-OutFile<span class="w"> </span>launch/keyed_sensors_launch.py<span class="w"> </span>https://raw.githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/Basic/launch/keyed_sensors_launch.py
+</pre></div>
+</div>
+</div></div>
+<p>Like any other ROS 2 related package, the external dependencies are listed in the <code class="docutils literal notranslate"><span class="pre">package.xml</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file defines the different targets to be built and the dependencies between them.
+Note that it is built in a component manner meaning that the nodes defined in the source files can be also loaded as composable plugins apart from being executed as standalone nodes.
+The <em>src/</em> directory contains the core source files for the different nodes that will be executed in the demo.
+The launch files for sensors are also provided in the <em>launch/</em> directory in which 10 different nodes are launched for each one of the cases that will be later explained.
+Finally, the <em>msg/</em> directory contains two different IDL message definitions, one with key annotations (sensor_id) and another without it.</p>
+<p>The resulting directory structure should be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>~/tutorial_ws
+ ├──src
+    ├── demo_keys_cpp
+        ├── CMakeLists.txt
+        ├── README.md
+        ├── launch
+        │   ├── keyed_sensors_launch.py
+        │   ├── multiple_topic_sensors_launch.py
+        │   └── single_topic_sensors_launch.py
+        ├── msg
+        │   ├── KeyedSensorDataMsg.msg
+        │   └── SensorDataMsg.msg
+        ├── package.xml
+        └── src
+            ├── keyed_controller.cpp
+            ├── keyed_sensor.cpp
+            ├── multiple_topic_controller.cpp
+            ├── multiple_topic_sensor.cpp
+            ├── single_topic_controller.cpp
+            └── single_topic_sensor.cpp
+</pre></div>
+</div>
+</section>
+<section id="generating-the-idl-files">
+<h3>Generating the IDL files<a class="headerlink" href="#generating-the-idl-files" title="連結到這個標頭"></a></h3>
+<p>Starting from the provided <code class="docutils literal notranslate"><span class="pre">.msg</span></code> files, generate the corresponding IDL files using the <code class="docutils literal notranslate"><span class="pre">msg2idl.py</span></code> script from the <code class="docutils literal notranslate"><span class="pre">rosidl_adapter</span></code> package.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-2-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-2-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-2-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-2-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/msg
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rosidl_adapter<span class="w"> </span>msg2idl.py<span class="w"> </span>SensorDataMsg.msg
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rosidl_adapter<span class="w"> </span>msg2idl.py<span class="w"> </span>KeyedSensorDataMsg.msg
+<span class="gp">$ </span>rm<span class="w"> </span>SensorDataMsg.msg<span class="w"> </span>KeyedSensorDataMsg.msg
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/tutorial_ws/src/demo_keys_cpp/msg
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rosidl_adapter<span class="w"> </span>msg2idl.py<span class="w"> </span>SensorDataMsg.msg
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rosidl_adapter<span class="w"> </span>msg2idl.py<span class="w"> </span>KeyedSensorDataMsg.msg
+<span class="gp">$ </span>rm<span class="w"> </span>SensorDataMsg.msg<span class="w"> </span>KeyedSensorDataMsg.msg
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\s</span>rc<span class="se">\d</span>emo_keys_cpp<span class="se">\m</span>sg
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rosidl_adapter<span class="w"> </span>msg2idl.py<span class="w"> </span>SensorDataMsg.msg
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rosidl_adapter<span class="w"> </span>msg2idl.py<span class="w"> </span>KeyedSensorDataMsg.msg
+<span class="gp">$ </span>del<span class="w"> </span>SensorDataMsg.msg<span class="w"> </span>KeyedSensorDataMsg.msg
+</pre></div>
+</div>
+</div></div>
+<p>Next, annotate the <code class="docutils literal notranslate"><span class="pre">sensor_id</span></code> field as <code class="docutils literal notranslate"><span class="pre">&#64;key</span></code> in the generated <code class="docutils literal notranslate"><span class="pre">KeyedSensorDataMsg.idl</span></code>.
+Its content should look like the following:</p>
+<div class="highlight-idl notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span><span class="w"> </span>KeyedSensorDataMsg.idl<span class="w"> </span><span class="o">*/</span>
+module<span class="w"> </span>demo_keys_cpp<span class="w"> </span>{
+<span class="w">  </span>module<span class="w"> </span>msg<span class="w"> </span>{
+<span class="w">    </span>struct<span class="w"> </span>KeyedSensorDataMsg<span class="w"> </span>{
+<span class="w">      </span>@key<span class="w"> </span>int16<span class="w"> </span>sensor_id;
+<span class="w">      </span><span class="nb">string</span><span class="w"> </span>data;
+<span class="w">    </span>};
+<span class="w">  </span>};
+};
+</pre></div>
+</div>
+</section>
+<section id="building-the-demo-package">
+<h3>Building the demo package<a class="headerlink" href="#building-the-demo-package" title="連結到這個標頭"></a></h3>
+<p>Once the environment has been setup and the demo package sources are available, we are ready to build the workspace.
+Get into the root of the workspace and build it with the following commands:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-3-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-3-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-3-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-3-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-3-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/tutorial_ws
+<span class="gp">$ </span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>~/tutorial_ws
+<span class="gp">$ </span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-3-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>C:<span class="se">\t</span>utorial_ws
+<span class="gp">$ </span>colcon<span class="w"> </span>build
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+<section id="running-the-demo">
+<h2>Running the demo<a class="headerlink" href="#running-the-demo" title="連結到這個標頭"></a></h2>
+<p>The tutorial demo consists of a controller node that subscribes to the data published by multiple sensors.
+Each of the sensors are identified by a <em>sensor_id</em> and publish data to the controller at different rates, in particular, the publication period (in seconds) is the <em>sensor_id</em> times 1.
+Three different valid approaches are used to address the situation:</p>
+<ul class="simple">
+<li><p>In the first one, multiple sensors are publishing data to the controller using different topics for each sensor and the controller subscribing to each one of them.</p></li>
+<li><p>In the second approach, multiple sensors publish data to the controller using a single standalone topic.</p></li>
+<li><p>Finally, in the third one, the sensors use a single keyed topic defining a single data instance per unique <em>sensor_id</em>.</p></li>
+</ul>
+<p>In addition, all the publications and subscriptions use the following QoS settings:</p>
+<ul class="simple">
+<li><p>History QoS: <code class="docutils literal notranslate"><span class="pre">KEEP_LAST</span> <span class="pre">1</span></code>.</p></li>
+<li><p>Reliable communication.</p></li>
+<li><p>Transient Local durability.</p></li>
+</ul>
+<p>This is set this way to recreate late joining of the controller to the application and evaluate the behavior in each of the three different scenarios.
+The following diagram depicts the three different scenarios:</p>
+<a class="reference internal image-reference" href="../../../_images/tutorial_diagram.svg"><img alt="../../../_images/tutorial_diagram.svg" class="align-center" src="../../../_images/tutorial_diagram.svg" style="width: 90%;" />
+</a>
+<p>Lets start with the first scenario.
+Run the demo by executing the following commands in separate terminals:</p>
+<div class="admonition note">
+<p class="admonition-title">備註</p>
+<p>If a docker deployment was preferred, it would be necessary to attach the other two terminals to the running docker container before executing the above commands.
+This can be done by running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">&lt;container_name&gt;</span> <span class="pre">/bin/bash</span></code>.</p>
+</div>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-4-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-4-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-4-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-4-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-4-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-4-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-5-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-5-5-0" name="5-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-5-5-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-1" name="5-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-5-5-0" class="sphinx-tabs-panel" id="panel-5-5-0" name="5-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>multiple_topic_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-5-1" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-1" name="5-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>multiple_topic_controller
+</pre></div>
+</div>
+</div></div>
+</div><div aria-labelledby="tab-4-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-6-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-6-6-0" name="6-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-6-6-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-1" name="6-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-6-6-0" class="sphinx-tabs-panel" id="panel-6-6-0" name="6-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>multiple_topic_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-6-1" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-1" name="6-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>multiple_topic_controller
+</pre></div>
+</div>
+</div></div>
+</div><div aria-labelledby="tab-4-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-4-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-7-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-7-7-0" name="7-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-7-7-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-7-7-1" name="7-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-7-7-0" class="sphinx-tabs-panel" id="panel-7-7-0" name="7-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\i</span>nstall<span class="se">\s</span>etup.bat
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>multiple_topic_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-7-1" class="sphinx-tabs-panel" hidden="true" id="panel-7-7-1" name="7-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\i</span>nstall<span class="se">\s</span>etup.bat
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>multiple_topic_controller
+</pre></div>
+</div>
+</div></div>
+</div></div>
+<p>The resulting output should be similar to the following:</p>
+<a class="reference internal image-reference" href="../../../_images/multiple_topics.gif"><img alt="../../../_images/multiple_topics.gif" class="align-center" src="../../../_images/multiple_topics.gif" style="width: 100%;" />
+</a>
+<p>It is important to note that this initial approach is not the most efficient one, as it entails the creation of multiple topics, publishers, and subscriptions.
+Furthermore, apart from being inefficient, it also makes the application more complex, harder to maintain, and resource demanding.
+Moreover, as a consequence of creating far more entities than needed, the application incurs in an unnecessary discovery overhead.</p>
+<p>Lets go a step further.
+In this second approach a single topic is used in which all the sensors will publish their data (without using a keyed topic).
+Run the demo by executing the following commands in separate terminals:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-8-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-8-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-8-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-8-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-8-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-8-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-8-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-9-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-9-9-0" name="9-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-9-9-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-9-9-1" name="9-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-9-9-0" class="sphinx-tabs-panel" id="panel-9-9-0" name="9-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>single_topic_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-9-9-1" class="sphinx-tabs-panel" hidden="true" id="panel-9-9-1" name="9-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">#</span>Wait<span class="w"> </span><span class="k">until</span><span class="w"> </span>sensor<span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>publishes<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>data<span class="w"> </span><span class="o">(</span><span class="m">10</span><span class="w"> </span>secs<span class="o">)</span>
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>single_topic_controller
+</pre></div>
+</div>
+</div></div>
+</div><div aria-labelledby="tab-8-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-8-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-10-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-10-10-0" name="10-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-10-10-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-10-10-1" name="10-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-10-10-0" class="sphinx-tabs-panel" id="panel-10-10-0" name="10-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>single_topic_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-10-10-1" class="sphinx-tabs-panel" hidden="true" id="panel-10-10-1" name="10-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">#</span>Wait<span class="w"> </span><span class="k">until</span><span class="w"> </span>sensor<span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>publishes<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>data<span class="w"> </span><span class="o">(</span><span class="m">10</span><span class="w"> </span>secs<span class="o">)</span>
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>single_topic_controller
+</pre></div>
+</div>
+</div></div>
+</div><div aria-labelledby="tab-8-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-8-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-11-11-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-11-11-0" name="11-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-11-11-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-11-11-1" name="11-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-11-11-0" class="sphinx-tabs-panel" id="panel-11-11-0" name="11-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\i</span>nstall<span class="se">\s</span>etup.bat
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>single_topic_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-11-11-1" class="sphinx-tabs-panel" hidden="true" id="panel-11-11-1" name="11-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\i</span>nstall<span class="se">\s</span>etup.bat
+<span class="gp">#</span>Wait<span class="w"> </span><span class="k">until</span><span class="w"> </span>sensor<span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>publishes<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>data<span class="w"> </span><span class="o">(</span><span class="m">10</span><span class="w"> </span>secs<span class="o">)</span>
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>single_topic_controller
+</pre></div>
+</div>
+</div></div>
+</div></div>
+<p>Which leads to an output similar to the one shown below:</p>
+<a class="reference internal image-reference" href="../../../_images/single_topics.gif"><img alt="../../../_images/single_topics.gif" class="align-center" src="../../../_images/single_topics.gif" style="width: 100%;" />
+</a>
+<p>This second scenario illustrates that using one single topic, a late-joining controller will not recover the state of all the sensors when it joins the application.
+This is easily noticeable in the case of sensor with <em>id</em> 10; the controller will not receive the latest data published by this sensor until it publishes a new one.
+Furthermore, sensors publishing at higher rates (sensors 1~3) can overwrite the data of low rate sensors, causing starvation even in the case of augmenting the history size.
+These are severe problems that should be avoided.</p>
+<p>Now, lets move on to the third approach for addressing the problem.
+Start, or reuse previous opened terminals and run the following commands:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-12-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-12-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-12-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-12-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-12-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-12-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-12-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-12-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-13-13-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-13-13-0" name="13-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-13-13-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-13-13-1" name="13-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-13-13-0" class="sphinx-tabs-panel" id="panel-13-13-0" name="13-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>keyed_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-13-13-1" class="sphinx-tabs-panel" hidden="true" id="panel-13-13-1" name="13-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">#</span>Wait<span class="w"> </span><span class="k">until</span><span class="w"> </span>sensor<span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>publishes<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>data<span class="w"> </span><span class="o">(</span><span class="m">10</span><span class="w"> </span>secs<span class="o">)</span>
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>keyed_controller
+</pre></div>
+</div>
+</div></div>
+</div><div aria-labelledby="tab-12-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-12-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-14-14-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-14-14-0" name="14-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-14-14-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-14-14-1" name="14-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-14-14-0" class="sphinx-tabs-panel" id="panel-14-14-0" name="14-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>keyed_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-14-14-1" class="sphinx-tabs-panel" hidden="true" id="panel-14-14-1" name="14-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>~/tutorial_ws/install/setup.bash
+<span class="gp">#</span>Wait<span class="w"> </span><span class="k">until</span><span class="w"> </span>sensor<span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>publishes<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>data<span class="w"> </span><span class="o">(</span><span class="m">10</span><span class="w"> </span>secs<span class="o">)</span>
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>keyed_controller
+</pre></div>
+</div>
+</div></div>
+</div><div aria-labelledby="tab-12-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-12-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-15-15-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-15-15-0" name="15-0" role="tab" tabindex="0">Shell 1 (Sensors)</button><button aria-controls="panel-15-15-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-15-15-1" name="15-1" role="tab" tabindex="-1">Shell 2 (Controller)</button></div><div aria-labelledby="tab-15-15-0" class="sphinx-tabs-panel" id="panel-15-15-0" name="15-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\i</span>nstall<span class="se">\s</span>etup.bat
+<span class="gp">$ </span>ros2<span class="w"> </span>launch<span class="w"> </span>demo_keys_cpp<span class="w"> </span>keyed_sensors_launch.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-15-15-1" class="sphinx-tabs-panel" hidden="true" id="panel-15-15-1" name="15-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>C:<span class="se">\t</span>utorial_ws<span class="se">\i</span>nstall<span class="se">\s</span>etup.bat
+<span class="gp">#</span>Wait<span class="w"> </span><span class="k">until</span><span class="w"> </span>sensor<span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>publishes<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>data<span class="w"> </span><span class="o">(</span><span class="m">10</span><span class="w"> </span>secs<span class="o">)</span>
+<span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_keys_cpp<span class="w"> </span>keyed_controller
+</pre></div>
+</div>
+</div></div>
+</div></div>
+<p>The resulting output should be similar to the following:</p>
+<a class="reference internal image-reference" href="../../../_images/keyed_topic.gif"><img alt="../../../_images/keyed_topic.gif" class="align-center" src="../../../_images/keyed_topic.gif" style="width: 100%;" />
+</a>
+<p>In this final case, the controller is able to successfully recover the latest state of each sensor (data instance) when it joins the application.
+In addition, it uses optimum resources (it only requires one topic and one subscription) and guarantees a minimum discovery overhead.
+Hence, it is by using topic keys when the reception of the latest status of each instance (sensor) is assured.
+This is because the Quality of Service settings are applied per data instance.
+For learning how to combine keyed topics with content filter topic, please refer to the <a class="reference internal" href="Filtered-Topic-Keys-Tutorial.html#filtered-topic-keys-tutorial"><span class="std std-ref">Topic Keys Subscription Filtering Tutorial</span></a>.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html" class="btn btn-neutral float-left" title="Enabling topic statistics (C++)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Filtered-Topic-Keys-Tutorial.html" class="btn btn-neutral float-right" title="Topic Keys Subscription Filtering Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
