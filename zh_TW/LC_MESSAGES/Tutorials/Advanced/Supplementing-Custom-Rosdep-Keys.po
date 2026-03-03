@@ -1,0 +1,308 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-24 08:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:2
+msgid "Supplementing custom rosdep keys"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:6
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:9
+msgid "Overview and motivation"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:11
+msgid ""
+"As explained in :doc:`../Intermediate/Rosdep`, ``rosdep`` looks for rosdep "
+"keys in ``package.xml`` files and maps them to packages to be installed for "
+"the ROS distribution and OS in use. Anyone can request for new rosdep keys "
+"to be added by `contributing to rosdistro <https://github.com/ros/rosdistro/"
+"blob/master/CONTRIBUTING.md#rosdep-rules-contributions>`_. This is the "
+"preferred course of action when you have some dependency (like a ``apt`` or "
+"``pip`` package) that you wish to be able to install via ``rosdep``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:15
+msgid ""
+"However, there are many cases when contributing your keys directly might be "
+"difficult. For example, if the dependency"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:18
+msgid ""
+"is not available on the target distributions default APT (or pip) "
+"repositories"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:19
+msgid "is a proprietary library"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:20
+msgid "is some niche library which is useful only for you or your organization"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:21
+msgid ""
+"is a ROS package you :doc:`built and packaged yourself <../../How-To-Guides/"
+"Building-a-Custom-Deb-Package>`, but don't wish to share with the broader "
+"ROS community"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:23
+msgid ""
+"While the option exists to :doc:`fork rosdistro <../../How-To-Guides/Using-"
+"Custom-Rosdistro>` in its entirety, this might be overkill if you just want "
+"to keep using a official ROS distribution as usual, only with some extra "
+"rosdep keys defined on top. This tutorial explains how to achieve this."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:26
+msgid ""
+"As a word of warning though, please don't use this indiscriminately. It can "
+"cause very hard to debug problems because of binary incompatibilities which "
+"can manifest in silent failures, unexplained crashes, or data corruption. "
+"And if you're asking anyone for help on a system with this enabled, make "
+"sure to explain everything that's being added or overridden."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:31
+msgid "Preliminaries: How ``rosdep`` fetches rosdep keys"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:33
+msgid ""
+"In order to get a good understanding of what we're about to do, let's first "
+"explore some relevant details about how ``rosdep`` works."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:35
+msgid ""
+"``rosdep`` is similar to other tools like ``apt`` that use a sources list to "
+"maintain a local index. These sources are stored in ``/etc/ros/rosdep/"
+"sources.list.d``. This is similar to how apt stores repositories in ``/etc/"
+"apt/sources.list.d``."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:39
+msgid ""
+"By default (as part of first-time setup, ``rosdep init``), you only have a "
+"single sources file: ``/etc/ros/rosdep/sources.list.d/20-default.list``. "
+"Inspecting its contents, you will see entries like these:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:42
+msgid ""
+"$ cat /etc/ros/rosdep/sources.list.d/20-default.list\n"
+"...\n"
+"yaml https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/base."
+"yaml\n"
+"yaml https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/python."
+"yaml\n"
+"..."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:50
+msgid ""
+"These entries are what dictates where ``rosdep`` fetches rosdep keys and "
+"their mappings (rosdep **rules**) from when ``rosdep update`` is called. "
+"When called, ``rosdep`` compiles the relevant contents from all declared "
+"entries in all sources files into a local cached index. This local index is "
+"then used when installing or looking up (\"resolving\") rosdep keys."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:54
+msgid ""
+"For example, the fact that the first entry (``base.yaml``) defines the "
+"``libopencv-dev`` key (see `here <https://github.com/ros/rosdistro/"
+"blob/72f24d6/rosdep/base.yaml#L5240-L5252>`_) is what allows ``rosdep`` to "
+"resolve it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:56
+msgid ""
+"$ rosdep where-defined libopencv-dev\n"
+"https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/base.yaml\n"
+"$ rosdep resolve libopencv-dev\n"
+"#apt\n"
+"libopencv-dev"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:64
+msgid ""
+"In summary, it allows ``rosdep`` to resolve the ``libopencv-dev`` key to the "
+"``apt`` package of the same name."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:66
+msgid ""
+"Note that, from the output above, we can deduce that the command was run on "
+"a Ubuntu or Debian OS. On RHEL, the key instead resolves to the DNF package "
+"``opencv-devel``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:69
+msgid ""
+"$ rosdep resolve libopencv-dev --os=rhel:9\n"
+"#dnf\n"
+"opencv-devel"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:76
+msgid "Extending ``rosdep`` with a custom sources file"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:78
+msgid ""
+"The above hopefully makes it clear what needs to be done to get ``rosdep`` "
+"to understand new keys: add a new custom sources file!"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:80
+msgid ""
+"As a toy example, let's add a new sources file telling ``rosdep`` to fetch "
+"keys from a YAML file stored on the local machine. Fire up your favorite "
+"text editor and write the following into ``/etc/ros/rosdep/sources.list.d/30-"
+"custom.list`` (the editor will need to be launched with root privileges, e."
+"g. via ``sudo``):"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:83
+msgid "yaml file:///etc/ros/rosdep/custom_rules.yaml"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:87
+msgid "Now write the following into ``/etc/ros/rosdep/custom_rules.yaml``:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:89
+msgid ""
+"awesome_library:\n"
+"  ubuntu: [awesome_library]\n"
+"that_other_library:\n"
+"  ubuntu:\n"
+"    pip:\n"
+"      packages: [another_library]"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:98
+msgid "This defines two new rosdep rules:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:100
+msgid ""
+"The key ``awesome_library``, defined only for Ubuntu, mapping to the ``apt`` "
+"package of the same name"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:101
+msgid ""
+"The key ``that_other_library``, defined only for Ubuntu, mapping to the "
+"``pip`` package named ``another_library``"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:103
+msgid ""
+"After running ``rosdep update``, ``rosdep`` will detect the new ``30-custom."
+"list``, prompting it to scan the contents of the ``custom_rules.yaml`` file. "
+"Now ``rosdep`` is set up to recognize these new keys and what they should "
+"map to:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:106
+msgid ""
+"$ rosdep resolve awesome_library\n"
+"#apt\n"
+"awesome_library\n"
+"$ rosdep resolve that_other_library\n"
+"#pip\n"
+"another_library"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:115
+msgid ""
+"Now all you have to do is add ``<depend>awesome_library</depend>`` to your "
+"ROS packages ``package.xml``, and ``rosdep`` will know how to install the "
+"dependency!"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:118
+msgid "Closing remarks"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:120
+msgid ""
+"The toy example above only hints at what is possible with custom rosdep keys."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:122
+msgid ""
+"**Is your dependency an APT package hosted in a third party PPA?** Not a "
+"problem. Since all ``rosdep`` does is converting the key to a ``apt "
+"install`` invocation, APT will have no problem installing the package "
+"(provided you have added the PPA)."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:125
+msgid ""
+"**Is your dependency a pip package hosted in a third party index?** Add the "
+"index to your ``pip.conf`` and you're good to go."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:127
+msgid ""
+"**Sources files don't have to point to files on the local machine.** Both "
+"``file://`` and ``https://`` syntax is supported (on Linux, absolute paths "
+"start with ``/``, which leads to a triple slash like ``file:///etc/rosdep/my."
+"file``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:129
+msgid ""
+"**Sources are loaded in alphabetical order.** If you add a conflicting rule "
+"in the 30 prefix it will not be used. If you created a sources file with a "
+"10 prefix it will override packages in the default list (prefix 20). If "
+"you're using packages installed from binary repositories it's highly "
+"recommended to not override dependency declarations as it will likely cause "
+"binary incompatibilities which can be very hard to debug."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:133
+msgid ""
+"**Merging keys is not possible.** It is not possible to e.g. only add a "
+"``fedora`` installation rule to an existing rosdep key. Depending on the "
+"load order, such rule would either be ignored, or it would completely "
+"override the whole rosdep key, removing all other installers."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:138
+msgid "Further reading"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:140
+msgid ""
+"https://docs.ros.org/en/independent/api/rosdep/html/rosdep_yaml_format.html"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Supplementing-Custom-Rosdep-Keys.rst:141
+msgid ""
+"https://docs.ros.org/en/independent/api/rosdep/html/contributing_rules.html"
+msgstr ""
