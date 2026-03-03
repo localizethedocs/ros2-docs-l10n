@@ -1,0 +1,563 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 08:38+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:6
+msgid "Configure service introspection"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:8
+msgid ""
+"**Goal:** Configure service introspection for a service client and a server."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:10
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:12
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:16
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:19
+msgid "Overview"
+msgstr "概覽"
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:21
+msgid ""
+"ROS 2 applications usually consist of services to execute specific "
+"procedures in remote nodes. Unlike topics, which anyone can subscribe to, "
+"service interactions are more opaque. By default, you cannot observe or "
+"monitor when a service gets called, nor what the request or response was."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:25
+msgid ""
+"Still, it is possible to introspect service data communication with service "
+"introspection. To do this, the service in question needs to be configured "
+"appropriately."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:28
+msgid ""
+"In this demo, we'll be highlighting how to configure service introspection "
+"state for a service client and a server and monitor service communication "
+"with ``ros2 service echo``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:31
+msgid "Installing the demo"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:33
+msgid ""
+"See the :doc:`installation instructions <../../Installation>` for details on "
+"installing ROS 2."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:35
+msgid ""
+"If you've installed ROS 2 binary packages, ensure that you have ``ros-"
+"rolling-demo-nodes-cpp`` installed. If you downloaded the archive or built "
+"ROS 2 from source, it will already be part of the installation."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:39
+msgid "Introspection Configuration State"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:41
+msgid "There are 3 configuration states for service introspection."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:43
+msgid "Service Introspection Configuration State"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:46
+msgid "RCL_SERVICE_INTROSPECTION_OFF"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:47
+msgid "Disabled"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:48
+msgid "RCL_SERVICE_INTROSPECTION_METADATA"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:49
+msgid "Only metadata without any user data contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:50
+msgid "RCL_SERVICE_INTROSPECTION_CONTENTS"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:51
+msgid "User data contents with metadata"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:54
+msgid "Introspection demo"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:56
+msgid ""
+"This demo shows how to manage service introspection and monitor the service "
+"data communication with using ``ros2 service echo``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:58
+msgid "IntrospectionServiceNode:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:60
+msgid ""
+"https://github.com/ros2/demos/blob/rolling/demo_nodes_cpp/src/services/"
+"introspection_service.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:62
+msgid ""
+"namespace demo_nodes_cpp\n"
+"{\n"
+"\n"
+"class IntrospectionServiceNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  DEMO_NODES_CPP_PUBLIC\n"
+"  explicit IntrospectionServiceNode(const rclcpp::NodeOptions & options)\n"
+"  : Node(\"introspection_service\", options)\n"
+"  {\n"
+"    auto handle_add_two_ints =\n"
+"      [this](const std::shared_ptr<rmw_request_id_t> request_header,\n"
+"        const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request> "
+"request,\n"
+"        std::shared_ptr<example_interfaces::srv::AddTwoInts::Response> "
+"response) -> void\n"
+"      {\n"
+"        (void)request_header;\n"
+"        RCLCPP_INFO(\n"
+"          this->get_logger(), \"Incoming request\\na: %\" PRId64 \" b: %\" "
+"PRId64,\n"
+"          request->a, request->b);\n"
+"        response->sum = request->a + request->b;\n"
+"      };\n"
+"    // Create a service that will use the callback function to handle "
+"requests.\n"
+"    srv_ = create_service<example_interfaces::srv::"
+"AddTwoInts>(\"add_two_ints\", handle_add_two_ints);\n"
+"\n"
+"    auto on_set_parameter_callback =\n"
+"      [](std::vector<rclcpp::Parameter> parameters) {\n"
+"        rcl_interfaces::msg::SetParametersResult result;\n"
+"        result.successful = true;\n"
+"        for (const rclcpp::Parameter & param : parameters) {\n"
+"          if (param.get_name() != \"service_configure_introspection\") {\n"
+"            continue;\n"
+"          }\n"
+"\n"
+"          if (param.get_type() != rclcpp::ParameterType::PARAMETER_STRING) "
+"{\n"
+"            result.successful = false;\n"
+"            result.reason = \"must be a string\";\n"
+"            break;\n"
+"          }\n"
+"\n"
+"          if (param.as_string() != \"disabled\" && param.as_string() != "
+"\"metadata\" &&\n"
+"            param.as_string() != \"contents\")\n"
+"          {\n"
+"            result.successful = false;\n"
+"            result.reason = \"must be one of 'disabled', 'metadata', or "
+"'contents'\";\n"
+"            break;\n"
+"          }\n"
+"        }\n"
+"\n"
+"        return result;\n"
+"      };\n"
+"\n"
+"    auto post_set_parameter_callback =\n"
+"      [this](const std::vector<rclcpp::Parameter> & parameters) {\n"
+"        for (const rclcpp::Parameter & param : parameters) {\n"
+"          if (param.get_name() != \"service_configure_introspection\") {\n"
+"            continue;\n"
+"          }\n"
+"\n"
+"          rcl_service_introspection_state_t introspection_state = "
+"RCL_SERVICE_INTROSPECTION_OFF;\n"
+"\n"
+"          if (param.as_string() == \"disabled\") {\n"
+"            introspection_state = RCL_SERVICE_INTROSPECTION_OFF;\n"
+"          } else if (param.as_string() == \"metadata\") {\n"
+"            introspection_state = RCL_SERVICE_INTROSPECTION_METADATA;\n"
+"          } else if (param.as_string() == \"contents\") {\n"
+"            introspection_state = RCL_SERVICE_INTROSPECTION_CONTENTS;\n"
+"          }\n"
+"\n"
+"          this->srv_->configure_introspection(\n"
+"            this->get_clock(), rclcpp::SystemDefaultsQoS(), "
+"introspection_state);\n"
+"          break;\n"
+"        }\n"
+"      };\n"
+"\n"
+"    on_set_parameters_callback_handle_ = this-"
+">add_on_set_parameters_callback(\n"
+"      on_set_parameter_callback);\n"
+"    post_set_parameters_callback_handle_ = this-"
+">add_post_set_parameters_callback(\n"
+"      post_set_parameter_callback);\n"
+"\n"
+"    this->declare_parameter(\"service_configure_introspection\", "
+"\"disabled\");\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Service<example_interfaces::srv::AddTwoInts>::SharedPtr srv_;\n"
+"  rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr\n"
+"    on_set_parameters_callback_handle_;\n"
+"  rclcpp::node_interfaces::PostSetParametersCallbackHandle::SharedPtr\n"
+"    post_set_parameters_callback_handle_;\n"
+"};\n"
+"\n"
+"}  // namespace demo_nodes_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:156
+msgid ""
+"Service introspection is disabled by default, so users need to enable it "
+"before any introspection can be made. In this demo, the "
+"``IntrospectionServiceNode`` uses a parameter named "
+"``service_configure_introspection`` to configure the service introspection "
+"state."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:159
+msgid "First we need to start the ``IntrospectionServiceNode``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:161
+msgid "$ ros2 run demo_nodes_cpp introspection_service"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:165
+msgid ""
+"To change service introspection state, we need to set the "
+"``configure_introspection`` parameter as following."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:167
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:304
+msgid "To change it to user data contents with metadata:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:169
+msgid ""
+"$ ros2 param set /introspection_service service_configure_introspection "
+"contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:173
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:310
+msgid "To change it to only metadata:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:175
+msgid ""
+"$ ros2 param set /introspection_service service_configure_introspection "
+"metadata"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:179
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:316
+msgid "To disable:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:181
+msgid ""
+"$ ros2 param set /introspection_service service_configure_introspection "
+"disabled"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:185
+msgid "IntrospectionClientNode:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:187
+msgid ""
+"https://github.com/ros2/demos/blob/rolling/demo_nodes_cpp/src/services/"
+"introspection_client.cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:189
+msgid ""
+"namespace demo_nodes_cpp\n"
+"{\n"
+"class IntrospectionClientNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  DEMO_NODES_CPP_PUBLIC\n"
+"  explicit IntrospectionClientNode(const rclcpp::NodeOptions & options)\n"
+"  : Node(\"introspection_client\", options)\n"
+"  {\n"
+"    client_ = create_client<example_interfaces::srv::"
+"AddTwoInts>(\"add_two_ints\");\n"
+"\n"
+"    auto on_set_parameter_callback =\n"
+"      [](std::vector<rclcpp::Parameter> parameters) {\n"
+"        rcl_interfaces::msg::SetParametersResult result;\n"
+"        result.successful = true;\n"
+"        for (const rclcpp::Parameter & param : parameters) {\n"
+"          if (param.get_name() != \"client_configure_introspection\") {\n"
+"            continue;\n"
+"          }\n"
+"\n"
+"          if (param.get_type() != rclcpp::ParameterType::PARAMETER_STRING) "
+"{\n"
+"            result.successful = false;\n"
+"            result.reason = \"must be a string\";\n"
+"            break;\n"
+"          }\n"
+"\n"
+"          if (param.as_string() != \"disabled\" && param.as_string() != "
+"\"metadata\" &&\n"
+"            param.as_string() != \"contents\")\n"
+"          {\n"
+"            result.successful = false;\n"
+"            result.reason = \"must be one of 'disabled', 'metadata', or "
+"'contents'\";\n"
+"            break;\n"
+"          }\n"
+"        }\n"
+"\n"
+"        return result;\n"
+"      };\n"
+"\n"
+"    auto post_set_parameter_callback =\n"
+"      [this](const std::vector<rclcpp::Parameter> & parameters) {\n"
+"        for (const rclcpp::Parameter & param : parameters) {\n"
+"          if (param.get_name() != \"client_configure_introspection\") {\n"
+"            continue;\n"
+"          }\n"
+"\n"
+"          rcl_service_introspection_state_t introspection_state = "
+"RCL_SERVICE_INTROSPECTION_OFF;\n"
+"\n"
+"          if (param.as_string() == \"disabled\") {\n"
+"            introspection_state = RCL_SERVICE_INTROSPECTION_OFF;\n"
+"          } else if (param.as_string() == \"metadata\") {\n"
+"            introspection_state = RCL_SERVICE_INTROSPECTION_METADATA;\n"
+"          } else if (param.as_string() == \"contents\") {\n"
+"            introspection_state = RCL_SERVICE_INTROSPECTION_CONTENTS;\n"
+"          }\n"
+"\n"
+"          this->client_->configure_introspection(\n"
+"            this->get_clock(), rclcpp::SystemDefaultsQoS(), "
+"introspection_state);\n"
+"          break;\n"
+"        }\n"
+"      };\n"
+"\n"
+"    on_set_parameters_callback_handle_ = this-"
+">add_on_set_parameters_callback(\n"
+"      on_set_parameter_callback);\n"
+"    post_set_parameters_callback_handle_ = this-"
+">add_post_set_parameters_callback(\n"
+"      post_set_parameter_callback);\n"
+"\n"
+"    this->declare_parameter(\"client_configure_introspection\", "
+"\"disabled\");\n"
+"\n"
+"    timer_ = this->create_wall_timer(\n"
+"      std::chrono::milliseconds(500),\n"
+"      [this]() {\n"
+"        if (!client_->service_is_ready()) {\n"
+"          return;\n"
+"        }\n"
+"\n"
+"        if (!request_in_progress_) {\n"
+"          auto request = std::make_shared<example_interfaces::srv::"
+"AddTwoInts::Request>();\n"
+"          request->a = 2;\n"
+"          request->b = 3;\n"
+"          request_in_progress_ = true;\n"
+"          client_->async_send_request(\n"
+"            request,\n"
+"            [this](rclcpp::Client<example_interfaces::srv::AddTwoInts>::"
+"SharedFuture cb_f)\n"
+"            {\n"
+"              request_in_progress_ = false;\n"
+"              RCLCPP_INFO(get_logger(), \"Result of add_two_ints: %ld\", "
+"cb_f.get()->sum);\n"
+"            }\n"
+"          );\n"
+"          return;\n"
+"        }\n"
+"      });\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Client<example_interfaces::srv::AddTwoInts>::SharedPtr client_;\n"
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"  rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr\n"
+"    on_set_parameters_callback_handle_;\n"
+"  rclcpp::node_interfaces::PostSetParametersCallbackHandle::SharedPtr\n"
+"    post_set_parameters_callback_handle_;\n"
+"  bool request_in_progress_{false};\n"
+"};\n"
+"\n"
+"}  // namespace demo_nodes_cpp"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:296
+msgid ""
+"And then, we start and configure ``IntrospectionClientNode`` in the same "
+"way, which will periodically make service calls to the server."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:298
+msgid "$ ros2 run demo_nodes_cpp introspection_client"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:302
+msgid ""
+"Change service introspection state to set ``configure_introspection`` "
+"parameter as following."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:306
+msgid ""
+"$ ros2 param set /introspection_client client_configure_introspection "
+"contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:312
+msgid ""
+"$ ros2 param set /introspection_client client_configure_introspection "
+"metadata"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:318
+msgid ""
+"$ ros2 param set /introspection_client client_configure_introspection "
+"disabled"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:322
+msgid ""
+"Now that both the service server and client are configured, we can use "
+"``ros2 service echo`` to monitor the interactions happening between client "
+"and server."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:324
+msgid ""
+"In this tutorial the following is example output with service introspection "
+"state ``CONTENTS`` on ``IntrospectionServiceNode`` and ``METADATA`` on "
+"``IntrospectionClientNode``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:326
+msgid ""
+"$ ros2 service echo --flow-style /add_two_ints\n"
+"info:\n"
+"  event_type: REQUEST_SENT\n"
+"  stamp:\n"
+"    sec: 1709432402\n"
+"    nanosec: 680094264\n"
+"  client_gid: [1, 15, 0, 18, 86, 208, 115, 86, 0, 0, 0, 0, 0, 0, 21, 3]\n"
+"  sequence_number: 247\n"
+"request: []\n"
+"response: []\n"
+"---\n"
+"info:\n"
+"  event_type: REQUEST_RECEIVED\n"
+"  stamp:\n"
+"    sec: 1709432402\n"
+"    nanosec: 680459568\n"
+"  client_gid: [1, 15, 0, 18, 86, 208, 115, 86, 0, 0, 0, 0, 0, 0, 20, 4]\n"
+"  sequence_number: 247\n"
+"request: [{a: 2, b: 3}]\n"
+"response: []\n"
+"---\n"
+"info:\n"
+"  event_type: RESPONSE_SENT\n"
+"  stamp:\n"
+"    sec: 1709432402\n"
+"    nanosec: 680765280\n"
+"  client_gid: [1, 15, 0, 18, 86, 208, 115, 86, 0, 0, 0, 0, 0, 0, 20, 4]\n"
+"  sequence_number: 247\n"
+"request: []\n"
+"response: [{sum: 5}]\n"
+"---\n"
+"info:\n"
+"  event_type: RESPONSE_RECEIVED\n"
+"  stamp:\n"
+"    sec: 1709432402\n"
+"    nanosec: 681027998\n"
+"  client_gid: [1, 15, 0, 18, 86, 208, 115, 86, 0, 0, 0, 0, 0, 0, 21, 3]\n"
+"  sequence_number: 247\n"
+"request: []\n"
+"response: []\n"
+"---\n"
+"..."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:371
+msgid ""
+"You can see the ``event_type: REQUEST_SENT`` and ``event_type: "
+"RESPONSE_RECEIVED``, those introspection service event take place in "
+"``IntrospectionClientNode``. And those events do not include any contents in "
+"the ``request`` and ``response`` fields, since the service introspection "
+"state of ``IntrospectionClientNode`` is set to ``METADATA``. On the other "
+"hand, the ``event_type: REQUEST_RECEIVED`` and ``event_type: RESPONSE_SENT`` "
+"events from ``IntrospectionServiceNode`` include ``request: [{a: 2, b: 3}]`` "
+"and ``response: [{sum: 5}]``, as introspection state is set to ``CONTENTS``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:376
+msgid "Related content"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:378
+msgid ""
+"`service introspection client example (rclcpp) <https://github.com/ros2/"
+"demos/blob/rolling/demo_nodes_cpp/src/services/introspection_client.cpp>`__ "
+"and `service introspection service example (rclcpp) <https://github.com/ros2/"
+"demos/blob/rolling/demo_nodes_cpp/src/services/introspection_service.cpp>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:379
+msgid ""
+"`service introspection client and service example (rclpy) <https://github."
+"com/ros2/demos/blob/rolling/demo_nodes_py/demo_nodes_py/services/"
+"introspection.py>`__."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/Service-Introspection.rst:380
+msgid ""
+"`Service Introspection REP-2012 <https://github.com/ros-infrastructure/rep/"
+"pull/360>`__."
+msgstr ""
