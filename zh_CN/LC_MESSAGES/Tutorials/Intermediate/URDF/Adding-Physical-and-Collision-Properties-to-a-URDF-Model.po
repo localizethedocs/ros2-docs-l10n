@@ -1,0 +1,334 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation jazzy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 08:38+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:8
+msgid "Adding physical and collision properties"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:10
+msgid ""
+"**Goal:** Learn how to add collision and inertial properties to links, and "
+"how to add joint dynamics to joints."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:12
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:14
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:18
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:20
+msgid ""
+"In this tutorial, we'll look at how to add some basic physical properties to "
+"your URDF model and how to specify its collision properties."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:23
+msgid "Collision"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:25
+msgid ""
+"So far, we've only specified our links with a single sub-element, "
+"``visual``, which defines (not surprisingly) what the robot looks like. "
+"However, in order to get collision detection to work or to simulate the "
+"robot, we need to define a ``collision`` element as well. `Here is the new "
+"urdf <https://raw.githubusercontent.com/ros/urdf_tutorial/master/urdf/07-"
+"physics.urdf>`_ with collision and physical properties."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:29
+msgid "Here is the code for our new base link."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:31
+msgid ""
+"<link name=\"base_link\">\n"
+"    <visual>\n"
+"      <geometry>\n"
+"        <cylinder length=\"0.6\" radius=\"0.2\"/>\n"
+"      </geometry>\n"
+"      <material name=\"blue\">\n"
+"        <color rgba=\"0 0 .8 1\"/>\n"
+"      </material>\n"
+"    </visual>\n"
+"    <collision>\n"
+"      <geometry>\n"
+"        <cylinder length=\"0.6\" radius=\"0.2\"/>\n"
+"      </geometry>\n"
+"    </collision>\n"
+"  </link>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:49
+msgid ""
+"The collision element is a direct subelement of the link object, at the same "
+"level as the visual tag."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:50
+msgid ""
+"The collision element defines its shape the same way the visual element "
+"does, with a geometry tag. The format for the geometry tag is exactly the "
+"same here as with the visual."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:52
+msgid ""
+"You can also specify an origin in the same way as a subelement of the "
+"collision tag (as with the visual)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:54
+msgid ""
+"In many cases, you'll want the collision geometry and origin to be exactly "
+"the same as the visual geometry and origin. However, there are two main "
+"cases where you wouldn't:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:57
+msgid ""
+"**Quicker Processing** Doing collision detection for two meshes is a lot "
+"more computational complex than for two simple geometries. Hence, you may "
+"want to replace the meshes with simpler geometries in the collision element."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:59
+msgid ""
+"**Safe Zones** You may want to restrict movement close to sensitive "
+"equipment. For instance, if we didn't want anything to collide with R2D2's "
+"head, we might define the collision geometry to be a cylinder encasing his "
+"head to prevent anything from getting too close to his head."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:63
+msgid "Physical Properties"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:64
+msgid ""
+"In order to get your model to simulate properly, you need to define several "
+"physical properties of your robot, i.e. the properties that a physics engine "
+"like Gazebo would need."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:67
+msgid "Inertia"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:68
+msgid ""
+"Every link element being simulated needs an inertial tag. Here is a simple "
+"one."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:71
+msgid ""
+"<link name=\"base_link\">\n"
+"  <visual>\n"
+"    <geometry>\n"
+"      <cylinder length=\"0.6\" radius=\"0.2\"/>\n"
+"    </geometry>\n"
+"    <material name=\"blue\">\n"
+"      <color rgba=\"0 0 .8 1\"/>\n"
+"    </material>\n"
+"  </visual>\n"
+"  <collision>\n"
+"    <geometry>\n"
+"      <cylinder length=\"0.6\" radius=\"0.2\"/>\n"
+"    </geometry>\n"
+"  </collision>\n"
+"  <inertial>\n"
+"    <mass value=\"10\"/>\n"
+"    <inertia ixx=\"1e-3\" ixy=\"0.0\" ixz=\"0.0\" iyy=\"1e-3\" iyz=\"0.0\" "
+"izz=\"1e-3\"/>\n"
+"  </inertial>\n"
+"</link>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:93
+msgid "This element is also a subelement of the link object."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:94
+msgid "The mass is defined in kilograms."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:95
+msgid ""
+"The 3x3 rotational inertia matrix is specified with the inertia element. "
+"Since this is symmetrical, it can be represented by only 6 elements, as such."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:99
+msgid "**ixx**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:99
+msgid "**ixy**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:99
+msgid "**ixz**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:101
+msgid "ixy"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:101
+msgid "**iyy**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:101
+msgid "**iyz**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:103
+msgid "ixz"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:103
+msgid "iyz"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:103
+msgid "**izz**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:106
+msgid ""
+"This information can be provided to you by modeling programs such as "
+"MeshLab. The inertia of geometric primitives (cylinder, box, sphere) can be "
+"computed using Wikipedia's `list of moment of inertia tensors <https://en."
+"wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors>`_ "
+"(and is used in the above example)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:108
+msgid ""
+"The inertia tensor depends on both the mass and the distribution of mass of "
+"the object. A good first approximation is to assume equal distribution of "
+"mass in the volume of the object and compute the inertia tensor based on the "
+"object's shape, as outlined above."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:110
+msgid ""
+"If unsure what to put, a matrix with ixx/iyy/izz=1e-3 or smaller is often a "
+"reasonable default for a mid-sized link (it corresponds to a box of 0.1 m "
+"side length with a mass of 0.6 kg). The identity matrix is a particularly "
+"bad choice, since it is often much too high. (it corresponds to a box of 0.1 "
+"m side length with a mass of 600 kg!)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:113
+msgid ""
+"You can also specify an origin tag to specify the center of gravity and the "
+"inertial reference frame (relative to the link's reference frame)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:114
+msgid ""
+"When using realtime controllers, inertia elements of zero (or almost zero) "
+"can cause the robot model to collapse without warning, and all links will "
+"appear with their origins coinciding with the world origin."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:117
+msgid "Contact Coefficients"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:118
+msgid ""
+"You can also define how the links behave when they are in contact with one "
+"another. This is done with a subelement of the collision tag called "
+"contact_coefficients. There are three attributes to specify:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:122
+msgid ""
+"mu - `Friction coefficient <https://simple.wikipedia.org/wiki/"
+"Coefficient_of_friction>`_"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:123
+msgid "kp - `Stiffness coefficient <https://en.wikipedia.org/wiki/Stiffness>`_"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:124
+msgid ""
+"kd - `Dampening coefficient <https://en.wikipedia.org/wiki/"
+"Damping_ratio#Damping_ratio_definition>`_"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:127
+msgid "Joint Dynamics"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:128
+msgid ""
+"How the joint moves is defined by the dynamics tag for the joint. There are "
+"two attributes here:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:131
+msgid ""
+"``friction`` - The physical static friction. For prismatic joints, the units "
+"are Newtons. For revolving joints, the units are Newton meters."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:134
+msgid ""
+"``damping`` - The physical damping value. For prismatic joints, the units "
+"are Newton seconds per meter. For revolving joints, Newton meter seconds per "
+"radian."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:138
+msgid "If not specified, these coefficients default to zero."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:141
+msgid "Other Tags"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:142
+msgid ""
+"In the realm of pure URDF (i.e. excluding Gazebo-specific tags), there are "
+"two remaining tags to help define the joints: calibration and safety "
+"controller. Check out the `spec <https://wiki.ros.org/urdf/XML/joint>`_, as "
+"they are not included in this tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:146
+msgid "Next Steps"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.rst:147
+msgid ""
+"Reduce the amount of code and annoying math you have to do by :doc:`using "
+"xacro <./Using-Xacro-to-Clean-Up-a-URDF-File>`."
+msgstr ""
