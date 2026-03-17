@@ -1,0 +1,497 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation dashing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:6
+msgid "Installation troubleshooting"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:8
+msgid ""
+"Troubleshooting techniques for installation are sorted by the platforms they "
+"apply to."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:12
+msgid "Platforms"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:15
+msgid "General"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:17
+msgid "General troubleshooting techniques apply to all platforms."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:20
+msgid "Enable multicast"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:22
+msgid ""
+"In order to communicate successfully via DDS, the used network interface has "
+"to be multicast enabled. We've seen in past experiences that this might not "
+"necessarily be enabled by default (on Ubuntu or OSX) when using the loopback "
+"adapter. See the `original issue <https://github.com/ros2/ros2/"
+"issues/552>`__ or a `conversation on ros-answers <https://answers.ros.org/"
+"question/300370/ros2-talker-cannot-communicate-with-listener/>`__. You can "
+"verify that your current setup allows multicast with the ROS 2 tool:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:27
+msgid "In Terminal 1:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:29
+msgid "ros2 multicast receive"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:33
+msgid "In Terminal 2:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:35
+msgid "ros2 multicast send"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:39
+msgid "If the first command did not return a response similar to:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:41
+msgid "Received from xx.xxx.xxx.xx:43751: 'Hello World!'"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:45
+msgid ""
+"then you will need to update your firewall configuration to allow multicast "
+"using `ufw <https://help.ubuntu.com/community/UFW>`__."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:47
+msgid ""
+"sudo ufw allow in proto udp to 224.0.0.0/4\n"
+"sudo ufw allow in proto udp from 224.0.0.0/4"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:53
+msgid ""
+"You can check if the multicast flag is enabled for your network interface "
+"using the :code:`ifconfig` tool and looking for :code:`MULITCAST` in the "
+"flags section:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:55
+msgid ""
+"eno1: flags=4163<...,MULTICAST>\n"
+"   ..."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:61
+msgid "Import failing without library present on the system"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:63
+msgid ""
+"Sometimes ``rclpy`` fails to be imported because the expected C extension "
+"libraries are not found. If so, compare the libraries present in the "
+"directory with the one mentioned in the error message. Assuming a file with "
+"a similar name exists (same prefix like ``_rclpy.`` and same suffix like ``."
+"so`` but a different Python version / architecture) you are using a "
+"different Python interpreter than which was used to build the C extension. "
+"Be sure to use the same Python interpreter as the one used to build the "
+"binary."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:68
+msgid ""
+"For example, such a mismatch can crop up after an update of the OS. Then, "
+"rebuilding the workspace may fix the issue."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:73
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:76
+msgid "Internal compiler error"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:78
+msgid ""
+"If you experience an ICE when trying to compile on a memory constrained "
+"platform like a Raspberry PI you might want to build single threaded (prefix "
+"the build invocation with ``MAKEFLAGS=-j1``)."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:81
+msgid "Out of memory"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:83
+msgid ""
+"The ``ros1_bridge`` in its current form requires 4Gb of free RAM to compile. "
+"If you don't have that amount of RAM available it's suggested to use "
+"``COLCON_IGNORE`` in that folder and skip its compilation."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:87
+msgid "Multiple host interference"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:89
+msgid ""
+"If you're running multiple instances on the same network you may get "
+"interference. To avoid this you can set the environment variable "
+"``ROS_DOMAIN_ID`` to a different integer, the default is zero. This will "
+"define the DDS domain id for your system. Note that if you are using the "
+"OpenSplice DDS implementation you will also need to update the OpenSplice "
+"configuration file accordingly. The location of the configuration file is "
+"referenced in the ``OSPL_URI`` environment variable."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:99
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:102
+msgid "Segmentation fault when using ``pyenv``"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:104
+msgid ""
+"``pyenv`` seems to default to building Python with ``.a`` files, but that "
+"causes issues with ``rclpy``, so it's recommended to build Python with "
+"Frameworks enabled on macOS when using ``pyenv``:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:106
+msgid ""
+"https://github.com/pyenv/pyenv/wiki#how-to-build-cpython-with-framework-"
+"support-on-os-x"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:109
+msgid "Library not loaded; image not found"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:111
+msgid ""
+"If you are seeing library loading issues at runtime (either running tests or "
+"running nodes), such as the following:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:113
+msgid ""
+"ImportError: dlopen(.../ros2_<distro>/ros2-osx/lib/python3.7/site-packages/"
+"rclpy/_rclpy.cpython-37m-darwin.so, 2): Library not loaded: @rpath/"
+"librcl_interfaces__rosidl_typesupport_c.dylib\n"
+"  Referenced from: .../ros2_<distro>/ros2-osx/lib/python3.7/site-packages/"
+"rclpy/_rclpy.cpython-37m-darwin.so\n"
+"  Reason: image not found"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:119
+msgid ""
+"Then you probably have System Integrity Protection enabled. Follow `these "
+"instructions <https://developer.apple.com/library/content/documentation/"
+"Security/Conceptual/System_Integrity_Protection_Guide/"
+"ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection."
+"html>`__ to disable System Integrity Protection (SIP)."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:123
+msgid "Qt build error: ``unknown type name 'Q_ENUM'``"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:125
+msgid "If you see build errors related to Qt, e.g.:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:127
+msgid ""
+"In file included from /usr/local/opt/qt/lib/QtGui.framework/Headers/"
+"qguiapplication.h:46:\n"
+"/usr/local/opt/qt/lib/QtGui.framework/Headers/qinputmethod.h:87:5: error:\n"
+"      unknown type name 'Q_ENUM'\n"
+"    Q_ENUM(Action)\n"
+"    ^"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:135
+msgid ""
+"you may be using qt4 instead of qt5: see https://github.com/ros2/ros2/"
+"issues/441"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:139
+msgid ""
+"Missing symbol when opencv (and therefore libjpeg, libtiff, and libpng) are "
+"installed with Homebrew"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:141
+msgid "If you have opencv installed you might get this:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:143
+msgid ""
+"dyld: Symbol not found: __cg_jpeg_resync_to_restart\n"
+"  Referenced from: /System/Library/Frameworks/ImageIO.framework/Versions/A/"
+"ImageIO\n"
+"  Expected in: /usr/local/lib/libJPEG.dylib\n"
+" in /System/Library/Frameworks/ImageIO.framework/Versions/A/ImageIO\n"
+"/bin/sh: line 1: 25274 Trace/BPT trap: 5       /usr/local/bin/cmake"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:151
+msgid "If so, to build you'll have to do this:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:153
+msgid "$ brew unlink libpng libtiff libjpeg"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:157
+msgid ""
+"But this will break opencv, so you'll also need to update it to continue "
+"working:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:159
+msgid ""
+"$ sudo install_name_tool -change /usr/local/lib/libjpeg.8.dylib /usr/local/"
+"opt/jpeg/lib/libjpeg.8.dylib /usr/local/lib/libopencv_highgui.2.4.dylib\n"
+"$ sudo install_name_tool -change /usr/local/lib/libpng16.16.dylib /usr/local/"
+"opt/libpng/lib/libpng16.16.dylib /usr/local/lib/libopencv_highgui.2.4.dylib\n"
+"$ sudo install_name_tool -change /usr/local/lib/libtiff.5.dylib /usr/local/"
+"opt/libtiff/lib/libtiff.5.dylib /usr/local/lib/libopencv_highgui.2.4.dylib\n"
+"$ sudo install_name_tool -change /usr/local/lib/libjpeg.8.dylib /usr/local/"
+"opt/jpeg/lib/libjpeg.8.dylib /usr/local/Cellar/libtiff/4.0.4/lib/libtiff.5."
+"dylib"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:166
+msgid ""
+"The first command is necessary to avoid things built against the system "
+"libjpeg (etc.) from getting the version in /usr/local/lib. The others are "
+"updating things built by Homebrew so that they can find the version of "
+"libjpeg (etc.) without having them in /usr/local/lib."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:170
+msgid ""
+"rosdep install error ``homebrew: Failed to detect successful installation of "
+"[qt5]``"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:171
+msgid ""
+"While following the `Creating a workspace <../Tutorials/Workspace/Creating-A-"
+"Workspace>` tutorial, you might encounter the following error stating that "
+"``rosdep`` failes to install Qt5."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:173
+msgid ""
+"$ rosdep install -i --from-path src --rosdistro dashing -y\n"
+"executing command [brew install qt5]\n"
+"Warning: qt 5.15.0 is already installed and up-to-date\n"
+"To reinstall 5.15.0, run `brew reinstall qt`\n"
+"ERROR: the following rosdeps failed to install\n"
+"  homebrew: Failed to detect successful installation of [qt5]"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:182
+msgid ""
+"This error seems to stem from a `linking issue <https://github.com/ros-"
+"infrastructure/rosdep/issues/490#issuecomment-334959426>`__ and can be "
+"resolved by running the following command."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:184
+msgid ""
+"$ cd /usr/local/Cellar\n"
+"$ sudo ln -s qt qt5"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:189
+msgid "Running the ``rosdep`` command should now execute normally:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:191
+msgid ""
+"$ rosdep install -i --from-path src --rosdistro dashing -y\n"
+"#All required rosdeps installed successfully"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:200
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:203
+msgid "Import failing even with library present on the system"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:205
+msgid ""
+"Sometimes ``rclpy`` fails to be imported because of some missing DLLs on "
+"your system. If so, make sure to install all the dependencies listed in the "
+"\"Installing prerequisites\" sections of the `installation instructions "
+"<windows-install-binary-installing-prerequisites>`)."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:208
+msgid ""
+"If you are installing from binaries, you may need to update your "
+"dependencies: they must be the same version as those used to build the "
+"binaries."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:210
+msgid ""
+"If you are still having issues, you can use the `Dependencies <https://"
+"github.com/lucasg/Dependencies>`_ tool to determine which dependencies are "
+"missing on your system. Use the tool to load the corresponding ``.pyd`` "
+"file, and it should report unavailable ``DLL`` modules. Be sure that the "
+"current workspace is sourced before you execute the tool, otherwise there "
+"will be unresolved ROS DLL files. Use this information to install additional "
+"dependencies or adjust your path as necessary."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:216
+msgid "CMake error setting modification time"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:218
+msgid ""
+"If you run into the CMake error ``file INSTALL cannot set modification time "
+"on ...`` when installing files it is likely that an anti virus software or "
+"Windows Defender are interfering with the build. E.g. for Windows Defender "
+"you can list the workspace location to be excluded to prevent it from "
+"scanning those files."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:221
+msgid "260 character path limit"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:223
+msgid ""
+"The input line is too long.\n"
+"The syntax of the command is incorrect."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:228
+msgid ""
+"Depending on your directory hierarchy, you may see path length limit errors "
+"when building ROS 2 from source or your own libraries."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:230
+msgid "To allow deeper path lengths:"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:232
+msgid ""
+"Run ``regedit.exe``, navigate to "
+"``Computer\\HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\FileSystem``, "
+"and set ``LongPathsEnabled`` to 0x00000001 (1)."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:234
+msgid ""
+"Hit the windows key and type ``Edit Group Policy``. Navigate to Local "
+"Computer Policy > Computer Configuration > Administrative Templates > System "
+"> Filesystem. Right click ``Enable Win32 long paths``, click Edit. In the "
+"dialog, select Enabled and click OK."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:239
+msgid ""
+"Close and open your terminal to reset the environment and try building again."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:242
+msgid ""
+"CMake packages unable to find asio, tinyxml2, tinyxml, eigen, or log4cxx"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:244
+msgid ""
+"We've seen that sometimes the chocolatey packages for ``asio``, "
+"``tinyxml2``, etc. do not add important registry entries and CMake will be "
+"unable to find them when building ROS 2. We've not yet been able to identify "
+"the root cause, but uninstalling the chocolatey packages (with ``-n`` if the "
+"uninstall fails the first time), and then reinstalling them will fix the "
+"issue."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:248
+msgid "patch.exe opens a new command window and asks for administrator"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:250
+msgid ""
+"This will also cause the build of packages which need to use patch to fail, "
+"even you allow it to use administrator rights."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:252
+msgid ""
+"Make sure you're building in a Visual Studio command prompt which has been "
+"run as administrator."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:253
+msgid ""
+"On some machines canceling the prompt without selecting \"Yes\" will also "
+"work."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:256
+msgid "Failed to load Fast RTPS shared library"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:260
+msgid ""
+"Fast RTPS requires ``msvcr20.dll``, which is part of the ``Visual C++ "
+"Redistributable Packages for Visual Studio 2013``. Although it is usually "
+"installed by default in Windows 10, we know that some Windows 10-like "
+"versions don't have it installed by default (e.g.: Windows Server 2019). In "
+"case you don't have it installed, you can download it from `here <https://"
+"www.microsoft.com/en-us/download/details.aspx?id=40784>`_."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:265
+msgid "Binary installation specific"
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:267
+msgid ""
+"If your example does not start because of missing DLLs, please verify that "
+"all libraries from external dependencies such as OpenCV are located inside "
+"your ``PATH`` variable."
+msgstr ""
+
+#: ../../../source/Guides/Installation-Troubleshooting.rst:268
+msgid ""
+"If you forget to call the ``local_setup.bat`` file from your terminal, the "
+"demo programs will most likely crash immediately."
+msgstr ""
