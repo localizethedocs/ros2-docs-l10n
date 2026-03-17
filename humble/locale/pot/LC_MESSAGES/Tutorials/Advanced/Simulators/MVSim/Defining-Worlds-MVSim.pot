@@ -1,0 +1,583 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-17 08:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:2
+msgid "Defining worlds, robots, and sensors"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:4
+msgid ""
+"**Goal:** Learn the basics of defining MVSim world files, adding vehicles "
+"and sensors, and the main features available."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:6
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:8
+msgid "**Time:** 30 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:12
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:15
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:17
+msgid ""
+"MVSim worlds are defined in XML files (``.world.xml``). A world file "
+"describes the environment (ground, walls, obstacles), the vehicles (dynamics "
+"model, shape, sensors), and simulation parameters (physics timestep, GUI "
+"options)."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:21
+msgid ""
+"MVSim provides a library of predefined vehicle and sensor definitions that "
+"you can reuse in your worlds via XML includes. You can also define "
+"everything from scratch for full control."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:25
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:27
+msgid ""
+"You should have completed the :doc:`Getting-Started-MVSim` tutorial and have "
+"MVSim installed."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:30
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:33
+msgid "1 Minimal world file"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:35
+msgid ""
+"Here is a minimal world file that creates an empty environment with one "
+"robot:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:37
+msgid ""
+"<mvsim_world version=\"1.0\">\n"
+"  <!-- Simulation settings -->\n"
+"  <simul_timestep>5e-3</simul_timestep>\n"
+"\n"
+"  <!-- GUI options -->\n"
+"  <gui>\n"
+"      <cam_distance>15</cam_distance>\n"
+"  </gui>\n"
+"\n"
+"  <!-- Ground plane -->\n"
+"  <element class=\"ground_grid\">\n"
+"  </element>\n"
+"\n"
+"  <!-- A differential-drive robot -->\n"
+"  <vehicle name=\"robot1\">\n"
+"    <init_pose>0 0 0</init_pose>  <!-- x y yaw(deg) -->\n"
+"\n"
+"    <!--  Dynamical model -->\n"
+"    <dynamics class=\"differential\">\n"
+"        <!-- Params -->\n"
+"        <l_wheel pos=\"0.0  0.5\" mass=\"4.0\" width=\"0.20\" "
+"diameter=\"0.40\" />\n"
+"        <r_wheel pos=\"0.0 -0.5\" mass=\"4.0\" width=\"0.20\" "
+"diameter=\"0.40\" />\n"
+"\n"
+"        <!-- Visual and physical shape -->\n"
+"        <chassis mass=\"15.0\" zmin=\"0.05\" zmax=\"0.6\">\n"
+"        </chassis>\n"
+"\n"
+"        <!--   Motor controller -->\n"
+"        <controller class=\"twist_pid\">\n"
+"            <!-- Params -->\n"
+"            <KP>4.1543</KP>\n"
+"            <KI>1.9118</KI>\n"
+"            <KD>0.0000</KD>\n"
+"            <max_torque>14.44</max_torque>\n"
+"            <V>0.0</V><W>0</W>\n"
+"        </controller>\n"
+"    </dynamics>\n"
+"\n"
+"    <!-- Motor controller: accept twist commands, PID controller -->\n"
+"    <controller class=\"twist_pid\">\n"
+"      <KP>100</KP> <KI>5</KI> <max_torque>50</max_torque>\n"
+"    </controller>\n"
+"  </vehicle>\n"
+"</mvsim_world>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:84
+msgid "Save this as ``my_world.world.xml`` and launch it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:86
+msgid "$ mvsim launch my_world.world.xml"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:91
+msgid "2 Using predefined vehicles and sensors"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:93
+msgid ""
+"Instead of defining vehicles from scratch, you can use the predefined "
+"definitions that ship with MVSim. These are XML files in the ``definitions/"
+"`` directory of the MVSim package."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:96
+msgid "**Available vehicles:**"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:98
+msgid ""
+"``turtlebot3_burger.vehicle.xml`` -- TurtleBot3 Burger (differential drive)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:99
+msgid "``jackal.vehicle.xml`` -- Clearpath Jackal UGV (4-wheel differential)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:100
+msgid "``ackermann.vehicle.xml`` -- Generic Ackermann (car-like) vehicle"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:101
+msgid "``pickup.vehicle.xml`` -- Pickup truck (Ackermann)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:102
+msgid ""
+"``agricobiot2.vehicle.xml`` -- Agricultural robot (Ackermann drivetrain)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:104
+msgid "**Available sensors:**"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:106
+msgid "``lidar2d.sensor.xml`` -- Generic 2D laser scanner"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:107
+msgid "``rplidar-a2.sensor.xml`` -- RPLidar A2"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:108
+msgid "``velodyne-vlp16.sensor.xml`` -- Velodyne VLP-16 3D LiDAR"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:109
+msgid "``ouster-os1.sensor.xml`` -- Ouster OS1 3D LiDAR"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:110
+msgid "``helios-32-FOV-70.sensor.xml`` -- Helios 32-beam 3D LiDAR"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:111
+msgid "``camera.sensor.xml`` -- RGB camera"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:112
+msgid "``rgbd_camera.sensor.xml`` -- Depth camera (RGBD)"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:113
+msgid "``imu.sensor.xml`` -- Inertial measurement unit"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:114
+msgid "``gnss.sensor.xml`` -- GPS/GNSS receiver"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:116
+msgid "To use a predefined vehicle with sensors attached, use XML includes:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:118
+msgid ""
+"<mvsim_world version=\"1.0\">\n"
+"  <simul_timestep>5e-3</simul_timestep>\n"
+"\n"
+"  <gui>\n"
+"      <cam_distance>15</cam_distance>\n"
+"  </gui>\n"
+"\n"
+"  <element class=\"ground_grid\">\n"
+"  </element>\n"
+"\n"
+"  <!-- Include the Jackal vehicle definition -->\n"
+"  <include file=\"$(ros2 pkg prefix mvsim)/share/mvsim/definitions/jackal."
+"vehicle.xml\"\n"
+"    default_sensors=\"true\"\n"
+"    />\n"
+"\n"
+"  <vehicle name=\"r1\" class=\"jackal\">\n"
+"    <init_pose>0 0 170</init_pose>  <!-- In global coords: x,y, yaw(deg) --"
+">\n"
+"    <init_vel>0 0 0</init_vel>  <!-- In local coords: vx,vy, omega(deg/s) --"
+">\n"
+"\n"
+"    <!-- You can also attach sensors to vehicles in separate includes,\n"
+"        or define them inline within the vehicle block. -->\n"
+"    <!-- <include file=\"$(ros2 pkg prefix mvsim)/share/mvsim/definitions/"
+"lidar2d.sensor.xml\" sensor_x=\"1.7\" sensor_z=\"1.01\" sensor_yaw=\"0\" "
+"max_range=\"70.0\" sensor_name=\"laser1\" />  -->\n"
+"  </vehicle>\n"
+"\n"
+"  <variable name=\"WALL_THICKNESS\" value=\"0.2\"></variable>\n"
+"\n"
+"  <!-- Wall with a single door -->\n"
+"  <element class=\"vertical_plane\">\n"
+"    <x0>-10</x0> <y0>-10</y0>\n"
+"    <x1>-10</x1> <y1>10</y1>\n"
+"    <z>0.0</z> <height>3.0</height>\n"
+"    <cull_face>NONE</cull_face>\n"
+"    <texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/wall-"
+"bricks-01.png</texture>\n"
+"    <texture_size_x>2.5</texture_size_x>\n"
+"    <texture_size_y>2.5</texture_size_y>\n"
+"    <thickness>${WALL_THICKNESS}</thickness>  <!-- Wall thickness in meters "
+"-->\n"
+"\n"
+"    <!-- Door at 50% position (middle of wall), 1.2m wide, standard height --"
+">\n"
+"    <door>\n"
+"      <position>0.5</position>  <!-- 0.0 = start point, 1.0 = end point -->\n"
+"      <width>1.2</width>        <!-- meters -->\n"
+"      <z_min>0.0</z_min>        <!-- bottom of door -->\n"
+"      <z_max>2.1</z_max>        <!-- top of door -->\n"
+"      <name>main_entrance</name>\n"
+"    </door>\n"
+"  </element>\n"
+"\n"
+"\n"
+"</mvsim_world>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:171
+msgid "3 World environment elements"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:173
+msgid "MVSim supports several types of environment elements:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:175
+msgid ""
+"**Occupancy grid maps** load a grayscale image as a 2D obstacle map, "
+"commonly used for indoor navigation testing:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:177
+msgid ""
+"<element class=\"occupancy_grid\">\n"
+"  <file>map.png</file>\n"
+"  <resolution>0.05</resolution>  <!-- meters/pixel -->\n"
+"</element>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:184
+msgid ""
+"**Elevation maps** define terrain height from a grayscale heightmap image, "
+"useful for outdoor scenarios:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:186
+msgid ""
+"<element class=\"elevation_map\">\n"
+"  <resolution>1.0</resolution>\n"
+"  <elevation_image>terrain.png</elevation_image>\n"
+"  <elevation_image_min_z>0.0</elevation_image_min_z>\n"
+"  <elevation_image_max_z>5.0</elevation_image_max_z>\n"
+"</element>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:195
+msgid "**Textured planes** add visual ground surfaces:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:197
+msgid ""
+"<element class=\"horizontal_plane\">\n"
+"  <cull_face>BACK</cull_face>\n"
+"  <x_min>-25</x_min> <x_max>25</x_max>\n"
+"  <y_min>-25</y_min> <y_max>25</y_max>\n"
+"  <z>0.0</z>\n"
+"  <texture>asphalt.png</texture>\n"
+"  <texture_size_x>5.0</texture_size_x>\n"
+"  <texture_size_y>5.0</texture_size_y>\n"
+"</element>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:209
+msgid ""
+"**Blocks** are static or dynamic rigid bodies (boxes, custom shapes) that "
+"serve as obstacles or manipulable objects:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:211
+msgid ""
+"<block class=\"obstacle1\">\n"
+"  <shape_from_visual/>\n"
+"  <visual>\n"
+"    <model_uri>package://mvsim/models/box.dae</model_uri>\n"
+"  </visual>\n"
+"  <init_pose>3.0 2.0 0</init_pose>\n"
+"  <mass>20</mass>\n"
+"</block>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:223
+msgid "4 Vehicle dynamics models"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:225
+msgid "MVSim provides three main dynamics models:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:227
+msgid ""
+"**Differential drive** (``class=\"differential\"``): Two-wheeled robots like "
+"TurtleBot3. Controlled via linear and angular velocity."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:230
+msgid ""
+"**Ackermann** (``class=\"ackermann\"``): Car-like vehicles with front-wheel "
+"steering. Controlled via linear velocity and steering angle."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:233
+msgid ""
+"**Ackermann drivetrain** (``class=\"ackermann_drivetrain\"``): Realistic "
+"drivetrain model with open or Torsen differentials, useful for more accurate "
+"vehicle behavior simulation."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:236
+msgid "Each vehicle can use different motor controllers:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:238
+msgid ""
+"``twist_pid``: Accepts ``geometry_msgs/msg/Twist`` commands with PID "
+"velocity tracking. This is the most common choice for ROS 2 integration."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:240
+msgid "``twist_ideal``: Instantaneous velocity commands (no dynamics delay)."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:241
+msgid ""
+"``twist_front_steer_pid``: For Ackermann vehicles controlled via linear "
+"velocity and steering angle."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:242
+msgid "``raw``: Direct wheel torque control."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:245
+msgid "5 Sensor noise and configuration"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:247
+msgid ""
+"Sensors in MVSim support configurable noise models. For example, an IMU "
+"sensor with noise parameters:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:250
+msgid ""
+"<sensor class=\"imu\" name=\"imu1\">\n"
+"  <pose>0 0 0.5 0 0 0</pose>  <!-- x y z roll pitch yaw -->\n"
+"  <rate_hz>100</rate_hz>\n"
+"\n"
+"  <!-- Gyroscope noise -->\n"
+"  <gyroscope_noise>\n"
+"    <noise_std>1e-3</noise_std>           <!-- rad/s -->\n"
+"    <bias_initial_std>1e-4</bias_initial_std>\n"
+"    <bias_drift>1e-6</bias_drift>\n"
+"  </gyroscope_noise>\n"
+"\n"
+"  <!-- Accelerometer noise -->\n"
+"  <accelerometer_noise>\n"
+"    <noise_std>1e-2</noise_std>           <!-- m/s^2 -->\n"
+"    <bias_initial_std>1e-3</bias_initial_std>\n"
+"    <bias_drift>1e-5</bias_drift>\n"
+"  </accelerometer_noise>\n"
+"</sensor>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:271
+msgid ""
+"LiDAR sensors support parameters for range, angular resolution, and noise:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:273
+msgid ""
+"<sensor class=\"laser\" name=\"laser1\">\n"
+"  <pose>0.15 0 0.3 0 0 0</pose>\n"
+"  <rate_hz>10</rate_hz>\n"
+"  <ray_count>360</ray_count>\n"
+"  <fov_degrees>360</fov_degrees>\n"
+"  <range_max>20.0</range_max>\n"
+"  <range_std_noise>0.01</range_std_noise>  <!-- meters -->\n"
+"  <raytrace_3d>true</raytrace_3d>  <!-- use 3D collision for 2D scans -->\n"
+"</sensor>"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:286
+msgid "6 Additional features"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:288
+msgid ""
+"**Multi-robot simulation:** MVSim natively supports multiple vehicles in the "
+"same world. Each vehicle gets its own ROS 2 namespace, TF tree, and set of "
+"topics. Robots can detect each other with their sensors and physically "
+"interact through collisions."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:293
+msgid ""
+"**Property regions:** You can define regions in the world with different "
+"physical properties, such as varying friction coefficients or GPS-denied "
+"zones where GNSS sensors stop reporting positions."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:297
+msgid ""
+"**Animated actors:** MVSim supports skeletal-animated 3D characters (e.g., "
+"pedestrians) that follow waypoint paths, useful for testing perception and "
+"planning in dynamic environments."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:301
+msgid ""
+"**Joints and articulated vehicles:** Vehicles can be connected using "
+"distance joints (ropes/cables) or revolute joints (hinges), enabling "
+"simulation of trailers, tow ropes, and articulated systems."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:305
+msgid ""
+"**XML advanced features:** World files support ``<include>`` directives, "
+"variable substitution, mathematical expressions, ``<for>`` loops, and "
+"``<if>`` conditionals, making it possible to procedurally generate complex "
+"environments."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:309
+msgid ""
+"**Headless and faster-than-real-time:** MVSim can run without a GUI and at "
+"configurable simulation speed, which is useful for automated testing and "
+"reinforcement learning workflows."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:314
+msgid "Comparison with other simulators"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:316
+msgid "MVSim occupies a different niche compared to other simulators:"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:318
+msgid "**Strengths:**"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:320
+msgid "Very lightweight: low CPU and memory usage, fast startup times."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:321
+msgid "Focused vehicle dynamics with multiple friction and drivetrain models."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:322
+msgid "Simple XML-based world format, easy to get started."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:323
+msgid "Native multi-robot support with per-vehicle ROS 2 namespaces."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:324
+msgid "Faster-than-real-time simulation for batch testing."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:325
+msgid "Procedural world generation via XML loops and conditionals."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:327
+msgid "**Limitations:**"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:329
+msgid ""
+"Physics is 2D (Box2D): no full 3D rigid body dynamics. Objects do not tip "
+"over or fly. Elevation maps add terrain height but the physics remains "
+"fundamentally 2D."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:332
+msgid ""
+"Sensor simulation is less detailed than full 3D simulators: camera rendering "
+"and LiDAR models are functional but not photorealistic."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:334
+msgid ""
+"Smaller ecosystem of pre-built models and environments compared to Gazebo."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:335
+msgid "Focused on wheeled mobile robots."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:338
+msgid "Further resources"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:340
+msgid "`MVSim documentation <https://mvsimulator.readthedocs.io/>`__"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:341
+msgid "`MVSim GitHub repository <https://github.com/MRPT/mvsim>`__"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Simulators/MVSim/Defining-Worlds-MVSim.rst:342
+msgid ""
+"`MVSim paper (SoftwareX) <https://doi.org/10.1016/j.softx.2023.101443>`__"
+msgstr ""
