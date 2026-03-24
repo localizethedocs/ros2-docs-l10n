@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation dashing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Guides/Node-arguments.rst:7
+msgid "Passing ROS arguments to nodes via the command-line"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:12
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Guides/Node-arguments.rst:14
+msgid ""
+"All ROS nodes take a set of arguments that allow various properties to be "
+"reconfigured. Examples include configuring the name/namespace of the node, "
+"topic/service names used, and parameters on the node. All ROS-specific "
+"arguments have to be specified after a ``--ros-args`` flag:"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:19
+msgid "ros2 run my_package node_executable ..."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:23
+msgid ""
+"For more details, see `this design doc <https://design.ros2.org/articles/"
+"ros_command_line_arguments.html>`__."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:26
+msgid "Name remapping"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:28
+msgid ""
+"Remapping rules are specified directly using ``<old name>:=<new name>``, "
+"``__node:=<new node name>``, ``__ns:=<new node namespace>``."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:30
+msgid ""
+"Note that these remappings are \"static\" remappings, in that they apply for "
+"the lifetime of the node. \"Dynamic\" remapping of names after nodes have "
+"been started is not yet supported."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:33
+msgid ""
+"See `this design doc <https://design.ros2.org/articles/static_remapping."
+"html>`__ for more details on remapping arguments (not all functionality is "
+"available yet)."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:36
+msgid "Example"
+msgstr "範例"
+
+#: ../../../source/Guides/Node-arguments.rst:38
+msgid ""
+"The following invocation will cause the ``talker`` node to be started under "
+"the node name ``my_talker``, publishing on the topic named ``my_topic`` "
+"instead of the default of ``chatter``. The namespace, which must start with "
+"a forward slash, is set to ``/demo``, which means that topics are created in "
+"that namespace (``/demo/my_topic``), as opposed to globally (``/my_topic``)."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:41
+msgid ""
+"ros2 run demo_nodes_cpp talker __ns:=/demo __node:=my_talker chatter:"
+"=my_topic"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:46
+msgid "Passing remapping arguments to specific nodes"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:48
+msgid ""
+"If multiple nodes are being run within a single process (e.g. using "
+"`Composition <../Concepts/About-Composition>`), remapping arguments can be "
+"passed to a specific node using its name as a prefix. For example, the "
+"following will pass the remapping arguments to the specified nodes:"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:51
+msgid ""
+"ros2 run composition manual_composition talker:__node:=my_talker listener:"
+"__node:=my_listener"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:56
+msgid ""
+"The following example will both change the node name and remap a topic (node "
+"and namespace changes are always applied *before* topic remapping):"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:59
+msgid ""
+"ros2 run composition manual_composition talker:__node:=my_talker my_talker:"
+"chatter:=my_topic listener:__node:=my_listener my_listener:chatter:=my_topic"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:64
+msgid "Logger configuration"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:66
+msgid ""
+"See ``--log-level`` argument usage in `the logging page <../Tutorials/"
+"Logging-and-logger-configuration>`."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:69
+msgid "Parameters"
+msgstr "參數"
+
+#: ../../../source/Guides/Node-arguments.rst:74
+msgid "Setting parameters directly from the command line"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:76
+msgid ""
+"Setting parameters directly in the command line is not supported in Dashing."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:79
+msgid "Setting parameters from YAML files"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:81
+msgid "Parameters can be set from the command-line in the form of yaml files."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:83
+msgid ""
+"`See here <https://github.com/ros2/rcl/tree/dashing/"
+"rcl_yaml_param_parser>`__ for examples of the yaml file syntax."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:85
+msgid "As an example, save the following as ``demo_params.yaml``:"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:87
+msgid ""
+"parameter_blackboard:\n"
+"    ros__parameters:\n"
+"        some_int: 42\n"
+"        a_string: \"Hello world\"\n"
+"        some_lists:\n"
+"            some_integers: [1, 2, 3, 4]\n"
+"            some_doubles : [3.14, 2.718]"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:97
+msgid ""
+"Then either declare the parameters within your node with "
+"``declare_parameter``  or ``declare_parameters`` (see `documentation "
+"<https://docs.ros2.org/dashing/api/rclcpp/classrclcpp_1_1Node."
+"html#a222633623e5c933b7953e5718ec3649a>`__ for function signatures), or `set "
+"the node to automatically declare parameters <https://docs.ros2.org/dashing/"
+"api/rclcpp/classrclcpp_1_1NodeOptions."
+"html#a094ceb7af7c9b358ec007a4b8e14d40d>`__ if they were passed in via a "
+"command line override."
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:99
+msgid "Then run the following:"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:101
+msgid "ros2 run demo_nodes_cpp parameter_blackboard __params:=demo_params.yaml"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:105
+msgid "Other nodes will be able to retrieve the parameter values, e.g.:"
+msgstr ""
+
+#: ../../../source/Guides/Node-arguments.rst:107
+msgid ""
+"$ ros2 param list parameter_blackboard\n"
+"a_string\n"
+"some_int\n"
+"some_lists.some_doubles\n"
+"some_lists.some_integers"
+msgstr ""
