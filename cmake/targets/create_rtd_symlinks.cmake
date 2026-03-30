@@ -73,7 +73,7 @@ foreach(_LANGUAGE ${LANGUAGE_LIST})
         if (RES_VAR EQUAL 0)
             message("Created ReadTheDocs symlink '${_LANGUAGE_READTHEDOCS}' for language directory '${_LANGUAGE}'.")
         else()
-            string(APPEND FAILURE_REASON
+            string(CONCAT FAILURE_REASON
             "The command failed with fatal errors.\n"
             "    result:\n${RES_VAR}\n"
             "    stdout:\n${OUT_VAR}\n"
