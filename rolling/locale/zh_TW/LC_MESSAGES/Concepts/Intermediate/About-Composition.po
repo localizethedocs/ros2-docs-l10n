@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-10 08:30+0000\n"
+"POT-Creation-Date: 2026-05-04 10:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,24 +99,18 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:45
-msgid ""
-"`component_container <https://github.com/ros2/rclcpp/blob/rolling/"
-"rclcpp_components/src/component_container.cpp>`__"
+msgid "``component_container``"
 msgstr ""
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:47
 msgid ""
-"The most generic component container that uses a single "
-"``SingleThreadedExecutor`` to execute all components."
+"Component container that uses a single ``SingleThreadedExecutor`` to execute "
+"the components."
 msgstr ""
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:49
-msgid ""
-"`component_container_mt <https://github.com/ros2/rclcpp/blob/rolling/"
-"rclcpp_components/src/component_container_mt.cpp>`__"
+msgid "``component_container --executor-type multi-threaded``"
 msgstr ""
-"`component_container_mt <https://github.com/ros2/rclcpp/blob/rolling/"
-"rclcpp_components/src/component_container_mt.cpp>`__"
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:51
 msgid ""
@@ -125,31 +119,47 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:53
-msgid ""
-"`component_container_isolated <https://github.com/ros2/rclcpp/blob/rolling/"
-"rclcpp_components/src/component_container_isolated.cpp>`__"
+msgid "``component_container --executor-type events-cbg``"
 msgstr ""
-"`component_container_isolated <https://github.com/ros2/rclcpp/blob/rolling/"
-"rclcpp_components/src/component_container_isolated.cpp>`__"
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:55
 msgid ""
-"Component container that uses a dedicated executor for each component: "
-"either ``SingleThreadedExecutor`` (default) or ``MultiThreadedExecutor``."
+"Component container that uses a single ``EventsCBGExecutor`` to execute the "
+"components."
 msgstr ""
 
 #: ../../../source/Concepts/Intermediate/About-Composition.rst:57
+msgid "``component_container --executor-type single-threaded --isolated``"
+msgstr ""
+
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:59
+msgid ""
+"Component container that uses a dedicated executor for each component: "
+"available options are ``SingleThreadedExecutor`` (default), "
+"``MultiThreadedExecutor``, and ``EventsCBGExecutor``."
+msgstr ""
+
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:61
+msgid ""
+"For both isolated and non-isolated component containers using the "
+"``MultiThreadedExecutor`` or ``EventsCBGExecutor``, the number of event "
+"processing threads can be configured via the ROS parameter ``thread_num``. "
+"In isolated mode, every dedicated executor will be created with "
+"``thread_num`` threads."
+msgstr ""
+
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:64
 msgid ""
 "For more information about the types of executors, see the :ref:"
 "`TypesOfExecutors`. For more information about the options of each component "
 "container, see :ref:`ComponentContainerTypes` in the composition tutorial."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:61
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:68
 msgid "Writing a Component"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:63
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:70
 msgid ""
 "Since a component is only built into a shared library, it doesn't have a "
 "``main`` function (see `Talker source code <https://github.com/ros2/demos/"
@@ -160,7 +170,7 @@ msgid ""
 "Additionally, it can create publishers, subscriptions, servers, and clients."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:69
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:76
 msgid ""
 "An important aspect of making such a class a component is that the class "
 "registers itself using macros from the package ``rclcpp_components`` (see "
@@ -169,13 +179,13 @@ msgid ""
 "an entry point."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:72
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:79
 msgid ""
 "Additionally, once a component is created, it must be registered with the "
 "index to be discoverable by the tooling."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:74
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:81
 msgid ""
 "add_library(talker_component SHARED src/talker_component.cpp)\n"
 "rclcpp_components_register_nodes(talker_component \"composition::Talker\")\n"
@@ -184,41 +194,41 @@ msgid ""
 "# rclcpp_components_register_nodes(talker_component \"composition::Talker2\")"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:81
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:88
 msgid ""
 "For an example, :doc:`check out this tutorial <../../Tutorials/Intermediate/"
 "Writing-a-Composable-Node>`"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:85
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:92
 msgid ""
 "In order for the component_container to be able to find desired components, "
 "it must be executed or launched from a shell that has sourced the "
 "corresponding workspace."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:88
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:95
 msgid "CMake Registration Macros"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:90
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:97
 msgid ""
 "ROS 2 provides two CMake macros for registering components, each serving a "
 "different purpose:"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:93
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:100
 msgid "``rclcpp_components_register_node``"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:94
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:101
 msgid ""
 "This macro registers a component and generates a standalone executable. Use "
 "this when you want both composability and the ability to run the node as a "
 "standalone process."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:97
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:104
 msgid ""
 "add_library(talker_component SHARED src/talker_component.cpp)\n"
 "rclcpp_components_register_node(talker_component\n"
@@ -226,35 +236,35 @@ msgid ""
 "  EXECUTABLE talker)"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:105
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:112
 msgid "``rclcpp_components_register_nodes``"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:106
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:113
 msgid ""
 "This macro registers one or more components for runtime composition "
 "**without** creating standalone executables. Use this when you want pure "
 "component libraries that will be loaded into component containers at runtime."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:109
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:116
 msgid ""
 "add_library(talker_component SHARED src/talker_component.cpp)\n"
 "rclcpp_components_register_nodes(talker_component \"composition::Talker\")"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:115
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:122
 msgid "Using Components"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:117
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:124
 msgid ""
 "The `composition <https://github.com/ros2/demos/tree/rolling/composition>`__ "
 "package contains a couple of different approaches on how to use components. "
 "The three most common ones are:"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:120
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:127
 msgid ""
 "Start a (`generic container process <https://github.com/ros2/rclcpp/blob/"
 "rolling/rclcpp_components/src/component_container.cpp>`__) and call the ROS "
@@ -268,7 +278,7 @@ msgid ""
 "arguments"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:123
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:130
 msgid ""
 "Create a `custom executable <https://github.com/ros2/demos/blob/rolling/"
 "composition/src/manual_composition.cpp>`__ containing multiple nodes which "
@@ -276,17 +286,31 @@ msgid ""
 "header file (which is not strictly needed for the first case)."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:125
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:132
 msgid ""
 "Create a launch file and use ``ros2 launch`` to create a container process "
 "with multiple components loaded."
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:128
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:135
 msgid "Practical application"
 msgstr ""
 
-#: ../../../source/Concepts/Intermediate/About-Composition.rst:130
+#: ../../../source/Concepts/Intermediate/About-Composition.rst:137
 msgid ""
 "Try the :doc:`Composition demos <../../Tutorials/Intermediate/Composition>`."
 msgstr ""
+
+#~ msgid ""
+#~ "`component_container_mt <https://github.com/ros2/rclcpp/blob/rolling/"
+#~ "rclcpp_components/src/component_container_mt.cpp>`__"
+#~ msgstr ""
+#~ "`component_container_mt <https://github.com/ros2/rclcpp/blob/rolling/"
+#~ "rclcpp_components/src/component_container_mt.cpp>`__"
+
+#~ msgid ""
+#~ "`component_container_isolated <https://github.com/ros2/rclcpp/blob/"
+#~ "rolling/rclcpp_components/src/component_container_isolated.cpp>`__"
+#~ msgstr ""
+#~ "`component_container_isolated <https://github.com/ros2/rclcpp/blob/"
+#~ "rolling/rclcpp_components/src/component_container_isolated.cpp>`__"
