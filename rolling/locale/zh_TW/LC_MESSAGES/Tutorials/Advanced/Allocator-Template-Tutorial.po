@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 08:29+0000\n"
+"POT-Creation-Date: 2026-05-21 04:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,8 +145,6 @@ msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:70
 msgid ""
-"using rclcpp::memory_strategies::allocator_memory_strategy::"
-"AllocatorMemoryStrategy;\n"
 "using Alloc = std::pmr::polymorphic_allocator<void>;\n"
 "using MessageAllocTraits =\n"
 "  rclcpp::allocator::AllocRebind<std_msgs::msg::UInt32, Alloc>;\n"
@@ -157,11 +155,11 @@ msgid ""
 "MessageDeleter>;"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:80
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:79
 msgid "Now we can create our resources with the custom allocator:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:82
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:81
 msgid ""
 "CustomMemoryResource mem_resource{};\n"
 "auto alloc = std::make_shared<Alloc>(&mem_resource);\n"
@@ -179,21 +177,17 @@ msgid ""
 "  \"allocator_tutorial\", 10, callback, subscription_options, "
 "msg_mem_strat);\n"
 "\n"
-"std::shared_ptr<rclcpp::memory_strategy::MemoryStrategy> memory_strategy =\n"
-"  std::make_shared<AllocatorMemoryStrategy<Alloc>>(alloc);\n"
-"\n"
 "rclcpp::ExecutorOptions options;\n"
-"options.memory_strategy = memory_strategy;\n"
 "rclcpp::executors::SingleThreadedExecutor executor(options);"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:106
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:101
 msgid ""
 "You must also instantiate a custom deleter and allocator for use when "
 "allocating messages:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:108
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:103
 msgid ""
 "MessageDeleter message_deleter;\n"
 "MessageAlloc message_alloc = *alloc;\n"
@@ -201,13 +195,13 @@ msgid ""
 "&message_alloc);"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:114
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:109
 msgid ""
 "Once you've add the node to the executor, it is time to spin. We'll use the "
 "custom allocator to allocate each message:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:117
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:112
 msgid ""
 "uint32_t i = 0;\n"
 "while (rclcpp::ok()) {\n"
@@ -222,17 +216,17 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:132
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:127
 msgid "Passing an allocator to the intra-process pipeline"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:134
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:129
 msgid ""
 "Even though we instantiated a publisher and subscriber in the same process, "
 "we aren't using the intra-process pipeline yet."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:136
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:131
 msgid ""
 "The IntraProcessManager is a class that is usually hidden from the user, but "
 "in order to pass a custom allocator to it we need to expose it by getting it "
@@ -241,7 +235,7 @@ msgid ""
 "default ``new``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:139
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:134
 msgid ""
 "auto context = rclcpp::contexts::get_global_default_context();\n"
 "auto options = rclcpp::NodeOptions()\n"
@@ -250,32 +244,32 @@ msgid ""
 "auto node = rclcpp::Node::make_shared(\"allocator_example\", options);"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:147
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:142
 msgid ""
 "Make sure to instantiate publishers and subscribers AFTER constructing the "
 "node in this way."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:150
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:145
 msgid "Testing and verifying the code"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:152
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:147
 msgid "How do you know that your custom allocator is actually getting called?"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:154
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:149
 msgid ""
 "The obvious thing to do would be to count the calls made to your custom "
 "allocator's ``allocate`` and ``deallocate`` functions and compare that to "
 "the calls to ``new`` and ``delete``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:156
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:151
 msgid "Adding counting to the custom allocator is easy:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:158
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:153
 msgid ""
 "void * do_allocate(std::size_t size, std::size_t alignment) override\n"
 "{\n"
@@ -294,11 +288,11 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:176
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:171
 msgid "You can also override the global ``new`` and ``delete`` operators:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:178
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:173
 msgid ""
 "void * operator new(std::size_t size)\n"
 "{\n"
@@ -329,29 +323,29 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:208
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:203
 msgid ""
 "where the variables we are incrementing are just global static integers, and "
 "``is_running`` is a global static boolean that gets toggled right before the "
 "call to ``spin``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:210
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:205
 msgid ""
 "The `example executable <https://github.com/ros2/demos/blob/rolling/"
 "demo_nodes_cpp/src/topics/allocator_tutorial_pmr.cpp>`__ prints the value of "
 "the variables. To run the example executable, use:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:213
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:208
 msgid "$ ros2 run demo_nodes_cpp allocator_tutorial"
 msgstr "$ ros2 run demo_nodes_cpp allocator_tutorial"
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:217
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:212
 msgid "or, to run the example with the intra-process pipeline on:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:219
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:214
 msgid ""
 "$ ros2 run demo_nodes_cpp allocator_tutorial intra\n"
 "Global new was called 15590 times during spin\n"
@@ -365,19 +359,19 @@ msgstr ""
 "Allocator new was called 27284 times during spin\n"
 "Allocator delete was called 27281 times during spin"
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:227
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:222
 msgid ""
 "We've caught about 2/3 of the allocations/deallocations that happen on the "
 "execution path, but where do the remaining 1/3 come from?"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:229
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:224
 msgid ""
 "As a matter of fact, these allocations/deallocations originate in the "
 "underlying DDS implementation used in this example."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:231
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:226
 msgid ""
 "Proving this is out of the scope of this tutorial, but you can check out the "
 "test for the allocation path that gets run as part of the ROS 2 continuous "
@@ -386,43 +380,43 @@ msgid ""
 "DDS implementation:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:233
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:228
 msgid ""
 "https://github.com/ros2/realtime_support/blob/rolling/tlsf_cpp/test/"
 "test_tlsf.cpp#L41"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:235
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:230
 msgid ""
 "Note that this test is not using the custom allocator we just created, but "
 "the TLSF allocator (see below)."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:238
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:233
 msgid "The TLSF allocator"
 msgstr "TLSF 分配器"
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:240
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:235
 msgid ""
 "ROS 2 offers support for the TLSF (Two Level Segregate Fit) allocator, which "
 "was designed to meet real-time requirements:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:242
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:237
 msgid "https://github.com/ros2/realtime_support/tree/rolling/tlsf_cpp"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:244
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:239
 msgid ""
 "For more information about TLSF, see `this page via Universitat Politècnica "
 "de València <http://www.gii.upv.es/tlsf/>`_."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:246
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:241
 msgid "Note that the TLSF allocator is licensed under a dual-GPL/LGPL license."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:248
+#: ../../../source/Tutorials/Advanced/Allocator-Template-Tutorial.rst:243
 msgid ""
 "A full working example using the TLSF allocator is here: https://github.com/"
 "ros2/realtime_support/blob/rolling/tlsf_cpp/example/allocator_example.cpp"
