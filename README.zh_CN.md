@@ -22,18 +22,18 @@
 <h2 id="table-of-contents">Table of Contents</h2>
 
 <ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#progress-of-translations">Progress of Translations</a></li>
-  <li><a href="#preview-translations">Preview Translations</a></li>
-  <li><a href="#maintainers">Maintainers</a></li>
-  <li><a href="#support-this-project">Support this Project</a></li>
-  <li><a href="#financial-sponsors">Financial Sponsors</a></li>
-  <li><a href="#code-contributors">Code Contributors</a></li>
-  <li><a href="#translation-contributors">Translation Contributors</a></li>
-  <li><a href="#licenses">Licenses</a></li>
+  <li><a href="#introduction">介绍</a></li>
+  <li><a href="#progress-of-translations">翻译进度</a></li>
+  <li><a href="#preview-translations">预览翻译</a></li>
+  <li><a href="#maintainers">维护者</a></li>
+  <li><a href="#support-this-project">支持此项目</a></li>
+  <li><a href="#financial-sponsors">财务赞助者</a></li>
+  <li><a href="#code-contributors">代码贡献者</a></li>
+  <li><a href="#translation-contributors">翻译贡献者</a></li>
+  <li><a href="#licenses">许可证</a></li>
 </ul>
 
-<h2 id="introduction"><a href="#table-of-contents">Introduction</a></h2>
+<h2 id="introduction"><a href="#table-of-contents">介绍</a></h2>
 
 <div align="center"><a href="https://localizethedocs.zulipchat.com" title="Zulip Chat" target="_blank">
   <img alt="Zulip Chat" src="https://img.shields.io/badge/Zulip-Chat-blue.svg?logo=zulip&style=flat&logoColor=white" />
@@ -78,13 +78,13 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>Project Links</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>项目链接</div></th>
     </tr>
   </thead>
   <tbody>
     <!-- Preview -->
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Preview</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>预览翻译</div></th>
       <td rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div><a href="https://projects.localizethedocs.org/ros2-docs-l10n" target="_blank">ros2-docs-l10n</a></div>
       </td>
@@ -124,10 +124,10 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>Branch Structure</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>分支结构</div></th>
     </tr>
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Branch</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>分支</div></th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Description</div></th>
     </tr>
   </thead>
@@ -164,10 +164,10 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub Workflows</div></th>
+      <th rowspan="1" colspan="2" align="center" style="text-align: center;"><div>GitHub 工作流</div></th>
     </tr>
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Status</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>状态</div></th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Description</div></th>
     </tr>
   </thead>
@@ -177,7 +177,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-build-docs.yml" ><img alt="ci-sphinx-build-docs" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-build-docs.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Build documents by Sphinx and upload build artifacts.</div>
+        <div>透过 Sphinx 构建文档并上传构建制品。</div>
       </td>
     </tr>
     <tr>
@@ -185,7 +185,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-update-pot.yml" ><img alt="ci-sphinx-update-pot" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-sphinx-update-pot.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update <code>.pot</code> files by Sphinx with <code>gettext</code> builder.</div>
+        <div>透过 Sphinx 使用 <code>gettext</code> 构建器更新 <code>.pot</code> 文件。</div>
       </td>
     </tr>
     <tr>
@@ -217,7 +217,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-upload-pot.yml"><img alt="ci-crowdin-upload-pot" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-upload-pot.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Upload <code>.pot</code> files to Crowdin by its CLI tool.</div>
+        <div>透过 Crowdin CLI 工具上传 <code>.pot</code> 文件到 Crowdin。</div>
       </td>
     </tr>
     <tr>
@@ -225,7 +225,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-download-po.yml"><img alt="ci-crowdin-download-po" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-download-po.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Download <code>.po</code> files from Crowdin by its CLI tool.</div>
+        <div>透过 Crowdin CLI 工具从 Crowdin 下载 <code>.pot</code> 文件。</div>
       </td>
     </tr>
     <tr>
@@ -233,7 +233,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml"><img alt="ci-crowdin-update-readme" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-crowdin-update-readme.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update README translations by Crowdin CLI tool.</div>
+        <div>透过 Crowdin CLI 工具更新 README 翻译。</div>
       </td>
     </tr>
     <tr>
@@ -241,7 +241,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-deploy-pages.yml"><img alt="ci-deploy-pages" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-deploy-pages.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Download and deploy build artifacts to <code>pages</code> branch.</div>
+        <div>下载并将构建制品部署到 <code>pages</code> 分支。</div>
       </td>
     </tr>
     <tr>
@@ -249,7 +249,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-deploy-po-version.yml"><img alt="ci-deploy-po-version" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-deploy-po-version.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Deploy <code>.po</code> files to <code>po/${VERSION}</code> branch.</div>
+        <div>将 <code>.po</code> 文件部署到 <code>po/${VERSION}</code> 分支。</div>
       </td>
     </tr>
     <tr>
@@ -257,7 +257,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-contributors.yml"><img alt="ci-update-contributors" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-contributors.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update contributors <code>.svg</code> files to <code>static</code> branch.</div>
+        <div>将贡献者 <code>.svg</code> 文件更新到 <code>static</code> 分支。</div>
       </td>
     </tr>
     <tr>
@@ -265,7 +265,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-license-year.yml"><img alt="ci-update-license-year" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-license-year.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update the copyright year in LICENSE to the current year.</div>
+        <div>将 LICENSE 中的版权年份更新为当前年份。</div>
       </td>
     </tr>
     <tr>
@@ -273,14 +273,14 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-submodule.yml"><img alt="ci-update-submodule" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-submodule.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update each of the submodules to their latest commit.</div>
+        <div>将每个子模块更新至其最新送交。</div>
       </td>
     </tr>
   </tbody>
 </table>
 </div>
 
-<h2 id="progress-of-translations"><a href="#table-of-contents">Progress of Translations</a></h2>
+<h2 id="progress-of-translations"><a href="#table-of-contents">翻译进度</a></h2>
 
 <div align="center">
 <table>
@@ -290,13 +290,13 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
       <th rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div>
           <div>English Name</div>
-          <div>Native Name</div>
+          <div>本地名称</div>
         </div>
       </th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;">
         <div>
-          <div>Translated</div>
-          <div>Proofread</div>
+          <div>翻译进度</div>
+          <div>校对进度</div>
         </div>
       </th>
     </tr>
@@ -341,15 +341,15 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
 <div align="center"><a href="https://localizethedocs.crowdin.com/ros2-docs-l10n"><img src="https://badges.awesome-crowdin.com/translation-200032568-5.png"></a>
 </div>
 
-<h2 id="preview-translations"><a href="#table-of-contents">Preview Translations</a></h2>
+<h2 id="preview-translations"><a href="#table-of-contents">预览翻译</a></h2>
 
-You can preview translations in <a href="https://projects.localizethedocs.org/ros2-docs-l10n">GitHub Pages</a>:
+您可以在 <a href="https://projects.localizethedocs.org/ros2-docs-l10n">GitHub Pages</a> 中预览翻译：
 
 <div align="center">
 <table>
   <thead>
     <tr>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Language</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>语言</div></th>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub Pages</div></th>
     </tr>
   </thead>
@@ -394,7 +394,7 @@ cmake --build out/build/${LANGUAGE}
 
 You can switch to other available languages and versions by the flyout navigation menu.
 
-<h2 id="maintainers"><a href="#table-of-contents">Maintainers</a></h2>
+<h2 id="maintainers"><a href="#table-of-contents">维护者</a></h2>
 
 This project is currently maintained by:
 
@@ -403,7 +403,7 @@ This project is currently maintained by:
   <thead>
     <tr>
       <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>Name</div></th>
-      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub Username</div></th>
+      <th rowspan="1" colspan="1" align="center" style="text-align: center;"><div>GitHub 用户名</div></th>
     </tr>
   </thead>
   <tbody>
@@ -415,7 +415,7 @@ This project is currently maintained by:
 </table>
 </div>
 
-<h2 id="support-this-project"><a href="#table-of-contents">Support this Project</a></h2>
+<h2 id="support-this-project"><a href="#table-of-contents">支持此项目</a></h2>
 
 You can contribute and support this project by doing any of the following:
 
@@ -429,7 +429,7 @@ You can contribute and support this project by doing any of the following:
 
 It will facilitate the creation and ongoing maintenance of l10n projects for open-source documentation.
 
-<h2 id="financial-sponsors"><a href="#table-of-contents">Financial Sponsors</a></h2>
+<h2 id="financial-sponsors"><a href="#table-of-contents">财务赞助者</a></h2>
 
 You can sponsor the projects through the following platforms:
 
@@ -464,19 +464,19 @@ Maintenance of the projects is made possible by the generous support of our spon
 <img width="100%" alt="Localize The Docs" src="https://cdn.jsdelivr.net/gh/localizethedocs/sponsors/static/sponsors.svg" />
 </div>
 
-<h2 id="code-contributors"><a href="#table-of-contents">Code Contributors</a></h2>
+<h2 id="code-contributors"><a href="#table-of-contents">代码贡献者</a></h2>
 
 <div align="center">
 <img width="100%" alt="GitHub Contributors SVG" src="https://contrib.nn.ci/api?repo=localizethedocs/ros2-docs-l10n&no_bot=true" />
 </div>
 
-<h2 id="translation-contributors"><a href="#table-of-contents">Translation Contributors</a></h2>
+<h2 id="translation-contributors"><a href="#table-of-contents">翻译贡献者</a></h2>
 
 <div align="center">
 <img width="100%" alt="Crowdin Contributors SVG" src="https://cdn.jsdelivr.net/gh/localizethedocs/ros2-docs-l10n@static/crowdin-contributors.svg">
 </div>
 
-<h2 id="licenses"><a href="#table-of-contents">Licenses</a></h2>
+<h2 id="licenses"><a href="#table-of-contents">许可证</a></h2>
 
 All original and translated text in the <code>.pot</code> and<code>.po</code> files stored in the <code>l10n</code> branch is made available under the same license as <a href="https://github.com/ros2/ros2_documentation">the upstream project</a>.
 

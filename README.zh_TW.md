@@ -27,7 +27,7 @@
   <li><a href="#preview-translations">預覽翻譯</a></li>
   <li><a href="#maintainers">維護者</a></li>
   <li><a href="#support-this-project">支援此專案</a></li>
-  <li><a href="#financial-sponsors">Financial Sponsors</a></li>
+  <li><a href="#financial-sponsors">財務贊助者</a></li>
   <li><a href="#code-contributors">程式碼貢獻者</a></li>
   <li><a href="#translation-contributors">翻譯貢獻者</a></li>
   <li><a href="#licenses">授權條款</a></li>
@@ -257,7 +257,7 @@ The goal of this project is to translate the ROS 2 documentation into multiple l
         <div><a href="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-contributors.yml"><img alt="ci-update-contributors" src="https://github.com/localizethedocs/ros2-docs-l10n/actions/workflows/ci-update-contributors.yml/badge.svg" /></a></div>
       </td>
       <td rowspan="1" colspan="1" align="left" style="text-align: left;">
-        <div>Update contributors <code>.svg</code> files to <code>static</code> branch.</div>
+        <div>將貢獻者 <code>.svg</code> 檔案更新至 <code>static</code> 分支。</div>
       </td>
     </tr>
     <tr>
@@ -422,14 +422,14 @@ This project is currently maintained by:
 <ul>
   <li>在 GitHub 或其他鏡像儲存庫上收藏這個專案。</li>
   <li>Submit issues on <a href="https://github.com/localizethedocs/ros2-docs-l10n/issues">GitHub</a> if you found any bug.</li>
-  <li>Submit pull requests on <a href="https://github.com/localizethedocs/ros2-docs-l10n/pulls">GitHub</a> if you know how to fix the bug.</li>
+  <li>如果您知道如何修正臭蟲，請在 <a href="https://github.com/localizethedocs/ros2-docs-l10n/pulls">GitHub</a> 上提交拉取請求。</li>
   <li>Contribute your translations on <a href="https://localizethedocs.crowdin.com/ros2-docs-l10n">Crowdin</a>.</li>
-  <li>Consider becoming a <a href="#financial-sponsors">sponsor</a> if you love this kind of l10n projects.</li>
+  <li>如果您喜歡這種在地化專案，請考慮成為<a href="#financial-sponsors">贊助者</a>。</li>
 </ul>
 
 這將有助於開源文件在地化專案的建立與持續維護。
 
-<h2 id="financial-sponsors"><a href="#table-of-contents">Financial Sponsors</a></h2>
+<h2 id="financial-sponsors"><a href="#table-of-contents">財務贊助者</a></h2>
 
 您可以透過以下平臺來贊助這些專案：
 
@@ -458,7 +458,7 @@ This project is currently maintained by:
 </table>
 </div>
 
-Maintenance of the projects is made possible by the generous support of our sponsors:
+專案的維護得以持續仰賴於贊助者的慷慨支持：
 
 <div align="center">
 <img width="100%" alt="Localize The Docs" src="https://cdn.jsdelivr.net/gh/localizethedocs/sponsors/static/sponsors.svg" />
@@ -480,9 +480,9 @@ Maintenance of the projects is made possible by the generous support of our spon
 
 All original and translated text in the <code>.pot</code> and<code>.po</code> files stored in the <code>l10n</code> branch is made available under the same license as <a href="https://github.com/ros2/ros2_documentation">the upstream project</a>.
 
-All CMake script files (e.g., <code>CMakeLists.txt</code>, <code>CMakePresets.json</code>, and <code>cmake/\*\*/\*</code> files), GitHub workflow files (e.g., <code>.github/workflows/\*.yml</code> files), and configuration files (e.g., <code>versions.json</code>, <code>languages.json</code>, <code>crowdin.yml</code>, and so on) of this project are licensed under <a href="https://opensource.org/license/bsd-3-clause/">3-Clause BSD</a> license. See <a href="./LICENSE-BSD">LICENSE-BSD</a> for details.
+本專案中所有的 CMake 腳本檔案（例如：<code>CMakeLists.txt</code>、<code>CMakePresets.json</code> 和 <code>cmake/\*\*/\*</code> 檔案）、工作流檔案（例如：<code>.github/workflows/\*.yml</code> 檔案）以及組態檔（<code>versions.json</code>、<code>languages.json</code>、<code>crowdin.yml</code> 等等）皆採用 <a href="https://opensource.org/license/bsd-3-clause/">3-Clause BSD</a> 授權。 詳情請參見 <a href="./LICENSE-BSD">LICENSE-BSD</a>。
 
-All document files (e.g., <code>README.md</code>) of this project are licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> license. See <a href="./LICENSE-CC">LICENSE-CC</a> for details.
+All document files (e.g., <code>README.md</code>) of this project are licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> license. 詳情請參見 <a href="./LICENSE-CC">LICENSE-CC</a>。
 
 <a href="http://creativecommons.org/licenses/by-sa/4.0/" title="CC BY SA 4.0" target="_blank">
   <img alt="CC BY SA 4.0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/>
