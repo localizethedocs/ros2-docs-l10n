@@ -8,6 +8,7 @@ var CONFIG_OPTIONS = {
   ],
   CONFIG_VERSIONS: [
     ["rolling",   "Rolling Ridley"],
+    ["lyrical",   "Lyrical Luth"],
     ["kilted",    "Kilted Kaiju"],
     ["jazzy",     "Jazzy Jalisco"],
     ["iron",      "Iron Irwini"],

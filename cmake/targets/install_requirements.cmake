@@ -230,7 +230,19 @@ message("")
 restore_cmake_message_indent()
 
 
-if (VERSION MATCHES "^(rolling|kilted|jazzy|iron|humble)$" OR
+message(STATUS "Running 'python -m ensurepip' command to bootstrap the 'pip' installer...")
+remove_cmake_message_indent()
+message("")
+execute_process(
+    COMMAND ${Python_EXECUTABLE} -m ensurepip --default-pip
+    WORKING_DIRECTORY ${PROJ_OUT_REPO_DIR}
+    ECHO_OUTPUT_VARIABLE
+    ECHO_ERROR_VARIABLE)
+message("")
+restore_cmake_message_indent()
+
+
+if (VERSION MATCHES "^(rolling|lyrical|kilted|jazzy|iron|humble)$" OR
     VERSION MATCHES "^(foxy)$")
     message(STATUS "Running 'pip install' command to install 'requirements.txt' with 'constraints.txt'...")
     if (CMAKE_HOST_LINUX)
