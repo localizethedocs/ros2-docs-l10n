@@ -25,7 +25,7 @@ endif()
 # Constants.
 #]============================================================]
 
-set(LATEST_VERSION "kilted")
+set(LATEST_VERSION "lyrical")
 
 #[============================================================[
 # Cache Variables.
@@ -215,6 +215,7 @@ get_members_of_json_object(
 #]============================================================]
 
 if     (VERSION MATCHES "^(rolling)$"   OR
+        VERSION MATCHES "^(lyrical)$"   OR
         VERSION MATCHES "^(kilted)$"    OR
         VERSION MATCHES "^(jazzy)$"     OR
         VERSION MATCHES "^(iron)$"      OR
