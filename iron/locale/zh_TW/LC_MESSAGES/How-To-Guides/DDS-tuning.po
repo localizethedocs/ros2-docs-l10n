@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:7
 msgid "DDS tuning information"
-msgstr ""
+msgstr "DDS 調校資訊"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:9
 msgid ""
@@ -29,6 +29,9 @@ msgid ""
 "or while using one vendor may occur for other platforms and vendors not "
 "documented here."
 msgstr ""
+"本頁面提供一些參數調校的指引，這些調校是針對在實際情況中於 Linux 上使用各種 "
+"DDS 實作時所遇到的問題。我們在 Linux 上或使用某個供應商時發現的問題，也可能發"
+"生在其他未在此記錄的平台和供應商上。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:12
 msgid ""
@@ -37,6 +40,8 @@ msgid ""
 "number of factors. You may need to increase or decrease values while "
 "debugging relative to factors like message size, network topology, etc."
 msgstr ""
+"以下建議是調校的起點；它們在特定系統和環境中有效，但調校可能因多種因素而異。"
+"在除錯時，您可能需要根據訊息大小、網路拓撲等因素來增加或減少數值。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:15
 msgid ""
@@ -45,10 +50,12 @@ msgid ""
 "desired improvements. The benefits of improving reliability should be "
 "weighed against any detriments for each individual case."
 msgstr ""
+"重要的是要認識到，調校參數可能會消耗資源，並可能影響系統中超出預期改進範圍的"
+"部分。對於每個案例，應權衡提升可靠性的好處與其帶來的任何不利影響。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:21
 msgid "Cross-vendor tuning"
-msgstr ""
+msgstr "跨供應商調校"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:23
 msgid ""
@@ -56,6 +63,8 @@ msgid ""
 "problematic when some IP fragments are dropped, possibly causing the kernel "
 "buffer on the receiving side to become full."
 msgstr ""
+"**問題：** 透過有損（通常是 WiFi）連線傳送資料時，若某些 IP 片段被丟棄，可能"
+"會導致接收端的內核緩衝區被填滿。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:25
 msgid ""
@@ -66,16 +75,22 @@ msgid ""
 "fragments can come in, and so the connection will seemingly \"hang\" for "
 "long periods of time."
 msgstr ""
+"當一個 UDP 封包缺少至少一個 IP 片段時，其餘已接收的片段會填滿內核緩衝區。預設"
+"情況下，Linux 內核在嘗試重組封包片段 30 秒後會逾時。由於此時內核緩衝區已滿"
+"（預設大小為 256KB），無法再接收新的片段，因此連線會看似「掛起」很長一段時"
+"間。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:29
 msgid ""
 "This issue is generic across all DDS vendors, so the solutions involve "
 "adjusting kernel parameters."
-msgstr ""
+msgstr "此問題在所有 DDS 供應商中普遍存在，因此解決方案涉及調整內核參數。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:31
 msgid "**Solution:** Use best-effort QoS settings instead of reliable."
 msgstr ""
+"**解決方案：** 使用盡力而為（best-effort）的 QoS 設定，而非可靠（reliable）模"
+"式。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:33
 msgid ""
@@ -84,6 +99,9 @@ msgid ""
 "communications, where publishers require acknowledgements for messages sent "
 "to subscribers and must resend samples that have not been properly received."
 msgstr ""
+"盡力而為設定可減少網路流量，因為 DDS 實作不需要承擔可靠通訊的額外負擔——在可靠"
+"模式下，發布者需要針對發送給訂閱者的訊息獲取確認，且必須重新發送未被正確接收"
+"的樣本。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:35
 msgid ""
@@ -91,20 +109,24 @@ msgid ""
 "still the same (blocking for 30s). This solution should improve the issue "
 "somewhat without having to adjust parameters."
 msgstr ""
+"不過，如果 IP 片段的內核緩衝區已滿，症狀仍然相同（阻塞 30 秒）。此解決方案應"
+"能在無需調整參數的情況下某種程度地改善問題。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:38
 msgid "**Solution:** Reduce the value of the ``ipfrag_time`` parameter."
-msgstr ""
+msgstr "**解決方案：** 降低 ``ipfrag_time`` 參數的值。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:40
 msgid ""
 "``net.ipv4.ipfrag_time / /proc/sys/net/ipv4/ipfrag_time`` (default 30s) : "
 "Time in seconds to keep an IP fragment in memory."
 msgstr ""
+"``net.ipv4.ipfrag_time / /proc/sys/net/ipv4/ipfrag_time``（預設 30 秒）：在記"
+"憶體中保留 IP 片段的時間（秒）。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:43
 msgid "Reduce the value, for example, to 3s, by running:"
-msgstr ""
+msgstr "透過執行以下指令將值降低，例如降至 3 秒："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:45
 msgid "sudo sysctl net.ipv4.ipfrag_time=3"
@@ -121,17 +143,19 @@ msgstr ""
 #: ../../../source/How-To-Guides/DDS-tuning.rst:52
 msgid ""
 "**Solution:** Increase the value of the ``ipfrag_high_thresh`` parameter."
-msgstr ""
+msgstr "**解決方案：** 提高 ``ipfrag_high_thresh`` 參數的值。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:54
 msgid ""
 "``net.ipv4.ipfrag_high_thresh / /proc/sys/net/ipv4/ipfrag_high_thresh`` "
 "(default: 262144 bytes): Maximum memory used to reassemble IP fragments."
 msgstr ""
+"``net.ipv4.ipfrag_high_thresh / /proc/sys/net/ipv4/ipfrag_high_thresh``（預"
+"設：262144 位元組）：用於重組 IP 片段的最大記憶體。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:57
 msgid "Increase the value, for example, to 128MB, by running:"
-msgstr ""
+msgstr "透過執行以下指令提高值，例如提高到 128MB："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:59
 msgid "sudo sysctl net.ipv4.ipfrag_high_thresh=134217728     # (128 MB)"
@@ -157,6 +181,12 @@ msgid ""
 "overhead, severe performance degradation can be observed when naively "
 "transitioning custom message types from ROS 1 to ROS 2."
 msgstr ""
+"**議題：** 發送包含大型可變大小陣列的非原始類型自訂訊息會導致高序列化/反序列"
+"化開銷和 CPU 負載。這可能導致發布者因在 ``publish()`` 中花費過多時間而停滯，"
+"並且像 ``ros2 topic hz`` 這樣的工具會低估接收到的訊息實際頻率。請注意，例如 "
+"``builtin_interfaces/Time`` 也被視為非原始類型，會產生較高的序列化開銷。由於"
+"序列化開銷增加，在從 ROS 1 單純地轉移自訂訊息類型到 ROS 2 時，可能會觀察到嚴"
+"重的效能下降。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:71
 msgid ""
@@ -164,6 +194,9 @@ msgid ""
 "of custom types, or pack into byte array as done e.g. in ``PointCloud2`` "
 "messages. For example, instead of defining a ``FooArray`` message as:"
 msgstr ""
+"**解決方法：** 使用多個原始類型陣列，而非單一自訂類型陣列；或者像 "
+"``PointCloud2`` 訊息那樣打包成位元組陣列。例如，不要將 ``FooArray`` 訊息定義"
+"為："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:74
 msgid "Foo[] my_large_array"
@@ -171,7 +204,7 @@ msgstr ""
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:78
 msgid "with ``Foo`` is defined as:"
-msgstr ""
+msgstr "其中 ``Foo`` 定義為："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:80
 msgid ""
@@ -181,7 +214,7 @@ msgstr ""
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:85
 msgid "Instead, define ``FooArray`` as:"
-msgstr ""
+msgstr "而是將 ``FooArray`` 定義為："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:87
 msgid ""
@@ -191,28 +224,32 @@ msgstr ""
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:93
 msgid "Fast RTPS tuning"
-msgstr ""
+msgstr "Fast RTPS 調校"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:95
 msgid ""
 "**Issue:** Fast RTPS floods the network with large pieces of data or fast-"
 "published data when operating over WiFi."
 msgstr ""
+"**問題：** Fast RTPS 在透過 WiFi 運作時，會以大量資料或快速發布的資料淹沒網"
+"路。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:97
 msgid ""
 "See the solutions under :ref:`Cross-vendor tuning <cross-vendor-tuning>`."
-msgstr ""
+msgstr "請參閱 :ref:`跨供應商調校 <cross-vendor-tuning>` 下的解決方案。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:100
 msgid "Cyclone DDS tuning"
-msgstr ""
+msgstr "Cyclone DDS 調校"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:102
 msgid ""
 "**Issue:** Cyclone DDS is not delivering large messages reliably, despite "
 "using reliable settings and transferring over a wired network."
 msgstr ""
+"**問題：** Cyclone DDS 即使使用可靠設定並透過有線網路傳輸，仍無法可靠地傳遞大"
+"型訊息。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:104
 msgid ""
@@ -227,15 +264,17 @@ msgid ""
 "**Solution:** Increase the maximum Linux kernel receive buffer size and the "
 "minimum socket receive buffer size that Cyclone uses."
 msgstr ""
+"**解決方案：** 增加 Linux 內核的最大接收緩衝區大小和 Cyclone 使用的最小 "
+"socket 接收緩衝區大小。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:109
 msgid "*Adjustments to solve for a 9MB message:*"
-msgstr ""
+msgstr "*解決 9MB 訊息的調整：*"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:111
 #: ../../../source/How-To-Guides/DDS-tuning.rst:150
 msgid "Set the maximum receive buffer size, ``rmem_max``, by running:"
-msgstr ""
+msgstr "透過執行以下指令設定最大接收緩衝區大小 ``rmem_max``："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:113
 msgid "sudo sysctl -w net.core.rmem_max=2147483647"
@@ -246,6 +285,8 @@ msgid ""
 "Or permanently set it by editing the ``/etc/sysctl.d/10-cyclone-max.conf`` "
 "file to contain:"
 msgstr ""
+"或者透過編輯 ``/etc/sysctl.d/10-cyclone-max.conf`` 檔案將其永久設定為包含以下"
+"內容："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:119
 msgid "net.core.rmem_max=2147483647"
@@ -256,6 +297,8 @@ msgid ""
 "Next, to set the minimum socket receive buffer size that Cyclone requests, "
 "write out a configuration file for Cyclone to use while starting, like so:"
 msgstr ""
+"接下來，若要設定 Cyclone 請求的最小 socket 接收緩衝區大小，請編寫一個供 "
+"Cyclone 在啟動時使用的組態檔，如下所示："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:125
 msgid ""
@@ -276,7 +319,7 @@ msgstr ""
 msgid ""
 "Then, whenever you are going to run a node, set the following environment "
 "variable:"
-msgstr ""
+msgstr "然後，每當您要執行節點時，請設定以下環境變數："
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:139
 msgid "CYCLONEDDS_URI=file:///absolute/path/to/config_file.xml"
@@ -284,13 +327,15 @@ msgstr ""
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:144
 msgid "RTI Connext tuning"
-msgstr ""
+msgstr "RTI Connext 調校"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:146
 msgid ""
 "**Issue:** Connext is not delivering large messages reliably, despite using "
 "reliable settings and transferring over a wired network."
 msgstr ""
+"**問題：** Connext 即使使用可靠設定並透過有線網路傳輸，仍無法可靠地傳遞大型訊"
+"息。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:148
 msgid ""
@@ -298,6 +343,9 @@ msgid ""
 "pc_pipe/blob/master/etc/ROS2TEST_QOS_PROFILES.xml>`_, along with increasing "
 "the ``rmem_max`` parameter."
 msgstr ""
+"**解決方案：** 使用此 `Connext QoS 設定檔 <https://github.com/jacobperron/"
+"pc_pipe/blob/master/etc/ROS2TEST_QOS_PROFILES.xml>`_，並提高 ``rmem_max`` 參"
+"數。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:152
 msgid "sudo sysctl -w net.core.rmem_max=4194304"
@@ -308,6 +356,8 @@ msgid ""
 "By tuning ``net.core.rmem_max`` to 4MB in the Linux kernel, the QoS profile "
 "can produce truly reliable behavior."
 msgstr ""
+"透過將 Linux 內核中的 ``net.core.rmem_max`` 調校至 4MB，QoS 設定檔可實現真正"
+"可靠的行為。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:158
 msgid ""
@@ -317,6 +367,10 @@ msgid ""
 "machines connected with 1Gbps ethernet), with no dropped messages and "
 "average message delivery times of 700ms and 371ms, respectively."
 msgstr ""
+"此組態已證明可透過 SHMEM|UDPv4 以及在單台機器上僅使用 UDPv4 可靠地傳遞訊息。"
+"也在多機器組態下進行了測試，``rmem_max`` 設為 4MB 和 20MB（兩台機器透過 "
+"1Gbps 乙太網路連接），結果沒有訊息丟失，平均訊息傳遞時間分別為 700 毫秒和 "
+"371 毫秒。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:161
 msgid ""
@@ -331,6 +385,9 @@ msgid ""
 "pc_pipe/blob/master/etc/ROS2TEST_QOS_PROFILES.xml>`_ *without* adjusting "
 "``rmem_max``."
 msgstr ""
+"**解決方案：** 使用 `Connext QoS 設定檔 <https://github.com/jacobperron/"
+"pc_pipe/blob/master/etc/ROS2TEST_QOS_PROFILES.xml>`_，*無需*調整 "
+"``rmem_max``。"
 
 #: ../../../source/How-To-Guides/DDS-tuning.rst:166
 msgid ""
@@ -349,3 +406,6 @@ msgid ""
 "though once the bandwidth of a particular setup is passed, performance will "
 "start to drop."
 msgstr ""
+"中速流量控制器在我們的情況下產生了最佳結果。然而，控制器仍需要根據其運行的特"
+"定機器/網路/環境進行調校。Connext 流量控制器可用於調整頻寬及其發送資料的積極"
+"程度，但一旦超過特定設定的頻寬，效能就會開始下降。"
