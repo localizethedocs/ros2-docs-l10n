@@ -1,0 +1,176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-20 11:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:9
+msgid "Ensuring security across machines"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:11
+msgid "**Goal:** Make two different machines communicate securely."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:13
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:15
+msgid "**Time:** 5 minutes"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:20
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:23
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:25
+msgid ""
+"Before proceeding ensure you have completed the :doc:`Introducing-ros2-"
+"security` tutorial."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:27
+msgid ""
+"The previous tutorials have used two ROS nodes on the same machine sending "
+"all network communications over the localhost interface. Let's extend that "
+"scenario to involve multiple machines, since the benefits of authentication "
+"and encryption then become more obvious."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:30
+msgid ""
+"Suppose that the machine with the keystore created in the previous demo has "
+"a hostname ``Alice``, and that we want to also use another machine with "
+"hostname ``Bob`` for our multi-machine ``talker/listener`` demo. We need to "
+"move some keys from ``Alice`` to ``Bob`` to allow SROS 2 to authenticate and "
+"encrypt the transmissions."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:35
+msgid "Create the second keystore"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:37
+msgid ""
+"Begin by creating an empty keystore on ``Bob``; the keystore is actually "
+"just an empty directory:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:41
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:74
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:43
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:51
+msgid ""
+"$ ssh Bob\n"
+"$ mkdir ~/sros2_demo\n"
+"$ exit"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:49
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:81
+msgid "MacOS"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:57
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:88
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:59
+msgid ""
+"$ ssh Bob\n"
+"$ md C:\\dev\\ros2\\sros2_demo\n"
+"$ exit"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:67
+msgid "Copy files"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:69
+msgid ""
+"Next copy the keys and certificates for the ``talker`` program from "
+"``Alice`` to ``Bob``. Since the keys are just text files, we can use ``scp`` "
+"to copy them."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:76
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:83
+msgid ""
+"$ cd ~/sros2_demo/demo_keystore\n"
+"$ scp -r talker USERNAME@Bob:~/sros2_demo/demo_keystore"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:90
+msgid ""
+"$ cd C:\\dev\\ros2\\sros2_demo\\demo_keystore\n"
+"$ scp -r talker USERNAME@Bob:/dev/ros2/sros2_demo/demo_keystore"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:97
+msgid ""
+"Note that in this case the entire keystore is shared across the different "
+"machines which may not be the desired behavior, as it may result in a "
+"security risk. Please refer to :doc:`../../Build/Deployment-Guidelines/"
+"Deployment-Guidelines` for more information in this regard."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:100
+msgid ""
+"That will be very quick, since it's just copying some very small text files. "
+"Now, we're ready to run a multi-machine talker/listener demo!"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:105
+msgid "Launch the nodes"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:107
+msgid "Once the environment is set up, run the talker on ``Bob``:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:109
+msgid ""
+"$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:113
+msgid "and launch the listener on ``Alice``:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:115
+msgid ""
+"$ ros2 run demo_nodes_py listener --ros-args --enclave /talker_listener/"
+"listener"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:119
+msgid "Alice will now be receiving encrypted messages from Bob."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.rst:121
+msgid ""
+"With two machines successfully communicating using both encryption and "
+"authentication, you can use the same procedure to add more machines to your "
+"ROS graph."
+msgstr ""

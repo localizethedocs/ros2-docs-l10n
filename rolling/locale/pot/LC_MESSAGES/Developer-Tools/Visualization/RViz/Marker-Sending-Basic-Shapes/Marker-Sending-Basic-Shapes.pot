@@ -1,0 +1,384 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-20 11:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:2
+msgid "Marker: Sending Basic Shapes (C++)"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:4
+msgid ""
+"**Goal:** Show how to use ``visualization_msgs/msg/Marker`` messages to send "
+"basic shapes to RViz."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:8
+msgid "**Time:** 15 Minutes"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:12
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:16
+msgid ""
+"This tutorial assumes you are already comfortable with writing ROS 2 C++ "
+"nodes and building packages with ``colcon``."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:19
+msgid "Intro"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:20
+msgid ""
+"Unlike many other RViz displays, the ``Marker`` display lets you visualize "
+"data without RViz needing to know the meaning of that data ahead of time. "
+"Instead, your node sends primitive objects through ``visualization_msgs/msg/"
+"Marker`` messages, and RViz renders them as arrows, boxes, spheres, "
+"cylinders, and other marker types."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:23
+msgid ""
+"This tutorial shows how to send the four basic shapes: cube, sphere, "
+"cylinder, and arrow. We'll create a program that sends out a new marker "
+"every second, replacing the last one with a different shape."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:26
+msgid ""
+"If you want a broader reference for marker fields and object types after "
+"this walkthrough, see :doc:`Marker: Display types <../Marker-Display-types/"
+"Marker-Display-types>`."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:29
+msgid "Create a package"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:30
+msgid ""
+"Get the package from the `visualization_tutorials repository <https://github."
+"com/ros-visualization/visualization_tutorials>`_ and build it in your "
+"workspace."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:32
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:193
+msgid "$ colcon build --packages-select visualization_marker_tutorials"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:37
+msgid "Sending markers"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:40
+msgid "The code"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:41
+msgid ""
+"The code for this tutorial lives in the ``visualization_marker_tutorials`` "
+"package. You can read it in `basic_shapes.cpp <https://github.com/ros-"
+"visualization/visualization_tutorials/blob/ros2/"
+"visualization_marker_tutorials/src/basic_shapes.cpp>`_."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:45
+msgid "The code explained"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:46
+msgid ""
+"Ok, let's break down the code piece by piece. We start by including the "
+"headers used by the node, including ``rclcpp`` and the ``visualization_msgs/"
+"msg/Marker`` message definition."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:49
+msgid ""
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/logging.hpp\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"visualization_msgs/msg/marker.hpp\""
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:57
+msgid ""
+"This should look familiar. We initialize ROS 2, create a node, and create a "
+"publisher on the ``visualization_marker`` topic."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:60
+msgid ""
+"rclcpp::init(argc, argv);\n"
+"auto node = rclcpp::Node::make_shared(\"basic_shapes\");\n"
+"auto marker_pub = node->create_publisher<visualization_msgs::msg::Marker>(\n"
+"  \"visualization_marker\", 1);\n"
+"rclcpp::Rate loop_rate(1);"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:68
+msgid ""
+"You should have seen the ROS 2 include and node setup by now. The publisher "
+"is what matters for RViz, because the ``Marker`` display subscribes to the "
+"same topic."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:71
+msgid ""
+"Here we create an integer to keep track of what shape we're going to "
+"publish. The four types we'll be using here all use the ``visualization_msgs/"
+"msg/Marker`` message in the same way, so we can simply switch out the shape "
+"type to demonstrate the four different shapes."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:74
+msgid "uint32_t shape = visualization_msgs::msg::Marker::CUBE;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:78
+msgid ""
+"This begins the meat of the program. First we create a new "
+"``visualization_msgs/msg/Marker`` and begin filling it out. The header sets "
+"the frame ID and timestamp for the marker."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:82
+msgid ""
+"visualization_msgs::msg::Marker marker;\n"
+"marker.header.frame_id = \"my_frame\";\n"
+"marker.header.stamp = rclcpp::Clock().now();"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:88
+msgid ""
+"We set ``frame_id`` to ``my_frame`` as an example. In a running system, this "
+"should be the frame relative to which you want the marker pose to be "
+"interpreted. Because this tutorial does not publish transforms, RViz will "
+"need to use the same fixed frame later."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:92
+msgid ""
+"The namespace and ID fields are used together to create a unique name for "
+"the marker. If another message arrives with the same namespace and ID, the "
+"new marker replaces the old one."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:95
+msgid ""
+"marker.ns = \"basic_shapes\";\n"
+"marker.id = 0;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:100
+msgid ""
+"This ``type`` field specifies the kind of marker we're sending. The "
+"available types are listed in the ``visualization_msgs/msg/Marker`` message. "
+"Here we set the type to the ``shape`` variable, which changes each time "
+"through the loop."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:104
+msgid "marker.type = shape;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:108
+msgid ""
+"The ``action`` field specifies what to do with the marker. The values used "
+"in ROS 2 are ``ADD``, ``DELETE``, and ``DELETEALL``. ``ADD`` is something of "
+"a misnomer, because it really means \"create or modify\"."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:112
+msgid "marker.action = visualization_msgs::msg::Marker::ADD;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:116
+msgid ""
+"Here we set the pose of the marker. This is a full 6-DOF pose relative to "
+"the frame and time specified in the header. Here we place it at the origin "
+"and use the identity orientation."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:120
+msgid ""
+"marker.pose.position.x = 0;\n"
+"marker.pose.position.y = 0;\n"
+"marker.pose.position.z = 0;\n"
+"marker.pose.orientation.x = 0.0;\n"
+"marker.pose.orientation.y = 0.0;\n"
+"marker.pose.orientation.z = 0.0;\n"
+"marker.pose.orientation.w = 1.0;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:130
+msgid ""
+"Now we specify the scale of the marker. For the basic shapes, a scale of "
+"``1.0`` in all directions means one meter on a side."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:133
+msgid ""
+"marker.scale.x = 1.0;\n"
+"marker.scale.y = 1.0;\n"
+"marker.scale.z = 1.0;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:139
+msgid ""
+"The color is specified as RGBA values in the range ``[0, 1]``. Here we use "
+"opaque green. The alpha channel is especially important because markers are "
+"transparent by default if ``a`` is left at ``0``."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:143
+msgid ""
+"marker.color.r = 0.0f;\n"
+"marker.color.g = 1.0f;\n"
+"marker.color.b = 0.0f;\n"
+"marker.color.a = 1.0;"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:150
+msgid ""
+"The ``lifetime`` field controls how long the marker should stick around "
+"before being deleted automatically. A zero duration means it should never be "
+"deleted automatically."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:153
+msgid "marker.lifetime = rclcpp::Duration::from_nanoseconds(0);"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:157
+msgid "Now we publish the marker message."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:159
+msgid "marker_pub->publish(marker);"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:163
+msgid ""
+"This code lets us show all four shapes while just publishing one marker "
+"message. Based on the current shape, we set what the next shape to publish "
+"will be."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:166
+msgid ""
+"switch (shape) {\n"
+"  case visualization_msgs::msg::Marker::CUBE:\n"
+"    shape = visualization_msgs::msg::Marker::SPHERE;\n"
+"    break;\n"
+"  case visualization_msgs::msg::Marker::SPHERE:\n"
+"    shape = visualization_msgs::msg::Marker::ARROW;\n"
+"    break;\n"
+"  case visualization_msgs::msg::Marker::ARROW:\n"
+"    shape = visualization_msgs::msg::Marker::CYLINDER;\n"
+"    break;\n"
+"  case visualization_msgs::msg::Marker::CYLINDER:\n"
+"    shape = visualization_msgs::msg::Marker::CUBE;\n"
+"    break;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:183
+msgid "Sleep for one second and loop back to the top."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:185
+msgid "loop_rate.sleep();"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:190
+msgid "Building the code"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:191
+msgid "Build ``visualization_marker_tutorials`` in your workspace with:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:198
+msgid "Running the code"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:199
+msgid "Source your workspace and run the node."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:201
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run visualization_marker_tutorials basic_shapes"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:207
+msgid "Viewing the markers"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:208
+msgid ""
+"Now that the node is publishing markers, start RViz so you can view them."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:210
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run rviz2 rviz2"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:215
+msgid ""
+"If you have never used RViz before, start with the :doc:`RViz User Guide <../"
+"RViz-User-Guide/RViz-User-Guide>`."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:217
+msgid ""
+"Because we do not have any transforms set up, the first thing to do is set "
+"the ``Fixed Frame`` to the frame used in the marker message, ``my_frame``. "
+"Then add a ``Marker`` display. Notice that the default topic, "
+"``visualization_marker``, is the same one being published by the node."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:221
+msgid ""
+"You should now see a marker at the origin that changes shape every second."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:226
+msgid "More information"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.rst:227
+msgid ""
+"For the next marker tutorial, continue with :doc:`Marker: Points and Lines "
+"<../Marker-Points-and-Lines/Marker-Points-and-Lines>`. For more information "
+"about marker message fields and the marker types beyond the four shown here, "
+"continue with :doc:`Marker: Display types <../Marker-Display-types/Marker-"
+"Display-types>`. For the full source tree, see the `visualization_tutorials "
+"repository <https://github.com/ros-visualization/visualization_tutorials>`_."
+msgstr ""
