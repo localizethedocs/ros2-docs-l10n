@@ -1,0 +1,770 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-20 11:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:8
+msgid "Composing multiple nodes in a single process"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:14
+msgid "**Goal:** Compose multiple nodes into a single process."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:16
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:18
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:21
+msgid "Background"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:23
+msgid "See the :doc:`conceptual article <../About-Composition>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:25
+msgid ""
+"For information on how to write a composable node, :doc:`check out this "
+"tutorial <Writing-a-Composable-Node>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:28
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:30
+msgid ""
+"This tutorial uses executables from the `rclcpp_components <https://github."
+"com/ros2/rclcpp/tree/rolling/rclcpp_components>`__, `ros2component <https://"
+"github.com/ros2/ros2cli/tree/rolling/ros2component>`__, `composition "
+"<https://github.com/ros2/demos/tree/rolling/composition>`__, and "
+"`image_tools <https://github.com/ros2/demos/tree/rolling/image_tools>`__ "
+"packages. If you've followed the :doc:`installation instructions <../../../"
+"Get-Started/Installation>` for your platform, these should already be "
+"installed."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:34
+msgid "Run the demos"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:37
+msgid "Discover available components"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:39
+msgid ""
+"To see what components are registered and available in the workspace, "
+"execute the following in a shell:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:41
+msgid ""
+"$ ros2 component types\n"
+"(... components of other packages here)\n"
+"composition\n"
+"  composition::Talker\n"
+"  composition::Listener\n"
+"  composition::NodeLikeListener\n"
+"  composition::Server\n"
+"  composition::Client\n"
+"(... components of other packages here)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:55
+msgid "Run-time composition using ROS services with a publisher and subscriber"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:57
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:232
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:300
+msgid "In the first shell, start the component container:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:59
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:106
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:203
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:234
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:302
+msgid "$ ros2 run rclcpp_components component_container"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:63
+msgid ""
+"Open the second shell and verify that the container is running via ``ros2`` "
+"command line tools. You should see a name of the component:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:66
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:240
+msgid ""
+"$ ros2 component list\n"
+"/ComponentManager"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:71
+msgid ""
+"In the second shell load the talker component (see `talker <https://github."
+"com/ros2/demos/blob/rolling/composition/src/talker_component.cpp>`__ source "
+"code). The command will return the unique ID of the loaded component as well "
+"as the node name:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:74
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Talker\n"
+"Loaded component 1 into '/ComponentManager' container node as '/talker'"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:79
+msgid ""
+"Now the first shell should show a message that the component was loaded as "
+"well as repeated message for publishing a message."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:81
+msgid ""
+"Run another command in the second shell to load the listener component (see "
+"`listener <https://github.com/ros2/demos/blob/rolling/composition/src/"
+"listener_component.cpp>`__ source code):"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:83
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Listener\n"
+"Loaded component 2 into '/ComponentManager' container node as '/listener'"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:88
+msgid ""
+"The ``ros2`` command line utility can now be used to inspect the state of "
+"the container:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:90
+msgid ""
+"$ ros2 component list\n"
+"/ComponentManager\n"
+"   1  /talker\n"
+"   2  /listener"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:97
+msgid ""
+"Now the first shell should show repeated output for each received message."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:100
+msgid "Run-time composition using ROS services with a server and client"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:102
+msgid "The example with a server and a client is very similar."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:104
+msgid "In the first shell:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:110
+msgid ""
+"In the second shell (see `server <https://github.com/ros2/demos/blob/rolling/"
+"composition/src/server_component.cpp>`__ and `client <https://github.com/"
+"ros2/demos/blob/rolling/composition/src/client_component.cpp>`__ source "
+"code):"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:112
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Server\n"
+"$ ros2 component load /ComponentManager composition composition::Client"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:117
+msgid ""
+"In this case the client sends a request to the server, the server processes "
+"the request and replies with a response, and the client prints the received "
+"response."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:120
+msgid "Compile-time composition with hardcoded nodes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:122
+msgid ""
+"This demo shows that the same shared libraries can be reused to compile a "
+"single executable running multiple components without using ROS interfaces. "
+"The executable contains all four components from above: talker and listener "
+"as well as server and client, which is hardcoded in the main function."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:125
+msgid ""
+"In the shell call (see `source code <https://github.com/ros2/demos/blob/"
+"rolling/composition/src/manual_composition.cpp>`__):"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:127
+msgid "$ ros2 run composition manual_composition"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:131
+msgid ""
+"This should show repeated messages from both pairs, the talker and the "
+"listener as well as the server and the client."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:135
+msgid ""
+"Manually-composed components will not be reflected in the ``ros2 component "
+"list`` command line tool output."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:138
+msgid "Run-time composition using dlopen"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:140
+msgid ""
+"This demo presents an alternative to run-time composition by creating a "
+"generic container process and explicitly passing the libraries to load "
+"without using ROS interfaces. The process will open each library and create "
+"one instance of each \"rclcpp::Node\" class in the library (`source code "
+"<https://github.com/ros2/demos/blob/rolling/composition/src/"
+"dlopen_composition.cpp>`__)."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:145
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:147
+msgid ""
+"$ ros2 run composition dlopen_composition `ros2 pkg prefix composition`/lib/"
+"libtalker_component.so `ros2 pkg prefix composition`/lib/"
+"liblistener_component.so"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:151
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:153
+msgid ""
+"$ ros2 run composition dlopen_composition `ros2 pkg prefix composition`/lib/"
+"libtalker_component.dylib `ros2 pkg prefix composition`/lib/"
+"liblistener_component.dylib"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:157
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:159
+msgid "$ ros2 pkg prefix composition"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:163
+msgid "to get the path to where composition is installed. Then call"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:166
+msgid ""
+"$ ros2 run composition dlopen_composition "
+"<path_to_composition_install>\\bin\\talker_component.dll "
+"<path_to_composition_install>\\bin\\listener_component.dll"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:170
+msgid ""
+"Now the shell should show repeated output for each sent and received message."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:174
+msgid ""
+"dlopen-composed components will not be reflected in the ``ros2 component "
+"list`` command line tool output."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:178
+msgid "Composition using launch actions"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:180
+msgid ""
+"While the command line tools are useful for debugging and diagnosing "
+"component configurations, it is frequently more convenient to start a set of "
+"components at the same time. To automate this action, we can use a `launch "
+"file <https://github.com/ros2/demos/blob/rolling/composition/launch/"
+"composition_demo_launch.py>`__:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:183
+msgid "$ ros2 launch composition composition_demo_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:189
+msgid "Advanced Topics"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:191
+msgid ""
+"Now that we have seen the basic operation of components, we can discuss a "
+"few more advanced topics."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:196
+msgid "Component container types"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:198
+msgid ""
+"As introduced in :ref:`ComponentContainer`, there are a few component "
+"container types with different options. You can choose the most appropriate "
+"component container type for your requirement."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:201
+msgid "``component_container`` with ``SingleThreadedExecutor``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:207
+msgid ""
+"``component_container`` with ``MultiThreadedExecutor`` composed of 4 threads."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:208
+msgid ""
+"``thread_num`` parameter option is available to specify the number of "
+"threads in ``MultiThreadedExecutor``. If omitted, the executor will run with "
+"the maximum available threads on the system."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:211
+msgid ""
+"$ ros2 run rclcpp_components component_container --executor-type multi-"
+"threaded --ros-args -p thread_num:=4"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:215
+msgid ""
+"``component_container`` with ``EventsCBGExecutor`` composed of a single "
+"thread."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:216
+msgid ""
+"``thread_num`` parameter option is available to specify the number of "
+"threads in ``EventsCBGExecutor``. If omitted, the executor will run with the "
+"maximum available threads on the system."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:219
+msgid ""
+"$ ros2 run rclcpp_components component_container --executor-type events-cbg "
+"--ros-args -p thread_num:=1"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:223
+msgid ""
+"``component_container`` with a dedicated ``MultiThreadedExecutor`` for each "
+"component."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:225
+msgid ""
+"$ ros2 run rclcpp_components component_container --executor-type multi-"
+"threaded --isolated"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:230
+msgid "Unloading components"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:238
+msgid "Verify that the container is running via ``ros2`` command line tools:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:245
+msgid ""
+"In the second shell load both the talker and listener as we have before:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:247
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Talker\n"
+"Loaded component 1 into '/ComponentManager' container node as '/talker'\n"
+"$ ros2 component load /ComponentManager composition composition::Listener\n"
+"Loaded component 2 into '/ComponentManager' container node as '/listener'"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:254
+msgid ""
+"The unique ID of a component is printed when it gets loaded. You can also "
+"get the unique IDs of all components by just listing them now that they are "
+"loaded:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:257
+msgid ""
+"$ ros2 component list\n"
+"/ComponentManager\n"
+"  1  /talker\n"
+"  2  /listener"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:264
+msgid "Use the unique ID to unload the component from the component container."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:266
+msgid ""
+"$ ros2 component unload /ComponentManager 1 2\n"
+"Unloaded component 1 from '/ComponentManager' container\n"
+"Unloaded component 2 from '/ComponentManager' container"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:272
+msgid ""
+"In the first shell, verify that the repeated messages from talker and "
+"listener have stopped."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:276
+msgid "Remapping container name and namespace"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:278
+msgid ""
+"The component manager name and namespace can be remapped via standard "
+"command line arguments:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:280
+msgid ""
+"$ ros2 run rclcpp_components component_container --ros-args -r __node:"
+"=MyContainer -r __ns:=/ns"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:284
+msgid ""
+"In a second shell, components can be loaded by using the updated container "
+"name:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:286
+msgid "$ ros2 component load /ns/MyContainer composition composition::Listener"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:292
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:339
+msgid "Namespace remappings of the container do not affect loaded components."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:296
+msgid "Remap component names and namespaces"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:298
+msgid ""
+"Component names and namespaces may be adjusted via arguments to the load "
+"command."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:307
+msgid "Some examples of how to remap names and namespaces."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:309
+msgid "Remap node name:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:311
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Talker --"
+"node-name talker2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:315
+msgid "Remap namespace:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:317
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Talker --"
+"node-namespace /ns"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:321
+msgid "Remap both:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:323
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Talker --"
+"node-name talker3 --node-namespace /ns2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:327
+msgid "Now use ``ros2`` command line utility:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:329
+msgid ""
+"$ ros2 component list\n"
+"/ComponentManager\n"
+"   1  /talker2\n"
+"   2  /ns/talker\n"
+"   3  /ns2/talker3"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:342
+msgid "Passing parameter values into components"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:344
+msgid ""
+"The ``ros2 component load`` command-line supports passing arbitrary "
+"parameters to the node as it is constructed. This functionality can be used "
+"as follows:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:347
+msgid ""
+"$ ros2 component load /ComponentManager image_tools image_tools::Cam2Image -"
+"p burger_mode:=true\n"
+"$ ros2 run rqt_image_view rqt_image_view  # Shows burgers bouncing, instead "
+"of image from camera"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:353
+msgid "Passing additional arguments into components"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:355
+msgid ""
+"The ``ros2 component load`` command-line supports passing particular options "
+"to the component manager for use when constructing the node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:357
+msgid ""
+"The following example shows the use of the extra arguments "
+"``use_intra_process_comms`` and ``forward_global_arguments``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:359
+msgid ""
+"$ ros2 component load /ComponentManager composition composition::Talker -e "
+"use_intra_process_comms:=true -e forward_global_arguments:=false"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:363
+msgid "The following extra arguments are supported."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:365
+msgid "Extra Arguments for Component Manager"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:369
+msgid "Argument"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:370
+msgid "Type"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:371
+msgid "Default"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:372
+msgid "Description"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:373
+msgid "``forward_global_arguments``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:374
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:378
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:382
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:386
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:390
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:394
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:398
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:402
+msgid "Boolean"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:375
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:379
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:391
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:395
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:399
+msgid "True"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:376
+msgid "Apply global arguments to the component node when loading."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:377
+msgid "``enable_rosout``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:380
+msgid "Enable the ``rosout`` topic publisher in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:381
+msgid "``use_intra_process_comms``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:383
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:387
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:403
+msgid "False"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:384
+msgid "Enable intra-process communication in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:385
+msgid "``enable_topic_statistics``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:388
+msgid "Enable a topic statistics publisher in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:389
+msgid "``start_parameter_services``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:392
+msgid "Enable services to manage parameters in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:393
+msgid "``start_parameter_event_publisher``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:396
+msgid "Enable the parameter event publisher in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:397
+msgid "``use_clock_thread``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:400
+msgid "Enable a dedicated clock thread in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:401
+msgid "``enable_logger_service``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:404
+msgid "Enable logger level management service in the component node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:408
+msgid "Composable nodes as shared libraries"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:410
+msgid ""
+"If you want to export a composable node as a shared library from a package "
+"and use that node in another package that does link-time composition, add "
+"code to the CMake file which imports the actual targets in downstream "
+"packages."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:412
+msgid "Then install the generated file and export the generated file."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:414
+msgid ""
+"A practical example can be seen here: `ROS Discourse - Ament best practice "
+"for sharing libraries <https://discourse.openrobotics.org/t/ament-best-"
+"practice-for-sharing-libraries/3602>`__"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:417
+msgid "Composing Non-Node Derived Components"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:419
+msgid ""
+"In ROS 2, components allow for more efficient use of system resources and "
+"provide a powerful feature that enables you to create reusable functionality "
+"that is not tied to a specific node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:421
+msgid ""
+"One advantage of using components is that they allow you to create non-node "
+"derived functionality as standalone executables or shared libraries that can "
+"be loaded into the ROS system as needed."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:423
+msgid ""
+"To create a component that is not derived from a node, follow these "
+"guidelines:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:425
+msgid ""
+"Implement a constructor that takes ``const rclcpp::NodeOptions&`` as its "
+"argument."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:426
+msgid ""
+"Implement the ``get_node_base_interface()`` method, which should return a "
+"``NodeBaseInterface::SharedPtr``. You can use the "
+"``get_node_base_interface()`` method of a node that you create in your "
+"constructor to provide this interface."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:429
+msgid ""
+"Here's an example of a component that is not derived from a node, which "
+"listens to a ROS topic: `node_like_listener_component <https://github.com/"
+"ros2/demos/blob/rolling/composition/src/node_like_listener_component.cpp>`__."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/Composition.rst:431
+msgid ""
+"For more information on this topic, you can refer to this `discussion "
+"<https://github.com/ros2/rclcpp/issues/2110#issuecomment-1454228192>`__."
+msgstr ""
