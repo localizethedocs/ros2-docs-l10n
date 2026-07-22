@@ -1,0 +1,469 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-20 11:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:8
+msgid "Understanding real-time programming"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:15
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:17
+msgid ""
+"Real-time computing is a key feature of many robotics systems, particularly "
+"safety- and mission-critical applications such as autonomous vehicles, "
+"spacecrafts, and industrial manufacturing. We are designing and prototyping "
+"ROS 2 with real-time performance constraints in mind, since this is a "
+"requirement that was not considered in the early stages of ROS 1 and it is "
+"now intractable to refactor ROS 1 to be real-time friendly."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:20
+msgid ""
+"`This document <https://design.ros2.org/articles/realtime_background."
+"html>`__ outlines the requirements of real-time computing and best practices "
+"for software engineers. In short:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:23
+msgid ""
+"To make a real-time computer system, our real-time loop must update "
+"periodically to meet deadlines. We can only tolerate a small margin of error "
+"on these deadlines (our maximum allowable jitter). To do this, we must avoid "
+"nondeterministic operations in the execution path, things like: pagefault "
+"events, dynamic memory allocation/deallocation, and synchronization "
+"primitives that block indefinitely."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:27
+msgid ""
+"A classic example of a controls problem commonly solved by real-time "
+"computing is balancing an `inverted pendulum <https://en.wikipedia.org/wiki/"
+"Inverted_pendulum>`__. If the controller blocked for an unexpectedly long "
+"amount of time, the pendulum would fall down or go unstable. But if the "
+"controller reliably updates at a rate faster than the motor controlling the "
+"pendulum can operate, the pendulum will successfully adapt react to sensor "
+"data to balance the pendulum."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:31
+msgid ""
+"Now that you know everything about real-time computing, let's try a demo!"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:34
+msgid "Install and run the demo"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:36
+msgid ""
+"The real-time demo was written with Linux operating systems in mind, since "
+"many members of the ROS community doing real-time computing use Xenomai or "
+"RT_PREEMPT as their real-time solutions. Since many of the operations done "
+"in the demo to optimize performance are OS-specific, the demo only builds "
+"and runs on Linux systems. **So, if you are an OSX or Windows user, don't "
+"try this part!**"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:40
+msgid ""
+"Also this must be built from source using a static DDS API. **Currently the "
+"only supported implementation is ConnextDDS**."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:43
+msgid ""
+"First, follow the instructions to build ROS 2 :doc:`from source <../../Get-"
+"Started/Installation/Alternatives/Ubuntu-Development-Setup>` using Connext "
+"DDS as the middleware."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:46
+msgid "Run the tests"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:48
+msgid ""
+"**Before you run make sure you have at least 8Gb of RAM free. With the "
+"memory locking, swap will not work anymore.**"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:51
+msgid "Source your ROS 2 ``setup.bash``:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:53
+msgid "$ source ./install/setup.bash"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:57
+msgid ""
+"Run the demo binary. You may want to use ``sudo`` in case you get permission "
+"error:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:60
+msgid ""
+"$ ros2 run pendulum_control pendulum_demo\n"
+"Initial major pagefaults: 518\n"
+"Initial minor pagefaults: 2139466\n"
+"No results filename given, not writing results\n"
+"rttest statistics:\n"
+"- Minor pagefaults: 0\n"
+"- Major pagefaults: 0\n"
+"Latency (time after deadline was missed):\n"
+"   - Min: 1851 ns\n"
+"   - Max: 166796 ns\n"
+"   - Mean: 14229.182000 ns\n"
+"   - Standard deviation: 12288.040996"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:75
+msgid "You could see the following error output to the console (from stderr):"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:77
+msgid ""
+"mlockall failed: Cannot allocate memory\n"
+"Couldn't lock all cached virtual memory.\n"
+"Pagefaults from reading pages not yet mapped into RAM will be recorded."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:83
+msgid ""
+"After the initialization stage of the demo program, it will attempt to lock "
+"all cached memory into RAM and prevent future dynamic memory allocations "
+"using ``mlockall``. This is to prevent pagefaults from loading lots of new "
+"memory into RAM. (See `the realtime design article <https://design.ros2.org/"
+"articles/realtime_background.html#memory-management>`__ for more "
+"information.)"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:87
+msgid ""
+"The demo will continue on as usual when this occurs. You could also see the "
+"output as following, that means the number of pagefaults encountered during "
+"execution:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:92
+msgid ""
+"rttest statistics:\n"
+"  - Minor pagefaults: 20\n"
+"  - Major pagefaults: 0"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:96
+msgid "If we want those pagefaults to go away, we'll have to..."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:99
+msgid "Adjust permissions for memory locking"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:101
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:197
+msgid "Add to ``/etc/security/limits.conf`` (as sudo):"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:105
+msgid "<your username>    -   memlock   <limit in kB>"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:107
+msgid ""
+"A limit of ``-1`` is unlimited. If you choose this, you may need to "
+"accompany it with ``ulimit -l unlimited`` (as root) after editing the file."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:110
+msgid ""
+"After saving the file, log out and log back in. Then rerun the "
+"``pendulum_demo`` invocation."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:113
+msgid ""
+"You'll either see zero pagefaults in your output file, or an error saying "
+"that a bad_alloc exception was caught. If this happened, you didn't have "
+"enough free memory available to lock the memory allocated for the process "
+"into RAM. You'll need to install more RAM in your computer to see zero "
+"pagefaults!"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:118
+msgid "Output overview"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:120
+msgid "To see more output, we have to run the ``pendulum_logger`` node."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:122
+msgid "In one shell with your ``install/setup.bash`` sourced, invoke:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:124
+msgid "$ ros2 run pendulum_control pendulum_logger"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:129
+msgid "You should see the output message:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:133
+msgid "Logger node initialized."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:135
+msgid ""
+"In another shell with setup.bash sourced, invoke ``pendulum_demo`` again."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:137
+msgid ""
+"As soon as this executable starts, you should see the other shell constantly "
+"printing output:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:141
+msgid ""
+"Commanded motor angle: 1.570796\n"
+"Actual motor angle: 1.570796\n"
+"Mean latency: 210144.000000 ns\n"
+"Min latency: 4805 ns\n"
+"Max latency: 578137 ns\n"
+"Minor pagefaults during execution: 0\n"
+"Major pagefaults during execution: 0"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:149
+msgid ""
+"The demo is controlling a very simple inverted pendulum simulation. The "
+"pendulum simulation calculates its position in its own thread. A ROS node "
+"simulates a motor encoder sensor for the pendulum and publishes its "
+"position. Another ROS node acts as a simple PID controller and calculates "
+"the next command message."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:154
+msgid ""
+"The logger node periodically prints out the pendulum's state and the runtime "
+"performance statistics of the demo during its execution phase."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:156
+msgid ""
+"After the ``pendulum_demo`` is finished, you'll have to CTRL-C out of the "
+"logger node to exit."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:159
+msgid "Latency"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:161
+msgid ""
+"At the ``pendulum_demo`` execution, you'll see the final statistics "
+"collected for the demo:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:165
+msgid ""
+"rttest statistics:\n"
+"  - Minor pagefaults: 0\n"
+"  - Major pagefaults: 0\n"
+"  Latency (time after deadline was missed):\n"
+"    - Min: 3354 ns\n"
+"    - Max: 2752187 ns\n"
+"    - Mean: 19871.8 ns\n"
+"    - Standard deviation: 1.35819e+08\n"
+"\n"
+"PendulumMotor received 985 messages\n"
+"PendulumController received 987 messages"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:177
+msgid ""
+"The latency fields show you the minimum, maximum, and average latency of the "
+"update loop in nanoseconds. Here, latency means the amount of time after the "
+"update was expected to occur."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:180
+msgid ""
+"The requirements of a real-time system depend on the application, but let's "
+"say in this demo we have a 1kHz (1 millisecond) update loop, and we're "
+"aiming for a maximum allowable latency of 5% of our update period."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:182
+msgid ""
+"So, our average latency was really good in this run, but the maximum latency "
+"was unacceptable because it actually exceeded our update loop! What happened?"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:185
+msgid ""
+"We may be suffering from a non-deterministic scheduler. If you're running a "
+"vanilla Linux system and you don't have the RT_PREEMPT kernel installed, you "
+"probably won't be able to meet the real-time goal we set for ourselves, "
+"because the Linux scheduler won't allow you to arbitrarily preempt threads "
+"at the user level."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:188
+msgid ""
+"See the `realtime design article <https://design.ros2.org/articles/"
+"realtime_background.html#multithreaded-programming-and-synchronization>`__ "
+"for more information."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:190
+msgid ""
+"The demo attempts to set the scheduler and thread priority of the demo to be "
+"suitable for real-time performance. If this operation failed, you'll see an "
+"error message: \"Couldn't set scheduling priority and policy: Operation not "
+"permitted\". You can get slightly better performance by following the "
+"instructions in the next section:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:195
+msgid "Setting permissions for the scheduler"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:201
+msgid "<your username>    -   rtprio   98"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:203
+msgid ""
+"The range of the rtprio (real-time priority) field is 0-99. However, do NOT "
+"set the limit to 99 because then your processes could interfere with "
+"important system processes that run at the top priority (e.g. watchdog). "
+"This demo will attempt to run the control loop at priority 98."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:208
+msgid "Plotting results"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:210
+msgid ""
+"You can plot the latency and pagefault statistics that are collected in this "
+"demo after the demo runs."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:212
+msgid ""
+"Because the code has been instrumented with `rttest <https://github.com/ros2/"
+"rttest>`__, there are useful command line arguments available:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:215
+msgid "Command"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:215
+msgid "Description"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:215
+msgid "Default value"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:217
+msgid "-i"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:217
+msgid "Specify how many iterations to run the real-time loop"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:217
+msgid "1000"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:219
+msgid "-u"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:219
+msgid "Specify the update period with the default unit being microseconds"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:221
+msgid "Use the suffix \"s\" for seconds, \"ms\" for milliseconds,"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:223
+msgid "\"us\" for microseconds, and \"ns\" for nanoseconds"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:219
+msgid "1ms"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:225
+msgid "-f"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:225
+msgid "Specify the name of the file for writing the collected data"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:228
+msgid "Run the demo again with a filename to save results:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:230
+msgid "$ ros2 run pendulum_control pendulum_demo -f pendulum_demo_results"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:234
+msgid "Then run the ``rttest_plot`` script on the resulting file:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:236
+msgid ""
+"$ ros2 run rttest rttest_plot pendulum_demo_results\n"
+"Writing results to file: pendulum_demo_results\n"
+"..."
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:242
+msgid "This script will produce a number of files:"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:246
+msgid ""
+"pendulum_demo_results_plot_latency.svg\n"
+"pendulum_demo_results_plot_latency_hist.svg\n"
+"pendulum_demo_results_plot_majflts.svg\n"
+"pendulum_demo_results_plot_minflts.svg"
+msgstr ""
+
+#: ../../../source/Capabilities/Motion-planning/Real-Time-Programming.rst:251
+msgid "You can view these plots in an image viewer of your choice."
+msgstr ""

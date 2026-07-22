@@ -1,0 +1,738 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-20 11:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:8
+msgid "Topic Keys Tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:10
+msgid ""
+"This tutorial aims to demonstrate the use of topic keys by simulating a "
+"scenario in which multiple sensors are transmitting their readings to a "
+"controller that processes them."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:18
+msgid "Background"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:20
+msgid ""
+"In ROS 2, a :doc:`Topic <../../../About-Topics>` is a communication channel "
+"used for publishing and subscribing to updates of object states. The value "
+"of data associated with a topic changes over time and each of these values "
+"are known as *data samples*. Keyed topics refer to topics where each data "
+"sample represent an update of the state of a specific object (known as "
+"*instance*) among all those objects represented in the topic."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:24
+msgid ""
+"Unlike standard topics, where each data sample updates the entire object "
+"state with every data sample, keyed topics allow the user to reduce the "
+"number of required resources (topics, along with its associated publisher "
+"and subscriber) by multiplexing updates of several objects of the same kind "
+"into a single resource."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:31
+msgid "RMW Support"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:33
+msgid "Keyed topics require RMW implementation support."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:35
+msgid "Keyed Topics Support Status"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:38
+msgid "rmw_fastrtps"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:39
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:41
+msgid "supported"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:40
+msgid "rmw_connextdds"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:42
+msgid "rmw_cyclonedds"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:43
+msgid "not supported"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:45
+msgid ""
+"Implementations not supporting the feature will treat keyed topics as "
+"standard topics. The implications are explained throughout the tutorial. In "
+"addition, endpoints using `Cyclone DDS <https://index.ros.org/p/"
+"rmw_cyclonedds_cpp/>`_ will not even match with Fast DDS or Connext DDS "
+"endpoints for this kind of topics."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:50
+msgid "Creating custom IDL messages"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:52
+msgid ""
+"ROS 2 users can define their own :ref:`custom topic "
+"messages<CustomInterfaces>` in the ``.msg`` format. Then, the ROS 2 message "
+"generation stack translates it to the DDS native `OMG IDL (Interface "
+"Definition Language) <https://www.omg.org/spec/IDL/4.2/About-IDL>`_ message "
+"format."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:55
+msgid ""
+"One of the advantages of defining messages in IDL is the ability to use "
+"annotations. Annotations are metadata to the data structure definition that "
+"provide additional information about IDL constructs such as modules, "
+"interfaces, operations, attributes, and data types. They are relevant for "
+"code generation, documentation, or other purposes. Annotations in IDL "
+"typically follow the ``@`` symbol and can be applied to various IDL "
+"constructs. The ``@key`` annotation is used to designate a member as key, "
+"which is covered in the following section."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:61
+msgid ""
+"Users can define their own messages in the IDL format directly (following "
+"the `ROS 2 interface design documentation <https://design.ros2.org/articles/"
+"idl_interface_definition.html>`_) or use the ``msg2idl`` tool within the "
+"``rosidl_adapter`` package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:64
+msgid "Creating Keyed Messages"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:66
+msgid ""
+"Keyed topics exist when one or more fields in the data structure are "
+"annotated as keys. These key fields serve as unique identifiers for topic "
+"instances in order to organize and manage the data samples, facilitating "
+"efficient access, retrieval, and filtering of data based on the specified "
+"key criteria."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:69
+msgid ""
+"The ``@key`` annotation designates a field as a key for the given topic "
+"type, which can have zero or more key fields and can be applied to structure "
+"fields of various types:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:71
+msgid ""
+"Any primitive, such as booleans, integers, characters, strings or sequences."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:72
+msgid ""
+"Other existing or defined messages. If those have defined an inner key "
+"member, then those fields will we used as part of the key. Otherwise, the "
+"key will be the concatenation of all the fields."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:76
+msgid ""
+"In order to specify multiple keys, separate ``@key`` annotations are used. "
+"The following example shows how to define a keyed message using the IDL "
+"format:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:79
+msgid ""
+"# KeyedMsgName.idl\n"
+"module package_name {\n"
+"  module msg {\n"
+"    struct KeyedMsgName {\n"
+"      @key long key;\n"
+"      string data;\n"
+"    };\n"
+"  };\n"
+"};"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:93
+msgid ""
+"Currently, the only supported message format that can be annotated with "
+"``@key`` is *.idl*. Neither ``.msg`` nor ``.srv`` files support annotations "
+"yet."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:97
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:99
+msgid ""
+"An up-to-date ROS 2 installation and setup. Either installed in local host, "
+"or using Docker images."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:103
+msgid "Preparing the demo package"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:105
+msgid ""
+"Lets start by setting up the environment. For this, there are two possible "
+"options:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:108
+msgid "Running a ROS 2 Docker image."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:110
+msgid "$ docker run -it --rm osrt/ros:rolling-desktop"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:114
+msgid ""
+"Running the tutorial on the local host. Please, follow the :doc:"
+"`installation instructions <../../../../../Get-Started/Installation>` for "
+"details on installing ROS 2."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:117
+msgid "Source the following file to setup the ROS 2 environment:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:121
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:150
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:269
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:320
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:375
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:445
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:519
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:123
+msgid "$ source /opt/ros/rolling/setup.bash"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:127
+msgid ""
+"Replace ``.bash`` with your shell if you're not using bash. Possible values "
+"are: ``setup.bash``, ``setup.sh``, ``setup.zsh``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:130
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:177
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:278
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:327
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:393
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:464
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:538
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:132
+msgid "$ . ~/ros2_install/ros2-osx/setup.bash"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:136
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:204
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:287
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:334
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:411
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:483
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:557
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:138
+msgid "$ call C:\\dev\\ros2\\local_setup.bat"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:144
+msgid "Retrieving the sources"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:146
+msgid ""
+"In order to retrieve the example demo code, create a new workspace and "
+"download the demo package sources as indicated below:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:152
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:179
+msgid ""
+"# Create directory structure\n"
+"$ mkdir -p ~/tutorial_ws/src/demo_keys_cpp\n"
+"$ mkdir ~/tutorial_ws/src/demo_keys_cpp/msg\n"
+"$ mkdir ~/tutorial_ws/src/demo_keys_cpp/src\n"
+"$ mkdir ~/tutorial_ws/src/demo_keys_cpp/launch\n"
+"$ cd ~/tutorial_ws/src/demo_keys_cpp\n"
+"\n"
+"# Download demo package source code\n"
+"$ wget -O CMakeLists.txt https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/CMakeLists.txt\n"
+"$ wget -O package.xml https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/package.xml\n"
+"$ wget -O README.md https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/README.md\n"
+"$ wget -O msg/SensorDataMsg.msg https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/msg/SensorDataMsg.msg\n"
+"$ wget -O msg/KeyedSensorDataMsg.msg https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/msg/KeyedSensorDataMsg.msg\n"
+"$ wget -O src/multiple_topic_sensor.cpp https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/multiple_topic_sensor.cpp\n"
+"$ wget -O src/multiple_topic_controller.cpp https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/multiple_topic_controller.cpp\n"
+"$ wget -O src/single_topic_sensor.cpp https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/src/single_topic_sensor.cpp\n"
+"$ wget -O src/single_topic_controller.cpp https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/single_topic_controller.cpp\n"
+"$ wget -O src/keyed_sensor.cpp https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/src/keyed_sensor.cpp\n"
+"$ wget -O src/keyed_controller.cpp https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/src/keyed_controller.cpp\n"
+"$ wget -O launch/multiple_topic_sensors_launch.py https://raw."
+"githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/"
+"Advanced/Topic-Keys/resources/Basic/launch/multiple_topic_sensors_launch.py\n"
+"$ wget -O launch/single_topic_sensors_launch.py https://raw."
+"githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/"
+"Advanced/Topic-Keys/resources/Basic/launch/single_topic_sensors_launch.py\n"
+"$ wget -O launch/keyed_sensors_launch.py https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/launch/keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:206
+msgid ""
+"# Create directory structure\n"
+"$ mkdir C:\\tutorial_ws\\src\\demo_keys_cpp\\msg\n"
+"$ mkdir C:\\tutorial_ws\\src\\demo_keys_cpp\\src\n"
+"$ mkdir C:\\tutorial_ws\\src\\demo_keys_cpp\\launch\n"
+"$ cd C:\\tutorial_ws\\src\\demo_keys_cpp\n"
+"\n"
+"# Download demo package source code\n"
+"$ irm -OutFile CMakeLists.txt https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/CMakeLists.txt\n"
+"$ irm -OutFile package.xml https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/package.xml\n"
+"$ irm -OutFile README.md https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/README.md\n"
+"$ irm -OutFile msg/SensorDataMsg.msg https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/msg/SensorDataMsg.msg\n"
+"$ irm -OutFile msg/KeyedSensorDataMsg.msg https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/msg/KeyedSensorDataMsg.msg\n"
+"$ irm -OutFile src/multiple_topic_sensor.cpp https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/multiple_topic_sensor.cpp\n"
+"$ irm -OutFile src/multiple_topic_controller.cpp https://raw."
+"githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/"
+"Advanced/Topic-Keys/resources/Basic/src/multiple_topic_controller.cpp\n"
+"$ irm -OutFile src/single_topic_sensor.cpp https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/single_topic_sensor.cpp\n"
+"$ irm -OutFile src/single_topic_controller.cpp https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/single_topic_controller.cpp\n"
+"$ irm -OutFile src/keyed_sensor.cpp https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Basic/src/keyed_sensor.cpp\n"
+"$ irm -OutFile src/keyed_controller.cpp https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/src/keyed_controller.cpp\n"
+"$ irm -OutFile launch/multiple_topic_sensors_launch.py https://raw."
+"githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/"
+"Advanced/Topic-Keys/resources/Basic/launch/multiple_topic_sensors_launch.py\n"
+"$ irm -OutFile launch/single_topic_sensors_launch.py https://raw."
+"githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/"
+"Advanced/Topic-Keys/resources/Basic/launch/single_topic_sensors_launch.py\n"
+"$ irm -OutFile launch/keyed_sensors_launch.py https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Basic/launch/keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:230
+msgid ""
+"Like any other ROS 2 related package, the external dependencies are listed "
+"in the ``package.xml``. The ``CMakeLists.txt`` file defines the different "
+"targets to be built and the dependencies between them. Note that it is built "
+"in a component manner meaning that the nodes defined in the source files can "
+"be also loaded as composable plugins apart from being executed as standalone "
+"nodes. The *src/* directory contains the core source files for the different "
+"nodes that will be executed in the demo. The launch files for sensors are "
+"also provided in the *launch/* directory in which 10 different nodes are "
+"launched for each one of the cases that will be later explained. Finally, "
+"the *msg/* directory contains two different IDL message definitions, one "
+"with key annotations (sensor_id) and another without it."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:237
+msgid "The resulting directory structure should be:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:239
+msgid ""
+"~/tutorial_ws\n"
+" ├──src\n"
+"    ├── demo_keys_cpp\n"
+"        ├── CMakeLists.txt\n"
+"        ├── README.md\n"
+"        ├── launch\n"
+"        │   ├── keyed_sensors_launch.py\n"
+"        │   ├── multiple_topic_sensors_launch.py\n"
+"        │   └── single_topic_sensors_launch.py\n"
+"        ├── msg\n"
+"        │   ├── KeyedSensorDataMsg.msg\n"
+"        │   └── SensorDataMsg.msg\n"
+"        ├── package.xml\n"
+"        └── src\n"
+"            ├── keyed_controller.cpp\n"
+"            ├── keyed_sensor.cpp\n"
+"            ├── multiple_topic_controller.cpp\n"
+"            ├── multiple_topic_sensor.cpp\n"
+"            ├── single_topic_controller.cpp\n"
+"            └── single_topic_sensor.cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:263
+msgid "Generating the IDL files"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:265
+msgid ""
+"Starting from the provided ``.msg`` files, generate the corresponding IDL "
+"files using the ``msg2idl.py`` script from the ``rosidl_adapter`` package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:271
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:280
+msgid ""
+"$ cd ~/tutorial_ws/src/demo_keys_cpp/msg\n"
+"$ ros2 run rosidl_adapter msg2idl.py SensorDataMsg.msg\n"
+"$ ros2 run rosidl_adapter msg2idl.py KeyedSensorDataMsg.msg\n"
+"$ rm SensorDataMsg.msg KeyedSensorDataMsg.msg"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:289
+msgid ""
+"$ cd C:\\tutorial_ws\\src\\demo_keys_cpp\\msg\n"
+"$ ros2 run rosidl_adapter msg2idl.py SensorDataMsg.msg\n"
+"$ ros2 run rosidl_adapter msg2idl.py KeyedSensorDataMsg.msg\n"
+"$ del SensorDataMsg.msg KeyedSensorDataMsg.msg"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:297
+msgid ""
+"Next, annotate the ``sensor_id`` field as ``@key`` in the generated "
+"``KeyedSensorDataMsg.idl``. Its content should look like the following:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:300
+msgid ""
+"/* KeyedSensorDataMsg.idl */\n"
+"module demo_keys_cpp {\n"
+"  module msg {\n"
+"    struct KeyedSensorDataMsg {\n"
+"      @key int16 sensor_id;\n"
+"      string data;\n"
+"    };\n"
+"  };\n"
+"};"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:313
+msgid "Building the demo package"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:315
+msgid ""
+"Once the environment has been setup and the demo package sources are "
+"available, we are ready to build the workspace. Get into the root of the "
+"workspace and build it with the following commands:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:322
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:329
+msgid ""
+"$ cd ~/tutorial_ws\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:336
+msgid ""
+"$ cd C:\\tutorial_ws\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:342
+msgid "Running the demo"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:344
+msgid ""
+"The tutorial demo consists of a controller node that subscribes to the data "
+"published by multiple sensors. Each of the sensors are identified by a "
+"*sensor_id* and publish data to the controller at different rates, in "
+"particular, the publication period (in seconds) is the *sensor_id* times 1. "
+"Three different valid approaches are used to address the situation:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:348
+msgid ""
+"In the first one, multiple sensors are publishing data to the controller "
+"using different topics for each sensor and the controller subscribing to "
+"each one of them."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:349
+msgid ""
+"In the second approach, multiple sensors publish data to the controller "
+"using a single standalone topic."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:350
+msgid ""
+"Finally, in the third one, the sensors use a single keyed topic defining a "
+"single data instance per unique *sensor_id*."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:352
+msgid ""
+"In addition, all the publications and subscriptions use the following QoS "
+"settings:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:354
+msgid "History QoS: ``KEEP_LAST 1``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:355
+msgid "Reliable communication."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:356
+msgid "Transient Local durability."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:358
+msgid ""
+"This is set this way to recreate late joining of the controller to the "
+"application and evaluate the behavior in each of the three different "
+"scenarios. The following diagram depicts the three different scenarios:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:365
+msgid ""
+"Lets start with the first scenario. Run the demo by executing the following "
+"commands in separate terminals:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:370
+msgid ""
+"If a docker deployment was preferred, it would be necessary to attach the "
+"other two terminals to the running docker container before executing the "
+"above commands. This can be done by running ``docker exec -it "
+"<container_name> /bin/bash``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:379
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:397
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:415
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:449
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:468
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:487
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:523
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:542
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:561
+msgid "Shell 1 (Sensors)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:381
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:399
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"$ ros2 launch demo_keys_cpp multiple_topic_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:386
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:404
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:422
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:456
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:475
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:494
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:530
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:549
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:568
+msgid "Shell 2 (Controller)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:388
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:406
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"$ ros2 run demo_keys_cpp multiple_topic_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:417
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"$ ros2 launch demo_keys_cpp multiple_topic_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:424
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"$ ros2 run demo_keys_cpp multiple_topic_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:429
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:576
+msgid "The resulting output should be similar to the following:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:435
+msgid ""
+"It is important to note that this initial approach is not the most efficient "
+"one, as it entails the creation of multiple topics, publishers, and "
+"subscriptions. Furthermore, apart from being inefficient, it also makes the "
+"application more complex, harder to maintain, and resource demanding. "
+"Moreover, as a consequence of creating far more entities than needed, the "
+"application incurs in an unnecessary discovery overhead."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:439
+msgid ""
+"Lets go a step further. In this second approach a single topic is used in "
+"which all the sensors will publish their data (without using a keyed topic). "
+"Run the demo by executing the following commands in separate terminals:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:451
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:470
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"$ ros2 launch demo_keys_cpp single_topic_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:458
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:477
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"#Wait until sensor[10] publishes the first data (10 secs)\n"
+"$ ros2 run demo_keys_cpp single_topic_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:489
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"$ ros2 launch demo_keys_cpp single_topic_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:496
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"#Wait until sensor[10] publishes the first data (10 secs)\n"
+"$ ros2 run demo_keys_cpp single_topic_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:502
+msgid "Which leads to an output similar to the one shown below:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:509
+msgid ""
+"This second scenario illustrates that using one single topic, a late-joining "
+"controller will not recover the state of all the sensors when it joins the "
+"application. This is easily noticeable in the case of sensor with *id* 10; "
+"the controller will not receive the latest data published by this sensor "
+"until it publishes a new one. Furthermore, sensors publishing at higher "
+"rates (sensors 1~3) can overwrite the data of low rate sensors, causing "
+"starvation even in the case of augmenting the history size. These are severe "
+"problems that should be avoided."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:514
+msgid ""
+"Now, lets move on to the third approach for addressing the problem. Start, "
+"or reuse previous opened terminals and run the following commands:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:525
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:544
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"$ ros2 launch demo_keys_cpp keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:532
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:551
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"#Wait until sensor[10] publishes the first data (10 secs)\n"
+"$ ros2 run demo_keys_cpp keyed_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:563
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"$ ros2 launch demo_keys_cpp keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:570
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"#Wait until sensor[10] publishes the first data (10 secs)\n"
+"$ ros2 run demo_keys_cpp keyed_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.rst:582
+msgid ""
+"In this final case, the controller is able to successfully recover the "
+"latest state of each sensor (data instance) when it joins the application. "
+"In addition, it uses optimum resources (it only requires one topic and one "
+"subscription) and guarantees a minimum discovery overhead. Hence, it is by "
+"using topic keys when the reception of the latest status of each instance "
+"(sensor) is assured. This is because the Quality of Service settings are "
+"applied per data instance. For learning how to combine keyed topics with "
+"content filter topic, please refer to the :ref:"
+"`filtered_topic_keys_tutorial`."
+msgstr ""

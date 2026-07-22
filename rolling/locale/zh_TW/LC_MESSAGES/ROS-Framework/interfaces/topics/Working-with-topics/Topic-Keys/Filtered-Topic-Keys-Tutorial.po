@@ -1,0 +1,542 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-20 11:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:8
+msgid "Topic Keys Subscription Filtering Tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:10
+msgid ""
+"This tutorial aims to demonstrate how to receive data only from certain "
+"topic instances by combining the use of topic keys and topic content "
+"filtering."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:18
+msgid "Background"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:20
+msgid ""
+"In ROS 2, topics are a mean for representing the state of an object. Keyed "
+"topics are special topics where each data sample represent an update of the "
+"state of a specific object (known as *instance*) among all those objects "
+"represented in the topic. This allows the user to reduce the number of "
+"required resources (topics, along with its associated publisher and "
+"subscriber) by multiplexing updates of several objects of the same kind into "
+"a single resource."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:24
+msgid ""
+"The :doc:`Content Filter Topic <../Content-Filtering-Subscription>` "
+"facilitates efficient data distribution by allowing the subscription (reader-"
+"side) to specify criteria for the types of data they wish to receive. By "
+"defining this criteria, irrelevant data can be filtered out and applications "
+"can focus only on the information that is relevant to their needs. This "
+"functionality not only reduces the amount of data transmitted over the "
+"network but also minimizes processing overhead on the receiving end, leading "
+"to improved system performance and scalability."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:28
+msgid ""
+"When combined with topic instances, the benefits of the Content Filter are "
+"further enhanced. By associating specific filter criteria with each topic "
+"instance, it is possible fine-tune the data selection process and tailor it "
+"to their precise requirements. This granular level of filtering enables "
+"applications to optimally manage data while ensuring that they exchange only "
+"the information that is pertinent to their individual use cases."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:37
+msgid "RMW Support"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:39
+msgid "Keyed topics require RMW implementation support."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:41
+msgid "Keyed Topics Support Status"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:44
+msgid "rmw_fastrtps"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:45
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:47
+msgid "supported"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:46
+msgid "rmw_connextdds"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:48
+msgid "rmw_cyclonedds"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:49
+msgid "not supported"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:51
+msgid ""
+"Implementations not supporting the feature will treat keyed topics as "
+"standard topics. The implications are explained throughout the tutorial. In "
+"addition, endpoints using `Cyclone DDS <https://index.ros.org/p/"
+"rmw_cyclonedds_cpp/>`_ will not even match with Fast DDS or Connext DDS "
+"endpoints for this kind of topics."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:56
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:58
+msgid ""
+"An up-to-date ROS 2 installation and setup. Either installed in local host, "
+"or using Docker images."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:62
+msgid "Preparing the demo package"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:64
+msgid ""
+"Lets start by setting up the ROS 2 environment. For this, there are two "
+"possible options:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:67
+msgid "Running a ROS 2 Docker image."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:69
+msgid "$ docker run -it --rm osrt/ros:rolling-desktop"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:73
+msgid ""
+"Running the tutorial on the local host. Please, follow the :doc:"
+"`installation instructions <../../../../../Get-Started/Installation>` for "
+"details on installing ROS 2."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:76
+msgid "Source the following file to setup the ROS 2 environment:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:80
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:109
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:236
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:284
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:324
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:82
+msgid "$ source /opt/ros/rolling/setup.bash"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:86
+msgid ""
+"Replace ``.bash`` with your shell if you're not using bash. Possible values "
+"are: ``setup.bash``, ``setup.sh``, ``setup.zsh``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:89
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:129
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:244
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:291
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:342
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:91
+msgid "$ . ~/ros2_install/ros2-osx/setup.bash"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:95
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:149
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:252
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:298
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:360
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:97
+msgid "$ call C:\\dev\\ros2\\local_setup.bat"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:103
+msgid "Retrieving the sources"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:105
+msgid ""
+"Create a new workspace and download the demo package sources as indicated "
+"below:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:111
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:131
+msgid ""
+"# Create directory structure\n"
+"$ mkdir -p ~/tutorial_ws/src/demo_keys_filtering_cpp\n"
+"$ mkdir ~/tutorial_ws/src/demo_keys_filtering_cpp/msg\n"
+"$ mkdir ~/tutorial_ws/src/demo_keys_filtering_cpp/src\n"
+"$ mkdir ~/tutorial_ws/src/demo_keys_filtering_cpp/launch\n"
+"$ cd ~/tutorial_ws/src/demo_keys_filtering_cpp\n"
+"\n"
+"# Download demo package source code\n"
+"$ wget -O CMakeLists.txt https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/CMakeLists.txt\n"
+"$ wget -O package.xml https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/package.xml\n"
+"$ wget -O README.md https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/README.md\n"
+"$ wget -O msg/KeyedSensorDataMsg.msg https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/msg/KeyedSensorDataMsg.msg\n"
+"$ wget -O src/filtered_keyed_sensor.cpp https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Filtered/src/filtered_keyed_sensor.cpp\n"
+"$ wget -O src/filtered_keyed_controller.cpp https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Filtered/src/filtered_keyed_controller.cpp\n"
+"$ wget -O launch/keyed_sensors_launch.py https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Filtered/launch/keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:151
+msgid ""
+"# Create directory structure\n"
+"$ mkdir C:\\tutorial_ws\\src\\demo_keys_filtering_cpp\\msg\n"
+"$ mkdir C:\\tutorial_ws\\src\\demo_keys_filtering_cpp\\src\n"
+"$ mkdir C:\\tutorial_ws\\src\\demo_keys_filtering_cpp\\launch\n"
+"$ cd C:\\tutorial_ws\\src\\demo_keys_filtering_cpp\n"
+"\n"
+"# Download demo package source code\n"
+"$ irm -OutFile CMakeLists.txt https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/CMakeLists.txt\n"
+"$ irm -OutFile package.xml https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/package.xml\n"
+"$ irm -OutFile README.md https://raw.githubusercontent.com/ros2/"
+"ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/resources/"
+"Filtered/README.md\n"
+"$ irm -OutFile msg/KeyedSensorDataMsg.msg https://raw.githubusercontent.com/"
+"ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Filtered/msg/KeyedSensorDataMsg.msg\n"
+"$ irm -OutFile src/filtered_keyed_sensor.cpp https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Filtered/src/filtered_keyed_sensor.cpp\n"
+"$ irm -OutFile src/filtered_keyed_controller.cpp https://raw."
+"githubusercontent.com/ros2/ros2_documentation/rolling/source/Tutorials/"
+"Advanced/Topic-Keys/resources/Filtered/src/filtered_keyed_controller.cpp\n"
+"$ irm -OutFile launch/keyed_sensors_launch.py https://raw.githubusercontent."
+"com/ros2/ros2_documentation/rolling/source/Tutorials/Advanced/Topic-Keys/"
+"resources/Filtered/launch/keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:168
+msgid "The resulting directory structure should be:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:170
+msgid ""
+"~/tutorial_ws\n"
+" ├──src\n"
+"    ├── demo_keys_filtering_cpp\n"
+"        ├── CMakeLists.txt\n"
+"        ├── README.md\n"
+"        ├── launch\n"
+"        │   └── keyed_sensors_launch.py\n"
+"        ├── msg\n"
+"        │   └── KeyedSensorDataMsg.msg\n"
+"        ├── package.xml\n"
+"        └── src\n"
+"            ├── filtered_keyed_controller.cpp\n"
+"            └── filtered_keyed_sensor.cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:186
+msgid "A brief analysis on the provided files is explained below:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:188
+msgid ""
+"*demo_keys_filtering_cpp* : This directory contains the main source code and "
+"configuration files for the demonstration."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:189
+msgid ""
+"``CMakeLists.txt``: This file is used with CMake to specify build "
+"configurations and dependencies."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:190
+msgid ""
+"``README.md``: This is a markdown file providing instructions or information "
+"about the demonstration."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:191
+msgid ""
+"*launch*: This directory contains launch configuration files for launching "
+"ROS nodes."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:193
+msgid ""
+"``keyed_sensors_launch.py``: This Python script is used to launch the "
+"demonstration nodes."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:195
+msgid "*msg*: This directory contains message definition files."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:197
+msgid ""
+"KeyedSensorDataMsg.msg: This is the file defining the message structure for "
+"keyed sensor data used in the tutorial."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:199
+msgid ""
+"``package.xml``: This is an XML file containing metadata about the ROS "
+"package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:200
+msgid ""
+"*src*: This directory contains the source code files for the demonstration."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:202
+msgid ""
+"``filtered_keyed_controller.cpp``: This is the source code for a controller "
+"node that filters keyed sensor data in reception, being the most relevant "
+"lines the ones that define the filter expression and Quality of Service "
+"settings:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:204
+msgid ""
+"// Initialize a subscription with a content filter to receive data from "
+"sensors 2 to 4\n"
+"rclcpp::SubscriptionOptions sub_options;\n"
+"sub_options.content_filter_options.filter_expression =\n"
+"    \"sensor_id >= 2 AND sensor_id <= 4 AND measurement > %0\";\n"
+"sub_options.content_filter_options.expression_parameters = {\n"
+"std::to_string(SENSOR_TRIGGER)\n"
+"};\n"
+"\n"
+"// Create the subscription with the content filter options\n"
+"sub_ = create_subscription<demo_keys_filtering_cpp::msg::"
+"KeyedSensorDataMsg>(\"/robot/sensors\",\n"
+"    rclcpp::QoS(rclcpp::KeepLast(1)).reliable().transient_local(),\n"
+"    callback,\n"
+"    sub_options);"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:220
+msgid ""
+"``filtered_keyed_sensor.cpp``: This is the source code for a sensor node "
+"that publishes keyed sensor data. The most relevant lines are the ones that "
+"create the publication with a particular Quality of Service settings that "
+"enables the controller to late join the application but still receiving the "
+"latest update for every instance with the use of topic keys."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:223
+msgid ""
+"pub_ = this->create_publisher<demo_keys_filtering_cpp::msg::"
+"KeyedSensorDataMsg>(\n"
+"    \"/robot/sensors\",\n"
+"    rclcpp::QoS(rclcpp::KeepLast(1)).reliable().transient_local());"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:230
+msgid "Generating the IDL files"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:232
+msgid ""
+"Generate the corresponding IDL definition from the provided "
+"``KeyedSensorDataMsg.msg`` file, using the ``msg2idl.py`` script from the "
+"``rosidl_adapter`` package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:238
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:246
+msgid ""
+"$ cd ~/tutorial_ws/src/demo_keys_filtering_cpp/msg\n"
+"$ ros2 run rosidl_adapter msg2idl.py KeyedSensorDataMsg.msg\n"
+"$ rm KeyedSensorDataMsg.msg"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:254
+msgid ""
+"$ cd C:\\tutorial_ws\\src\\demo_keys_filtering_cpp\\msg\n"
+"$ ros2 run rosidl_adapter msg2idl.py KeyedSensorDataMsg.msg\n"
+"$ del KeyedSensorDataMsg.msg"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:260
+msgid ""
+"Next, annotate the ``sensor_id`` field as ``@key`` in the generated "
+"``KeyedSensorDataMsg.idl``. Its content should look like the following:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:263
+msgid ""
+"/* KeyedSensorDataMsg.idl */\n"
+"module demo_keys_filtering_cpp {\n"
+"  module msg {\n"
+"    struct KeyedSensorDataMsg {\n"
+"      @key int16 sensor_id;\n"
+"      double measurement;\n"
+"      string data;\n"
+"    };\n"
+"  };\n"
+"};"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:277
+msgid "Building the demo package"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:279
+msgid ""
+"Once the environment has been setup and the demo package sources are "
+"available, the demo package can be built. Get into the root of the workspace "
+"and build it with the following commands:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:286
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:293
+msgid ""
+"$ cd ~/tutorial_ws\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:300
+msgid ""
+"$ cd C:\\tutorial_ws\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:307
+msgid "Running the demo"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:309
+msgid ""
+"In the demo, different sensors are publishing data to a controller node "
+"using a keyed topic as exemplified below:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:315
+msgid "Run the demo by executing the following commands in separate terminals:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:319
+msgid ""
+"If a docker deployment was preferred, it would be necessary to attach the "
+"other two terminals to the running docker container before executing the "
+"above commands. This can be done by running ``docker exec -it "
+"<container_name> /bin/bash``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:328
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:346
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:364
+msgid "Shell 1 (Sensors)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:330
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:348
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"$ ros2 launch demo_keys_filtering_cpp keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:335
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:353
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:371
+msgid "Shell 2 (Controller)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:337
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:355
+msgid ""
+"$ source ~/tutorial_ws/install/setup.bash\n"
+"$ ros2 run demo_keys_filtering_cpp filtered_keyed_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:366
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"$ ros2 launch demo_keys_filtering_cpp keyed_sensors_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:373
+msgid ""
+"$ call C:\\tutorial_ws\\install\\setup.bat\n"
+"$ ros2 run demo_keys_filtering_cpp filtered_keyed_controller"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:378
+msgid ""
+"The resulting output should be similar to the following, in which the "
+"controller node is only receiving data from the specified sensors, i.e. "
+"sensors which sensor_id is in the range [2, 4]. In addition, only when the "
+"measurement is greater than 60, the controller node will receive data. That "
+"is specified in the filter expression ``sensor_id >= 2 AND sensor_id <= 4 "
+"AND measurement > %0``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:386
+msgid ""
+"Even in a late-joining scenario, the controller node will receive the latest "
+"data of the sensors that meet the filtering criteria at the moment it joins "
+"the application, which could be crucial depending on the type of the real "
+"application."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.rst:388
+msgid ""
+"Overall, the combination of topic instances with a content filter topic "
+"offers significant benefits in terms of data efficiency, scalability, "
+"adaptability and resource optimization. By leveraging these capabilities, "
+"ROS 2 applications can efficiently manage and distribute data in complex "
+"distributed environments."
+msgstr ""
