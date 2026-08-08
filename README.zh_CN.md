@@ -1,8 +1,8 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/localizethedocs/static/mark/ros-white.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdelivr.net/gh/localizethedocs/static/mark/ros-dark.svg">
-  <img height="100" src="https://cdn.jsdelivr.net/gh/localizethedocs/static/mark/ros-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/localizethedocs/static/logo/ros-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdelivr.net/gh/localizethedocs/static/logo/ros-light.svg">
+  <img height="100" src="https://cdn.jsdelivr.net/gh/localizethedocs/static/logo/ros-light.svg">
 </picture>
 </div>
 
