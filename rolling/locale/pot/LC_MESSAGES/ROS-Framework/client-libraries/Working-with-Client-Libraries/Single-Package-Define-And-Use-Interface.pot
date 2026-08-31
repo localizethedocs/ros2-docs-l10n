@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-08-31 16:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -315,23 +315,45 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:193
-msgid "3.1 The code explained"
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
 msgstr ""
 
 #: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:195
-msgid "Include the header of our newly created ``AddressBook.msg``."
+msgid "3.1 The code explained"
 msgstr ""
 
 #: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:197
+msgid "Include the header of our newly created ``AddressBook.msg``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:199
 msgid "#include \"more_interfaces/msg/address_book.hpp\""
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:201
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:203
 msgid "Create a node and an ``AddressBook`` publisher."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:203
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:205
 msgid ""
 "using namespace std::chrono_literals;\n"
 "\n"
@@ -346,27 +368,27 @@ msgid ""
 "AddressBook>(\"address_book\");"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:216
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:218
 msgid "Create a callback to publish the messages periodically."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:218
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:220
 msgid "auto publish_msg = [this]() -> void {"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:222
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:224
 msgid "Create an ``AddressBook`` message instance that we will later publish."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:224
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:226
 msgid "auto message = more_interfaces::msg::AddressBook();"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:228
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:230
 msgid "Populate ``AddressBook`` fields."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:230
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:232
 msgid ""
 "message.first_name = \"John\";\n"
 "message.last_name = \"Doe\";\n"
@@ -374,11 +396,11 @@ msgid ""
 "message.phone_type = message.PHONE_TYPE_MOBILE;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:237
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:239
 msgid "Finally send the message periodically."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:239
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:241
 msgid ""
 "std::cout << \"Publishing Contact\\nFirst:\" << message.first_name <<\n"
 "  \"  Last:\" << message.last_name << std::endl;\n"
@@ -386,24 +408,24 @@ msgid ""
 "this->address_book_publisher_->publish(message);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:246
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:248
 msgid ""
 "Create a 1 second timer to call our ``publish_msg`` function every second."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:248
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:250
 msgid "timer_ = this->create_wall_timer(1s, publish_msg);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:253
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:255
 msgid "3.2 Build the publisher"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:255
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:257
 msgid "We need to create a new target for this node in the ``CMakeLists.txt``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:257
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:259
 msgid ""
 "find_package(rclcpp REQUIRED)\n"
 "\n"
@@ -415,17 +437,17 @@ msgid ""
 "  DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:269
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:271
 msgid "3.3 Link against the interface"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:271
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:273
 msgid ""
 "In order to use the messages generated in the same package we need to use "
 "the following CMake code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:273
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:275
 msgid ""
 "rosidl_get_typesupport_target(cpp_typesupport_target\n"
 "  ${PROJECT_NAME} rosidl_typesupport_cpp)\n"
@@ -433,13 +455,13 @@ msgid ""
 "target_link_libraries(publish_address_book \"${cpp_typesupport_target}\")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:280
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:282
 msgid ""
 "This finds the relevant generated C++ code from ``AddressBook.msg`` and "
 "allows your target to link against it."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:282
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:284
 msgid ""
 "You may have noticed that this step was not necessary when the interfaces "
 "being used were from a different package that was built independently. This "
@@ -447,126 +469,126 @@ msgid ""
 "package as the one in which they are defined."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:286
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:288
 msgid "4 Try it out"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:288
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:290
 msgid "Return to the root of the workspace to build the package:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:292
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:317
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:351
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:294
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:319
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:353
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:294
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:301
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:296
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:303
 msgid ""
 "$ cd ~/ros2_ws\n"
 "$ colcon build --packages-up-to more_interfaces"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:299
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:324
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:358
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:301
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:326
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:360
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:306
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:331
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:365
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:308
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:333
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:367
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:308
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:310
 msgid ""
 "$ cd /ros2_ws\n"
 "$ colcon build --merge-install --packages-up-to more_interfaces"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:313
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:315
 msgid "Then source the workspace and run the publisher:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:319
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:321
 msgid ""
 "$ source install/local_setup.bash\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:326
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:328
 msgid ""
 "$ . install/local_setup.bash\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:333
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:335
 msgid ""
 "$ call install/local_setup.bat\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:338
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:372
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:340
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:374
 msgid "Or using Powershell:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:340
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:342
 msgid ""
 "$ install/local_setup.ps1\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:345
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:347
 msgid ""
 "You should see the publisher relaying the msg you defined, including the "
 "values you set in ``publish_address_book.cpp``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:347
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:349
 msgid ""
 "To confirm the message is being published on the ``address_book`` topic, "
 "open another terminal, source the workspace, and call ``topic echo``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:353
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:355
 msgid ""
 "$ source install/setup.bash\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:360
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:362
 msgid ""
 "$ . install/setup.bash\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:367
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:369
 msgid ""
 "$ call install/setup.bat\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:374
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:376
 msgid ""
 "$ install/setup.ps1\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:379
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:381
 msgid ""
 "We won't create a subscriber in this tutorial, but you can try to write one "
 "yourself for practice (use :doc:`Writing-A-Simple-Cpp-Publisher-And-"
 "Subscriber` to help)."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:382
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:384
 msgid "5 (Extra) Use an existing interface definition"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:386
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:388
 msgid ""
 "You can use an existing interface definition in a new interface definition. "
 "For example, let's say there is a message named ``Contact.msg`` that belongs "
@@ -575,7 +597,7 @@ msgid ""
 "from earlier."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:390
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:392
 msgid ""
 "In that case you could have defined ``AddressBook.msg`` (an interface in the "
 "package *with* your nodes) as type ``Contact`` (an interface in a *separate* "
@@ -583,28 +605,28 @@ msgid ""
 "``Contact``, like so:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:395
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:397
 msgid "rosidl_tutorials_msgs/Contact[] address_book"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:397
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:399
 msgid ""
 "To generate this message you would need to declare a dependency on ``Contact."
 "msg's`` package, ``rosidl_tutorials_msgs``, in ``package.xml``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:399
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:401
 msgid ""
 "<build_depend>rosidl_tutorials_msgs</build_depend>\n"
 "\n"
 "<exec_depend>rosidl_tutorials_msgs</exec_depend>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:405
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:407
 msgid "And in ``CMakeLists.txt``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:407
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:409
 msgid ""
 "find_package(rosidl_tutorials_msgs REQUIRED)\n"
 "\n"
@@ -614,22 +636,22 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:416
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:418
 msgid ""
 "You would also need to include the header of ``Contact.msg`` in your "
 "publisher node in order to be able to add ``contacts`` to your "
 "``address_book``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:418
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:420
 msgid "#include \"rosidl_tutorials_msgs/msg/contact.hpp\""
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:422
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:424
 msgid "You could change the callback to something like this:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:424
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:426
 msgid ""
 "auto publish_msg = [this]() -> void {\n"
 "   auto msg = std::make_shared<more_interfaces::msg::AddressBook>();\n"
@@ -661,35 +683,35 @@ msgid ""
 " };"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:454
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:456
 msgid ""
 "Building and running these changes would show the msg defined as expected, "
 "as well as the array of msgs defined above."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:457
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:459
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:459
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:461
 msgid ""
 "In this tutorial, you tried out different field types for defining "
 "interfaces, then built an interface in the same package where it's being "
 "used."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:461
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:463
 msgid ""
 "You also learned how to use another interface as a field type, as well as "
 "the ``package.xml``, ``CMakeLists.txt``, and ``#include`` statements "
 "necessary for utilizing that feature."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:464
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:466
 msgid "Next steps"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:466
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:468
 msgid ""
 "Next you will create a simple ROS 2 package with a custom parameter that you "
 "will learn to set from a launch file. Again, you can choose to write it in "
@@ -697,11 +719,11 @@ msgid ""
 "Parameters-In-A-Class-Python>`."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:470
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:472
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:472
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:474
 msgid ""
 "There are `several design articles <https://design.ros2.org/#interfaces>`_ "
 "on ROS 2 interfaces and the IDL (interface definition language)."
