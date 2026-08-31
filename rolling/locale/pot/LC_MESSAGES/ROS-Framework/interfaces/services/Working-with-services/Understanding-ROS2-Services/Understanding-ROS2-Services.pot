@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-08-31 16:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:9
-msgid "Understanding services"
+msgid "Learning about services - tutorial"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:11
-msgid "**Goal:** Learn about services in ROS 2 using command line tools."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:13
-msgid "**Tutorial level:** Beginner"
+msgid ""
+"Services are one of the communication types used to exchange data in a ROS "
+"system. This article walks you through using command-line tools to examine "
+"and call services between nodes. A hands-on exercise with Turtlesim helps "
+"you understand how the call-and-response model works in the ROS graph."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:15
-msgid "**Time:** 10 minutes"
+msgid "**Area: Framework | Content-type: tutorial | Experience: beginner**"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:19
@@ -38,53 +38,60 @@ msgid "Contents"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:22
-msgid "Background"
+msgid "Summary"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:24
 msgid ""
-"Services are another method of communication for nodes in the ROS graph. "
-"Services are based on a call-and-response model versus the publisher-"
-"subscriber model of topics. While topics allow nodes to subscribe to data "
-"streams and get continual updates, services only provide data when they are "
-"specifically called by a client."
+"Services use a call-and-response model: a client sends a request to a "
+"server, which processes it and returns a response. Unlike topics, services "
+"only provide data when specifically called, so they are not suited for "
+"continuous data streams."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:33
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:27
+msgid ""
+"For more information, see :doc:`How ROS works <../../../../How-ROS-Works>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:30
 msgid "Prerequisites"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:35
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:32
 msgid ""
-"Some concepts mentioned in this tutorial, like :doc:`Nodes <../../../../"
-"nodes/Working-with-nodes/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes>` "
-"and :doc:`Topics <../../../topics/Understanding-ROS2-Topics/Understanding-"
-"ROS2-Topics>`, were covered in previous tutorials in the series."
+"Make sure you understand the concepts of :doc:`nodes <../../../../nodes/"
+"Working-with-nodes/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes>` and :"
+"doc:`topics <../../../topics/Understanding-ROS2-Topics/Understanding-ROS2-"
+"Topics>`."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:37
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:33
 msgid ""
-"You will need the :doc:`turtlesim package <../../../../../Get-Started/"
-"Introducing-Turtlesim/Introducing-Turtlesim>`."
+"Make sure you have installed the :doc:`turtlesim package <../../../../../Get-"
+"Started/Introducing-Turtlesim/Introducing-Turtlesim>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:36
+msgid "Steps"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:39
 msgid ""
-"As always, don't forget to source ROS 2 in :doc:`every new terminal you open "
-"<../../../../../Get-Started/Configuring-ROS2-Environment>`."
+"Do not forget to source ROS in every new terminal you open. See :doc:"
+"`Configuring environment <../../../../../Get-Started/Configuring-ROS2-"
+"Environment>`."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:42
-msgid "Tasks"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:45
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:43
 msgid "1 Setup"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:46
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:45
 msgid ""
-"Start up the two turtlesim nodes, ``/turtlesim`` and ``/teleop_turtle``."
+"You need a running system with services to inspect. Start the ``/turtlesim`` "
+"node, which provides the application services you will examine and call "
+"later (such as ``/clear`` and ``/spawn``)."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:48
@@ -103,19 +110,39 @@ msgstr ""
 msgid "$ ros2 run turtlesim turtle_teleop_key"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:61
-msgid "2 ros2 service list"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:60
+msgid ""
+"Running this node along with ``turtlesim_node`` lets you see that each node "
+"exposes its own set of parameter services when you list services."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:63
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:62
 msgid ""
-"Running the ``ros2 service list`` command in a new terminal will return a "
-"list of all the services currently active in the system:"
+"Leave both terminals running while you work through the Turtlesim examples "
+"below."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:65
+msgid "2 List the active services"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:67
 msgid ""
-"$ ros2 service list\n"
+"Listing services is useful when you need to discover what you can call on a "
+"running system. To list all the services currently active in the system, in "
+"a new terminal, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:70
+msgid "$ ros2 service list"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:74
+msgid "The terminal returns the active service names:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:76
+msgid ""
 "/clear\n"
 "/kill\n"
 "/reset\n"
@@ -137,76 +164,95 @@ msgid ""
 "/turtlesim/set_parameters_atomically"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:88
-msgid ""
-"You will see that both nodes have the same six services with ``parameters`` "
-"in their names. Nearly every node in ROS 2 has these infrastructure services "
-"that parameters are built off of. There will be more about parameters in the "
-"next tutorial. In this tutorial, the parameter services will be omitted from "
-"the discussion."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:93
-msgid ""
-"For now, let's focus on the turtlesim-specific services, ``/clear``, ``/"
-"kill``, ``/reset``, ``/spawn``, ``/turtle1/set_pen``, ``/turtle1/"
-"teleport_absolute``, and ``/turtle1/teleport_relative``. You may recall "
-"interacting with some of these services using rqt in the :doc:`Use "
-"turtlesim, ros2, and rqt <../../../../../Get-Started/Introducing-Turtlesim/"
-"Introducing-Turtlesim>` tutorial."
-msgstr ""
-
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:98
-msgid "3 ros2 service type"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:100
 msgid ""
-"Services have types that describe how the request and response data of a "
-"service is structured. Service types are defined similarly to topic types, "
-"except service types have two parts: one message for the request and another "
-"for the response."
+"Both Turtlesim nodes have the same six services with ``parameters`` in their "
+"names. Nearly every node in ROS has these infrastructure services on which "
+"parameters are based. Parameters are covered in :doc:`Learning about "
+"parameters <../../../../parameters/Working-with-parameters/Understanding-"
+"ROS2-Parameters/Understanding-ROS2-Parameters>`. In this tutorial, the "
+"parameter services will not be discussed in detail."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:103
-msgid "To find out the type of a service, use the command:"
+msgid ""
+"The turtlesim-specific services are ``/clear``, ``/kill``, ``/reset``, ``/"
+"spawn``, ``/turtle1/set_pen``, ``/turtle1/teleport_absolute``, and ``/"
+"turtle1/teleport_relative``. Some of these services were covered in the :doc:"
+"`Using turtlesim, ros2, and rqt <../../../../../Get-Started/Introducing-"
+"Turtlesim/Introducing-Turtlesim>` tutorial."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:105
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:108
+msgid "3 View the service type"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:110
+msgid ""
+"Before you call a service, you need its type so you know what request and "
+"response data it expects. Services have types that describe how that data is "
+"structured. Service types are defined similarly to topic types, except "
+"service types have two parts: one message for the request and another for "
+"the response."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:114
+msgid "To find out the type of a service, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:116
 msgid "$ ros2 service type <service_name>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:109
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:120
 msgid ""
-"Let's take a look at turtlesim's ``/clear`` service. In a new terminal, "
-"enter the command:"
+"For example, to check Turtlesim's ``/clear`` service, open a new terminal "
+"and run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:112
-msgid ""
-"$ ros2 service type /clear\n"
-"std_srvs/srv/Empty"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:122
+msgid "$ ros2 service type /clear"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:117
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:126
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:174
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:277
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:301
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:319
+msgid "The terminal returns:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:128
+msgid "std_srvs/srv/Empty"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:132
 msgid ""
 "The ``Empty`` type means the service call sends no data when making a "
 "request and receives no data when receiving a response."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:120
-msgid "3.1 ros2 service list -t"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:135
+msgid "3.1 View a list of all active services"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:122
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:137
 msgid ""
-"To see the types of all the active services at the same time, you can append "
-"the ``--show-types`` option, abbreviated as ``-t``, to the ``list`` command:"
+"When you need a quick overview of every service and its type together, "
+"append the ``--show-types`` option (abbreviated as ``-t``) to the ``list`` "
+"command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:124
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:139
+msgid "$ ros2 service list -t"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:143
+msgid "The terminal returns each service with its type:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:145
 msgid ""
-"$ ros2 service list -t\n"
 "/clear [std_srvs/srv/Empty]\n"
 "/kill [turtlesim_msgs/srv/Kill]\n"
 "/reset [std_srvs/srv/Empty]\n"
@@ -218,71 +264,75 @@ msgid ""
 "..."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:138
-msgid "4 ros2 service info"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:158
+msgid "4 View the information about a particular service"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:140
-msgid "To see information of a particular service, use the command:"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:160
+msgid ""
+"Use ``ros2 service info`` to see a service's type and how many clients and "
+"servers are using it."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:142
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:162
+msgid "To inspect a particular service, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:164
 msgid "$ ros2 service info <service_name>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:146
-msgid ""
-"This returns the service type and the count of service clients and servers."
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:168
+msgid "For example, to check the ``/clear`` service, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:148
-msgid ""
-"For example, you can find the count of clients and servers for the ``/"
-"clear`` service:"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:170
+msgid "$ ros2 service info /clear"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:150
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:176
 msgid ""
-"$ ros2 service info /clear\n"
 "Type: std_srvs/srv/Empty\n"
 "Clients count: 0\n"
 "Services count: 1"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:158
-msgid "4.1 ros2 service info --verbose"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:159
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:182
 msgid ""
-"For more detailed information about a service, you can append the ``--"
-"verbose`` (or ``-v``) option to the ``info`` command:"
+"To see more detail about the same service, including which node provides it, "
+"append the ``--verbose`` (or ``-v``) option:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:161
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:184
 msgid "$ ros2 service info --verbose <service_name>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:165
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:189
 msgid ""
-"For example: you can get verbose information about the ``/clear`` service:"
+"The ``--verbose`` option is available on Lyrical. Older distributions do not "
+"support it."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:167
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:192
+msgid "For example, to get verbose information about the ``/clear`` service:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:194
 msgid "$ ros2 service info --verbose /clear"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:171
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:198
 msgid ""
-"This will return additional information including the node name and "
-"namespace of the service server, as well as the underlying middleware (RMW) "
-"implementation details. An important information for Developers that the "
-"``Endpoint count`` will be 2 for DDS based RMW implementations (connextdds, "
-"cyclone, fastrtps) because DDS creates two endpoints (one for request and "
-"one for response) for each service server."
+"Besides the basic type and client/server counts, the verbose result also "
+"shows which node provides the service and the low-level connection details "
+"from the ROS middleware (RMW). You mainly need those details when "
+"troubleshooting connection problems with a service. The ``Endpoint count`` "
+"value is ``2`` for DDS-based RMW implementations (``rmw_connextdds``, "
+"``rmw_cyclonedds``, ``rmw_fastrtps``) because DDS creates two endpoints per "
+"service server: one for request and one for response."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:174
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:202
 msgid ""
 "Type: std_srvs/srv/Empty\n"
 "Clients count: 0\n"
@@ -316,14 +366,14 @@ msgid ""
 "      Liveliness lease duration: Infinite"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:206
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:234
 msgid ""
-"Where as for non-DDS based RMW implementations like ``rmw_zenoh_cpp``, the "
-"``Endpoint count`` will be 1 because it uses a single endpoint for both "
-"request and response."
+"For non-DDS RMW implementations such as ``rmw_zenoh_cpp``, the ``Endpoint "
+"count`` value is ``1`` because a single endpoint handles both request and "
+"response."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:208
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:236
 msgid ""
 "Type: std_srvs/srv/Empty\n"
 "Clients count: 0\n"
@@ -346,85 +396,101 @@ msgid ""
 "  Liveliness lease duration: Infinite"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:229
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:257
 msgid ""
-"If you want to learn more about different RMW implementations, refer to the :"
-"doc:`About Different Middleware Vendors <../../../../client-libraries/About-"
-"Different-Middleware-Vendors>` concept."
+"To learn more about different RMW implementations, see :doc:`About Different "
+"Middleware Vendors <../../../../client-libraries/About-Different-Middleware-"
+"Vendors>`."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:232
-msgid "5 ros2 service find"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:260
+msgid "5 Find services of a specific type"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:234
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:262
 msgid ""
-"If you want to find all the services of a specific type, you can use the "
-"command:"
+"Use ``ros2 service find`` when you know the type you need and want every "
+"service that uses it. For example, you can find all ``Empty`` services in "
+"the graph."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:236
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:265
+msgid "To find all the services of a specific type, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:267
 msgid "$ ros2 service find <type_name>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:240
-msgid "For example, you can find all the ``Empty`` typed services like this:"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:271
+msgid "To find all ``Empty`` typed services, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:242
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:273
+msgid "$ ros2 service find std_srvs/srv/Empty"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:279
 msgid ""
-"$ ros2 service find std_srvs/srv/Empty\n"
 "/clear\n"
 "/reset"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:249
-msgid "6 ros2 interface show"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:285
+msgid "6 View the arguments of the call and response for a service type"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:251
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:287
 msgid ""
-"You can call services from the command line, but first you need to know the "
-"structure of the input arguments."
+"Before you call a service with arguments, inspect its type so you know which "
+"fields the request needs and what the response contains."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:253
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:289
+msgid "To inspect a service type's structure, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:291
 msgid "$ ros2 interface show <type_name>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:257
-msgid "Try this on the ``/clear`` service's type, ``Empty``:"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:295
+msgid "Try the following command on the ``/clear`` service's type, ``Empty``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:259
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:297
+msgid "$ ros2 interface show std_srvs/srv/Empty"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:303
+msgid "---"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:307
 msgid ""
-"$ ros2 interface show std_srvs/srv/Empty\n"
-"---"
+"The ``---`` separates the request structure from the response structure. The "
+"``Empty`` type doesn't send or receive any data, so its structure is blank "
+"above and below the separator."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:264
-msgid ""
-"The ``---`` separates the request structure (above) from the response "
-"structure (below). But, as you learned earlier, the ``Empty`` type doesn't "
-"send or receive any data. So, naturally, its structure is blank."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:268
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:310
 msgid ""
 "Let's introspect a service with a type that sends and receives data, like ``/"
 "spawn``. From the results of ``ros2 service list -t``, we know ``/spawn``'s "
 "type is ``turtlesim_msgs/srv/Spawn``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:271
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:313
 msgid ""
-"To see the request and response arguments of the ``/spawn`` service, run the "
-"command:"
+"To see the request and response arguments of the ``/spawn`` service, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:273
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:315
+msgid "$ ros2 interface show turtlesim_msgs/srv/Spawn"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:321
 msgid ""
-"$ ros2 interface show turtlesim_msgs/srv/Spawn\n"
 "float32 x\n"
 "float32 y\n"
 "float32 theta\n"
@@ -434,66 +500,79 @@ msgid ""
 "string name"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:283
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:330
 msgid ""
-"The information above the ``---`` line tells us the arguments needed to call "
-"``/spawn``. ``x``, ``y`` and ``theta`` determine the 2D pose of the spawned "
-"turtle, and ``name`` is clearly optional."
+"The text above the separator lists the arguments needed to call ``/spawn``: "
+"``x``, ``y`` and ``theta`` determine the 2D pose of the spawned turtle, and "
+"``name`` is optional."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:286
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:333
 msgid ""
-"The information below the line isn't something you need to know in this "
-"case, but it can help you understand the data type of the response you get "
-"from the call."
+"The text below the separator line is the response. In this case, the "
+"response is the name assigned to the new turtle."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:289
-msgid "7 ros2 service call"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:337
+msgid "7 Call a service from the command line"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:291
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:339
 msgid ""
-"Now that you know what a service type is, how to find a service's type, and "
-"how to find the structure of that type's arguments, you can call a service "
-"using:"
+"Now that you know the service names, types, and argument layouts, you can "
+"send requests from the command line."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:293
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:341
+msgid "To call a service, use:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:343
 msgid "$ ros2 service call <service_name> <service_type> <arguments>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:297
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:347
 msgid ""
-"The ``<arguments>`` part is optional. For example, you know that ``Empty`` "
-"typed services don't have any arguments:"
+"The ``<arguments>`` part is optional. For example, ``Empty`` typed services "
+"don't have any arguments:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:300
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:350
 msgid "$ ros2 service call /clear std_srvs/srv/Empty"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:304
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:354
+msgid "This clears the Turtlesim window of any lines drawn by the turtle."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:358
 msgid ""
-"This command will clear the turtlesim window of any lines your turtle has "
-"drawn."
+"Next, spawn a new turtle by calling ``/spawn`` with arguments. Arguments in "
+"a service call from the command line must be in YAML syntax."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:308
-msgid ""
-"Now let's spawn a new turtle by calling ``/spawn`` and setting arguments. "
-"Input ``<arguments>`` in a service call from the command-line need to be in "
-"YAML syntax."
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:361
+msgid "To spawn a new turtle, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:311
-msgid "Enter the command:"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:313
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:363
 msgid ""
 "$ ros2 service call /spawn turtlesim_msgs/srv/Spawn \"{x: 2, y: 2, theta: "
-"0.2, name: ''}\"\n"
+"0.2, name: ''}\""
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:368
+msgid ""
+"On distributions older than Kilted, use the type ``turtlesim/srv/Spawn`` "
+"instead."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:370
+msgid "The terminal shows the request that was sent and the service response:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:372
+msgid ""
 "requester: making request: turtlesim_msgs.srv.Spawn_Request(x=2.0, y=2.0, "
 "theta=0.2, name='')\n"
 "\n"
@@ -501,55 +580,59 @@ msgid ""
 "turtlesim_msgs.srv.Spawn_Response(name='turtle2')"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:321
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:379
+msgid "The Turtlesim window updates with the newly spawned turtle:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:384
 msgid ""
-"You will get this method-style view of what's happening, and then the "
-"service response."
+"8 Monitor the communication between a service client and a service server"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:323
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:386
 msgid ""
-"Your turtlesim window will update with the newly spawned turtle right away:"
+"Sometimes you may need to watch the request and response traffic as it "
+"happens. For example, you might want to debug a client that seems to hang, "
+"or verify that a server received the fields you expect."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:328
-msgid "8 ros2 service echo"
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:389
+msgid "Use ``ros2 service echo`` to print that live traffic:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:330
-msgid ""
-"To see the data communication between a service client and a service server "
-"you can ``echo`` the service using:"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:332
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:391
 msgid "$ ros2 service echo <service_name | service_type> <arguments>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:336
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:395
 msgid ""
-"``ros2 service echo`` depends on service introspection of a service client "
-"and server, that is disabled by default. To enable it, users must call "
-"``configure_introspection`` after creating a service client or server."
+"``ros2 service echo`` needs service introspection, which Turtlesim does not "
+"enable. Use the ``demo_nodes_cpp`` introspection demo instead."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:339
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:398
 msgid ""
-"Start up the ``introspection_client`` and ``introspection_service`` service "
-"introspection demo."
+"Start the introspection demo, which runs the ``introspection_client`` and "
+"``introspection_service`` nodes, and leave this terminal running:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:341
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:400
 msgid "$ ros2 launch demo_nodes_cpp introspect_services_launch.py"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:345
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:404
 msgid ""
-"Open another terminal and run the following to enable service introspection "
-"for ``introspection_client`` and ``introspection_service``."
+"``ros2 service echo`` only works when service introspection is enabled. In "
+"your own nodes, you would call ``configure_introspection`` on the client and "
+"server after you create them. The demo exposes that setting as parameters, "
+"so you can turn introspection on from the command line."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:347
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:408
+msgid "Open another terminal and enable introspection on both demo nodes:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:410
 msgid ""
 "$ ros2 param set /introspection_service service_configure_introspection "
 "contents\n"
@@ -557,101 +640,165 @@ msgid ""
 "contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:352
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:415
 msgid ""
-"Now we are able to see the service communication between "
-"``introspection_client`` and ``introspection_service`` via ``ros2 service "
-"echo``."
+"Open another terminal and watch the ``/add_two_ints`` service. The demo "
+"client calls that service repeatedly, so you should see a continuous stream "
+"of events:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:354
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:418
+msgid "$ ros2 service echo --flow-style /add_two_ints"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:422
 msgid ""
-"$ ros2 service echo --flow-style /add_two_ints\n"
-" info:\n"
-"   event_type: REQUEST_SENT\n"
-"   stamp:\n"
-"     sec: 1709408301\n"
-"     nanosec: 423227292\n"
-"   client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 21, 3]\n"
-"   sequence_number: 618\n"
-" request: [{a: 2, b: 3}]\n"
-" response: []\n"
-" ---\n"
-" info:\n"
-"   event_type: REQUEST_RECEIVED\n"
-"   stamp:\n"
-"     sec: 1709408301\n"
-"     nanosec: 423601471\n"
-"   client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 20, 4]\n"
-"   sequence_number: 618\n"
-" request: [{a: 2, b: 3}]\n"
-" response: []\n"
-" ---\n"
-" info:\n"
-"   event_type: RESPONSE_SENT\n"
-"   stamp:\n"
-"     sec: 1709408301\n"
-"     nanosec: 423900744\n"
-"   client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 20, 4]\n"
-"   sequence_number: 618\n"
-" request: []\n"
-" response: [{sum: 5}]\n"
-" ---\n"
-" info:\n"
-"   event_type: RESPONSE_RECEIVED\n"
-"   stamp:\n"
-"     sec: 1709408301\n"
-"     nanosec: 424153133\n"
-"   client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 21, 3]\n"
-"   sequence_number: 618\n"
-" request: []\n"
-" response: [{sum: 5}]\n"
-" ---"
+"The terminal shows events for each request and response as they pass between "
+"the client and the server:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:399
-msgid "Summary"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:401
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:424
 msgid ""
-"Nodes can communicate using services in ROS 2. Unlike a topic - a one way "
-"communication pattern where a node publishes information that can be "
-"consumed by one or more subscribers - a service is a request/response "
-"pattern where a client makes a request to a node providing the service and "
-"the service processes the request and generates a response."
+"info:\n"
+"  event_type: REQUEST_SENT\n"
+"  stamp:\n"
+"    sec: 1709408301\n"
+"    nanosec: 423227292\n"
+"  client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 21, 3]\n"
+"  sequence_number: 618\n"
+"request: [{a: 2, b: 3}]\n"
+"response: []\n"
+"---\n"
+"info:\n"
+"  event_type: REQUEST_RECEIVED\n"
+"  stamp:\n"
+"    sec: 1709408301\n"
+"    nanosec: 423601471\n"
+"  client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 20, 4]\n"
+"  sequence_number: 618\n"
+"request: [{a: 2, b: 3}]\n"
+"response: []\n"
+"---\n"
+"info:\n"
+"  event_type: RESPONSE_SENT\n"
+"  stamp:\n"
+"    sec: 1709408301\n"
+"    nanosec: 423900744\n"
+"  client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 20, 4]\n"
+"  sequence_number: 618\n"
+"request: []\n"
+"response: [{sum: 5}]\n"
+"---\n"
+"info:\n"
+"  event_type: RESPONSE_RECEIVED\n"
+"  stamp:\n"
+"    sec: 1709408301\n"
+"    nanosec: 424153133\n"
+"  client_gid: [1, 15, 0, 18, 250, 205, 12, 100, 0, 0, 0, 0, 0, 0, 21, 3]\n"
+"  sequence_number: 618\n"
+"request: []\n"
+"response: [{sum: 5}]\n"
+"---"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:404
-msgid ""
-"You generally don't want to use a service for continuous calls; topics or "
-"even actions would be better suited."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:406
-msgid ""
-"In this tutorial you used command line tools to identify, introspect, and "
-"call services."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:409
-msgid "Next steps"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:411
-msgid ""
-"In the next tutorial, :doc:`../../../../parameters/Working-with-parameters/"
-"Understanding-ROS2-Parameters/Understanding-ROS2-Parameters`, you will learn "
-"about configuring node settings."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:414
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:468
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:416
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:470
+msgid "More articles:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:472
 msgid ""
-"Check out `this tutorial <https://discourse.ubuntu.com/t/call-services-in-"
-"ros-2/15261>`_; it's an excellent realistic application of ROS services "
-"using a Robotis robot arm."
+":doc:`Learning about topics <../../../topics/Understanding-ROS2-Topics/"
+"Understanding-ROS2-Topics>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:473
+msgid ""
+":doc:`Learning about nodes <../../../../nodes/Working-with-nodes/"
+"Understanding-ROS2-Nodes/Understanding-ROS2-Nodes>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:474
+msgid ""
+":doc:`Interfaces (topics, services, actions) <../../../../Interfaces-Topics-"
+"Services-Actions>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:476
+msgid "External resources:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:478
+msgid ""
+"`Calling ROS 2 services <https://discourse.ubuntu.com/t/call-services-in-"
+"ros-2/15261>`_: a realistic application of services using a Robotis robot "
+"arm."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:481
+msgid "FAQs"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:483
+msgid "What is the difference between a service and a topic?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:484
+msgid ""
+"Topics use a publish-subscribe model where data is broadcast continuously to "
+"any subscriber. Services use a call-and-response model: a client sends a "
+"specific request and waits for a single response. Use topics for continuous "
+"data streams and services for discrete, one-time interactions."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:488
+msgid "Why do I see so many services with ``parameters`` in their names?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:489
+msgid ""
+"Nearly every ROS node automatically exposes a set of parameter services. "
+"These are infrastructure services that the parameter system is built on. "
+"This tutorial focuses on application-specific services; parameter services "
+"are covered in the parameters tutorial."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:493
+msgid ""
+"What does the ``---`` separator mean in ``ros2 interface show`` for a "
+"service?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:494
+msgid ""
+"The ``---`` separates the request fields from the response fields. For "
+"``Empty`` typed services, both halves are blank because no data is sent or "
+"received."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:497
+msgid "When should I use a service instead of a topic?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:498
+msgid ""
+"Use a service when you need a discrete, one-time interaction with a "
+"guaranteed response, such as spawning an entity or resetting a node's state. "
+"For continuous data streams, use a topic. For long-running goals that "
+"provide feedback, consider using an action."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:502
+msgid "Why does ``ros2 service echo`` show no output?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.rst:503
+msgid ""
+"Service introspection is disabled by default. Enable it on both the client "
+"and the server. In this tutorial, do that by running the ``ros2 param set`` "
+"commands on the demo nodes before you start ``ros2 service echo``. Keep the "
+"demo launch running in its own terminal so the client keeps sending requests."
 msgstr ""

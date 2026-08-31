@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-08-31 16:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,29 @@ msgid ""
 "provided by the rclcpp interface, including the ParameterEventHandler class."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:123
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:125
 msgid ""
 "After the class declaration, the code defines a class, "
 "``SampleNodeWithParameters``. The constructor for the class declares an "
@@ -226,14 +248,14 @@ msgid ""
 "it as the callback to invoke whenever ``an_int_param`` is updated."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:130
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:132
 msgid ""
 "It is very important to save the handle that is returned by "
 "``add_parameter_callback``; otherwise, the callback will not be properly "
 "registered."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:132
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:134
 msgid ""
 "SampleNodeWithParameters()\n"
 ": Node(\"node_with_parameters\")\n"
@@ -260,14 +282,14 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:154
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:156
 msgid ""
 "Following the ``SampleNodeWithParameters`` is a typical ``main`` function "
 "which initializes ROS, spins the sample node so that it can send and receive "
 "messages, and then shuts down after the user enters ^C at the console."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:156
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:158
 msgid ""
 "int main(int argc, char ** argv)\n"
 "{\n"
@@ -279,18 +301,18 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:169
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:171
 msgid "2.2 Add executable"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:171
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:173
 msgid ""
 "To build this code, first open the ``CMakeLists.txt`` file and add the "
 "following lines of code below the dependency ``find_package(rclcpp "
 "REQUIRED)``"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:173
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:175
 msgid ""
 "add_executable(parameter_event_handler src/parameter_event_handler.cpp)\n"
 "target_link_libraries(parameter_event_handler PUBLIC rclcpp::rclcpp)\n"
@@ -301,88 +323,88 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:184
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:186
 msgid "3 Build and run"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:186
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:188
 msgid ""
 "It's good practice to run ``rosdep`` in the root of your workspace "
 "(``ros2_ws``) to check for missing dependencies before building:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:190
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:214
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:306
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:398
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:192
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:216
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:308
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:400
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:192
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:194
 msgid "$ rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:196
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:220
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:312
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:404
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:198
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:222
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:314
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:406
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:198
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:202
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:200
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:204
 msgid "rosdep only runs on Linux, so you can skip ahead to next step."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:200
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:226
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:318
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:410
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:202
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:228
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:320
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:412
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:204
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:206
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
 "package:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:206
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:298
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:390
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:208
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:300
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:392
 msgid "$ colcon build --packages-select cpp_parameter_event_handler"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:210
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:212
 msgid ""
 "Open a new terminal, navigate to ``ros2_ws``, and source the setup files:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:216
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:222
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:308
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:314
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:400
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:406
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:218
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:224
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:310
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:316
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:402
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:408
 msgid "$ . install/setup.bash"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:228
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:320
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:230
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:322
 msgid "$ call install/setup.bat"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:232
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:234
 msgid "Now run the node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:234
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:326
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:418
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:236
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:328
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:420
 msgid "$ ros2 run cpp_parameter_event_handler parameter_event_handler"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:238
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:240
 msgid ""
 "The node is now active and has a single parameter and will print a message "
 "whenever this parameter is updated. To test this, open up another terminal "
@@ -390,45 +412,45 @@ msgid ""
 "execute the following command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:241
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:243
 msgid "$ ros2 param set node_with_parameters an_int_param 43"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:245
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:247
 msgid ""
 "The terminal running the node will display a message similar to the "
 "following:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:247
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:249
 msgid ""
 "[INFO] [1606950498.422461764] [node_with_parameters]: cb: Received an update "
 "to parameter \"an_int_param\" of type integer: \"43\""
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:251
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:253
 msgid ""
 "The callback we set previously in the node has been invoked and has "
 "displayed the new updated value. You can now terminate the running "
 "parameter_event_handler sample using ^C in the terminal."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:255
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:257
 msgid "Extensions"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:257
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:259
 msgid ""
 "So far, we built and tested a small node that monitors a single parameter "
 "owned by the node itself. Using this node as a base, two other usecases "
 "where the ParameterEventHandler can be useful are presented below."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:261
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:263
 msgid "Monitor changes to another node's parameters"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:263
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:265
 msgid ""
 "You can also use the ParameterEventHandler to monitor parameter changes to "
 "another node's parameters. Let's update the SampleNodeWithParameters class "
@@ -437,13 +459,13 @@ msgid ""
 "will monitor for updates."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:267
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:269
 msgid ""
 "First update the constructor to add the following code after the existing "
 "code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:269
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:271
 msgid ""
 "// Now, add a callback to monitor any changes to the remote node's "
 "parameter. In this\n"
@@ -462,13 +484,13 @@ msgid ""
 "cb2, remote_node_name);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:285
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:287
 msgid ""
 "Then add another member variable, ``cb_handle2`` for the additional callback "
 "handle:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:287
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:289
 msgid ""
 "private:\n"
 "  std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;\n"
@@ -478,61 +500,61 @@ msgid ""
 "};"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:296
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:298
 msgid ""
 "In a terminal, navigate back to the root of your workspace, ``ros2_ws``, and "
 "build your updated package as before:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:302
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:394
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:304
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:396
 msgid "Then source the setup files:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:324
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:326
 msgid ""
 "Now, to test monitoring of remote parameters, first run the newly-built "
 "parameter_event_handler code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:330
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:332
 msgid ""
 "Next, from another terminal (with ROS initialized), run the "
 "parameter_blackboard demo application, as follows:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:332
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:334
 msgid "$ ros2 run demo_nodes_cpp parameter_blackboard"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:336
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:338
 msgid ""
 "Finally, from a third terminal (with ROS initialized), let's set a parameter "
 "on the parameter_blackboard node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:338
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:340
 msgid "$ ros2 param set parameter_blackboard a_double_param 3.45"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:342
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:344
 msgid ""
 "Upon executing this command, you should see output in the "
 "parameter_event_handler window, indicating that the callback function was "
 "invoked upon the parameter update:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:344
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:346
 msgid ""
 "[INFO] [1606952588.237531933] [node_with_parameters]: cb2: Received an "
 "update to parameter \"a_double_param\" of type: double: \"3.45\""
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:349
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:351
 msgid "Monitor all node parameters simultaneously"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:351
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:353
 msgid ""
 "If you need to monitor multiple nodes or parameters at the same time, it "
 "would be cumbersome to have to call ``add_parameter_callback`` once for each "
@@ -541,13 +563,13 @@ msgid ""
 "change."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:354
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:356
 msgid ""
 "To do this, first update the SampleNodeWithParameters constructor to add the "
 "following code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:356
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:358
 msgid ""
 "this->declare_parameter(\"another_double_param\", 0.0);\n"
 "\n"
@@ -571,7 +593,7 @@ msgid ""
 "event_cb_handle_ = param_subscriber_->add_parameter_event_callback(event_cb);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:376
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:378
 msgid ""
 "This declares a new double parameter ``another_double_param`` and adds an "
 "event callback that will monitor both parameters. Note that the "
@@ -581,50 +603,50 @@ msgid ""
 "to monitor when parameters are added or deleted."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:380
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:382
 msgid ""
 "Finally, don't forget to add the event callback handle as a private member:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:382
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:384
 msgid ""
 "private:\n"
 "  ...\n"
 "  std::shared_ptr<rclcpp::ParameterEventCallbackHandle> event_cb_handle_;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:388
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:390
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and rebuild your "
 "updated package as before:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:412
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:414
 msgid "$ call install\\setup.bat"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:416
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:418
 msgid ""
 "To test the new event callback, first run the parameter_event_handler node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:422
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:424
 msgid ""
 "Then, from a second terminal (with ROS sourced), let's set the original int "
 "parameter:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:424
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:426
 msgid "$ ros2 param set node_with_parameters an_int_param 44"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:428
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:430
 msgid ""
 "Upon executing this command, you should see both the single-parameter "
 "callback, as well as the event callback being fired:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:430
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:432
 msgid ""
 "[INFO] [1747144403.418980063] [node_with_parameters]: cb: Received an update "
 "to parameter \"an_int_param\" of type integer: \"44\"\n"
@@ -634,22 +656,22 @@ msgid ""
 "\"an_int_param\" changed to 44"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:436
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:438
 msgid "Now set the new double parameter:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:438
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:440
 msgid "$ ros2 param set node_with_parameters another_double_param 4.4"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:442
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:444
 msgid ""
 "Since no single-parameter callback was added (via "
 "``add_parameter_callback``) for the double parameter, we should see only the "
 "event callback fire:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:444
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:446
 msgid ""
 "[INFO] [1747144452.917437113] [node_with_parameters]: Received parameter "
 "event from node \"/node_with_parameters\"\n"
@@ -657,18 +679,18 @@ msgid ""
 "\"another_double_param\" changed to 4.400000"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:451
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:453
 msgid ""
 "When setting multiple parameters at once, it's best to use "
 "``set_parameters_atomically``, explained in :doc:`../../About-Parameters`. "
 "This way, the event callback is only fired once."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:455
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:457
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:457
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:459
 msgid ""
 "You created a node with a parameter and used the ParameterEventHandler class "
 "to set a callback to monitor changes to that parameter. You also used the "
@@ -678,11 +700,11 @@ msgid ""
 "to the updated values."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:462
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:464
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:464
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.rst:466
 msgid ""
 "To learn how to adapt ROS 1 parameter files for ROS 2, see the :doc:"
 "`Migrating YAML parameter files from ROS 1 to ROS2 <../../../Migration-and-"
