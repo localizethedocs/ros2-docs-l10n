@@ -1,0 +1,1508 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-06 08:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:7
+msgid "ament_cmake user documentation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:9
+msgid ""
+"``ament_cmake`` is the build system for CMake based packages in ROS 2 (in "
+"particular, it will be used for most C/C++ projects). It is a set of scripts "
+"enhancing CMake and adding convenience functionality for package authors. "
+"Before using ``ament_cmake``, it is very helpful to know the basics of "
+"`CMake <https://cmake.org/cmake/help/v3.8/>`__. An official tutorial can be "
+"found `here <https://cmake.org/cmake/help/latest/guide/tutorial/index."
+"html>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:16
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:19
+msgid "Basics"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:21
+msgid ""
+"A basic CMake outline can be produced using ``ros2 pkg create "
+"<package_name>`` on the command line. The build information is then gathered "
+"in two files: the ``package.xml`` and the ``CMakeLists.txt``, which must be "
+"in the same directory. The ``package.xml`` must contain all dependencies and "
+"a bit of metadata to allow colcon to find the correct build order for your "
+"packages, to install the required dependencies in CI, and to provide the "
+"information for a release with ``bloom``. The ``CMakeLists.txt`` contains "
+"the commands to build and package executables and libraries and will be the "
+"main focus of this document."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:27
+msgid "Basic project outline"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:29
+msgid ""
+"The basic outline of the ``CMakeLists.txt`` of an ament package contains:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:31
+msgid ""
+"cmake_minimum_required(VERSION 3.8)\n"
+"project(my_project)\n"
+"\n"
+"ament_package()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:38
+msgid ""
+"The argument to ``project`` will be the package name and must be identical "
+"to the package name in the ``package.xml``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:40
+msgid ""
+"The project setup is done by ``ament_package()`` and this call must occur "
+"exactly once per package. ``ament_package()`` installs the ``package.xml``, "
+"registers the package with the ament index, and installs configuration (and "
+"possibly target) files for CMake so that it can be found by other packages "
+"using ``find_package``. Since ``ament_package()`` gathers a lot of "
+"information from the ``CMakeLists.txt`` it should be the last call in your "
+"``CMakeLists.txt``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:44
+msgid "``ament_package`` can be given additional arguments:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:46
+msgid ""
+"``CONFIG_EXTRAS``: a list of CMake files (``.cmake`` or ``.cmake.in`` "
+"templates expanded by ``configure_file()``) which should be available to "
+"clients of the package. For an example of when to use these arguments, see "
+"the discussion in `Adding resources`_. For more information on how to use "
+"template files, see `the official documentation <https://cmake.org/cmake/"
+"help/v3.8/command/configure_file.html>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:50
+msgid ""
+"``CONFIG_EXTRAS_POST``: same as ``CONFIG_EXTRAS``, but the order in which "
+"the files are added differs. While ``CONFIG_EXTRAS`` files are included "
+"before the files generated for the ``ament_export_*`` calls the files from "
+"``CONFIG_EXTRAS_POST`` are included afterwards."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:53
+msgid ""
+"Instead of adding to ``ament_package``, you can also add to the variable "
+"``${PROJECT_NAME}_CONFIG_EXTRAS`` and ``${PROJECT_NAME}_CONFIG_EXTRAS_POST`` "
+"with the same effect. The only difference is again the order in which the "
+"files are added with the following total order:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:56
+msgid "files added by ``CONFIG_EXTRAS``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:58
+msgid "files added by appending to ``${PROJECT_NAME}_CONFIG_EXTRAS``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:60
+msgid "files added by appending to ``${PROJECT_NAME}_CONFIG_EXTRAS_POST``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:62
+msgid "files added by ``CONFIG_EXTRAS_POST``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:65
+msgid "Compiler and linker options"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:67
+msgid ""
+"ROS 2 targets compilers which comply with the C++17 and C99 standard. Newer "
+"versions might be targeted in the future and are referenced `here <https://"
+"reps.openrobotics.org/rep-2000/>`__. Therefore it is customary to set the "
+"corresponding CMake flags:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:71
+msgid ""
+"if(NOT CMAKE_C_STANDARD)\n"
+"  set(CMAKE_C_STANDARD 99)\n"
+"endif()\n"
+"if(NOT CMAKE_CXX_STANDARD)\n"
+"  set(CMAKE_CXX_STANDARD 17)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:80
+msgid ""
+"To keep the code clean, compilers should throw warnings for questionable "
+"code and these warnings should be fixed."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:82
+msgid "It is recommended to at least cover the following warning levels:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:84
+msgid "For Visual Studio: the default ``W1`` warnings"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:86
+msgid ""
+"For GCC and Clang: ``-Wall -Wextra -Wpedantic`` are highly recommended and "
+"``-Wshadow`` is advisable"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:88
+msgid ""
+"It is currently recommended to use ``add_compile_options`` to add these "
+"options for all targets. This avoids cluttering the code with target-based "
+"compile options for all executables, libraries, and tests:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:91
+msgid ""
+"if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n"
+"  add_compile_options(-Wall -Wextra -Wpedantic)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:98
+msgid "Finding dependencies"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:100
+msgid ""
+"Most ``ament_cmake`` projects will have dependencies on other packages. In "
+"CMake, this is accomplished by calling ``find_package``. For instance, if "
+"your package depends on ``rclcpp``, then the ``CMakeLists.txt`` file should "
+"contain:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:104
+msgid "find_package(rclcpp REQUIRED)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:110
+msgid ""
+"It should never be necessary to ``find_package`` a library that is not "
+"explicitly needed but is a dependency of another dependency that is "
+"explicitly needed. If that is the case, file a bug against the corresponding "
+"package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:114
+msgid "Adding targets"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:116
+msgid ""
+"In CMake nomenclature, ``targets`` are the artifacts that this project will "
+"create. Either libraries or executables can be created, and a single project "
+"can contain zero or many of each of them."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:121
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:196
+msgid "Libraries"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:123
+msgid ""
+"These are created with a call to ``add_library``, which should contain both "
+"the name of the target and the source files that should be compiled to "
+"create the library."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:125
+msgid ""
+"With the separation of header files and implementation in C/C++, it is not "
+"usually necessary to add header files as arguments to ``add_library``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:127
+msgid "The following best practice is proposed:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:129
+msgid ""
+"Put all headers which should be usable by clients of this library (and "
+"therefore must be installed) into a subdirectory of the ``include`` folder "
+"named like the package, while all other files (``.c/.cpp`` and header files "
+"which should not be exported) are inside the ``src`` folder"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:131
+msgid ""
+"Only ``.c/.cpp`` files are explicitly referenced in the call to "
+"``add_library``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:133
+msgid "Find headers to your library ``my_library`` via"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:135
+msgid ""
+"target_include_directories(my_library\n"
+"  PUBLIC\n"
+"    \"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>\"\n"
+"    \"$<INSTALL_INTERFACE:include/${PROJECT_NAME}>\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:142
+msgid ""
+"This adds all files in the folder ``${CMAKE_CURRENT_SOURCE_DIR}/include`` to "
+"the public interface during build time and all files in the include folder "
+"(relative to ``${CMAKE_INSTALL_DIR}``) when being installed."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:144
+msgid "``ros2 pkg create`` creates a package layout that follows these rules."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:148
+msgid ""
+"Since Windows is one of the officially supported platforms, to have maximum "
+"impact, any package should also build on Windows. The Windows library format "
+"enforces symbol visibility; that is, every symbol which should be used from "
+"a client has to be explicitly exported by the library (and symbols need to "
+"be implicitly imported)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:151
+msgid ""
+"Since GCC and Clang builds do not generally do this, it is advised to use "
+"the logic in `the GCC wiki <https://gcc.gnu.org/wiki/Visibility>`__. To use "
+"it for a package called ``my_library``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:154
+msgid ""
+"Copy the logic in the link into a header file called ``visibility_control."
+"hpp``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:156
+msgid ""
+"Replace ``DLL`` by ``MY_LIBRARY`` (for an example, see visibility control of "
+"`rviz_rendering <https://github.com/ros2/rviz/blob/ros2/rviz_rendering/"
+"include/rviz_rendering/visibility_control.hpp>`__)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:158
+msgid ""
+"Use the macros \"MY_LIBRARY_PUBLIC\" for all symbols you need to export (i."
+"e. classes or functions)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:160
+msgid "In the project ``CMakeLists.txt`` use:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:162
+msgid ""
+"target_compile_definitions(my_library PRIVATE "
+"\"MY_LIBRARY_BUILDING_LIBRARY\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:166
+msgid ""
+"For more details, see :ref:`Windows Symbol Visibility in the Windows Tips "
+"and Tricks document <Windows_Symbol_Visibility>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:168
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:266
+msgid "Executables"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:170
+msgid ""
+"These should be created with a call to ``add_executable``, which should "
+"contain both the name of the target and the source files that should be "
+"compiled to create the executable. The executable may also have to be linked "
+"with any libraries created in this package by using "
+"``target_link_libraries``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:173
+msgid ""
+"Since executables aren't generally used by clients as a library, no header "
+"files need to be put in the ``include`` directory."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:175
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:275
+msgid ""
+"In the case that a package has both libraries and executables, make sure to "
+"combine the advice from both \"Libraries\" and \"Executables\" above."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:178
+msgid "Linking to dependencies"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:180
+msgid ""
+"Link to your dependencies using `target_link_libraries <https://cmake.org/"
+"cmake/help/latest/command/target_link_libraries.html>`__. It will give your "
+"target the necessary headers, libraries, and all their dependencies."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:183
+msgid ""
+"As an example, suppose we want to link ``my_library`` against the linear "
+"algebra library Eigen3. ``Eigen3`` defines the target ``Eigen3::Eigen``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:186
+msgid ""
+"find_package(Eigen3 REQUIRED)\n"
+"target_link_libraries(my_library PUBLIC Eigen3::Eigen)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:192
+msgid "Installing"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:198
+msgid ""
+"When building a reusable library, some information needs to be exported for "
+"downstream packages to easily use it."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:200
+msgid ""
+"First, install the headers files which should be available to clients. The "
+"include directory is custom to support overlays in ``colcon``; see https://"
+"colcon.readthedocs.io/en/released/user/overriding-packages.html#install-"
+"headers-to-a-unique-include-directory for more information."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:203
+msgid ""
+"install(\n"
+"  DIRECTORY include/\n"
+"  DESTINATION include/${PROJECT_NAME}\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:210
+msgid ""
+"Next, install the targets and create the export target "
+"(``export_${PROJECT_NAME}``) that other code will use to find this package. "
+"Note that you can use a single ``install`` call to install all of the "
+"libraries in the project."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:213
+msgid ""
+"install(\n"
+"  TARGETS my_library\n"
+"  EXPORT export_${PROJECT_NAME}\n"
+"  LIBRARY DESTINATION lib\n"
+"  ARCHIVE DESTINATION lib\n"
+"  RUNTIME DESTINATION bin\n"
+")\n"
+"\n"
+"ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)\n"
+"ament_export_dependencies(some_dependency)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:226
+msgid "Here is what's happening in the snippet above:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:228
+msgid ""
+"The ``ament_export_targets`` macro exports the targets for CMake. This is "
+"necessary to allow your library's clients to use the "
+"``target_link_libraries(client PRIVATE my_library::my_library)`` syntax. If "
+"the export set includes a library, add the option ``HAS_LIBRARY_TARGET`` to "
+"``ament_export_targets``, which adds potential libraries to environment "
+"variables."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:232
+msgid ""
+"The ``ament_export_dependencies`` exports dependencies to downstream "
+"packages. This is necessary so that the user of the library does not have to "
+"call ``find_package`` for those dependencies, too."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:237
+msgid ""
+"Calling ``ament_export_targets``, ``ament_export_dependencies``, or other "
+"ament commands from a CMake subdirectory will not work as expected. This is "
+"because the CMake subdirectory has no way of setting necessary variables in "
+"the parent scope where ``ament_package`` is called."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:242
+msgid ""
+"Windows DLLs are treated as runtime artifacts and installed into the "
+"``RUNTIME DESTINATION`` folder. It is therefore advised to keep the "
+"``RUNTIME`` install even when developing libraries on Unix based systems."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:245
+msgid ""
+"The ``EXPORT`` notation of the install call requires additional attention: "
+"It installs the CMake files for the ``my_library`` target. It must be named "
+"exactly the same as the argument in ``ament_export_targets``. By convention "
+"the export name is given a prefix like ``export_``, but this prefix is not "
+"critical."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:250
+msgid ""
+"All install paths are relative to ``CMAKE_INSTALL_PREFIX``, which is already "
+"set correctly by colcon/ament."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:252
+msgid ""
+"There are two additional functions which are available, but are superfluous "
+"for target based installs:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:254
+msgid ""
+"ament_export_include_directories(\"include/${PROJECT_NAME}\")\n"
+"ament_export_libraries(my_library)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:259
+msgid ""
+"The first macro marks the directory of the exported include directories. The "
+"second macro marks the location of the installed library (this is done by "
+"the ``HAS_LIBRARY_TARGET`` argument in the call to "
+"``ament_export_targets``). These should only be used if the downstream "
+"projects can't or don't want to use CMake target based dependencies."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:263
+msgid ""
+"Some of the macros can take different types of arguments for non-target "
+"exports, but since the recommended way for modern Make is to use targets, we "
+"will not cover them here. Documentation of these options can be found in the "
+"source code itself."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:268
+msgid ""
+"When installing an executable, the following stanza *must be followed "
+"exactly* for the rest of the ROS tooling to find it:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:270
+msgid ""
+"install(TARGETS my_exe\n"
+"    DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:278
+msgid "Linting and Testing"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:280
+msgid ""
+"In order to separate testing from building the library with colcon, wrap all "
+"calls to linters and tests in a conditional:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:282
+msgid ""
+"if(BUILD_TESTING)\n"
+"  find_package(ament_cmake_gtest REQUIRED)\n"
+"  ament_add_gtest(<tests>)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:290
+msgid "Linting"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:292
+msgid ""
+"It's advised to use the combined call from `ament_lint_auto <https://github."
+"com/ament/ament_lint/blob/rolling/ament_lint_auto/doc/index."
+"rst#ament_lint_auto>`_:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:294
+msgid ""
+"find_package(ament_lint_auto REQUIRED)\n"
+"ament_lint_auto_find_test_dependencies()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:299
+msgid ""
+"This will run linters as defined in the ``package.xml``. It is recommended "
+"to use the set of linters defined by the package ``ament_lint_common``. The "
+"individual linters included there, as well as their functions, can be seen "
+"in the `ament_lint_common docs <https://github.com/ament/ament_lint/blob/"
+"rolling/ament_lint_common/doc/index.rst>`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:303
+msgid ""
+"Linters provided by ament can also be added separately, instead of running "
+"``ament_lint_auto``. One example of how to do so can be found in the "
+"`ament_cmake_lint_cmake documentation <https://github.com/ament/ament_lint/"
+"blob/rolling/ament_cmake_lint_cmake/doc/index.rst>`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:307
+msgid "Testing"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:309
+msgid "Ament contains CMake macros to simplify setting up GTests. Call:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:312
+msgid ""
+"find_package(ament_cmake_gtest)\n"
+"ament_add_gtest(some_test <test_sources>)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:317
+msgid ""
+"to add a GTest. This is then a regular target which can be linked against "
+"other libraries (such as the project library). The macros have additional "
+"parameters:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:321
+msgid ""
+"``APPEND_ENV``: append environment variables. For instance you can add to "
+"the ament prefix path by calling:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:324
+msgid ""
+"find_package(ament_cmake_gtest REQUIRED)\n"
+"ament_add_gtest(some_test <test_sources>\n"
+"  APPEND_ENV PATH=some/additional/path/for/testing/resources)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:330
+msgid ""
+"``APPEND_LIBRARY_DIRS``: append libraries so that they can be found by the "
+"linker at runtime. This can be achieved by setting environment variables "
+"like ``PATH`` on Windows and ``LD_LIBRARY_PATH`` on Linux, but this makes "
+"the call platform specific."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:333
+msgid "``ENV``: set environment variables (same syntax as ``APPEND_ENV``)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:335
+msgid ""
+"``TIMEOUT``: set a test timeout in second. The default for GTests is 60 "
+"seconds. For example:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:339
+msgid "ament_add_gtest(some_test <test_sources> TIMEOUT 120)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:343
+msgid ""
+"``SKIP_TEST``: skip this test (will be shown as \"passed\" in the console "
+"output)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:345
+msgid "``SKIP_LINKING_MAIN_LIBRARIES``: Don't link against GTest."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:347
+msgid "``WORKING_DIRECTORY``: set the working directory for the test."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:349
+msgid ""
+"The default working directory otherwise is the ``CMAKE_CURRENT_BINARY_DIR``, "
+"which is described in the `CMake documentation <https://cmake.org/cmake/help/"
+"latest/variable/CMAKE_CURRENT_BINARY_DIR.html>`_."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:351
+msgid "Similarly, there is a CMake macro to set up GTest including GMock:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:353
+msgid ""
+"find_package(ament_cmake_gmock REQUIRED)\n"
+"ament_add_gmock(some_test <test_sources>)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:358
+msgid "It has the same additional parameters as ``ament_add_gtest``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:361
+msgid "Extending ament"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:363
+msgid ""
+"It is possible to register additional macros/functions with ``ament_cmake`` "
+"and extend it in several ways."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:366
+msgid "Adding a function/macro to ament"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:368
+msgid ""
+"Extending ament will often times mean that you want to have some functions "
+"available to other packages. The best way to provide the macro to client "
+"packages is to register it with ament."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:371
+msgid ""
+"This can be done by appending the ``${PROJECT_NAME}_CONFIG_EXTRAS`` "
+"variable, which is used by ``ament_package()`` via"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:373
+msgid ""
+"list(APPEND ${PROJECT_NAME}_CONFIG_EXTRAS\n"
+"  path/to/file.cmake\"\n"
+"  other/pathto/file.cmake\"\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:380
+msgid ""
+"Alternatively, you can directly add the files to the ``ament_package()`` "
+"call:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:382
+msgid ""
+"ament_package(CONFIG_EXTRAS\n"
+"  path/to/file.cmake\n"
+"  other/pathto/file.cmake\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:390
+msgid "Adding to extension points"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:392
+msgid ""
+"In addition to simple files with functions that can be used in other "
+"packages, you can also add extensions to ament. Those extensions are scripts "
+"which are executed with the function which defines the extension point. The "
+"most common use-case for ament extensions is probably registering rosidl "
+"message generators: When writing a generator, you normally want to generate "
+"all messages and services with your generator also without modifying the "
+"code for the message/service definition packages. This is possible by "
+"registering the generator as an extension to ``rosidl_generate_interfaces``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:398
+msgid "As an example, see"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:400
+msgid ""
+"ament_register_extension(\n"
+"  \"rosidl_generate_interfaces\"\n"
+"  \"rosidl_generator_cpp\"\n"
+"  \"rosidl_generator_cpp_generate_interfaces.cmake\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:407
+msgid ""
+"which registers the macro ``rosidl_generator_cpp_generate_interfaces.cmake`` "
+"for the package ``rosidl_generator_cpp`` to the extension point "
+"``rosidl_generate_interfaces``. When the extension point gets executed, this "
+"will trigger the execution of the script "
+"``rosidl_generator_cpp_generate_interfaces.cmake`` here. In particular, this "
+"will call the generator whenever the function ``rosidl_generate_interfaces`` "
+"gets executed."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:411
+msgid ""
+"The most important extension point for generators, aside from "
+"``rosidl_generate_interfaces``, is ``ament_package``, which will simply "
+"execute scripts with the ``ament_package()`` call. This extension point is "
+"useful when registering resources (see below)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:414
+msgid ""
+"``ament_register_extension`` is a function which takes exactly three "
+"arguments:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:416
+msgid ""
+"``extension_point``: The name of the extension point (most of the time this "
+"will be one of ``ament_package`` or ``rosidl_generate_interfaces``)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:418
+msgid ""
+"``package_name``: The name of the package containing the CMake file (i.e. "
+"the project name of the project where the file is written to)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:420
+msgid ""
+"``cmake_filename``: The CMake file executed when the extension point is run"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:424
+msgid ""
+"It is possible to define custom extension points in a similar manner to "
+"``ament_package`` and ``rosidl_generate_interfaces``, but this should hardly "
+"be necessary."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:427
+msgid "Adding extension points"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:429
+msgid ""
+"Very rarely, it might be interesting to define a new extension point to "
+"ament."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:431
+msgid ""
+"Extension points can be registered within a macro so that all extensions "
+"will be executed when the corresponding macro is called. To do so:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:434
+msgid ""
+"Define and document a name for your extension (e.g. ``my_extension_point``), "
+"which is the name passed to the ``ament_register_extension`` macro when "
+"using the extension point."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:436
+msgid "In the macro/function which should execute the extensions call:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:438
+msgid "ament_execute_extensions(my_extension_point)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:442
+msgid ""
+"Ament extensions work by defining a variable containing the name of the "
+"extension point and filling it with the macros to be executed. Upon calling "
+"``ament_execute_extensions``, the scripts defined in the variable are then "
+"executed one after another."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:448
+msgid "Adding resources"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:450
+msgid ""
+"Especially when developing plugins or packages which allow plugins it is "
+"often essential to add resources to one ROS package from another (e.g. a "
+"plugin). Examples can be plugins for tools using the pluginlib."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:453
+msgid ""
+"This can be achieved using the ament index (also called \"resource index\")."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:456
+msgid "The ament index explained"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:458
+msgid ""
+"For details on the design and intentions, see `here <https://github.com/"
+"ament/ament_cmake/blob/rolling/ament_cmake_core/doc/resource_index.md>`__"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:460
+msgid ""
+"In principle, the ament index is contained in a folder within the `install "
+"space <https://colcon.readthedocs.io/en/released/user/what-is-a-workspace."
+"html#install-artifacts>`_. It contains shallow subfolders named after "
+"different types of resources. Within the subfolder, each package providing "
+"said resource is referenced by name with a \"marker file\". The file may "
+"contain whatever content necessary to obtain the resources, e.g. relative "
+"paths to the installation directories of the resource, it may also be simply "
+"empty."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:465
+msgid ""
+"To give an example, consider providing display plugins for RViz: When "
+"providing RViz plugins in a project named ``my_rviz_displays`` which will be "
+"read by the pluginlib, you will provide a ``plugin_description.xml`` file, "
+"which will be installed and used by the pluginlib to load the plugins. To "
+"achieve this, the plugin_description.xml is registered as a resource in the "
+"resource_index via"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:469
+msgid ""
+"pluginlib_export_plugin_description_file(rviz_common plugins_description.xml)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:473
+msgid ""
+"When running ``colcon build``, this installs a file ``my_rviz_displays`` "
+"into a subfolder ``rviz_common__pluginlib__plugin`` into the resource_index. "
+"Pluginlib factories within rviz_common will know to gather information from "
+"all folders named ``rviz_common__pluginlib__plugin`` for packages that "
+"export plugins. The marker file for pluginlib factories contains an install-"
+"folder relative path to the ``plugins_description.xml`` file (and the name "
+"of the library as marker file name). With this information, the pluginlib "
+"can load the library and know which plugins to load from the "
+"``plugin_description.xml`` file."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:478
+msgid ""
+"As a second example, consider the possibility to let your own RViz plugins "
+"use your own custom meshes. Meshes get loaded at startup time so that the "
+"plugin owner does not have to deal with it, but this implies RViz has to "
+"know about the meshes. To achieve this, RViz provides a function:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:482
+msgid "register_rviz_ogre_media_exports(DIRECTORIES <my_dirs>)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:486
+msgid ""
+"This registers the directories as an ogre_media resource in the ament index. "
+"In short, it installs a file named after the project which calls the "
+"function into a subfolder called ``rviz_ogre_media_exports``. The file "
+"contains the install folder relative paths to the directories listed in the "
+"macros. On startup time, RViz can now search for all folders called "
+"``rviz_ogre_media_exports`` and load resources in all folders provided. "
+"These searches are done using ``ament_index_cpp`` (or ``ament_index_py`` for "
+"Python packages)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:492
+msgid ""
+"In the following sections we will explore how to add your own resources to "
+"the ament index and provide best practices for doing so."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:495
+msgid "Querying the ament index"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:497
+msgid ""
+"If necessary, it is possible to query the ament index for resources via "
+"CMake. To do so, there are three functions:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:500
+msgid ""
+"``ament_index_has_resource``: Obtain a prefix path to the resource if it "
+"exists with the following parameters:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:502
+msgid ""
+"``var``: the output parameter: fill this variable with FALSE if the resource "
+"does not exist or the prefix path to the resource otherwise"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:504
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:512
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:524
+msgid ""
+"``resource_type``: The type of the resource (e.g. "
+"``rviz_common__pluginlib__plugin``)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:506
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:514
+msgid ""
+"``resource_name``: The name of the resource which usually amounts to the "
+"name of the package having added the resource of type resource_type (e.g. "
+"``rviz_default_plugins``)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:508
+msgid ""
+"``ament_index_get_resource``: Obtain the content of a specific resource, i."
+"e. the contents of the marker file in the ament index."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:510
+msgid ""
+"``var``: the output parameter: filled with the content of the resource "
+"marker file if it exists."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:516
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:526
+msgid ""
+"``PREFIX_PATH``: The prefix path to search for (usually, the default "
+"``ament_index_get_prefix_path()`` will be enough)."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:518
+msgid ""
+"Note that ``ament_index_get_resource`` will throw an error if the resource "
+"does not exist, so it might be necessary to check using "
+"``ament_index_has_resource``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:520
+msgid ""
+"``ament_index_get_resources``: Get all packages which registered resources "
+"of a specific type from the index"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:522
+msgid ""
+"``var``: Output parameter: filled with a list of names of all packages which "
+"registered a resource of resource_type"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:529
+msgid "Adding to the ament index"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:531
+msgid "Defining a resource requires two bits of information:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:533
+msgid "a name for the resource which must be unique,"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:535
+msgid ""
+"a layout of the marker file, which can be anything and could also be empty "
+"(this is true for instance for the \"package\" resource marking a ROS 2 "
+"package)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:537
+msgid "For the RViz mesh resource, the corresponding choices were:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:539
+msgid "``rviz_ogre_media_exports`` as name of the resource,"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:541
+msgid ""
+"install path relative paths to all folders containing resources. This will "
+"already enable you to write the logic for using the corresponding resource "
+"in your package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:544
+msgid ""
+"To allow users to easily register resources for your package, you should "
+"furthermore provide macros or functions such as the pluginlib function or "
+"``rviz_ogre_media_exports`` function."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:546
+msgid ""
+"To register a resource, use the ament function "
+"``ament_index_register_resource``. This will create and install the marker "
+"files in the resource_index. As an example, the corresponding call for "
+"``rviz_ogre_media_exports`` is the following:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:550
+msgid ""
+"ament_index_register_resource(rviz_ogre_media_exports CONTENT "
+"${OGRE_MEDIA_RESOURCE_FILE})"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:554
+msgid ""
+"This installs a file named like ``${PROJECT_NAME}`` into a folder "
+"``rviz_ogre_media_exports`` into the resource_index with content given by "
+"variable ``${OGRE_MEDIA_RESOURCE_FILE}``. The macro has a number of "
+"parameters that can be useful:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:557
+msgid ""
+"the first (unnamed) parameter is the name of the resource, which amounts to "
+"the name of the folder in the resource_index"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:559
+msgid ""
+"``CONTENT``: The content of the marker file as string. This could be a list "
+"of relative paths, etc. ``CONTENT`` cannot be used together with "
+"``CONTENT_FILE``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:563
+msgid ""
+"``CONTENT_FILE``: The path to a file which will be use to create the marker "
+"file. The file can be a plain file or a template file expanded with "
+"``configure_file()``. ``CONTENT_FILE`` cannot be used together with "
+"``CONTENT``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:567
+msgid ""
+"``PACKAGE_NAME``: The name of the package/library exporting the resource, "
+"which amounts to the name of the marker file. Defaults to ``${PROJECT_NAME}"
+"``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:570
+msgid ""
+"``AMENT_INDEX_BINARY_DIR``: The base path of the generated ament index. "
+"Unless really necessary, always use the default ``${CMAKE_BINARY_DIR}/"
+"ament_cmake_index``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:573
+msgid "``SKIP_INSTALL``: Skip installing the marker file."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:575
+msgid ""
+"Since only one marker file exists per package, it is usually a problem if "
+"the CMake function/macro gets called twice by the same project. However, for "
+"large projects it might be best to split up calls registering resources."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:578
+msgid ""
+"Therefore, it is best practice to let a macro registering a resource such as "
+"``register_rviz_ogre_media_exports.cmake`` only fill some variables. The "
+"real call to ``ament_index_register_resource`` can then be added within an "
+"ament extension to ``ament_package``. Since there must only ever be one call "
+"to ``ament_package`` per project, there will always only be one place where "
+"the resource gets registered. In the case of ``rviz_ogre_media_exports`` "
+"this amounts to the following strategy:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:583
+msgid ""
+"The macro ``register_rviz_ogre_media_exports`` takes a list of folders and "
+"appends them to a variable called ``OGRE_MEDIA_RESOURCE_FILE``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:585
+msgid ""
+"Another macro called ``register_rviz_ogre_media_exports_hook`` calls "
+"``ament_index_register_resource`` if ``${OGRE_MEDIA_RESOURCE_FILE}`` is non-"
+"empty."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:587
+msgid ""
+"The ``register_rviz_ogre_media_exports_hook.cmake`` file is registered as an "
+"ament extension in a third file ``register_rviz_ogre_media_exports_hook-"
+"extras.cmake`` via calling"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:589
+msgid ""
+"ament_register_extension(\"ament_package\" \"rviz_rendering\"\n"
+"  \"register_rviz_ogre_media_exports_hook.cmake\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:594
+msgid ""
+"The files ``register_rviz_ogre_media_exports.cmake`` and "
+"``register_rviz_ogre_media_exports_hook-extra.cmake`` are registered as "
+"``CONFIG_EXTRA`` with ``ament_package()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:597
+msgid "Setting environment variables"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:598
+msgid ""
+"``ament_cmake`` provides a mechanism to automatically set environment "
+"variables for a ROS 2 workspace when it is sourced. This can be useful in "
+"configuring:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:601
+msgid "RMW implementations (setting up CycloneDDS, FastDDS, etc.)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:602
+msgid "Gazebo Simulations (setting up paths to plugins and resources)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:603
+msgid "Other custom robot-specific setting configurations"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:605
+msgid ""
+"This can be implemented through ``ament_environment_hooks``, which allows "
+"packages to define persistent environment variables that are set when the "
+"workspace is sourced."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:608
+msgid "About environment hooks"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:609
+msgid ""
+"Environment hooks are shell scripts provided by a ROS 2 package. When the "
+"setup file in the workspace is sourced, the hooks are also sourced. These "
+"scripts allow you to set or extend environment variables with requiring "
+"manual modifications to the ``setup.bash`` or ``setup.zsh`` files."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:613
+msgid ""
+"These environment hooks can be implemented by creating two types of script "
+"files:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:615
+msgid ""
+"``.dsv.in`` files: These are machine-readable files that specify expected "
+"environment variable changes. Ament processes these files more efficiently "
+"than traditional shell scripts, improving performance when setting up the "
+"environment."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:618
+msgid ""
+"``.sh.in`` files: These are shell scripts executed by Linux/macOS shells "
+"such as sh, bash, and zsh. They set environment variables at runtime when "
+"sourcing the workspace."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:621
+msgid ""
+"These files are processed by ``colcon`` to generate the final environment "
+"hook scripts."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:623
+msgid ""
+"The actual implementation of ``ament_environment_hooks`` can be found in the "
+"official `ament-cmake repository <https://github.com/ament/ament_cmake/tree/"
+"master/ament_cmake_core/cmake/environment_hooks>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:626
+msgid "Defining Persistent Environment Variables through Hooks"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:627
+msgid ""
+"This section provides a quick example on how to use environment hooks to "
+"configure FastDDS XML profiles for your ROS 2 package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:629
+msgid ""
+"A recommended best practice when defining environment hooks is to place them "
+"within a dedicated ``hooks`` directory inside the package workspace."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:631
+msgid ""
+"Inside your created ``hooks`` folder, create a ``my_package.sh.in`` as "
+"follows:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:633
+msgid ""
+"export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
+"export RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
+"export FASTDDS_DEFAULT_PROFILES_FILE=\"$COLCON_CURRENT_PREFIX/my_dds_profile."
+"xml\""
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:639
+msgid "In the same folder, create a ``my_package.dsv.in`` file as follows:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:641
+msgid ""
+"set;RMW_IMPLEMENTATION;rmw_fastrtps_cpp\n"
+"set;RMW_FASTRTPS_USE_QOS_FROM_XML;1\n"
+"set;FASTDDS_DEFAULT_PROFILES_FILE;my_dds_profile.xml"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:647
+msgid ""
+"Once added, you can register them using the ament_environment_hooks function "
+"in your ``CMakeLists.txt`` file:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:649
+msgid ""
+"ament_environment_hooks(\n"
+"  \"${CMAKE_CURRENT_SOURCE_DIR}/hooks/my_package.dsv.in\"\n"
+"  \"${CMAKE_CURRENT_SOURCE_DIR}/hooks/my_package.sh.in\"\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:656
+msgid ""
+"Another example of using environment hooks for Gazebo plugin paths can be "
+"found in the official `ros_gz_project_template <https://github.com/gazebosim/"
+"ros_gz_project_template/tree/main/ros_gz_example_gazebo/hooks>`__."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:659
+msgid "API Version Management"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:661
+msgid ""
+"ROS 2 provides automatic version header generation through "
+"``ament_generate_version_header``, which creates compile-time macros for API "
+"versioning and feature detection. This is particularly useful for "
+"maintaining backward compatibility and conditionally enabling features based "
+"on library versions."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:666
+msgid ""
+"The ``ament_generate_version_header`` functionality is designed for C, C++, "
+"and other C-based languages only. It generates C/C++ header files with "
+"preprocessor macros and is not applicable to Python or other non-C-based "
+"packages."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:670
+msgid "Understanding auto-generated version macros"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:672
+msgid ""
+"Many ROS 2 C/C++ packages (such as ``rclcpp``, ``rcl``, and ``rmw``) "
+"automatically generate version header files containing macros that expose "
+"the library's version information. These version headers are generated from "
+"the ``package.xml`` file using the `ament_generate_version_header.cmake "
+"<https://github.com/ament/ament_cmake/blob/${ROS_DISTRO}/"
+"ament_cmake_gen_version_h/cmake/ament_generate_version_header.cmake>`__ "
+"script."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:675
+msgid "The generated version macros follow this naming convention:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:677
+msgid "``<PACKAGE_NAME>_VERSION_MAJOR``: Major version number"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:678
+msgid "``<PACKAGE_NAME>_VERSION_MINOR``: Minor version number"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:679
+msgid "``<PACKAGE_NAME>_VERSION_PATCH``: Patch version number"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:680
+msgid ""
+"``<PACKAGE_NAME>_VERSION``: Combined version as a single integer (major * "
+"10000 + minor * 100 + patch)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:681
+msgid ""
+"``<PACKAGE_NAME>_VERSION_STR``: String representation of the version (e.g., "
+"\"1.2.3\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:682
+msgid ""
+"``<PACKAGE_NAME>_VERSION_GTE(major, minor, patch)``: Macro to check if "
+"version is greater than or equal to specified version"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:684
+msgid "For example, ``rclcpp`` provides macros like:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:686
+msgid "``RCLCPP_VERSION_MAJOR``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:687
+msgid "``RCLCPP_VERSION_MINOR``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:688
+msgid "``RCLCPP_VERSION_PATCH``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:689
+msgid "``RCLCPP_VERSION``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:690
+msgid "``RCLCPP_VERSION_STR``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:691
+msgid "``RCLCPP_VERSION_GTE(major, minor, patch)``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:694
+msgid "Generating version headers for your package"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:696
+msgid ""
+"To generate version headers for your own package, add the following to your "
+"``CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:698
+msgid ""
+"find_package(ament_cmake_gen_version_h REQUIRED)\n"
+"ament_generate_version_header(my_library)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:703
+msgid ""
+"This generates a header file at ``<build_dir>/my_library/version.h`` that "
+"can be included in your code:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:705
+msgid "#include \"my_library/version.h\""
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:709
+msgid ""
+"The version information is automatically extracted from the ``<version>`` "
+"tag in your ``package.xml``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:711
+msgid ""
+"By default, the generated header file is placed in the build directory under "
+"``<package_name>/version.h``. You can customize the output location:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:714
+msgid ""
+"ament_generate_version_header(my_library HEADER_PATH \"my_library/my_version."
+"h\")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:719
+msgid "Using version macros for API negotiation"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:721
+msgid ""
+"Version macros enable runtime and compile-time feature detection, which is "
+"essential for writing portable code across different ROS 2 distributions."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:723
+msgid ""
+"While ROS 2 guarantees ABI (Application Binary Interface) compatibility "
+"within the same distribution, new interfaces and features can be backported. "
+"This means that within a single distribution, different API versions may be "
+"available depending on which patch release is installed. Version macros "
+"allow developers to check if a specific feature is available before using it."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:728
+msgid "Example: Version checking"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:730
+msgid ""
+"#include \"rclcpp/version.h\"\n"
+"\n"
+"// Check if new feature is available\n"
+"#if RCLCPP_VERSION_GTE(28, 3, 0)\n"
+"  use_new_api_with_feature();\n"
+"#else\n"
+"  use_old_api_without_feature();\n"
+"#endif"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:742
+msgid "Best practices"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:744
+msgid ""
+"**Check before using new features**: Always use version macros when "
+"utilizing features that may not be available in older versions of a library."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:745
+msgid ""
+"**Provide fallback implementations**: When possible, provide alternative "
+"implementations for older API versions to maintain backward compatibility."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:746
+msgid ""
+"**Document version requirements**: Clearly document the minimum required "
+"versions for specific features in your package documentation."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:747
+msgid ""
+"**Test across versions**: If your package needs to support multiple ROS 2 "
+"distributions, test it against the minimum supported version."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Ament-CMake-Documentation.rst:748
+msgid ""
+"**Use the GTE macro**: Prefer using the ``_VERSION_GTE(major, minor, "
+"patch)`` macro for version comparisons, as it provides a cleaner and more "
+"readable syntax than manually comparing individual version components."
+msgstr ""
