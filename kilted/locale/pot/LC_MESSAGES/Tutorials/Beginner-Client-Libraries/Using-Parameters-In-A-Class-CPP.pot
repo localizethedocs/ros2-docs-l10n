@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation kilted\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 08:36+0000\n"
+"POT-Creation-Date: 2026-09-01 12:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,15 +190,37 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:114
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:116
 msgid "2.1 Examine the code"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:115
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:117
 msgid "The ``#include`` statements at the top are the package dependencies."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:117
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:119
 msgid ""
 "The next piece of code creates the class and the constructor. The first line "
 "of this constructor creates a parameter with the name ``my_parameter`` and a "
@@ -217,7 +239,7 @@ msgid ""
 "function to be executed once a second."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:128
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:130
 msgid ""
 "class MinimalParam : public rclcpp::Node\n"
 "{\n"
@@ -241,24 +263,24 @@ msgid ""
 "  }"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:149
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:151
 msgid "Last is the declaration of ``timer_``."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:151
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:153
 msgid ""
 "private:\n"
 "  rclcpp::TimerBase::SharedPtr timer_;"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:156
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:158
 msgid ""
 "Following our ``MinimalParam`` is our ``main``. Here ROS 2 is initialized, "
 "an instance of the ``MinimalParam`` class is constructed, and ``rclcpp::"
 "spin`` starts processing data from the node."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:159
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:161
 msgid ""
 "int main(int argc, char ** argv)\n"
 "{\n"
@@ -269,11 +291,11 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:170
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:172
 msgid "2.1.1 (Optional) Add ParameterDescriptor"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:171
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:173
 msgid ""
 "Optionally, you can set a descriptor for the parameter. Descriptors allow "
 "you to specify a text description of the parameter and its constraints, like "
@@ -281,7 +303,7 @@ msgid ""
 "the constructor has to be changed to:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:175
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:177
 msgid ""
 "// ...\n"
 "\n"
@@ -311,24 +333,24 @@ msgid ""
 "  }"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:202
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:204
 msgid ""
 "The rest of the code remains the same. Once you run the node, you can then "
 "run ``ros2 param describe /minimal_param_node my_parameter`` to see the type "
 "and description."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:207
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:209
 msgid "2.2 Add executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:209
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:211
 msgid ""
 "Now open the ``CMakeLists.txt`` file. Below the dependency "
 "``find_package(rclcpp REQUIRED)`` add the following lines of code."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:212
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:214
 msgid ""
 "add_executable(minimal_param_node src/cpp_parameters_node.cpp)\n"
 "target_link_libraries(minimal_param_node rclcpp::rclcpp)\n"
@@ -339,110 +361,110 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:224
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:226
 msgid "3 Build and run"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:226
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:228
 msgid ""
 "It's good practice to run ``rosdep`` in the root of your workspace "
 "(``ros2_ws``) to check for missing dependencies before building:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:230
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:248
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:270
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:358
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:380
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:232
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:250
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:272
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:360
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:382
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:232
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:234
 msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:236
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:254
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:276
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:364
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:386
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:238
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:256
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:278
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:366
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:388
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:238
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:242
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:240
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:244
 msgid "rosdep only runs on Linux, so you can skip ahead to next step."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:240
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:260
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:282
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:370
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:392
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:242
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:262
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:284
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:372
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:394
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:244
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:246
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
 "package:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:250
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:256
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:360
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:366
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:252
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:258
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:362
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:368
 msgid "$ colcon build --packages-select cpp_parameters"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:262
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:372
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:264
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:374
 msgid "$ colcon build --merge-install --packages-select cpp_parameters"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:266
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:268
 msgid ""
 "Open a new terminal, navigate to ``ros2_ws``, and source the setup files:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:272
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:382
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:274
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:384
 msgid "$ source install/setup.bash"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:278
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:388
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:280
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:390
 msgid "$ . install/setup.bash"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:284
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:394
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:286
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:396
 msgid "$ call install/setup.bat"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:288
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:290
 msgid ""
 "Now run the node. The terminal should return the ``Hello World`` message "
 "every second:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:291
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:293
 msgid ""
 " $ ros2 run cpp_parameters minimal_param_node\n"
 "[INFO] [minimal_param_node]: Hello world!"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:296
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:298
 msgid ""
 "Now you can see the default value of your parameter, but you want to be able "
 "to set it yourself. There are four ways to accomplish this."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:300
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:302
 msgid "3.1 Change via the console"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:302
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:304
 msgid ""
 "This part will use the knowledge you have gained from the :doc:`tutorial "
 "about parameters <../Beginner-CLI-Tools/Understanding-ROS2-Parameters/"
@@ -450,46 +472,46 @@ msgid ""
 "created."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:304
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:306
 msgid "Make sure the node is running:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:306
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:308
 msgid "$ ros2 run cpp_parameters minimal_param_node"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:310
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:312
 msgid ""
 "Open another terminal, source the setup files from inside ``ros2_ws`` again, "
 "and enter the following line:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:312
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:314
 msgid "$ ros2 param list"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:316
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:318
 msgid ""
 "There you will see the custom parameter ``my_parameter``. To change it, "
 "simply run the following line in the console:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:319
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:321
 msgid "$ ros2 param set /minimal_param_node my_parameter earth"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:323
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:325
 msgid ""
 "You know it went well if you got the output ``Set parameter successful``. If "
 "you look at the other terminal, you should see the output change to ``[INFO] "
 "[minimal_param_node]: Hello earth!``"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:327
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:329
 msgid "3.2 Change via a launch file"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:328
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:330
 msgid ""
 "You can also set the parameter in a launch file, but first you will need to "
 "add the launch directory. Inside the ``ros2_ws/src/cpp_parameters/`` "
@@ -497,7 +519,7 @@ msgid ""
 "file called ``cpp_parameters_launch.py``"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:333
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:335
 msgid ""
 "from launch import LaunchDescription\n"
 "from launch_ros.actions import Node\n"
@@ -518,26 +540,26 @@ msgid ""
 "    ])\n"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:336
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:338
 msgid ""
 "Here you can see that we set ``my_parameter`` to ``earth`` when we launch "
 "our node ``minimal_param_node``. By adding the two lines below, we ensure "
 "our output is printed in our console."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:339
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:341
 msgid ""
 "output=\"screen\",\n"
 "emulate_tty=True,"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:344
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:346
 msgid ""
 "Now open the ``CMakeLists.txt`` file. Below the lines you added earlier, add "
 "the following lines of code."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:347
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:349
 msgid ""
 "install(\n"
 "  DIRECTORY launch\n"
@@ -545,39 +567,39 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:354
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:356
 msgid ""
 "Open a console and navigate to the root of your workspace, ``ros2_ws``, and "
 "build your new package:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:376
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:378
 msgid "Then source the setup files in a new terminal:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:398
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:400
 msgid ""
 "Now run the node using the launch file we have just created. The terminal "
 "should return the following message the first time:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:401
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:403
 msgid ""
 "$ ros2 launch cpp_parameters cpp_parameters_launch.py\n"
 "[INFO] [custom_minimal_param_node]: Hello earth!"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:406
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:408
 msgid ""
 "Further outputs should show  ``[INFO] [minimal_param_node]: Hello world!`` "
 "every second."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:409
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:411
 msgid "3.3 Change via launch file loading parameters from YAML file"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:411
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:413
 msgid ""
 "Instead of listing parameters and their values in launch file, you can "
 "create a separate YAML file that will be loaded in launch file. Placing "
@@ -586,27 +608,27 @@ msgid ""
 "`here <LoadingParametersFromYAMLFile>`."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:417
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:419
 msgid ""
 "While declaring, getting and setting parameter value inside your C++ node, "
 "you should use dot as a separator between parameter's namespace and name."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:420
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:422
 msgid "3.4 Change via passing YAML file as an argument at node startup"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:422
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:424
 msgid ""
 "Return to :ref:`tutorial about parameters <LoadParameterFileOnNodeStartup>` "
 "to remind yourself, how to load parameters file at node startup using CLI."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:425
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:427
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:427
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:429
 msgid ""
 "You created a node with a custom parameter that can be set either from a "
 "launch file or the command line. You added the dependencies, executables, "
@@ -614,29 +636,29 @@ msgid ""
 "and run them, and see the parameter in action."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:431
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:433
 msgid "Next steps"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:433
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:435
 msgid ""
 "Now that you have some packages and ROS 2 systems of your own, the :doc:"
 "`next tutorial <./Getting-Started-With-Ros2doctor>` will show you how to "
 "examine issues in your environment and systems in case you have problems."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:436
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:438
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:438
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:440
 msgid ""
 "For more detailed information about using YAML files to load parameters, "
 "please refer to :ref:`this section <Parameters>` of Managing large projects "
 "tutorial."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:439
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-CPP.rst:441
 msgid ""
 "If you want to learn, how to monitor and respond to parameter changes, check "
 "out :doc:`Monitoring for parameter changes (C++) <../Intermediate/Monitoring-"

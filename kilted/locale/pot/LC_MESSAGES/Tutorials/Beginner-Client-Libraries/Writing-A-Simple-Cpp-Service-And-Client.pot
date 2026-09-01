@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation kilted\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 08:36+0000\n"
+"POT-Creation-Date: 2026-09-01 12:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,22 +200,44 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:119
-msgid "2.1 Examine the code"
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
 msgstr ""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:121
-msgid "The first ``#include`` statements are your package dependencies."
+msgid "2.1 Examine the code"
 msgstr ""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:123
+msgid "The first ``#include`` statements are your package dependencies."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:125
 msgid ""
 "The ``handle_service`` function adds two integers from the request and gives "
 "the sum to the response, while notifying the console of its status using "
 "logs."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:125
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:127
 msgid ""
 "void handle_service(\n"
 "  const std::shared_ptr<rmw_request_id_t> request_header,\n"
@@ -230,95 +252,95 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:139
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:141
 msgid "The ``main`` function accomplishes the following, line by line:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:141
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:143
 msgid "Initializes ROS 2 C++ client library:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:143
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:145
 msgid "rclcpp::init(argc, argv);"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:147
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:149
 msgid "Creates a node named ``minimal_service``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:149
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:151
 msgid "g_node = rclcpp::Node::make_shared(\"minimal_service\");"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:153
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:155
 msgid ""
 "Creates a service named ``add_two_ints`` for that node and automatically "
 "advertises it over the networks with the ``handle_service`` method:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:155
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:157
 msgid ""
 "auto server = g_node->create_service<AddTwoInts>(\"add_two_ints\", "
 "handle_service);"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:159
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:161
 msgid "Spins the node, making the service available."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:161
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:163
 msgid "rclcpp::spin(g_node);"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:166
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:168
 msgid "2.2 Add executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:168
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:170
 msgid ""
 "The ``add_executable`` macro generates an executable you can run using "
 "``ros2 run``. Add the following code block to ``CMakeLists.txt`` just below "
 "the dependencies to create an executable named ``server``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:171
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:173
 msgid ""
 "add_executable(server src/add_two_ints_server.cpp)\n"
 "target_link_libraries(server PUBLIC rclcpp::rclcpp "
 "${example_interfaces_TARGETS})"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:176
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:178
 msgid ""
 "So ``ros2 run`` can find the executable, add the following lines to the end "
 "of the file, right before ``ament_package()``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:178
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:180
 msgid ""
 "install(TARGETS\n"
 "    server\n"
 "  DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:184
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:186
 msgid ""
 "You could build your package now, source the local setup files, and run it, "
 "but let's create the client node first so you can see the full system at "
 "work."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:187
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:189
 msgid "3 Write the client node"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:189
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:191
 msgid ""
 "Inside the ``ros2_ws/src/cpp_srvcli/src`` directory, create a new file "
 "called ``add_two_ints_client.cpp`` and paste the following code within:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:191
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:193
 msgid ""
 "#include <chrono>\n"
 "#include <cinttypes>\n"
@@ -363,23 +385,23 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:235
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:237
 msgid "3.1 Examine the code"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:237
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:239
 msgid ""
 "Similar to the service node, the following lines of code create the node and "
 "then create the client for that node:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:239
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:241
 msgid ""
 "auto node = rclcpp::Node::make_shared(\"minimal_client\");\n"
 "auto client = node->create_client<AddTwoInts>(\"add_two_ints\");"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:244
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:246
 msgid ""
 "Next, the code waits for the service to appear. The ``while`` loop gives the "
 "client 1 second to search for service nodes in the network. If it can't find "
@@ -388,7 +410,7 @@ msgid ""
 "stating it was interrupted."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:249
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:251
 msgid ""
 "while (!client->wait_for_service(std::chrono::seconds(1))) {\n"
 "  if (!rclcpp::ok()) {\n"
@@ -400,13 +422,13 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:259
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:261
 msgid ""
 "Next, the request is created. Its structure is defined by the ``.srv`` file "
 "mentioned earlier."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:262
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:264
 msgid ""
 "auto request = std::make_shared<example_interfaces::srv::AddTwoInts::"
 "Request>();\n"
@@ -414,24 +436,24 @@ msgid ""
 "request->b = 1;"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:269
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:271
 msgid ""
 "Then the client sends its request, and the node spins until it receives its "
 "response, or fails."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:272
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:274
 msgid "3.2 Add executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:274
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:276
 msgid ""
 "Return to ``CMakeLists.txt`` to add the executable and target for the new "
 "node. After removing some unnecessary boilerplate from the automatically "
 "generated file, your ``CMakeLists.txt`` should look like this:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:277
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:279
 msgid ""
 "cmake_minimum_required(VERSION 3.5)\n"
 "project(cpp_srvcli)\n"
@@ -456,88 +478,88 @@ msgid ""
 "ament_package()"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:301
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:303
 msgid "4 Build and run"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:303
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:305
 msgid ""
 "It's good practice to run ``rosdep`` in the root of your workspace "
 "(``ros2_ws``) to check for missing dependencies before building:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:307
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:326
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:348
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:309
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:328
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:350
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:309
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:311
 msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:313
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:332
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:354
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:315
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:334
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:356
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:315
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:319
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:317
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:321
 msgid "rosdep only runs on Linux, so you can skip ahead to next step."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:317
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:338
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:360
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:319
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:340
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:362
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:322
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:324
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
 "package:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:328
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:334
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:330
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:336
 msgid "$ colcon build --packages-select cpp_srvcli"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:340
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:342
 msgid "$ colcon build --merge-install --packages-select cpp_srvcli"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:344
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:346
 msgid ""
 "Open a new terminal, navigate to ``ros2_ws``, and source the setup files:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:350
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:352
 msgid "$ source install/setup.bash"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:356
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:358
 msgid "$ . install/setup.bash"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:362
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:364
 msgid "$ call install/setup.bat"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:366
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:368
 msgid "Now run the service node:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:368
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:370
 msgid "$ ros2 run cpp_srvcli server"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:372
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:374
 msgid "The terminal should wait for incoming requests."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:374
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:376
 msgid ""
 "Open another terminal, source the setup files from inside ``ros2_ws`` again. "
 "Start the client node, followed by any two integers separated by a space. "
@@ -545,36 +567,36 @@ msgid ""
 "returns the result:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:378
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:380
 msgid ""
 "$ ros2 run cpp_srvcli client\n"
 "[INFO] [minimal_client]: result of 41 + 1: 42"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:383
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:385
 msgid "The client should receive the response above."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:385
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:387
 msgid ""
 "Return to the terminal where your service node is running. You will see that "
 "it published log messages when it received the request and the data it "
 "received, and the response it sent back:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:388
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:390
 msgid "[INFO] [minimal_service]: request: 41 + 1"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:392
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:394
 msgid "Enter ``Ctrl+C`` in the server terminal to stop the node from spinning."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:395
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:397
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:397
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:399
 msgid ""
 "You created two nodes to request and respond to data over a service. You "
 "added their dependencies and executables to the package configuration files "
@@ -582,22 +604,22 @@ msgid ""
 "work."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:401
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:403
 msgid "Next steps"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:403
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:405
 msgid ""
 "In the last few tutorials you've been utilizing interfaces to pass data "
 "across topics and services. Next, you'll learn how to :doc:`create custom "
 "interfaces <./Custom-ROS2-Interfaces>`."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:407
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:409
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:409
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.rst:411
 msgid ""
 "There are several ways you could write a service and client in C++; check "
 "out the ``minimal_service`` and ``minimal_client`` packages in the `ros2/"
