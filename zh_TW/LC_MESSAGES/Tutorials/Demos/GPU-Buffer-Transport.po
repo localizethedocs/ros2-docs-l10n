@@ -1,0 +1,452 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation lyrical\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-21 10:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:2
+msgid "GPU buffer transport with ``rosidl::Buffer``"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:6
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:9
+msgid "Background"
+msgstr "背景"
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:11
+msgid ""
+":doc:`rosidl::Buffer backends <../../Concepts/Intermediate/About-Buffer-"
+"Backends>` let ROS 2 messages carry large payloads (images, tensors, ...) in "
+"vendor-specific memory domains such as GPU memory, with the descriptor round-"
+"trip handled transparently by the RMW."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:16
+msgid ""
+"This demo exercises the full pipeline using the community-maintained CUDA "
+"backend and the ``torch_conversions`` helper library. It publishes "
+"``tensor_msgs/msg/ExperimentalTensor`` frames between two processes either "
+"over a zero-copy CUDA path or over the traditional CPU-serialised path, and "
+"compares throughput at several resolutions."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:22
+msgid ""
+"The underlying demo is maintained in `ros2/rosidl_buffer_backends_tutorials "
+"<https://github.com/ros2/rosidl_buffer_backends_tutorials>`__; the package "
+"name is ``robot_arm_demo``."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:28
+msgid "What the demo does"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:30
+msgid ""
+"``robot_arm_demo`` renders an SDF-based pencil-sketch robot arm animation "
+"entirely on the GPU via LibTorch tensor operations, publishes BGRA frames as "
+"``tensor_msgs/msg/ExperimentalTensor``, and displays them in an SDL2/OpenGL "
+"window with CUDA-GL interop. Two processes are involved:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:36
+msgid ""
+"``renderer_node`` -- renders BGRA frames on the GPU using LibTorch "
+"operations, copies them into an ``ExperimentalTensor`` message with "
+"``torch_conversions``, and publishes that message."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:39
+msgid ""
+"``display_node`` -- subscribes to the tensor topic, wraps the received "
+"message as an ``at::Tensor`` with ``torch_conversions``, displays frames, "
+"and reports FPS."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:43
+msgid "Two transport modes are compared:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:45
+msgid ""
+"**CUDA** -- the ``ExperimentalTensor.data`` field is backed by the ``cuda`` "
+"buffer backend. The bytes never leave GPU memory: the descriptor on the wire "
+"carries a small reference that lets the subscriber re-attach to the "
+"publisher-owned CUDA allocation."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:48
+msgid ""
+"**CPU** -- the frame is rendered on the GPU, copied back to host memory with "
+"``cudaMemcpy``, and then serialised through the RMW as a regular "
+"``uint8[]``. The default CPU buffer backend is used."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:53
+msgid ""
+"Both modes render on the GPU; the only difference is the transport path, "
+"making this a clean comparison of zero-copy CUDA IPC versus traditional CPU-"
+"serialised image transport."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:58
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:60
+msgid ""
+"This demo is not part of the ROS 2 binary distribution; it lives in its own "
+"repository and has GPU-specific dependencies. You need:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:64
+msgid "A CUDA-capable GPU and the CUDA Toolkit (>= 11.8)."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:65
+msgid "SDL2, GLEW, OpenGL, X11 development packages."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:66
+msgid ""
+"A ROS 2 Lyrical Luth or later source workspace. See the :doc:`Installation "
+"instructions <../../Installation>` for the canonical source-build flow."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:69
+msgid "``rmw_fastrtps_cpp`` for the non-CPU buffer path."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:71
+msgid ""
+"The demo's ``libtorch_vendor`` package will download and install a pre-built "
+"LibTorch distribution automatically at build time if one is not already "
+"visible on the system."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:76
+msgid "Building"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:78
+msgid "Clone both repositories into your ROS 2 workspace's ``src/`` directory:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:80
+msgid ""
+"$ cd ~/ros2_ws/src\n"
+"$ git clone https://github.com/ros2/rosidl_buffer_backends.git\n"
+"$ git clone https://github.com/ros2/rosidl_buffer_backends_tutorials.git"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:86
+msgid "Install the system dependencies:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:88
+msgid ""
+"$ cd ~/ros2_ws\n"
+"$ rosdep install --from-paths src --ignore-src -y \\\n"
+"    --skip-keys \"fastcdr rti-connext-dds-7.7.0 urdfdom_headers qt6-svg-dev\""
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:94
+msgid ""
+"Build ``torch_conversions`` and its CUDA transport dependency first, source "
+"the workspace, then build the demo:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:97
+msgid ""
+"$ colcon build --symlink-install --packages-up-to cuda_buffer_backend\n"
+"$ source install/setup.sh\n"
+"$ colcon build --symlink-install --packages-up-to robot_arm_demo\n"
+"$ source install/setup.sh"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:104
+msgid ""
+"The intermediate ``source install/setup.sh`` is required so that "
+"``torch_conversions`` can discover ``cuda_buffer`` at CMake configure time "
+"and compile its CUDA path."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:109
+msgid "Running"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:111
+msgid ""
+"The demo ships three launch files. Run them with "
+"``RMW_IMPLEMENTATION=rmw_fastrtps_cpp`` when exercising the CUDA path."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:116
+msgid "CUDA zero-copy (default)"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:118
+msgid ""
+"$ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
+"$ ros2 launch robot_arm_demo robot_arm_demo.launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:123
+msgid ""
+"The renderer and display processes negotiate the ``cuda`` backend for the "
+"tensor message's data field; the payload never leaves GPU memory between the "
+"two processes."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:128
+msgid "CPU transport"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:130
+msgid "$ ros2 launch robot_arm_demo robot_arm_demo.launch.py use_cuda:=false"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:134
+msgid ""
+"The subscription is not opted into any non-CPU backend, so the RMW falls "
+"back to CPU serialisation and the publisher copies the frame back to host "
+"memory before publishing."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:139
+msgid "Side-by-side comparison"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:141
+msgid "$ ros2 launch robot_arm_demo robot_arm_compare.launch.py"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:145
+msgid ""
+"This starts both pipelines at once so you can compare their throughput "
+"visually."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:148
+msgid ""
+"All three launch files accept ``headless:=true`` to run without a display "
+"window (useful for benchmarking on a headless box)."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:152
+msgid "Expected output"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:154
+msgid ""
+"When the CUDA path is active, the display node logs the negotiated backend:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:156
+msgid "[display_node]: Received frame: backend=cuda, size=31457280"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:160
+msgid ""
+"When the path falls back to CPU, the same log line shows ``backend=cpu`` and "
+"the FPS drops accordingly as image size grows."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:164
+msgid "Benchmark results"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:166
+msgid ""
+"The demo's README includes reference numbers measured on a single machine "
+"(inter-process, headless mode, RTX 3090, ``rmw_fastrtps_cpp``). You can "
+"reproduce them with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:170
+msgid ""
+"$ ros2 launch robot_arm_demo robot_arm_demo.launch.py \\\n"
+"    headless:=true width:=W height:=H use_cuda:=<true|false>"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:179
+msgid "Resolution"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:180
+msgid "Image size"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:181
+msgid "Transport"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:182
+msgid "FPS"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:183
+msgid "Speedup"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:184
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:189
+msgid "1920x1080"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:185
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:190
+msgid "7.9 MB"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:186
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:196
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:206
+msgid "CUDA"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:187
+msgid "116.6"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:188
+msgid "3.3x"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:191
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:201
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:211
+msgid "CPU"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:192
+msgid "35.5"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:193
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:203
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:213
+msgid "--"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:194
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:199
+msgid "2560x1440"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:195
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:200
+msgid "14.1 MB"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:197
+msgid "90.6"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:198
+msgid "4.3x"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:202
+msgid "21.3"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:204
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:209
+msgid "3840x2160"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:205
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:210
+msgid "31.6 MB"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:207
+msgid "59.5"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:208
+msgid "5.8x"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:212
+msgid "10.3"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:215
+msgid ""
+"The CUDA path maintains high throughput across resolutions because the zero-"
+"copy IPC transfer only carries a handle, not the pixel data. The CPU path "
+"must copy frames from GPU to host and serialise them through the middleware, "
+"so throughput drops as image size grows. At 4K (31.6 MB per frame) the CUDA "
+"backend is roughly 6x faster than the raw CPU path."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:223
+msgid "What to look at in the source"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:225
+msgid ""
+"Two files are worth reading to see exactly what an application does "
+"differently on each side:"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:228
+msgid ""
+"The renderer's publisher code shows how ``torch_conversions::"
+"allocate_tensor_msg`` and ``torch_conversions::to_tensor_msg`` produce an "
+"``ExperimentalTensor`` whose ``data`` field is CUDA-backed."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:232
+msgid ""
+"The display's subscriber sets ``SubscriptionOptions::"
+"acceptable_buffer_backends = \"any\"`` for the CUDA path and uses "
+"``torch_conversions::from_input_tensor_msg`` to consume the message as a "
+"PyTorch tensor."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:237
+msgid ""
+"Both files are reasonably short and make good reading after :doc:`../../How-"
+"To-Guides/Using-Buffer-Backends`."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:241
+msgid "Where to go next"
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:243
+msgid ""
+":doc:`../../Concepts/Intermediate/About-Buffer-Backends` for the conceptual "
+"background."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:245
+msgid ""
+":doc:`../../How-To-Guides/Using-Buffer-Backends` for the user-facing guide "
+"applied to your own nodes."
+msgstr ""
+
+#: ../../../source/Tutorials/Demos/GPU-Buffer-Transport.rst:247
+msgid ""
+":doc:`../Advanced/Writing-a-Buffer-Backend` if you want to implement a "
+"backend for a different memory domain."
+msgstr ""
