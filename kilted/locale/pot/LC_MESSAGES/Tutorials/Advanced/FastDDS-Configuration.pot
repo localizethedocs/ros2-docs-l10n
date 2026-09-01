@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation kilted\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-23 08:17+0000\n"
+"POT-Creation-Date: 2026-09-01 12:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,9 +129,9 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:63
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:269
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:382
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:753
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:271
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:384
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:755
 msgid "Linux"
 msgstr ""
 
@@ -145,16 +145,16 @@ msgid ""
 msgstr ""
 
 #: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:71
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:277
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:390
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:761
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:279
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:392
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:763
 msgid "macOS"
 msgstr ""
 
 #: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:79
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:285
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:398
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:769
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:287
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:400
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:771
 msgid "Windows"
 msgstr ""
 
@@ -260,39 +260,61 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:168
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:170
 msgid ""
 "Now open the ``CMakeLists.txt`` file and add a new executable and name it "
 "``SyncAsyncWriter`` so you can run your node using ``ros2 run``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:170
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:172
 msgid ""
 "add_executable(SyncAsyncWriter src/sync_async_writer.cpp)\n"
 "target_link_libraries(SyncAsyncWriter PUBLIC rclcpp::rclcpp "
 "${std_msgs_TARGETS})"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:175
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:177
 msgid ""
 "Finally, add the ``install(TARGETS…)`` section so ``ros2 run`` can find your "
 "executable:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:177
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:179
 msgid ""
 "install(TARGETS\n"
 "    SyncAsyncWriter\n"
 "    DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:183
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:185
 msgid ""
 "You can clean up your ``CMakeLists.txt`` by removing some unnecessary "
 "sections and comments, so it looks like this:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:185
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:187
 msgid ""
 "cmake_minimum_required(VERSION 3.8)\n"
 "project(sync_async_node_example_cpp)\n"
@@ -321,7 +343,7 @@ msgid ""
 "ament_package()"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:212
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:214
 msgid ""
 "If this node is built and run now, both publishers will behave the same, "
 "publishing asynchronously in both topics, because this is the default "
@@ -329,15 +351,15 @@ msgid ""
 "in runtime during the node launching, using an XML file."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:216
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:218
 msgid "Create the XML file with the profile configuration"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:218
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:220
 msgid "Create a file with name ``SyncAsync.xml`` and the following content:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:220
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:222
 msgid ""
 "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
 "<profiles xmlns=\"http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles\">\n"
@@ -377,7 +399,7 @@ msgid ""
 " </profiles>"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:257
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:259
 msgid ""
 "Note that several profiles for publisher and subscriber are defined. Two "
 "default profiles which are defined setting the ``is_default_profile`` to "
@@ -389,40 +411,40 @@ msgid ""
 "work, and the reason will be explained later on this tutorial."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:263
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:265
 msgid "Execute the publisher node"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:265
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:267
 msgid ""
 "You will need to export the following environment variables for the XML to "
 "be loaded:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:271
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:279
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:384
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:392
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:273
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:281
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:386
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:394
 msgid ""
 "$ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
 "$ export RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
 "$ export FASTDDS_DEFAULT_PROFILES_FILE=path/to/SyncAsync.xml"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:287
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:400
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:289
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:402
 msgid ""
 "$ SET RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
 "$ SET RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
 "$ SET FASTDDS_DEFAULT_PROFILES_FILE=path/to/SyncAsync.xml"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:293
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:406
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:295
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:408
 msgid "Finally, ensure you have sourced your setup files and run the node:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:295
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:297
 msgid ""
 "$ source install/setup.bash\n"
 "$ ros2 run sync_async_node_example_cpp SyncAsyncWriter\n"
@@ -440,24 +462,24 @@ msgid ""
 "publishing: 'ASYNC: Hello, world! 2'"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:306
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:308
 msgid ""
 "Now you have a synchronous publisher and an asynchronous publisher running "
 "inside the same node."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:310
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:312
 msgid "Create a node with the subscribers"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:312
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:314
 msgid ""
 "Next, a new node with the subscribers that will listen to the ``sync_topic`` "
 "and ``async_topic`` publications is going to be created. In a new source "
 "file named ``src/sync_async_reader.cpp`` write the following content:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:315
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:317
 msgid ""
 "#include <memory>\n"
 "\n"
@@ -510,13 +532,13 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:363
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:365
 msgid ""
 "Open the ``CMakeLists.txt`` file and add a new executable and name it "
 "``SyncAsyncReader`` under the previous ``SyncAsyncWriter``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:365
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:367
 msgid ""
 "add_executable(SyncAsyncReader src/sync_async_reader.cpp)\n"
 "target_link_libraries(SyncAsyncReader PUBLIC rclcpp::rclcpp "
@@ -527,17 +549,17 @@ msgid ""
 "    DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:376
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:378
 msgid "Execute the subscriber node"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:378
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:380
 msgid ""
 "With the publisher node running in one terminal, open another one and export "
 "the required environment variables for the XML to be loaded:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:408
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:410
 msgid ""
 "$ source install/setup.bash\n"
 "$ ros2 run sync_async_node_example_cpp SyncAsyncReader\n"
@@ -555,15 +577,15 @@ msgid ""
 "Hello, world! 12'"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:421
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:423
 msgid "Analysis of the example"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:424
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:426
 msgid "Configuration profiles XML"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:426
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:428
 msgid ""
 "The XML file defines several configurations for publishers and subscribers. "
 "You can have a default publisher configuration profile and several topic-"
@@ -572,7 +594,7 @@ msgid ""
 "profile. The same goes for subscribers."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:431
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:433
 msgid ""
 "In order to define a configuration for a specific topic, just name the "
 "profile after the the ROS 2 topic name (like ``/sync_topic`` and ``/"
@@ -583,17 +605,17 @@ msgid ""
 "name matching the topic name."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:435
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:437
 msgid ""
 "The environment variable ``FASTDDS_DEFAULT_PROFILES_FILE`` is used to inform "
 "*Fast DDS* the path to the XML file with the configuration profiles to load."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:438
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:440
 msgid "RMW_FASTRTPS_USE_QOS_FROM_XML"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:440
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:442
 msgid ""
 "Among all the configurable attributes, ``rmw_fastrtps`` treats "
 "``publishMode`` and ``historyMemoryPolicy`` differently. By default, these "
@@ -603,7 +625,7 @@ msgid ""
 "variable ``RMW_FASTRTPS_USE_QOS_FROM_XML`` must be set to ``1``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:444
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:446
 msgid ""
 "However, this entails **another caveat**: If "
 "``RMW_FASTRTPS_USE_QOS_FROM_XML`` is set, but the XML file does not define "
@@ -615,11 +637,11 @@ msgid ""
 "explicitly set (``DYNAMIC``)."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:451
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:453
 msgid "Prioritization of rmw_qos_profile_t"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:453
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:455
 msgid ""
 "ROS 2 QoS contained in `rmw_qos_profile_t <http://docs.ros.org/en/rolling/p/"
 "rmw/generated/structrmw__qos__profile__s.html>`_ are always honored, unless "
@@ -629,11 +651,11 @@ msgid ""
 "``*_SYSTEM_DEFAULT``, the corresponding value in the XML is ignored."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:459
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:461
 msgid "Using other FastDDS capabilities with XML"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:461
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:463
 msgid ""
 "Although we have created a node with two publishers with different "
 "configuration, it is not easy to check that they are behaving differently. "
@@ -648,17 +670,17 @@ msgid ""
 "list of attributes that can be configured through XML files."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:468
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:470
 msgid "Limiting the number of matching subscribers"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:470
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:472
 msgid ""
 "Add a maximum number of matched subscribers to the ``/async_topic`` "
 "publisher profile. It should look like this:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:473
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:475
 msgid ""
 "<!-- publisher profile for topic async_topic -->\n"
 "<publisher profile_name=\"/async_topic\">\n"
@@ -676,11 +698,11 @@ msgid ""
 "</publisher>"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:490
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:492
 msgid "The number of matching subscribers is being limited to one."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:492
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:494
 msgid ""
 "Now open three terminals and do not forget to source the setup files and to "
 "set the required environment variables. On the first terminal run the "
@@ -692,7 +714,7 @@ msgid ""
 "``/sync_topic`` are going to be received in this third terminal:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:498
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:500
 msgid ""
 "[INFO] [1613127657.088860890] [sync_async_subscriber]: I heard: 'SYNC: "
 "Hello, world! 18'\n"
@@ -702,17 +724,17 @@ msgid ""
 "Hello, world! 20'"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:506
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:508
 msgid "Using partitions within the topic"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:508
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:510
 msgid ""
 "The partitions feature can be used to control which publishers and "
 "subscribers exchange information within the same topic."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:510
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:512
 msgid ""
 "Partitions introduce a logical entity isolation level concept inside the "
 "physical isolation induced by a Domain ID. For a publisher to communicate "
@@ -726,14 +748,14 @@ msgid ""
 "change, thus reducing network overload."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:517
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:519
 msgid ""
 "Let us change the ``/sync_topic`` publisher to partition ``part1`` and "
 "create a new ``/sync_topic`` subscriber which uses partition ``part2``. "
 "Their profiles should now look like this:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:520
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:522
 msgid ""
 "<!-- publisher profile for topic sync_topic -->\n"
 "<publisher profile_name=\"/sync_topic\">\n"
@@ -763,7 +785,7 @@ msgid ""
 "</subscriber>"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:549
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:551
 msgid ""
 "Open two terminals. Do not forget to source the setup files and to set the "
 "required environment variables. On the first terminal run the publisher "
@@ -773,7 +795,7 @@ msgid ""
 "the corresponding publisher."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:555
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:557
 msgid ""
 "[INFO] [1612972054.995410057] [sync_async_subscriber]: I heard: 'ASYNC: "
 "Hello, world! 10'\n"
@@ -783,34 +805,34 @@ msgid ""
 "Hello, world! 12'"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:563
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:565
 msgid "Configuring a service and a client"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:565
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:567
 msgid ""
 "Services and clients have a publisher and a subscriber each, that "
 "communicate through two different topics. For example, for a service named "
 "``ping`` there is:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:568
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:570
 msgid "A service subscriber listening to requests on ``/rq/ping``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:569
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:571
 msgid "A service publisher sending responses on ``/rr/ping``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:570
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:572
 msgid "A client publisher sending requests on ``/rq/ping``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:571
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:573
 msgid "A client subscriber listening to responses on ``/rr/ping``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:573
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:575
 msgid ""
 "Although you can use these topic names to set the configuration profiles on "
 "the XML, sometimes you may wish to apply the same profile to all services or "
@@ -820,17 +842,17 @@ msgid ""
 "pair named ``client``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:579
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:581
 msgid "Create the nodes with the service and client"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:581
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:583
 msgid ""
 "Start creating the node with the service. Add a new source file named ``src/"
 "ping_service.cpp`` on your package with the following content:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:584
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:586
 msgid ""
 "#include <memory>\n"
 "\n"
@@ -878,13 +900,13 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:625
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:627
 msgid ""
 "Create the client in a file named ``src/ping_client.cpp`` with the following "
 "content:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:627
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:629
 msgid ""
 "#include <chrono>\n"
 "#include <memory>\n"
@@ -939,13 +961,13 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:675
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:677
 msgid ""
 "Open the ``CMakeLists.txt`` file and add two new executables "
 "``ping_service`` and ``ping_client``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:677
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:679
 msgid ""
 "find_package(example_interfaces REQUIRED)\n"
 "\n"
@@ -966,19 +988,19 @@ msgid ""
 "    DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:695
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:697
 msgid "Finally, build the package."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:699
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:701
 msgid "Create the XML profiles for the service and client"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:701
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:703
 msgid "Create a file with name ``ping.xml`` with the following content:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:703
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:705
 msgid ""
 "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
 "<profiles xmlns=\"http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles\">\n"
@@ -1018,7 +1040,7 @@ msgid ""
 "</profiles>"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:741
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:743
 msgid ""
 "This configuration file sets the publication mode to ``SYNCHRONOUS`` on the "
 "service and to ``ASYNCHRONOUS`` on the client. Note that we are only "
@@ -1026,61 +1048,61 @@ msgid ""
 "subscriber profiles could be provided too."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:746
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:748
 msgid "Execute the nodes"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:748
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:750
 msgid ""
 "Open two terminals and source the setup files on each one. Then set the "
 "required environment variables for the XML to be loaded:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:755
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:763
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:757
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:765
 msgid ""
 "$ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
 "$ export RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
 "$ export FASTDDS_DEFAULT_PROFILES_FILE=path/to/ping.xml"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:771
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:773
 msgid ""
 "$ SET RMW_IMPLEMENTATION=rmw_fastrtps_cpp\n"
 "$ SET RMW_FASTRTPS_USE_QOS_FROM_XML=1\n"
 "$ SET FASTDDS_DEFAULT_PROFILES_FILE=path/to/ping.xml"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:778
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:780
 msgid ""
 "On the first terminal run the service node. You should see the service "
 "waiting for requests:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:781
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:783
 msgid ""
 "$ ros2 run sync_async_node_example_cpp ping_service\n"
 "[INFO] [1612977403.805799037] [ping_server]: Ready to serve."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:786
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:788
 msgid ""
 "On the second terminal, run the client node. You should see the client "
 "sending the request and receiving the response:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:790
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:792
 msgid ""
 "$ ros2 run sync_async_node_example_cpp ping_client\n"
 "[INFO] [1612977404.805799037] [ping_client]: Sending request\n"
 "[INFO] [1612977404.825473835] [ping_client]: Response received"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:796
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:798
 msgid "At the same time, the output in the server console has been updated:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:798
+#: ../../../source/Tutorials/Advanced/FastDDS-Configuration.rst:800
 msgid ""
 "[INFO] [1612977403.805799037] [ping_server]: Ready to serve.\n"
 "[INFO] [1612977404.807314904] [ping_server]: Incoming request\n"
