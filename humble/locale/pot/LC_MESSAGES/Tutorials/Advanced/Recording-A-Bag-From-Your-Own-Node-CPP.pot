@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation humble\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-24 08:44+0000\n"
+"POT-Creation-Date: 2026-09-01 12:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -191,28 +191,50 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:124
-msgid "2.1 Examine the code"
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
 msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:126
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:128
 msgid ""
 "The ``#include`` statements at the top are the package dependencies. Note "
 "the inclusion of headers from the ``rosbag2_cpp`` package for the functions "
 "and structures necessary to work with bag files."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:129
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:131
 msgid ""
 "In the class constructor we begin by creating the writer object we will use "
 "to write to the bag."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:131
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:133
 msgid "writer_ = std::make_unique<rosbag2_cpp::Writer>();"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:135
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:137
 msgid ""
 "Now that we have a writer object, we can open the bag using it. We specify "
 "just the URI of the bag to create, leaving other options at their defaults. "
@@ -222,31 +244,31 @@ msgid ""
 "format they are received in."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:140
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:142
 msgid "writer_->open(\"my_bag\");"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:144
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:146
 msgid ""
 "With the writer now set up to record data we pass to it, we create a "
 "subscription and specify a callback for it. We will write data to the bag in "
 "the callback."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:147
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:149
 msgid ""
 "subscription_ = create_subscription<std_msgs::msg::String>(\n"
 "  \"chatter\", 10, std::bind(&SimpleBagRecorder::topic_callback, this, _1));"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:152
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:154
 msgid ""
 "The callback itself is different from a typical callback. Rather than "
 "receiving an instance of the data type of the topic, we instead receive a "
 "``rclcpp::SerializedMessage``. We do this for two reasons."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:156
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:158
 msgid ""
 "The message data will need to be serialised by ``rosbag2`` before being "
 "written to the bag, so rather than unserialising it when receiving the data "
@@ -254,17 +276,17 @@ msgid ""
 "message as-is."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:157
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:159
 msgid "The writer API can accept a serialised message."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:159
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:161
 msgid ""
 "void topic_callback(std::shared_ptr<rclcpp::SerializedMessage> msg) const\n"
 "{"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:164
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:166
 msgid ""
 "Within the subscription callback, the first thing to do is determine the "
 "time stamp to use for the stored message. This can be anything appropriate "
@@ -273,11 +295,11 @@ msgid ""
 "of reception, is used here."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:168
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:170
 msgid "rclcpp::Time time_stamp = this->now();"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:172
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:174
 msgid ""
 "We can then write the message into the bag. Because we have not yet "
 "registered any topics with the bag, we must specify the full topic "
@@ -285,15 +307,15 @@ msgid ""
 "topic type."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:176
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:178
 msgid "writer_->write(msg, \"chatter\", \"std_msgs/msg/String\", time_stamp);"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:180
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:182
 msgid "The class contains two member variables."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:182
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:184
 msgid ""
 "The subscription object. Note that the template parameter is the type of the "
 "callback, not the type of the topic. In this case the callback receives a "
@@ -301,26 +323,26 @@ msgid ""
 "parameter must be."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:185
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:187
 msgid ""
 "A managed pointer to the writer object used to write to the bag. Note the "
 "type of writer used here is the ``rosbag2_cpp::Writer``, the generic writer "
 "interface. Other writers may be available with different behaviours."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:189
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:191
 msgid ""
 "rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;\n"
 "std::unique_ptr<rosbag2_cpp::Writer> writer_;"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:194
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:196
 msgid ""
 "The file finishes with the ``main`` function used to create an instance of "
 "the node and start ROS processing it."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:196
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:198
 msgid ""
 "int main(int argc, char * argv[])\n"
 "{\n"
@@ -331,21 +353,21 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:207
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:209
 msgid "2.2 Add executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:209
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:211
 msgid "Now open the ``CMakeLists.txt`` file."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:211
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:213
 msgid ""
 "Near the top of the file, change ``CMAKE_CXX_STANDARD`` from ``14`` to "
 "``17``."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:213
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:215
 msgid ""
 "# Default to C++17\n"
 "if(NOT CMAKE_CXX_STANDARD)\n"
@@ -353,13 +375,13 @@ msgid ""
 "endif()"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:220
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:222
 msgid ""
 "Below the dependencies block, which contains ``find_package(rosbag2_cpp "
 "REQUIRED)``, add the following lines of code."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:222
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:224
 msgid ""
 "add_executable(simple_bag_recorder src/simple_bag_recorder.cpp)\n"
 "ament_target_dependencies(simple_bag_recorder rclcpp rosbag2_cpp std_msgs)\n"
@@ -370,139 +392,139 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:233
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:235
 msgid "3 Build and run"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:235
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:237
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
 "package."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:239
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:261
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:439
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:461
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:595
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:617
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:241
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:263
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:441
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:463
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:599
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:621
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:241
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:247
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:441
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:447
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:597
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:603
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:243
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:249
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:443
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:449
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:601
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:607
 msgid "$ colcon build --packages-select bag_recorder_nodes"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:245
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:267
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:445
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:467
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:601
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:623
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:247
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:269
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:447
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:469
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:605
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:627
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:251
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:273
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:451
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:473
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:607
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:629
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:253
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:275
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:453
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:475
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:611
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:633
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:253
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:453
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:609
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:255
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:455
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:613
 msgid "$ colcon build --merge-install --packages-select bag_recorder_nodes"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:257
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:457
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:259
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:459
 msgid ""
 "Open a new terminal, navigate to ``ros2_ws``, and source the setup files."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:263
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:269
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:463
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:469
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:619
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:625
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:265
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:271
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:465
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:471
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:623
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:629
 msgid "$ source install/setup.bash"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:275
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:475
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:631
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:277
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:477
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:635
 msgid "$ call install/setup.bat"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:279
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:481
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:281
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:483
 msgid "Now run the node:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:281
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:283
 msgid "$ ros2 run bag_recorder_nodes simple_bag_recorder"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:285
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:287
 msgid "Open a second terminal and run the ``talker`` example node."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:287
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:289
 msgid "$ ros2 run demo_nodes_cpp talker"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:291
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:293
 msgid ""
 "This will start publishing data on the ``chatter`` topic. As the bag-writing "
 "node receives this data, it will write it to the ``my_bag`` bag."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:294
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:296
 msgid ""
 "Terminate both nodes. Then, in one terminal start the ``listener`` example "
 "node."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:297
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:299
 msgid "$ ros2 run demo_nodes_cpp listener"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:301
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:303
 msgid ""
 "In the other terminal, use ``ros2 bag`` to play the bag recorded by your "
 "node."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:303
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:305
 msgid "$ ros2 bag play my_bag"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:307
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:309
 msgid ""
 "You will see the messages from the bag being received by the ``listener`` "
 "node."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:309
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:311
 msgid ""
 "If you wish to run the bag-writing node again, you will first need to delete "
 "the ``my_bag`` directory."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:312
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:314
 msgid "4 Record synthetic data from a node"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:314
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:316
 msgid ""
 "Any data can be recorded into a bag, not just data received over a topic. A "
 "common use case for writing to a bag from your own node is to generate and "
@@ -515,17 +537,17 @@ msgid ""
 "not need to use any functionality from the ROS infrastructure."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:322
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:324
 msgid "4.1 Write a C++ node"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:324
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:326
 msgid ""
 "Inside the ``ros2_ws/src/bag_recorder_nodes/src`` directory, create a new "
 "file called ``data_generator_node.cpp`` and paste the following code into it."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:326
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:328
 msgid ""
 "#include <chrono>\n"
 "\n"
@@ -579,32 +601,32 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:379
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:381
 msgid "4.2 Examine the code"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:381
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:383
 msgid ""
 "Much of this code is the same as the first example. The important "
 "differences are described here."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:384
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:386
 msgid "First, the name of the bag is changed."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:386
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:388
 msgid "writer_->open(\"timed_synthetic_bag\");"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:390
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:392
 msgid ""
 "In this example we are registering the topic with the bag in advance. This "
 "is optional in most cases, but it must be done when passing in a serialised "
 "message without topic information."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:393
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:395
 msgid ""
 "writer_->create_topic(\n"
 "  {\"synthetic\",\n"
@@ -613,20 +635,20 @@ msgid ""
 "   \"\"});"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:401
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:403
 msgid ""
 "Rather than a subscription to a topic, this node has a timer. The timer "
 "fires with a one-second period, and calls the given member function when it "
 "does."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:404
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:406
 msgid ""
 "timer_ = create_wall_timer(1s, std::bind(&DataGenerator::timer_callback, "
 "this));"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:408
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:410
 msgid ""
 "Within the timer callback, we generate (or otherwise obtain, e.g. read from "
 "a serial port connected to some hardware) the data we wish to store in the "
@@ -637,22 +659,22 @@ msgid ""
 "into the bag."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:413
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:415
 msgid "writer_->write(data_, \"synthetic\", now());"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:418
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:420
 msgid "4.3 Add executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:420
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:422
 msgid ""
 "Open the ``CMakeLists.txt`` file and add the following lines after the "
 "previously-added lines (specifically, after the ``install(TARGETS ...)`` "
 "macro call)."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:422
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:424
 msgid ""
 "add_executable(data_generator_node src/data_generator_node.cpp)\n"
 "ament_target_dependencies(data_generator_node rclcpp rosbag2_cpp "
@@ -664,58 +686,58 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:433
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:435
 msgid "4.4 Build and run"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:435
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:591
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:437
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:595
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your "
 "package."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:479
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:481
 msgid ""
 "(If the ``timed_synthetic_bag`` directory already exists, you must first "
 "delete it before running the node.)"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:483
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:485
 msgid "$ ros2 run bag_recorder_nodes data_generator_node"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:487
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:489
 msgid ""
 "Wait for 30 seconds or so, then terminate the node with :kbd:`ctrl-c`. Next, "
 "play back the created bag."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:490
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:492
 msgid "$ ros2 bag play timed_synthetic_bag"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:494
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:651
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:496
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:655
 msgid "Open a second terminal and echo the ``/synthetic`` topic."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:496
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:653
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:498
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:657
 msgid "$ ros2 topic echo /synthetic"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:500
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:502
 msgid ""
 "You will see the data that was generated and stored in the bag printed to "
 "the console at a rate of one message per second."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:503
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:505
 msgid "5 Record synthetic data from an executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:505
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:507
 msgid ""
 "Now that you can create a bag that stores data from a source other than a "
 "topic, you will learn how to generate and record synthetic data from a non-"
@@ -723,23 +745,24 @@ msgid ""
 "creation of a large quantity of data."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:509
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:511
 msgid "5.1 Write a C++ executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:511
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:513
 msgid ""
 "Inside the ``ros2_ws/src/bag_recorder_nodes/src`` directory, create a new "
 "file called ``data_generator_executable.cpp`` and paste the following code "
 "into it."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:513
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:515
 msgid ""
 "#include <chrono>\n"
 "\n"
-"#include <rclcpp/rclcpp.hpp>  // For rclcpp::Clock, rclcpp::Duration and "
-"rclcpp::Time\n"
+"#include <rclcpp/clock.hpp>\n"
+"#include <rclcpp/duration.hpp>\n"
+"#include <rclcpp/time.hpp>\n"
 "#include <example_interfaces/msg/int32.hpp>\n"
 "\n"
 "#include <rosbag2_cpp/writer.hpp>\n"
@@ -775,18 +798,18 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:552
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:556
 msgid "5.2 Examine the code"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:554
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:558
 msgid ""
 "A comparison of this sample and the previous sample will reveal that they "
 "are not that different. The only significant difference is the use of a for "
 "loop to drive the data generation rather than a timer."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:557
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:561
 msgid ""
 "Notice that we are also now generating time stamps for the data rather than "
 "relying on the current system time for each sample. The time stamp can be "
@@ -798,7 +821,7 @@ msgid ""
 "covering a wide span of time in much less time than playback will take."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:563
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:567
 msgid ""
 "rclcpp::Clock clock;\n"
 "rclcpp::Time time_stamp = clock.now();\n"
@@ -809,17 +832,17 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:574
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:578
 msgid "5.3 Add executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:576
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:580
 msgid ""
 "Open the ``CMakeLists.txt`` file and add the following lines after the "
 "previously-added lines."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:578
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:582
 msgid ""
 "add_executable(data_generator_executable src/data_generator_executable.cpp)\n"
 "ament_target_dependencies(data_generator_executable rclcpp rosbag2_cpp "
@@ -831,41 +854,41 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:589
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:593
 msgid "5.4 Build and run"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:613
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:617
 msgid "Open a terminal, navigate to ``ros2_ws``, and source the setup files."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:635
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:639
 msgid ""
 "(If the ``big_synthetic_bag`` directory already exists, you must first "
 "delete it before running the executable.)"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:637
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:641
 msgid "Now run the executable:"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:639
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:643
 msgid "$ ros2 run bag_recorder_nodes data_generator_executable"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:643
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:647
 msgid "Note that the executable runs and finishes very quickly."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:645
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:649
 msgid "Now play back the created bag."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:647
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:651
 msgid "$ ros2 bag play big_synthetic_bag"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:657
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:661
 msgid ""
 "You will see the data that was generated and stored in the bag printed to "
 "the console at a rate of one message per second. Even though the bag was "
@@ -873,11 +896,11 @@ msgid ""
 "indicate."
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:661
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:665
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:663
+#: ../../../source/Tutorials/Advanced/Recording-A-Bag-From-Your-Own-Node-CPP.rst:667
 msgid ""
 "You created a node that records data it receives on a topic into a bag. You "
 "tested recording a bag using the node, and verified the data was recorded by "
