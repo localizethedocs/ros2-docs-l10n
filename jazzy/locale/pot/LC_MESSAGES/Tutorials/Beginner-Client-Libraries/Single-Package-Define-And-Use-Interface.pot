@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation jazzy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-24 08:34+0000\n"
+"POT-Creation-Date: 2026-09-01 12:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,23 +316,45 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:192
-msgid "3.1 The code explained"
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
 msgstr ""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:194
-msgid "Include the header of our newly created ``AddressBook.msg``."
+msgid "3.1 The code explained"
 msgstr ""
 
 #: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:196
+msgid "Include the header of our newly created ``AddressBook.msg``."
+msgstr ""
+
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:198
 msgid "#include \"more_interfaces/msg/address_book.hpp\""
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:200
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:202
 msgid "Create a node and an ``AddressBook`` publisher."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:202
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:204
 msgid ""
 "using namespace std::chrono_literals;\n"
 "\n"
@@ -347,27 +369,27 @@ msgid ""
 "AddressBook>(\"address_book\");"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:215
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:217
 msgid "Create a callback to publish the messages periodically."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:217
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:219
 msgid "auto publish_msg = [this]() -> void {"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:221
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:223
 msgid "Create an ``AddressBook`` message instance that we will later publish."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:223
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:225
 msgid "auto message = more_interfaces::msg::AddressBook();"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:227
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:229
 msgid "Populate ``AddressBook`` fields."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:229
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:231
 msgid ""
 "message.first_name = \"John\";\n"
 "message.last_name = \"Doe\";\n"
@@ -375,11 +397,11 @@ msgid ""
 "message.phone_type = message.PHONE_TYPE_MOBILE;"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:236
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:238
 msgid "Finally send the message periodically."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:238
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:240
 msgid ""
 "std::cout << \"Publishing Contact\\nFirst:\" << message.first_name <<\n"
 "  \"  Last:\" << message.last_name << std::endl;\n"
@@ -387,24 +409,24 @@ msgid ""
 "this->address_book_publisher_->publish(message);"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:245
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:247
 msgid ""
 "Create a 1 second timer to call our ``publish_msg`` function every second."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:247
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:249
 msgid "timer_ = this->create_wall_timer(1s, publish_msg);"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:252
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:254
 msgid "3.2 Build the publisher"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:254
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:256
 msgid "We need to create a new target for this node in the ``CMakeLists.txt``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:256
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:258
 msgid ""
 "find_package(rclcpp REQUIRED)\n"
 "\n"
@@ -416,17 +438,17 @@ msgid ""
 "  DESTINATION lib/${PROJECT_NAME})"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:268
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:270
 msgid "3.3 Link against the interface"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:270
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:272
 msgid ""
 "In order to use the messages generated in the same package we need to use "
 "the following CMake code:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:272
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:274
 msgid ""
 "rosidl_get_typesupport_target(cpp_typesupport_target\n"
 "  ${PROJECT_NAME} rosidl_typesupport_cpp)\n"
@@ -434,13 +456,13 @@ msgid ""
 "target_link_libraries(publish_address_book \"${cpp_typesupport_target}\")"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:279
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:281
 msgid ""
 "This finds the relevant generated C++ code from ``AddressBook.msg`` and "
 "allows your target to link against it."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:281
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:283
 msgid ""
 "You may have noticed that this step was not necessary when the interfaces "
 "being used were from a different package that was built independently. This "
@@ -448,126 +470,126 @@ msgid ""
 "package as the one in which they are defined."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:285
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:287
 msgid "4 Try it out"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:287
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:289
 msgid "Return to the root of the workspace to build the package:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:291
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:316
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:350
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:293
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:318
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:352
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:293
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:300
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:295
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:302
 msgid ""
 "$ cd ~/ros2_ws\n"
 "$ colcon build --packages-up-to more_interfaces"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:298
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:323
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:357
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:300
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:325
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:359
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:305
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:330
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:364
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:307
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:332
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:366
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:307
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:309
 msgid ""
 "$ cd /ros2_ws\n"
 "$ colcon build --merge-install --packages-up-to more_interfaces"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:312
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:314
 msgid "Then source the workspace and run the publisher:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:318
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:320
 msgid ""
 "$ source install/local_setup.bash\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:325
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:327
 msgid ""
 "$ . install/local_setup.bash\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:332
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:334
 msgid ""
 "$ call install/local_setup.bat\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:337
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:371
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:339
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:373
 msgid "Or using Powershell:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:339
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:341
 msgid ""
 "$ install/local_setup.ps1\n"
 "$ ros2 run more_interfaces publish_address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:344
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:346
 msgid ""
 "You should see the publisher relaying the msg you defined, including the "
 "values you set in ``publish_address_book.cpp``."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:346
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:348
 msgid ""
 "To confirm the message is being published on the ``address_book`` topic, "
 "open another terminal, source the workspace, and call ``topic echo``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:352
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:354
 msgid ""
 "$ source install/setup.bash\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:359
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:361
 msgid ""
 "$ . install/setup.bash\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:366
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:368
 msgid ""
 "$ call install/setup.bat\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:373
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:375
 msgid ""
 "$ install/setup.ps1\n"
 "$ ros2 topic echo /address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:378
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:380
 msgid ""
 "We won't create a subscriber in this tutorial, but you can try to write one "
 "yourself for practice (use :doc:`./Writing-A-Simple-Cpp-Publisher-And-"
 "Subscriber` to help)."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:381
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:383
 msgid "5 (Extra) Use an existing interface definition"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:385
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:387
 msgid ""
 "You can use an existing interface definition in a new interface definition. "
 "For example, let's say there is a message named ``Contact.msg`` that belongs "
@@ -576,7 +598,7 @@ msgid ""
 "from earlier."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:389
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:391
 msgid ""
 "In that case you could have defined ``AddressBook.msg`` (an interface in the "
 "package *with* your nodes) as type ``Contact`` (an interface in a *separate* "
@@ -584,28 +606,28 @@ msgid ""
 "``Contact``, like so:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:394
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:396
 msgid "rosidl_tutorials_msgs/Contact[] address_book"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:396
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:398
 msgid ""
 "To generate this message you would need to declare a dependency on ``Contact."
 "msg's`` package, ``rosidl_tutorials_msgs``, in ``package.xml``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:398
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:400
 msgid ""
 "<build_depend>rosidl_tutorials_msgs</build_depend>\n"
 "\n"
 "<exec_depend>rosidl_tutorials_msgs</exec_depend>"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:404
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:406
 msgid "And in ``CMakeLists.txt``:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:406
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:408
 msgid ""
 "find_package(rosidl_tutorials_msgs REQUIRED)\n"
 "\n"
@@ -615,22 +637,22 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:415
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:417
 msgid ""
 "You would also need to include the header of ``Contact.msg`` in your "
 "publisher node in order to be able to add ``contacts`` to your "
 "``address_book``."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:417
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:419
 msgid "#include \"rosidl_tutorials_msgs/msg/contact.hpp\""
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:421
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:423
 msgid "You could change the callback to something like this:"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:423
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:425
 msgid ""
 "auto publish_msg = [this]() -> void {\n"
 "   auto msg = std::make_shared<more_interfaces::msg::AddressBook>();\n"
@@ -662,35 +684,35 @@ msgid ""
 " };"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:453
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:455
 msgid ""
 "Building and running these changes would show the msg defined as expected, "
 "as well as the array of msgs defined above."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:456
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:458
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:458
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:460
 msgid ""
 "In this tutorial, you tried out different field types for defining "
 "interfaces, then built an interface in the same package where it's being "
 "used."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:460
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:462
 msgid ""
 "You also learned how to use another interface as a field type, as well as "
 "the ``package.xml``, ``CMakeLists.txt``, and ``#include`` statements "
 "necessary for utilizing that feature."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:463
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:465
 msgid "Next steps"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:465
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:467
 msgid ""
 "Next you will create a simple ROS 2 package with a custom parameter that you "
 "will learn to set from a launch file. Again, you can choose to write it in "
@@ -698,11 +720,11 @@ msgid ""
 "Using-Parameters-In-A-Class-Python>`."
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:469
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:471
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:471
+#: ../../../source/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.rst:473
 msgid ""
 "There are `several design articles <https://design.ros2.org/#interfaces>`_ "
 "on ROS 2 interfaces and the IDL (interface definition language)."
