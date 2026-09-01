@@ -1,0 +1,692 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation lyrical\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-01 12:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:7
+msgid "Writing a listener (C++)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:9
+msgid "**Goal:** Learn how to use tf2 to get access to frame transformations."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:11
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:13
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:17
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:20
+msgid "Background"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:22
+msgid ""
+"In previous tutorials we created a tf2 broadcaster to publish the pose of a "
+"turtle to tf2."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:24
+msgid "In this tutorial we'll create a tf2 listener to start using tf2."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:27
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:29
+msgid ""
+"This tutorial assumes you have completed the :doc:`tf2 static broadcaster "
+"tutorial (C++) <Writing-A-Tf2-Static-Broadcaster-Cpp>` and the :doc:`tf2 "
+"broadcaster tutorial (C++) <Writing-A-Tf2-Broadcaster-Cpp>`. In the previous "
+"tutorial, we created a ``learning_tf2_cpp`` package, which is where we will "
+"continue working from."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:33
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:36
+msgid "1 Write the listener node"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:38
+msgid ""
+"Let's first create the source files. Go to the ``learning_tf2_cpp`` package "
+"we created in the previous tutorial. Inside the ``src`` directory download "
+"the example listener code by entering the following command:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:44
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:326
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:344
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:366
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:46
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:52
+msgid ""
+"$ wget https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_listener.cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:50
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:332
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:350
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:372
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:56
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:336
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:356
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:378
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:58
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:380
+msgid "In a Windows command line prompt:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:60
+msgid ""
+"$ curl -sk https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_listener.cpp -o turtle_tf2_listener.cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:64
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:386
+msgid "Or in powershell:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:66
+msgid ""
+"$ curl https://raw.githubusercontent.com/ros/geometry_tutorials/rolling/"
+"turtle_tf2_cpp/src/turtle_tf2_listener.cpp -o turtle_tf2_listener.cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:70
+msgid "Open the file using your preferred text editor."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:72
+msgid ""
+"#include <chrono>\n"
+"#include <functional>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"geometry_msgs/msg/transform_stamped.hpp\"\n"
+"#include \"geometry_msgs/msg/twist.hpp\"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"tf2/exceptions.hpp\"\n"
+"#include \"tf2_ros/transform_listener.h\"\n"
+"#include \"tf2_ros/buffer.h\"\n"
+"#include \"turtlesim_msgs/srv/spawn.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class FrameListener : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  FrameListener()\n"
+"  : Node(\"turtle_tf2_frame_listener\"),\n"
+"    turtle_spawning_service_ready_(false),\n"
+"    turtle_spawned_(false)\n"
+"  {\n"
+"    // Declare and acquire `target_frame` parameter\n"
+"    target_frame_ = this->declare_parameter<std::string>(\"target_frame\", "
+"\"turtle1\");\n"
+"\n"
+"    tf_buffer_ =\n"
+"      std::make_unique<tf2_ros::Buffer>(this->get_clock());\n"
+"    tf_listener_ =\n"
+"      std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);\n"
+"\n"
+"    // Create a client to spawn a turtle\n"
+"    spawner_ =\n"
+"      this->create_client<turtlesim_msgs::srv::Spawn>(\"spawn\");\n"
+"\n"
+"    // Create turtle2 velocity publisher\n"
+"    publisher_ =\n"
+"      this->create_publisher<geometry_msgs::msg::Twist>(\"turtle2/cmd_vel\", "
+"1);\n"
+"\n"
+"    // Call on_timer function every second\n"
+"    timer_ = this->create_wall_timer(\n"
+"      1s, [this]() {return this->on_timer();});\n"
+"  }\n"
+"\n"
+"private:\n"
+"  void on_timer()\n"
+"  {\n"
+"    // Store frame names in variables that will be used to\n"
+"    // compute transformations\n"
+"    std::string fromFrameRel = target_frame_.c_str();\n"
+"    std::string toFrameRel = \"turtle2\";\n"
+"\n"
+"    if (turtle_spawning_service_ready_) {\n"
+"      if (turtle_spawned_) {\n"
+"        geometry_msgs::msg::TransformStamped t;\n"
+"\n"
+"        // Look up for the transformation between target_frame and turtle2 "
+"frames\n"
+"        // and send velocity commands for turtle2 to reach target_frame\n"
+"        try {\n"
+"          t = tf_buffer_->lookupTransform(\n"
+"            toFrameRel, fromFrameRel,\n"
+"            tf2::TimePointZero);\n"
+"        } catch (const tf2::TransformException & ex) {\n"
+"          RCLCPP_INFO(\n"
+"            this->get_logger(), \"Could not transform %s to %s: %s\",\n"
+"            toFrameRel.c_str(), fromFrameRel.c_str(), ex.what());\n"
+"          return;\n"
+"        }\n"
+"\n"
+"        geometry_msgs::msg::Twist msg;\n"
+"\n"
+"        static const double scaleRotationRate = 1.0;\n"
+"        msg.angular.z = scaleRotationRate * atan2(\n"
+"          t.transform.translation.y,\n"
+"          t.transform.translation.x);\n"
+"\n"
+"        static const double scaleForwardSpeed = 0.5;\n"
+"        msg.linear.x = scaleForwardSpeed * sqrt(\n"
+"          pow(t.transform.translation.x, 2) +\n"
+"          pow(t.transform.translation.y, 2));\n"
+"\n"
+"        publisher_->publish(msg);\n"
+"      } else {\n"
+"        RCLCPP_INFO(this->get_logger(), \"Successfully spawned\");\n"
+"        turtle_spawned_ = true;\n"
+"      }\n"
+"    } else {\n"
+"      // Check if the service is ready\n"
+"      if (spawner_->service_is_ready()) {\n"
+"        // Initialize request with turtle name and coordinates\n"
+"        // Note that x, y and theta are defined as floats in turtlesim_msgs/"
+"srv/Spawn\n"
+"        auto request = std::make_shared<turtlesim_msgs::srv::Spawn::"
+"Request>();\n"
+"        request->x = 4.0;\n"
+"        request->y = 2.0;\n"
+"        request->theta = 0.0;\n"
+"        request->name = \"turtle2\";\n"
+"\n"
+"        // Call request\n"
+"        using ServiceResponseFuture =\n"
+"          rclcpp::Client<turtlesim_msgs::srv::Spawn>::SharedFuture;\n"
+"        auto response_received_callback = [this](ServiceResponseFuture "
+"future) {\n"
+"            auto result = future.get();\n"
+"            if (strcmp(result->name.c_str(), \"turtle2\") == 0) {\n"
+"              turtle_spawning_service_ready_ = true;\n"
+"            } else {\n"
+"              RCLCPP_ERROR(this->get_logger(), \"Service callback result "
+"mismatch\");\n"
+"            }\n"
+"          };\n"
+"        auto result = spawner_->async_send_request(request, "
+"response_received_callback);\n"
+"      } else {\n"
+"        RCLCPP_INFO(this->get_logger(), \"Service is not ready\");\n"
+"      }\n"
+"    }\n"
+"  }\n"
+"\n"
+"  // Boolean values to store the information\n"
+"  // if the service for spawning turtle is available\n"
+"  bool turtle_spawning_service_ready_;\n"
+"  // if the turtle was successfully spawned\n"
+"  bool turtle_spawned_;\n"
+"  rclcpp::Client<turtlesim_msgs::srv::Spawn>::SharedPtr spawner_{nullptr};\n"
+"  rclcpp::TimerBase::SharedPtr timer_{nullptr};\n"
+"  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr "
+"publisher_{nullptr};\n"
+"  std::shared_ptr<tf2_ros::TransformListener> tf_listener_{nullptr};\n"
+"  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;\n"
+"  std::string target_frame_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<FrameListener>());\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:213
+msgid "1.1 Examine the code"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:215
+msgid ""
+"To understand how the service behind spawning turtle works, please refer to :"
+"doc:`writing a simple service and client (C++) <../Writing-A-Simple-Cpp-"
+"Service-And-Client>` tutorial."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:217
+msgid ""
+"Now, let's take a look at the code that is relevant to get access to frame "
+"transformations. The ``tf2_ros`` contains a ``TransformListener`` class that "
+"makes the task of receiving transforms easier."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:220
+msgid "#include \"tf2_ros/transform_listener.h\""
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:224
+msgid ""
+"Here, we create a ``TransformListener`` object. Once the listener is "
+"created, it starts receiving tf2 transformations over the wire, and buffers "
+"them for up to 10 seconds."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:227
+msgid ""
+"tf_listener_ =\n"
+"  std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:234
+msgid ""
+"The constructor above (``TransformListener(*tf_buffer_)``) is a simplified "
+"constructor that creates a separate internal node under the hood to manage "
+"the subscriptions."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:236
+msgid ""
+"If you are writing a **Composable Node** (component) or need the transform "
+"listener to honor node-specific options and topic remappings (such as "
+"namespace or topic remapping for ``/tf``), pass ``this`` (or your node's "
+"``NodeInterfaces``) to the constructor instead:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:238
+msgid ""
+"tf_listener_ =\n"
+"  std::make_shared<tf2_ros::TransformListener>(*tf_buffer_, this);"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:243
+msgid ""
+"This ensures the subscriptions are created on the existing node and inherit "
+"all parameter and topic configurations."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:245
+msgid ""
+"Finally, we query the listener for a specific transformation. We call "
+"``lookup_transform`` method with following arguments:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:248
+msgid "Target frame"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:250
+msgid "Source frame"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:252
+msgid "The time at which we want to transform"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:254
+msgid ""
+"Providing ``tf2::TimePointZero`` will just get us the latest available "
+"transform. All this is wrapped in a try-catch block to handle possible "
+"exceptions."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:257
+msgid ""
+"t = tf_buffer_->lookupTransform(\n"
+"  toFrameRel, fromFrameRel,\n"
+"  tf2::TimePointZero);"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:263
+msgid ""
+"The resulting transformation represents the position and orientation of the "
+"target turtle relative to ``turtle2``. The angle between the turtles is then "
+"used to calculate a velocity command to follow the target turtle. For more "
+"general information about tf2 see also the :doc:`tf2 page in the Concepts "
+"section <../../../interfaces/About-Tf2/About-Tf2>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:268
+msgid "1.2 CMakeLists.txt"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:270
+msgid ""
+"Navigate one level back to the ``learning_tf2_cpp`` directory, where the "
+"``CMakeLists.txt`` and ``package.xml`` files are located."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:272
+msgid ""
+"Now open the ``CMakeLists.txt`` add the executable and name it "
+"``turtle_tf2_listener``, which you'll use later with ``ros2 run``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:274
+msgid ""
+"add_executable(turtle_tf2_listener src/turtle_tf2_listener.cpp)\n"
+"target_link_libraries(\n"
+"    turtle_tf2_listener PUBLIC\n"
+"    geometry_msgs::geometry_msgs\n"
+"    rclcpp::rclcpp\n"
+"    tf2::tf2\n"
+"    tf2_ros::tf2_ros\n"
+"    turtlesim_msgs::turtlesim_msgs\n"
+")"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:286
+msgid ""
+"Finally, add the ``install(TARGETS…)`` section so ``ros2 run`` can find your "
+"executable:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:288
+msgid ""
+"install(TARGETS\n"
+"    turtle_tf2_listener\n"
+"    DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:295
+msgid "2 Update the launch file"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:297
+msgid ""
+"Open the launch file called ``turtle_tf2_demo_launch`` with extension ``."
+"py``, ``.xml``, or ``.yaml`` in the ``src/learning_tf2_cpp/launch`` "
+"directory with your text editor, add two new nodes to the launch "
+"description, add a launch argument, and add the imports. The resulting file "
+"should look like:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:302
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:411
+msgid "Python"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:304
+msgid ""
+"from launch import LaunchDescription\n"
+"from launch.actions import DeclareLaunchArgument\n"
+"from launch.substitutions import LaunchConfiguration\n"
+"\n"
+"from launch_ros.actions import Node\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    return LaunchDescription([\n"
+"        Node(\n"
+"            package='turtlesim',\n"
+"            executable='turtlesim_node',\n"
+"            name='sim'\n"
+"        ),\n"
+"        Node(\n"
+"            package='learning_tf2_cpp',\n"
+"            executable='turtle_tf2_broadcaster',\n"
+"            name='broadcaster1',\n"
+"            parameters=[\n"
+"                {'turtlename': 'turtle1'}\n"
+"            ]\n"
+"        ),\n"
+"        DeclareLaunchArgument(\n"
+"            'target_frame', default_value='turtle1',\n"
+"            description='Target frame name.'\n"
+"        ),\n"
+"        Node(\n"
+"            package='learning_tf2_cpp',\n"
+"            executable='turtle_tf2_broadcaster',\n"
+"            name='broadcaster2',\n"
+"            parameters=[\n"
+"                {'turtlename': 'turtle2'}\n"
+"            ]\n"
+"        ),\n"
+"        Node(\n"
+"            package='learning_tf2_cpp',\n"
+"            executable='turtle_tf2_listener',\n"
+"            name='listener',\n"
+"            parameters=[\n"
+"                {'target_frame': LaunchConfiguration('target_frame')}\n"
+"            ]\n"
+"        ),\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:307
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:399
+msgid "XML"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:309
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<launch>\n"
+"  <node pkg=\"turtlesim\" exec=\"turtlesim_node\" name=\"sim\" />\n"
+"  <node pkg=\"learning_tf2_cpp\" exec=\"turtle_tf2_broadcaster\" "
+"name=\"broadcaster1\">\n"
+"    <param name=\"turtlename\" value=\"turtle1\" />\n"
+"  </node>\n"
+"  <arg name=\"target_frame\" default=\"turtle1\" description=\"Target frame "
+"name.\" />\n"
+"  <node pkg=\"learning_tf2_cpp\" exec=\"turtle_tf2_broadcaster\" "
+"name=\"broadcaster2\">\n"
+"    <param name=\"turtlename\" value=\"turtle2\" />\n"
+"  </node>\n"
+"  <node pkg=\"learning_tf2_cpp\" exec=\"turtle_tf2_listener\" "
+"name=\"listener\">\n"
+"    <param name=\"target_frame\" value=\"$(var target_frame)\" />\n"
+"  </node>\n"
+"</launch>\n"
+"\n"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:312
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:405
+msgid "YAML"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:314
+msgid ""
+"%YAML 1.2\n"
+"---\n"
+"launch:\n"
+"  - node:\n"
+"      pkg: \"turtlesim\"\n"
+"      exec: \"turtlesim_node\"\n"
+"      name: \"sim\"\n"
+"  - node:\n"
+"      pkg: \"learning_tf2_cpp\"\n"
+"      exec: \"turtle_tf2_broadcaster\"\n"
+"      name: \"broadcaster1\"\n"
+"      param:\n"
+"      - name: \"turtlename\"\n"
+"        value: \"turtle1\"\n"
+"  - arg:\n"
+"      name: \"target_frame\"\n"
+"      default: \"turtle1\"\n"
+"      description: \"Target frame name.\"\n"
+"  - node:\n"
+"      pkg: \"learning_tf2_cpp\"\n"
+"      exec: \"turtle_tf2_broadcaster\"\n"
+"      name: \"broadcaster2\"\n"
+"      param:\n"
+"      - name: \"turtlename\"\n"
+"        value: \"turtle2\"\n"
+"  - node:\n"
+"      pkg: \"learning_tf2_cpp\"\n"
+"      exec: \"turtle_tf2_listener\"\n"
+"      name: \"listener\"\n"
+"      param:\n"
+"      - name: \"target_frame\"\n"
+"        value: \"$(var target_frame)\"\n"
+"\n"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:317
+msgid ""
+"This will declare a ``target_frame`` launch argument, start a broadcaster "
+"for the second turtle that we will spawn and a listener that will subscribe "
+"to those transformations."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:320
+msgid "3 Build"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:322
+msgid ""
+"Run ``rosdep`` in the root of your workspace to check for missing "
+"dependencies."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:328
+msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:334
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:338
+msgid ""
+"rosdep only runs on Linux, so you will need to install ``geometry_msgs`` and "
+"``turtlesim`` dependencies yourself"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:340
+msgid "Still in the root of your workspace, build your package:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:346
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:352
+msgid "$ colcon build --packages-select learning_tf2_cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:358
+msgid "$ colcon build --merge-install --packages-select learning_tf2_cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:362
+msgid ""
+"Open a new terminal, navigate to the root of your workspace, and source the "
+"setup files:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:368
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:374
+msgid "$ . install/setup.bash"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:382
+msgid "$ call install\\setup.bat"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:388
+msgid "$ .\\install\\setup.ps1"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:393
+msgid "4 Run"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:395
+msgid "Now you're ready to start your full turtle demo:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:401
+msgid "$ ros2 launch learning_tf2_cpp turtle_tf2_demo_launch.xml"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:407
+msgid "$ ros2 launch learning_tf2_cpp turtle_tf2_demo_launch.yaml"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:413
+msgid "$ ros2 launch learning_tf2_cpp turtle_tf2_demo_launch.py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:417
+msgid ""
+"You should see the turtle sim with two turtles. In the second terminal "
+"window type the following command:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:420
+msgid "$ ros2 run turtlesim turtle_teleop_key"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:424
+msgid ""
+"To see if things work, simply drive around the first turtle using the arrow "
+"keys (make sure your terminal window is active, not your simulator window), "
+"and you'll see the second turtle following the first one!"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:427
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.rst:429
+msgid ""
+"In this tutorial you learned how to use tf2 to get access to frame "
+"transformations. You also have finished writing your own turtlesim demo that "
+"you first tried in :doc:`Introduction to tf2 <../../../interfaces/Working-"
+"with-interfaces/Introduction-To-Tf2/Introduction-To-Tf2>` tutorial."
+msgstr ""
