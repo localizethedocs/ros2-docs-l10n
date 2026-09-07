@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-09-07 14:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -263,16 +263,24 @@ msgid ""
 "address of the message being received is the same as the one that was "
 "published and that it is not a copy. This is because we're publishing and "
 "subscribing with ``std::unique_ptr``\\ s which allow ownership of a message "
-"to be moved around the system safely. You can also publish and subscribe "
-"with ``const &`` and ``std::shared_ptr``, but zero-copy will not occur in "
-"that case."
-msgstr ""
-
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:170
-msgid "The cyclic pipeline demo"
+"to be moved around the system safely. You can also subscribe using a ``const "
+"std::shared_ptr<const T> &`` (``ConstSharedPtr``) callback, which shares "
+"immutable ownership of the message and achieves zero-copy even with multiple "
+"subscribers, so long as a ``std::unique_ptr`` was passed to the publisher. A "
+"``const T &`` callback behaves identically, as it is delivered from that "
+"same shared, immutable message; the only difference is that the reference is "
+"not valid once the callback returns, so such a subscriber cannot retain the "
+"message. A mutable ``std::shared_ptr<T>`` callback (which is deprecated) "
+"instead takes ownership of the message: it is zero-copy when it is the only "
+"subscriber, but forces a copy for all but one subscriber once there is more "
+"than one."
 msgstr ""
 
 #: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:172
+msgid "The cyclic pipeline demo"
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:174
 msgid ""
 "This demo is similar to the previous one, but instead of the producer "
 "creating a new message for each iteration, this demo only ever uses one "
@@ -281,13 +289,13 @@ msgid ""
 "before spinning the executor:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:175
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:177
 msgid ""
 "https://github.com/ros2/demos/blob/rolling/intra_process_demo/src/"
 "cyclic_pipeline/cyclic_pipeline.cpp"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:177
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:179
 msgid ""
 "#include <chrono>\n"
 "#include <cinttypes>\n"
@@ -380,21 +388,21 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:257
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:259
 msgid ""
 "Unlike the previous demo, this demo uses only one Node, instantiated twice "
 "with different names and configurations. The graph ends up being ``pipe1`` -"
 "> ``pipe2`` -> ``pipe1`` ... in a loop."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:260
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:262
 msgid ""
 "The line ``pipe1->pub->publish(std::move(msg));`` kicks the process off, but "
 "from then on the messages are passed back and forth between the nodes by "
 "each one calling publish within its own subscription callback."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:262
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:264
 msgid ""
 "The expectation here is that the nodes pass the message back and forth, once "
 "a second, incrementing the value of the message each time. Because the "
@@ -402,11 +410,11 @@ msgid ""
 "message created at the beginning is continuously used."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:265
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:267
 msgid "To test those expectations, let's run it:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:267
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:269
 msgid ""
 "$ ros2 run intra_process_demo cyclic_pipeline\n"
 "Published first message with value:  42, and address: 0x7fd2ce0a2bc0\n"
@@ -435,7 +443,7 @@ msgid ""
 "[...]"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:295
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:297
 msgid ""
 "You should see ever increasing numbers on each iteration, starting with "
 "42... because 42, and the whole time it reuses the same message, as "
@@ -443,43 +451,43 @@ msgid ""
 "unnecessary copies."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:298
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:300
 msgid "The image pipeline demo"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:300
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:302
 msgid ""
 "In this demo we'll use OpenCV to capture, annotate, and then view images."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:304
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:306
 msgid ""
 "If you are on macOS and these examples do not work or you receive an error "
 "like ``ddsi_conn_write failed -1``, then you'll need to increase your system "
 "wide UDP packet size:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:306
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:308
 msgid ""
 "$ sudo sysctl -w net.inet.udp.recvspace=209715\n"
 "$ sudo sysctl -w net.inet.udp.maxdgram=65500"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:311
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:313
 msgid "These changes will not persist after a reboot."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:314
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:316
 msgid "Simple pipeline"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:316
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:318
 msgid ""
 "First we'll have a pipeline of three nodes, arranged as such: "
 "``camera_node`` -> ``watermark_node`` -> ``image_view_node``"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:318
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:320
 msgid ""
 "The ``camera_node`` reads from camera device ``0`` on your computer, writes "
 "some information on the image and publishes it. The ``watermark_node`` "
@@ -489,7 +497,7 @@ msgid ""
 "it with ``cv::imshow``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:322
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:324
 msgid ""
 "In each node the process id and the pointer address of the ROS message is "
 "written onto the image with ``cv::putText``. The watermark and image view "
@@ -499,43 +507,43 @@ msgid ""
 "sketched above."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:327
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:329
 msgid ""
 "On some systems (we've seen it happen on Linux), the address printed to the "
 "screen might not change. This is because the same unique pointer is being "
 "reused. In this situation, the pipeline is still running."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:331
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:333
 msgid "Let's run the demo by executing the following executable:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:333
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:335
 msgid "$ ros2 run intra_process_demo image_pipeline_all_in_one"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:337
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:339
 msgid "You should see something like this:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:343
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:345
 msgid ""
 "You can pause the rendering of the image by pressing the spacebar and you "
 "can resume by pressing the spacebar again. You can also press ``q`` or "
 "``ESC`` to exit."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:346
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:348
 msgid ""
 "If you pause the image viewer, you should be able to compare the addresses "
 "written on the image and see that they are the same."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:349
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:351
 msgid "Pipeline with two image viewers"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:351
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:353
 msgid ""
 "Now let's look at an example just like the one above, except it has two "
 "image view nodes. All the nodes are still in the same process, but now there "
@@ -544,18 +552,18 @@ msgid ""
 "be on top of each other). Let's run it with the command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:356
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:358
 msgid "$ ros2 run intra_process_demo image_pipeline_with_two_image_view"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:364
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:366
 msgid ""
 "Just like the last example, you can pause the rendering with the spacebar "
 "and continue by pressing the spacebar a second time. You can stop the "
 "updating to inspect the pointers written to the screen."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:367
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:369
 msgid ""
 "As you can see in the example image above, we have one image with all of the "
 "pointers the same and then another image with the same pointers as the first "
@@ -563,13 +571,13 @@ msgid ""
 "different. To understand why this is happening consider the graph's topology:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:370
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:372
 msgid ""
 "camera_node -> watermark_node -> image_view_node\n"
 "                              -> image_view_node2"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:375
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:377
 msgid ""
 "The link between the ``camera_node`` and the ``watermark_node`` can use the "
 "same pointer without copying because there is only one intra-process "
@@ -586,11 +594,21 @@ msgid ""
 "third line of text."
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:382
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:383
+msgid ""
+"To avoid this copy in a one-to-many pipeline, subscribers can use a "
+"``ConstSharedPtr`` (i.e. ``const std::shared_ptr<const T> &``) or a ``const "
+"T &`` callback instead of ``UniquePtr``. The message is promoted from the "
+"published ``UniquePtr`` to a ``ConstSharedPtr``, which is delivered to all "
+"intra-process subscribers as a single immutable shared object, without "
+"copying."
+msgstr ""
+
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:387
 msgid "Pipeline with inter-process viewer"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:384
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:389
 msgid ""
 "One other important thing to get right is to avoid interruption of the intra-"
 "process zero-copy behavior when inter-process subscriptions are made. To "
@@ -600,7 +618,7 @@ msgid ""
 "intra_process_demo`` in the terminal). This will look something like this:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:392
+#: ../../../source/ROS-Framework/nodes/Working-with-nodes/intra-process/Intra-Process-Communication.rst:397
 msgid ""
 "It's hard to pause both images at the same time so the images may not line "
 "up, but the important thing to notice is that the "
