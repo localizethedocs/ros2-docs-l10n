@@ -1,0 +1,753 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-21 04:32+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:2
+msgid "Writing an async node with asyncio (Python)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:4
+msgid ""
+"**Goal:** Create and run a service and client using ``AsyncNode``, the "
+"asyncio-native node API."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:8
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:12
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:15
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:17
+msgid ""
+"``AsyncNode`` is an asyncio-native alternative to the executor based "
+"``Node`` you used in the beginner tutorial. This lets you ``await`` other "
+"async operations from inside a ROS 2 callback without blocking the rest of "
+"the node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:20
+msgid ""
+"Beyond services and clients, ``AsyncNode`` supports timers, subscriptions, "
+"and publishers as well. Callbacks can be either ``async def`` coroutines or "
+"regular ``def`` functions. Keep in mind that a sync callback can't ``await`` "
+"anything."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:26
+msgid "Actions are not yet supported."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:30
+msgid ""
+"Async support already exists in ``Node``: entities accept ``async def`` "
+"callbacks, and futures from ``client.call_async()`` can be awaited (see "
+"`client_async_callback example <https://github.com/ros2/examples/blob/"
+"rolling/rclpy/services/minimal_client/examples_rclpy_minimal_client/"
+"client_async_callback.py>`__). Where ``AsyncNode`` differs is in the "
+"underlying runtime: callbacks run on the ``asyncio`` event loop rather than "
+"rclpy's custom executor, allowing it to natively compose with other "
+"libraries within the ``asyncio`` ecosystem."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:34
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:36
+msgid ""
+"You should have completed the :doc:`beginner service and client tutorial <../"
+"Beginner-Client-Libraries/Writing-A-Simple-Py-Service-And-Client>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:37
+msgid ""
+"You should be comfortable with basic :py:mod:`asyncio` concepts like `async "
+"def and await <https://docs.python.org/3/howto/a-conceptual-overview-of-"
+"asyncio.html>`_ and :py:func:`asyncio.run`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:38
+msgid ""
+"``AsyncNode`` currently lives in ``rclpy.experimental`` and requires Python "
+"3.12 or newer."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:41
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:44
+msgid "1 Create a package"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:46
+msgid ""
+"Open a new terminal and :doc:`source your ROS 2 installation <../Beginner-"
+"CLI-Tools/Configuring-ROS2-Environment>` so that ``ros2`` commands will work."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:48
+msgid ""
+"Navigate into the ``ros2_ws/src`` directory created in a :ref:`previous "
+"tutorial <new-directory>` and create a new package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:50
+msgid ""
+"$ ros2 pkg create --build-type ament_python python_async_node --dependencies "
+"rclpy example_interfaces"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:55
+msgid "2 Write the service node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:57
+msgid ""
+"Inside the ``ros2_ws/src/python_async_node/python_async_node`` directory, "
+"create a new file called ``async_service.py`` and paste the following code "
+"within:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:59
+msgid ""
+"import asyncio\n"
+"\n"
+"from example_interfaces.srv import Trigger\n"
+"import rclpy\n"
+"from rclpy.experimental import AsyncNode\n"
+"\n"
+"\n"
+"class TriggerServer(AsyncNode):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('trigger_server')\n"
+"        self._service = self.create_service(\n"
+"            Trigger, 'trigger', self._callback\n"
+"        )\n"
+"\n"
+"    async def _callback(self, _request, response):\n"
+"        self.get_logger().info('Incoming trigger request')\n"
+"        await self.get_clock().sleep(2.0)\n"
+"        response.success = True\n"
+"        response.message = 'Slept for 2.0s'\n"
+"        return response\n"
+"\n"
+"\n"
+"async def _async_main():\n"
+"    with rclpy.init():\n"
+"        node = TriggerServer()\n"
+"        await node.run()\n"
+"\n"
+"\n"
+"def main():\n"
+"    asyncio.run(_async_main())\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:98
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:100
+msgid ""
+"The first ``import`` statements pull in ``asyncio``, ``rclpy``, the "
+"``AsyncNode`` class from ``rclpy.experimental``, and the ``Trigger`` service "
+"type."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:102
+msgid ""
+"import asyncio\n"
+"\n"
+"from example_interfaces.srv import Trigger\n"
+"import rclpy\n"
+"from rclpy.experimental import AsyncNode"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:110
+msgid ""
+"The ``TriggerServer`` class inherits from ``AsyncNode`` instead of ``Node``. "
+"Its constructor initializes the node with the name ``trigger_server`` and "
+"creates a service."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:113
+msgid ""
+"class TriggerServer(AsyncNode):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('trigger_server')\n"
+"        self._service = self.create_service(\n"
+"            Trigger, 'trigger', self._callback\n"
+"        )"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:123
+msgid ""
+"The service callback is a coroutine. Inside it you can ``await`` any async "
+"operation — here the node calls ``self.get_clock().sleep(2.0)``, similar to "
+"``asyncio.sleep`` but with ROS sim time support. While this coroutine is "
+"suspended, the node remains responsive to other callbacks."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:127
+msgid ""
+"async def _callback(self, _request, response):\n"
+"    self.get_logger().info('Incoming trigger request')\n"
+"    await self.get_clock().sleep(2.0)\n"
+"    response.success = True\n"
+"    response.message = 'Slept for 2.0s'\n"
+"    return response"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:136
+msgid ""
+"The bottom of the file defines an ``async`` helper that initializes "
+"``rclpy``, constructs the node, and runs it:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:138
+msgid ""
+"async def _async_main():\n"
+"    with rclpy.init():\n"
+"        node = TriggerServer()\n"
+"        await node.run()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:145
+msgid ""
+"To run an ``AsyncNode``, you need to ``await node.run()`` — the equivalent "
+"of ``rclpy.spin(node)``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:147
+msgid ""
+"Finally, ``main`` itself is a regular sync function so that ``ros2 run`` can "
+"use it as an entry point — ``ros2 run`` invokes the entry point as a regular "
+"function, so it cannot be ``async def``. It just calls ``asyncio.run`` to "
+"execute the ``_async_main`` coroutine:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:150
+msgid ""
+"def main():\n"
+"    asyncio.run(_async_main())"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:156
+msgid "3 Write the client node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:158
+msgid ""
+"Inside the ``ros2_ws/src/python_async_node/python_async_node`` directory, "
+"create a new file called ``async_client.py`` and paste the following code "
+"within:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:160
+msgid ""
+"import asyncio\n"
+"\n"
+"from example_interfaces.srv import Trigger\n"
+"import rclpy\n"
+"from rclpy.experimental import AsyncNode\n"
+"\n"
+"\n"
+"async def _async_main():\n"
+"    with rclpy.init():\n"
+"        async with AsyncNode('trigger_client') as node:\n"
+"            client = node.create_client(Trigger, 'trigger')\n"
+"\n"
+"            node.get_logger().info('Waiting for trigger service...')\n"
+"            await client.wait_for_service()\n"
+"            node.get_logger().info('Service is available, sending request')\n"
+"\n"
+"            request = Trigger.Request()\n"
+"            response = await client.call(request)\n"
+"\n"
+"            node.get_logger().info(\n"
+"                f'Service responded: success={response.success}, '\n"
+"                f'message=\"{response.message}\"'\n"
+"            )\n"
+"\n"
+"\n"
+"def main():\n"
+"    asyncio.run(_async_main())\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:195
+msgid "3.1 Examine the code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:197
+msgid ""
+"As with the service code, the imports pull in ``asyncio``, ``rclpy``, "
+"``AsyncNode``, and the ``Trigger`` type."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:199
+msgid ""
+"The client uses the second ``AsyncNode`` entry point: ``async with "
+"AsyncNode(...) as node:``. Entering the ``async with`` block is what "
+"actually runs the node — analogous to ``await node.run()`` on the server "
+"side. At that point any subscriptions, services, and timers that were "
+"already created on the node start dispatching callbacks. The node keeps "
+"running for the duration of the block, and when the block exits "
+"``destroy_node()`` is called automatically and all entities are torn down. "
+"This is the right choice for short programs like a one shot client."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:205
+msgid ""
+"async with AsyncNode('trigger_client') as node:\n"
+"    client = node.create_client(Trigger, 'trigger')"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:210
+msgid ""
+"Before sending the request, ``await client.wait_for_service()`` suspends the "
+"coroutine until a matching service is discovered (or returns immediately if "
+"one is already up) — without blocking the event loop, so other callbacks on "
+"the node continue to run. This avoids the \"client started before the "
+"server\" failure mode where a request would otherwise be sent into the void."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:213
+msgid ""
+"node.get_logger().info('Waiting for trigger service...')\n"
+"await client.wait_for_service()\n"
+"node.get_logger().info('Service is available, sending request')"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:219
+msgid "The actual service call is one line:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:221
+msgid ""
+"request = Trigger.Request()\n"
+"response = await client.call(request)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:226
+msgid ""
+"With ``AsyncNode`` the response is awaited directly — there is no "
+"``Future``, and the node continues to process other work while the call is "
+"in flight."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:229
+msgid "4 Add entry points"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:231
+msgid ""
+"To allow the ``ros2 run`` command to run your nodes, add entry points to "
+"``setup.py`` (located in the ``ros2_ws/src/python_async_node`` directory)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:233
+msgid "The ``entry_points`` field of your ``setup.py`` should look like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:235
+msgid ""
+"entry_points={\n"
+"    'console_scripts': [\n"
+"        'service = python_async_node.async_service:main',\n"
+"        'client = python_async_node.async_client:main',\n"
+"    ],\n"
+"},"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:245
+msgid "5 Build and run"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:247
+msgid ""
+"It's good practice to run ``rosdep`` in the root of your workspace "
+"(``ros2_ws``) to check for missing dependencies before building:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:251
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:277
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:253
+msgid "$ rosdep install -i --from-path src --rosdistro rolling -y"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:257
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:283
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:259
+msgid "rosdep only runs on Linux, so you can skip ahead to the next step."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:261
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:289
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:263
+msgid "rosdep only runs on Linux, so you can skip ahead to next step."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:265
+msgid ""
+"Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
+"package:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:267
+msgid "$ colcon build --symlink-install --packages-select python_async_node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:271
+msgid ""
+"The ``--symlink-install`` flag symlinks the Python source files into the "
+"install space instead of copying them, so later edits take effect without "
+"rebuilding."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:273
+msgid ""
+"Open a new terminal, navigate to ``ros2_ws``, and source the setup files:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:279
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:285
+msgid "$ . install/setup.bash"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:291
+msgid "$ call install/setup.bat"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:295
+msgid "Now run the service node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:297
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:392
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:469
+msgid "$ ros2 run python_async_node service"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:301
+msgid "The node will wait for the client's request."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:303
+msgid ""
+"Open another terminal and source the setup files from inside ``ros2_ws`` "
+"again. Start the client node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:306
+msgid ""
+"$ ros2 run python_async_node client\n"
+"[INFO] [trigger_client]: Service responded: success=True, message=\"Slept "
+"for 2.0s\""
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:311
+msgid ""
+"Return to the terminal where your service node is running. You will see that "
+"it logged the incoming request:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:314
+msgid "[INFO] [trigger_server]: Incoming trigger request"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:318
+msgid "Press :kbd:`Ctrl-C` in the server terminal to stop the node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:321
+msgid "Extensions"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:323
+msgid ""
+"The basic ``Trigger`` server above uses ``await clock.sleep(2.0)`` as an "
+"example for async work. Two more substantial use cases are shown below — "
+"both are straightforward modifications to ``async_service.py``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:326
+msgid ""
+"Because the package was built with ``--symlink-install``, edits to the "
+"Python file take effect without rebuilding — stop the running service with :"
+"kbd:`Ctrl-C` and start it again to pick up the changes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:329
+msgid "Executing a blocking function from a callback"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:333
+msgid ""
+"Just like ``asyncio``, ``AsyncNode`` is not thread-safe. If you spawn your "
+"own thread, do not access ``AsyncNode`` API from it. Schedule that work back "
+"onto the event loop thread with ``loop.call_soon_threadsafe`` or ``asyncio."
+"run_coroutine_threadsafe``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:337
+msgid ""
+"Many useful libraries are still written with synchronous APIs. Calling them "
+"directly from an async callback would block the event loop and stall every "
+"other callback on the node. To work around this, ``asyncio.to_thread`` runs "
+"the sync function on a worker thread and returns an awaitable, allowing the "
+"node to stay responsive."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:341
+msgid ""
+"For example, we can make a synchronous HTTP request to fetch the latest ROS "
+"2 release tag from GitHub through ``asyncio.to_thread``. Replace the body of "
+"``async_service.py`` with the following:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:344
+msgid ""
+"import asyncio\n"
+"import json\n"
+"import urllib.request\n"
+"\n"
+"from example_interfaces.srv import Trigger\n"
+"import rclpy\n"
+"from rclpy.experimental import AsyncNode\n"
+"\n"
+"ROS2_LATEST_RELEASE_URL = 'https://api.github.com/repos/ros2/ros2/releases/"
+"latest'\n"
+"\n"
+"\n"
+"class TriggerServer(AsyncNode):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('trigger_server')\n"
+"        self._service = self.create_service(\n"
+"            Trigger, 'trigger', self._callback\n"
+"        )\n"
+"\n"
+"    def _fetch_latest_release(self):\n"
+"        self.get_logger().info('Fetching latest ROS 2 release from GitHub')\n"
+"        with urllib.request.urlopen(ROS2_LATEST_RELEASE_URL) as resp:\n"
+"            return json.loads(resp.read())['tag_name']\n"
+"\n"
+"    async def _callback(self, _request, response):\n"
+"        tag = await asyncio.to_thread(self._fetch_latest_release)\n"
+"        response.success = True\n"
+"        response.message = f'Latest ROS 2 release: {tag}'\n"
+"        return response\n"
+"\n"
+"\n"
+"async def _async_main():\n"
+"    with rclpy.init():\n"
+"        node = TriggerServer()\n"
+"        await node.run()\n"
+"\n"
+"\n"
+"def main():\n"
+"    asyncio.run(_async_main())\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:390
+msgid "Restart the service in one terminal, then run the client in another:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:396
+msgid ""
+"$ ros2 run python_async_node client\n"
+"[INFO] [trigger_client]: Service responded: success=True, message=\"Latest "
+"ROS 2 release: <release-tag>\""
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:402
+msgid "Calling another service from inside a callback"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:404
+msgid ""
+"Because callbacks are coroutines, they can ``await`` other ROS 2 service "
+"calls just like any other async operation."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:406
+msgid ""
+"Replace the body of ``async_service.py`` so that the ``Trigger`` callback "
+"delegates to ``demo_nodes_py``'s ``add_two_ints`` service:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:408
+msgid ""
+"import asyncio\n"
+"\n"
+"from example_interfaces.srv import AddTwoInts, Trigger\n"
+"import rclpy\n"
+"from rclpy.experimental import AsyncNode\n"
+"\n"
+"\n"
+"class TriggerServer(AsyncNode):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('trigger_server')\n"
+"        self._client = self.create_client(AddTwoInts, 'add_two_ints')\n"
+"        self._service = self.create_service(\n"
+"            Trigger, 'trigger', self._callback\n"
+"        )\n"
+"\n"
+"    async def _callback(self, _request, response):\n"
+"        self.get_logger().info('Waiting for add_two_ints service...')\n"
+"        await self._client.wait_for_service()\n"
+"\n"
+"        self.get_logger().info('Calling add_two_ints with a=2, b=2')\n"
+"        nested_request = AddTwoInts.Request(a=2, b=2)\n"
+"        nested_response = await self._client.call(nested_request)\n"
+"\n"
+"        response.success = True\n"
+"        response.message = f'2+2={nested_response.sum}'\n"
+"        return response\n"
+"\n"
+"\n"
+"async def _async_main():\n"
+"    with rclpy.init():\n"
+"        node = TriggerServer()\n"
+"        await node.run()\n"
+"\n"
+"\n"
+"def main():\n"
+"    asyncio.run(_async_main())\n"
+"\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    main()"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:452
+msgid ""
+"The client is created in ``__init__`` and used inside the callback. Because "
+"the call is awaited, the coroutine doesn't block the node — other callbacks "
+"continue to make progress while it waits for ``add_two_ints`` to respond."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:457
+msgid ""
+"The standard ``Node`` utilizes :doc:`callback groups <../../How-To-Guides/"
+"Using-callback-groups>` to manage callback execution. Any attempt to perform "
+"a service call from within a callback with the default "
+"``MutuallyExclusiveCallbackGroup`` would result in deadlocking the node. "
+"With ``AsyncNode``, all callbacks run cooperatively on the ``asyncio`` event "
+"loop, so ``await client.call(request)`` works from any callback without "
+"additional configuration."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:461
+msgid "Run the underlying ``add_two_ints`` server in one terminal:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:463
+msgid "$ ros2 run demo_nodes_py add_two_ints_server"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:467
+msgid "Restart your service and run the client as before:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:473
+msgid ""
+"$ ros2 run python_async_node client\n"
+"[INFO] [trigger_client]: Service responded: success=True, message=\"2+2=4\""
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:479
+msgid "Handling requests concurrently"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:481
+msgid ""
+"By default, async services process one request at a time — if a callback is "
+"still running when a new request arrives, the new one waits."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:483
+msgid ""
+"Passing ``concurrent=True`` dispatches each incoming request on its own "
+"task, enabling multiple callbacks to run in parallel:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:485
+msgid ""
+"self._service = self.create_service(\n"
+"    Trigger, 'trigger', self._callback, concurrent=True\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:491
+msgid ""
+"With concurrent dispatch, three clients arriving at the same time each get "
+"their response after roughly two seconds rather than queueing up. The same "
+"flag is available on ``create_subscription``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:495
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-An-Async-Node-With-Asyncio-Python.rst:497
+msgid ""
+"You wrote an async service and client using ``AsyncNode``, with ``async "
+"def`` callbacks that can ``await`` long running operations. Because "
+"``AsyncNode`` runs on ``asyncio``, your node can directly use the rest of "
+"the Python async ecosystem — web frameworks, messaging clients, database "
+"drivers, and more."
+msgstr ""
