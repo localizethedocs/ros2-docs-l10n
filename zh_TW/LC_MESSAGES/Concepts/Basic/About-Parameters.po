@@ -1,0 +1,264 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 08:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:7
+msgid "Parameters"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:10
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:13
+msgid "Overview"
+msgstr "概覽"
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:15
+msgid ""
+"Parameters in ROS 2 are associated with individual nodes. Parameters are "
+"used to configure nodes at startup (and during runtime), without changing "
+"the code. The lifetime of a parameter is tied to the lifetime of the node "
+"(though the node could implement some sort of persistence to reload values "
+"after restart)."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:19
+msgid ""
+"Parameters are addressed by node name, node namespace, parameter name, and "
+"parameter namespace. Providing a parameter namespace is optional."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:22
+msgid ""
+"Each parameter consists of a key, a value, and a descriptor. The key is a "
+"string and the value is one of the following types: ``bool``, ``int64``, "
+"``float64``, ``string``, ``byte[]``, ``bool[]``, ``int64[]``, ``float64[]`` "
+"or ``string[]``. By default all descriptors are empty, but can contain "
+"parameter descriptions, value ranges, type information, and additional "
+"constraints."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:26
+msgid ""
+"For a hands-on tutorial with ROS parameters see :doc:`../../Tutorials/"
+"Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-"
+"Parameters`."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:29
+msgid "Parameters background"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:32
+msgid "Declaring parameters"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:34
+msgid ""
+"By default, a node needs to *declare* all of the parameters that it will "
+"accept during its lifetime. This is so that the type and name of the "
+"parameters are well-defined at node startup time, which reduces the chances "
+"of misconfiguration later on. See :doc:`../../Tutorials/Beginner-Client-"
+"Libraries/Using-Parameters-In-A-Class-CPP` or :doc:`../../Tutorials/Beginner-"
+"Client-Libraries/Using-Parameters-In-A-Class-Python` for tutorials on "
+"declaring and using parameters from a node."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:38
+msgid ""
+"For some types of nodes, not all of the parameters will be known ahead of "
+"time. In these cases, the node can be instantiated with "
+"``allow_undeclared_parameters`` set to ``true``, which will allow parameters "
+"to be get and set on the node even if they haven't been declared."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:42
+msgid "Parameter types"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:44
+msgid ""
+"Each parameter on a ROS 2 node has one of the pre-defined parameter types as "
+"mentioned in the Overview. By default, attempts to change the type of a "
+"declared parameter at runtime will fail. This prevents common mistakes, such "
+"as putting a boolean value into an integer parameter."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:48
+msgid ""
+"If a parameter needs to be multiple different types, and the code using the "
+"parameter can handle it, this default behavior can be changed. When the "
+"parameter is declared, it should be declared using a ``ParameterDescriptor`` "
+"with the ``dynamic_typing`` member variable set to ``true``."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:52
+msgid "Parameter callbacks"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:54
+msgid ""
+"A ROS 2 node can register two different types of callbacks to be informed "
+"when changes are happening to parameters. Both of the callbacks are optional."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:57
+msgid ""
+"The first is known as a \"set parameter\" callback, and can be set by "
+"calling ``add_on_set_parameters_callback`` from the node API. The callback "
+"is passed a list of immutable ``Parameter`` objects, and returns an "
+"``rcl_interfaces/msg/SetParametersResult``. The main purpose of this "
+"callback is to give the user the ability to inspect the upcoming change to "
+"the parameter and explicitly reject the change."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:62
+msgid ""
+"It is important that \"set parameter\" callbacks have no side-effects. Since "
+"multiple \"set parameter\" callbacks can be chained, there is no way for an "
+"individual callback to know if a later callback will reject the update. If "
+"the individual callback were to make changes to the class it is in, for "
+"instance, it may get out-of-sync with the actual parameter. To get a "
+"callback *after* a parameter has been successfully changed, see the next "
+"type of callback below."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:67
+msgid ""
+"The second type of callback is known as an \"on parameter event\" callback, "
+"and can be set by calling ``on_parameter_event`` from the parameter client "
+"APIs. The callback is passed an ``rcl_interfaces/msg/ParameterEvent`` "
+"object, and returns nothing. This callback will be called after all "
+"parameters in the input event have been declared, changed, or deleted. The "
+"main purpose of this callback is to give the user the ability to react to "
+"changes from parameters that have successfully been accepted."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:73
+msgid "Interacting with parameters"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:75
+msgid ""
+"ROS 2 nodes can perform parameter operations through node APIs as described "
+"in :doc:`../../Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-"
+"Class-CPP` or :doc:`../../Tutorials/Beginner-Client-Libraries/Using-"
+"Parameters-In-A-Class-Python`. External processes can perform parameter "
+"operations via parameter services that are created by default when a node is "
+"instantiated. The services that are created by default are:"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:79
+msgid ""
+"``/node_name/describe_parameters``: Uses a service type of ``rcl_interfaces/"
+"srv/DescribeParameters``. Given a list of parameter names, returns a list of "
+"descriptors associated with the parameters."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:81
+msgid ""
+"``/node_name/get_parameter_types``: Uses a service type of ``rcl_interfaces/"
+"srv/GetParameterTypes``. Given a list of parameter names, returns a list of "
+"parameter types associated with the parameters."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:83
+msgid ""
+"``/node_name/get_parameters``: Uses a service type of ``rcl_interfaces/srv/"
+"GetParameters``. Given a list of parameter names, returns a list of "
+"parameter values associated with the parameters."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:85
+msgid ""
+"``/node_name/list_parameters``: Uses a service type of ``rcl_interfaces/srv/"
+"ListParameters``. Given an optional list of parameter prefixes, returns a "
+"list of the available parameters with that prefix. If the prefixes are "
+"empty, returns all parameters."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:88
+msgid ""
+"``/node_name/set_parameters``: Uses a service type of ``rcl_interfaces/srv/"
+"SetParameters``. Given a list of parameter names and values, attempts to set "
+"the parameters on the node. Returns a list of results from trying to set "
+"each parameter; some of them may have succeeded and some may have failed."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:91
+msgid ""
+"``/node_name/set_parameters_atomically``: Uses a service type of "
+"``rcl_interfaces/srv/SetParametersAtomically``. Given a list of parameter "
+"names and values, attempts to set the parameters on the node. Returns a "
+"single result from trying to set all parameters, so if one failed, all of "
+"them failed."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:96
+msgid "Setting initial parameter values when running a node"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:98
+msgid ""
+"Initial parameter values can be set when running the node either through "
+"individual command-line arguments, or through YAML files. See :ref:"
+"`NodeArgsParameters` for examples on how to set initial parameter values."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:102
+msgid "Setting initial parameter values when launching nodes"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:104
+msgid ""
+"Initial parameter values can also be set when running the node through the "
+"ROS 2 launch facility. See :doc:`this document <../../Tutorials/Intermediate/"
+"Launch/Using-ROS2-Launch-For-Large-Projects>` for information on how to "
+"specify parameters via launch."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:108
+msgid "Manipulating parameter values at runtime"
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:110
+msgid ""
+"The ``ros2 param`` command is the general way to interact with parameters "
+"for nodes that are already running. ``ros2 param`` uses the parameter "
+"service API as described above to perform the various operations. See :doc:"
+"`this how-to guide <../../How-To-Guides/Using-ros2-param>` for details on "
+"how to use ``ros2 param``."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:115
+msgid "Migrating from ROS 1"
+msgstr "從 ROS 1 遷移"
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:117
+msgid ""
+"The :doc:`Launch file migration guide <../../How-To-Guides/Migrating-from-"
+"ROS1/Migrating-Launch-Files>` explains how to migrate ``param`` and "
+"``rosparam`` launch tags from ROS 1 to ROS 2."
+msgstr ""
+
+#: ../../../source/Concepts/Basic/About-Parameters.rst:119
+msgid ""
+"The :doc:`Migration guide <../../How-To-Guides/Migrating-from-ROS1/Migrating-"
+"Parameters>` explains how to migrate parameter from ROS 1 to ROS 2."
+msgstr ""
