@@ -1,0 +1,337 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation lyrical\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-21 10:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:2
+msgid "Marker: Points and Lines (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:4
+msgid ""
+"**Goal:** Show how to use ``visualization_msgs/msg/Marker`` messages to send "
+"points and lines to RViz."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr "**教學等級：** 中級"
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:8
+msgid "**Time:** 15 Minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:12
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:16
+msgid ""
+"This tutorial assumes that you have completed :doc:`Marker: Sending Basic "
+"Shapes <../Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:19
+msgid "Intro"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:20
+msgid ""
+"In :doc:`Marker: Sending Basic Shapes <../Marker-Sending-Basic-Shapes/Marker-"
+"Sending-Basic-Shapes>` you learned how to send simple shapes to RViz using "
+"visualization markers. You can send more than just simple shapes, and this "
+"tutorial introduces the ``POINTS``, ``LINE_STRIP``, and ``LINE_LIST`` marker "
+"types. For a full list of types, see :doc:`Marker: Display types <../Marker-"
+"Display-types/Marker-Display-types>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:25
+msgid "Using Points, Line Strips, and Line Lists"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:26
+msgid ""
+"The ``POINTS``, ``LINE_STRIP``, and ``LINE_LIST`` markers all use the "
+"``points`` member of the ``visualization_msgs/msg/Marker`` message. The "
+"``POINTS`` type places a point at each point added. The ``LINE_STRIP`` type "
+"uses each point as a vertex in a connected set of lines, where point 0 is "
+"connected to point 1, 1 to 2, 2 to 3, and so on. The ``LINE_LIST`` type "
+"creates unconnected lines out of each pair of points, such as point 0 to 1, "
+"2 to 3, and so on."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:33
+msgid "The code"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:34
+msgid ""
+"Get the package from the `visualization_tutorials repository <https://github."
+"com/ros-visualization/visualization_tutorials>`_. The code for this tutorial "
+"lives in the ``visualization_marker_tutorials`` package. You can read it in "
+"`points_and_lines.cpp <https://github.com/ros-visualization/"
+"visualization_tutorials/blob/ros2/visualization_marker_tutorials/src/"
+"points_and_lines.cpp>`_."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:39
+msgid "The code explained"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:40
+msgid ""
+"Now let's break down the code, skipping things that were explained in the "
+"previous tutorial. The overall effect created is a rotating helix with lines "
+"sticking upwards from each vertex."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:43
+msgid ""
+"We start with the headers used by the node, including ``cmath`` for the "
+"helix and the messages used for markers and points."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:45
+msgid ""
+"#define _USE_MATH_DEFINES\n"
+"\n"
+"#include <chrono>\n"
+"#include <cmath>\n"
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"geometry_msgs/msg/point.hpp\"\n"
+"#include \"visualization_msgs/msg/marker.hpp\""
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:57
+msgid ""
+"This should look familiar. We initialize ROS 2, create a node, create a "
+"publisher on the ``visualization_marker`` topic, and set the loop rate."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:60
+msgid ""
+"rclcpp::init(argc, argv);\n"
+"auto node = rclcpp::Node::make_shared(\"points_and_lines\");\n"
+"auto marker_pub = node->create_publisher<visualization_msgs::msg::Marker>(\n"
+"  \"visualization_marker\", 10);\n"
+"rclcpp::Rate loop_rate(30);"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:68
+msgid ""
+"We also create a floating-point variable that will be used to animate the "
+"helix over time."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:70
+msgid "float f = 0.0f;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:74
+msgid ""
+"Inside the main loop, we create three ``visualization_msgs/msg/Marker`` "
+"messages and initialize all of their shared data. By default, a marker "
+"message contains a pose whose quaternion is initialized to the identity "
+"orientation, so we only need to set the fields that matter for this tutorial."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:77
+msgid ""
+"visualization_msgs::msg::Marker points, line_strip, line_list;\n"
+"points.header.frame_id = line_strip.header.frame_id = line_list.header."
+"frame_id = \"my_frame\";\n"
+"points.header.stamp = line_strip.header.stamp = line_list.header.stamp = "
+"rclcpp::Clock().now();\n"
+"points.ns = line_strip.ns = line_list.ns = \"points_and_lines\";\n"
+"points.action = line_strip.action = line_list.action = visualization_msgs::"
+"msg::Marker::ADD;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:85
+msgid ""
+"Here we assign three different IDs to the three markers. The use of the "
+"``points_and_lines`` namespace ensures they will not collide with other "
+"marker publishers."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:88
+msgid ""
+"points.id = 0;\n"
+"line_strip.id = 1;\n"
+"line_list.id = 2;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:94
+msgid ""
+"Here we set the marker types to ``POINTS``, ``LINE_STRIP``, and "
+"``LINE_LIST``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:96
+msgid ""
+"points.type = visualization_msgs::msg::Marker::POINTS;\n"
+"line_strip.type = visualization_msgs::msg::Marker::LINE_STRIP;\n"
+"line_list.type = visualization_msgs::msg::Marker::LINE_LIST;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:102
+msgid ""
+"The ``scale`` member means different things for these marker types. "
+"``POINTS`` markers use the ``x`` and ``y`` members for width and height "
+"respectively, while ``LINE_STRIP`` and ``LINE_LIST`` markers use only the "
+"``x`` component, which defines the line width. Scale values are in meters."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:106
+msgid ""
+"points.scale.x = 0.2;\n"
+"points.scale.y = 0.2;\n"
+"\n"
+"line_strip.scale.x = 0.1;\n"
+"line_list.scale.x = 0.1;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:114
+msgid ""
+"Here we set the points to green, the line strip to blue, and the line list "
+"to red. As with other markers, the alpha channel must be non-zero."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:117
+msgid ""
+"points.color.g = 1.0f;\n"
+"points.color.a = 1.0;\n"
+"\n"
+"line_strip.color.b = 1.0;\n"
+"line_strip.color.a = 1.0;\n"
+"\n"
+"line_list.color.r = 1.0;\n"
+"line_list.color.a = 1.0;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:128
+msgid ""
+"Now we create the vertices for the points and lines. We use sine and cosine "
+"to generate a helix. The ``POINTS`` and ``LINE_STRIP`` markers both require "
+"only one point for each vertex, while the ``LINE_LIST`` marker requires two "
+"points for each line segment."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:132
+msgid ""
+"for (uint32_t i = 0; i < 100; ++i) {\n"
+"  float y = 5 * sin(f + i / 100.0f * 2 * M_PI);\n"
+"  float z = 5 * cos(f + i / 100.0f * 2 * M_PI);\n"
+"\n"
+"  geometry_msgs::msg::Point p;\n"
+"  p.x = static_cast<int32_t>(i) - 50;\n"
+"  p.y = y;\n"
+"  p.z = z;\n"
+"\n"
+"  points.points.push_back(p);\n"
+"  line_strip.points.push_back(p);\n"
+"\n"
+"  // The line list needs two points for each line\n"
+"  line_list.points.push_back(p);\n"
+"  p.z += 1.0;\n"
+"  line_list.points.push_back(p);\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:152
+msgid "Once the marker messages are filled out, we publish all three of them."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:154
+msgid ""
+"marker_pub->publish(points);\n"
+"marker_pub->publish(line_strip);\n"
+"marker_pub->publish(line_list);"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:160
+msgid "Then we sleep, advance the animation phase, and loop back to the top."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:162
+msgid ""
+"loop_rate.sleep();\n"
+"f += 0.04f;"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:168
+msgid "Viewing the markers"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:169
+msgid "Build the package in your workspace:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:171
+msgid "$ colcon build --packages-select visualization_marker_tutorials"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:175
+msgid "Then source your workspace and run the node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:177
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run visualization_marker_tutorials points_and_lines"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:182
+msgid "Now run RViz:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:184
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 run rviz2 rviz2"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:189
+msgid ""
+"If you have never used RViz before, start with the :doc:`RViz User Guide <../"
+"RViz-User-Guide/RViz-User-Guide>`."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:191
+msgid ""
+"Set up RViz the same way you did in the last tutorial. Because we do not "
+"have any transforms set up, set the ``Fixed Frame`` to ``my_frame``. Then "
+"add a ``Marker`` display. The default topic, ``visualization_marker``, is "
+"the same one being published by the node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:196
+msgid "You should see a rotating helix that looks something like this:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:201
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../../source/Tutorials/Intermediate/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.rst:202
+msgid ""
+"For more information about the markers and options supported by RViz, "
+"continue with :doc:`Marker: Display types <../Marker-Display-types/Marker-"
+"Display-types>`. Try out some of the other marker types."
+msgstr ""
