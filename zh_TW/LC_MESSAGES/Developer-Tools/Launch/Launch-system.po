@@ -1,0 +1,356 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:9
+msgid "Integrating launch files into ROS 2 packages"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:11
+msgid "**Goal:** Add a launch file to a ROS 2 package"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:13
+msgid "**Tutorial level:** Intermediate"
+msgstr "**教學等級：** 中級"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:15
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:19
+msgid "Contents"
+msgstr "目次"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:22
+msgid "Prerequisites"
+msgstr "先備條件"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:24
+msgid ""
+"You should have gone through the tutorial on how to :doc:`create a ROS 2 "
+"package <../../ROS-Framework/client-libraries/Working-with-Client-Libraries/"
+"Creating-Your-First-ROS2-Package>`."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:26
+msgid ""
+"As always, don't forget to source ROS 2 in :doc:`every new terminal you open "
+"<../../Get-Started/Configuring-ROS2-Environment>`."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:29
+msgid "Background"
+msgstr "背景"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:31
+msgid ""
+"In the :doc:`previous tutorial <Creating-Launch-Files>`, we saw how to write "
+"a standalone launch file. This tutorial will show how to add a launch file "
+"to an existing package, and the conventions typically used."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:35
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:38
+msgid "1 Create a package"
+msgstr "1 建立軟體包"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:40
+msgid "Create a workspace for the package to live in:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:44
+msgid "Linux"
+msgstr "Linux"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:46
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:53
+msgid ""
+"$ mkdir -p launch_ws/src\n"
+"$ cd launch_ws/src"
+msgstr ""
+"$ mkdir -p launch_ws/src\n"
+"$ cd launch_ws/src"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:51
+msgid "macOS"
+msgstr "macOS"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:58
+msgid "Windows"
+msgstr "Windows"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:60
+msgid ""
+"$ md launch_ws\\src\n"
+"$ cd launch_ws\\src"
+msgstr ""
+"$ md launch_ws\\src\n"
+"$ cd launch_ws\\src"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:67
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:87
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:184
+msgid "Python package"
+msgstr "Python 軟體包"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:69
+msgid ""
+"$ ros2 pkg create --build-type ament_python --license Apache-2.0 "
+"py_launch_example"
+msgstr ""
+"$ ros2 pkg create --build-type ament_python --license Apache-2.0 "
+"py_launch_example"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:73
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:123
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:206
+msgid "C++ package"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:75
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 "
+"cpp_launch_example"
+msgstr ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 "
+"cpp_launch_example"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:80
+msgid "2 Creating the structure to hold launch files"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:82
+msgid ""
+"By convention, all launch files for a package are stored in the ``launch`` "
+"directory inside of the package. Make sure to create a ``launch`` directory "
+"at the top-level of the package you created above."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:89
+msgid ""
+"For Python packages, the directory containing your package should look like "
+"this:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:91
+msgid ""
+"src/\n"
+"  py_launch_example/\n"
+"    launch/\n"
+"    package.xml\n"
+"    py_launch_example/\n"
+"    resource/\n"
+"    setup.cfg\n"
+"    setup.py\n"
+"    test/"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:103
+msgid ""
+"To enable colcon to locate and utilize our launch files, we need to inform "
+"Python's setup tools of their presence. To achieve this, open the ``setup."
+"py`` file, add the necessary ``import`` statements at the top, and include "
+"the launch files into the ``data_files`` parameter of ``setup``:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:106
+msgid ""
+"import os\n"
+"from glob import glob\n"
+"# Other imports ...\n"
+"\n"
+"package_name = 'py_launch_example'\n"
+"\n"
+"setup(\n"
+"    # Other parameters ...\n"
+"    data_files=[\n"
+"        # ... Other data files\n"
+"        # Include all launch files.\n"
+"        (os.path.join('share', package_name, 'launch'), glob('launch/*'))\n"
+"    ]\n"
+")"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:125
+msgid ""
+"For C++ packages, we will only be adjusting the ``CMakeLists.txt`` file by "
+"adding:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:127
+msgid ""
+"# Install launch files.\n"
+"install(DIRECTORY\n"
+"  launch\n"
+"  DESTINATION share/${PROJECT_NAME}/\n"
+")"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:135
+msgid "to the end of the file (but before ``ament_package()``)."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:139
+msgid "3 Writing the launch file"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:143
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:188
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:210
+msgid "XML launch file"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:145
+msgid ""
+"Inside your ``launch`` directory, create a new launch file called "
+"``my_script_launch.xml``. ``_launch.xml`` is recommended, but not required, "
+"as the file suffix for XML launch files."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:148
+msgid ""
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<launch>\n"
+"  <node pkg=\"demo_nodes_cpp\" exec=\"talker\" name=\"talker\"/>\n"
+"</launch>\n"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:151
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:194
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:216
+msgid "YAML launch file"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:153
+msgid ""
+"Inside your ``launch`` directory, create a new launch file called "
+"``my_script_launch.yaml``. ``_launch.yaml`` is recommended, but not "
+"required, as the file suffix for YAML launch files."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:156
+msgid ""
+"%YAML 1.2\n"
+"---\n"
+"launch:\n"
+"  - node:\n"
+"      pkg: \"demo_nodes_cpp\"\n"
+"      exec: \"talker\"\n"
+"      name: \"talker\"\n"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:159
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:200
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:222
+msgid "Python launch file"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:161
+msgid ""
+"Inside your ``launch`` directory, create a new launch file called "
+"``my_script_launch.py``. ``_launch.py`` is recommended, but not required, as "
+"the file suffix for Python launch files. However, the launch file name needs "
+"to end with ``launch.py`` to be recognized and autocompleted by ``ros2 "
+"launch``."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:165
+msgid ""
+"Your launch file should define the ``generate_launch_description()`` "
+"function which returns a ``launch.LaunchDescription()`` to be used by the "
+"``ros2 launch`` verb."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:167
+msgid ""
+"import launch\n"
+"import launch_ros.actions\n"
+"\n"
+"\n"
+"def generate_launch_description():\n"
+"    return launch.LaunchDescription([\n"
+"        launch_ros.actions.Node(\n"
+"            package='demo_nodes_cpp',\n"
+"            executable='talker',\n"
+"            name='talker'),\n"
+"    ])\n"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:172
+msgid "4 Building and running the launch file"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:174
+msgid "Go to the top-level of the workspace, and build it:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:176
+msgid "$ colcon build"
+msgstr "$ colcon build"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:180
+msgid ""
+"After the ``colcon build`` has been successful and you've sourced the "
+"workspace, you should be able to run the launch file as follows:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:190
+msgid "$ ros2 launch py_launch_example my_script_launch.xml"
+msgstr "$ ros2 launch py_launch_example my_script_launch.xml"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:196
+msgid "$ ros2 launch py_launch_example my_script_launch.yaml"
+msgstr "$ ros2 launch py_launch_example my_script_launch.yaml"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:202
+msgid "$ ros2 launch py_launch_example my_script_launch.py"
+msgstr "$ ros2 launch py_launch_example my_script_launch.py"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:212
+msgid "$ ros2 launch cpp_launch_example my_script_launch.xml"
+msgstr "$ ros2 launch cpp_launch_example my_script_launch.xml"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:218
+msgid "$ ros2 launch cpp_launch_example my_script_launch.yaml"
+msgstr "$ ros2 launch cpp_launch_example my_script_launch.yaml"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:224
+msgid "$ ros2 launch cpp_launch_example my_script_launch.py"
+msgstr "$ ros2 launch cpp_launch_example my_script_launch.py"
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:230
+msgid "Documentation"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:232
+msgid ""
+"`The launch documentation <https://docs.ros.org/en/rolling/p/launch/"
+"architecture.html>`__ provides more details on concepts that are also used "
+"in ``launch_ros``."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Launch/Launch-system.rst:234
+msgid ""
+"Additional documentation/examples of launch capabilities are forthcoming. "
+"See the source code (https://github.com/ros2/launch and https://github.com/"
+"ros2/launch_ros) in the meantime."
+msgstr ""
