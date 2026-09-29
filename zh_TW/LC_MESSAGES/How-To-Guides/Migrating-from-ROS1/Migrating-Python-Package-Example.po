@@ -1,0 +1,1147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 08:36+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:2
+msgid "Migrating a Python Package Example"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:4
+msgid ""
+"This guide shows how to migrate an example Python package from ROS 1 to ROS "
+"2."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:8
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:11
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:13
+msgid ""
+"You need a working ROS 2 installation, such as :doc:`ROS rolling <../../"
+"Installation>`."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:16
+msgid "The ROS 1 code"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:18
+msgid ""
+"You won't be using `catkin <https://index.ros.org/p/catkin/>`__ in this "
+"guide, so you don't need a working ROS 1 installation. You are going to use "
+"ROS 2's build tool `Colcon <https://colcon.readthedocs.io/>`__ instead."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:21
+msgid ""
+"This section gives you the code for a ROS 1 Python package. The package is "
+"called ``talker_py``, and it has one node called ``talker_py_node``. To make "
+"it easier to run Colcon later, these instructions make you create the "
+"package inside a `Colcon workspace <https://colcon.readthedocs.io/en/"
+"released/user/what-is-a-workspace.html>`__,"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:25
+msgid ""
+"First, create a folder at ``~/ros2_talker_py`` to be the root of the Colcon "
+"workspace."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:29
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:51
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:322
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:365
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:412
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:730
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:758
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:786
+msgid "Linux"
+msgstr "Linux"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:31
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:37
+msgid "$ mkdir -p ~/ros2_talker_py/src"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:35
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:64
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:329
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:371
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:419
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:738
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:766
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:793
+msgid "macOS"
+msgstr "macOS"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:41
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:77
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:336
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:377
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:426
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:746
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:774
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:800
+msgid "Windows"
+msgstr "Windows"
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:43
+msgid "$ md \\ros2_talker_py\\src"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:47
+msgid "Next, create the files for the ROS 1 package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:53
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:66
+msgid ""
+"$ cd ~/ros2_talker_py\n"
+"$ mkdir -p src/talker_py/src/talker_py\n"
+"$ mkdir -p src/talker_py/scripts\n"
+"$ touch src/talker_py/package.xml\n"
+"$ touch src/talker_py/CMakeLists.txt\n"
+"$ touch src/talker_py/src/talker_py/__init__.py\n"
+"$ touch src/talker_py/scripts/talker_py_node\n"
+"$ touch src/talker_py/setup.py"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:79
+msgid ""
+"$ cd \\ros2_talker_py\n"
+"$ md src\\talker_py\\src\\talker_py\n"
+"$ md src\\talker_py\\scripts\n"
+"$ type nul > src\\talker_py\\package.xml\n"
+"$ type nul > src\\talker_py\\CMakeLists.txt\n"
+"$ type nul > src\\talker_py\\src\\talker_py\\__init__.py\n"
+"$ type nul > src\\talker_py\\scripts/talker_py_node\n"
+"$ type nul > src\\talker_py\\setup.py"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:90
+msgid "Put the following content into each file."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:92
+msgid "``src/talker_py/package.xml``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:94
+msgid ""
+"<?xml version=\"1.0\"?>\n"
+"<?xml-model href=\"http://download.ros.org/schema/package_format2.xsd\" "
+"schematypens=\"http://www.w3.org/2001/XMLSchema\"?>\n"
+"<package format=\"2\">\n"
+"    <name>talker_py</name>\n"
+"    <version>1.0.0</version>\n"
+"    <description>The talker_py package</description>\n"
+"    <maintainer email=\"gerkey@example.com\">Brian Gerkey</maintainer>\n"
+"    <license>BSD</license>\n"
+"\n"
+"    <buildtool_depend>catkin</buildtool_depend>\n"
+"\n"
+"    <depend>rospy</depend>\n"
+"    <depend>std_msgs</depend>\n"
+"</package>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:111
+msgid "``src/talker_py/CMakeLists.txt``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:113
+msgid ""
+"cmake_minimum_required(VERSION 3.0.2)\n"
+"project(talker_py)\n"
+"\n"
+"find_package(catkin REQUIRED)\n"
+"\n"
+"catkin_python_setup()\n"
+"\n"
+"catkin_package()\n"
+"\n"
+"catkin_install_python(PROGRAMS\n"
+"    scripts/talker_py_node\n"
+"    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:129
+msgid "``src/talker/src/talker_py/__init__.py``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:131
+msgid ""
+"import rospy\n"
+"from std_msgs.msg import String\n"
+"\n"
+"def main():\n"
+"    rospy.init_node('talker')\n"
+"    pub = rospy.Publisher('chatter', String, queue_size=10)\n"
+"    rate = rospy.Rate(10)  # 10hz\n"
+"    while not rospy.is_shutdown():\n"
+"        hello_str = \"hello world %s\" % rospy.get_time()\n"
+"        rospy.loginfo(hello_str)\n"
+"        pub.publish(hello_str)\n"
+"        rate.sleep()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:146
+msgid "``src/talker_py/scripts/talker_py_node``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:148
+msgid ""
+"#!/usr/bin/env python\n"
+"\n"
+"import talker_py\n"
+"\n"
+"if __name__ == '__main__':\n"
+"    talker_py.main()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:157
+msgid "``src/talker_py/setup.py``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:159
+msgid ""
+"from setuptools import setup\n"
+"from catkin_pkg.python_setup import generate_distutils_setup\n"
+"\n"
+"setup_args = generate_distutils_setup(\n"
+"    packages=['talker_py'],\n"
+"    package_dir={'': 'src'}\n"
+")\n"
+"\n"
+"setup(**setup_args)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:171
+msgid "This is the complete ROS 1 Python package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:174
+msgid "Migrate the ``package.xml``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:176
+msgid ""
+"When migrating packages to ROS 2, migrate the build system files first so "
+"that you can check your work by building and running code as you go. Always "
+"start by migrating your ``package.xml``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:179
+msgid ""
+"First, ROS 2 does not use ``catkin``. Delete the ``<buildtool_depend>`` on "
+"it."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:182
+msgid ""
+"<!-- delete this -->\n"
+"<buildtool_depend>catkin</buildtool_depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:188
+msgid ""
+"Next, ROS 2 uses ``rclpy`` instead of ``rospy``. Delete the dependency on "
+"``rospy``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:191
+msgid ""
+"<!-- Delete this -->\n"
+"<depend>rospy</depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:197
+msgid "Replace it with a new dependency on ``rclpy``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:199
+msgid "<depend>rclpy</depend>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:203
+msgid ""
+"Add an ``<export>`` section to tell ROS 2's build tool `Colcon <https://"
+"colcon.readthedocs.io/>`__ that this is an ``ament_python`` package instead "
+"of a ``catkin`` package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:205
+msgid ""
+"<export>\n"
+"  <build_type>ament_python</build_type>\n"
+"</export>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:212
+msgid "Your ``package.xml`` is fully migrated. It should now look like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:215
+msgid ""
+"<?xml version=\"1.0\"?>\n"
+"<?xml-model href=\"http://download.ros.org/schema/package_format2.xsd\" "
+"schematypens=\"http://www.w3.org/2001/XMLSchema\"?>\n"
+"<package format=\"2\">\n"
+"    <name>talker_py</name>\n"
+"    <version>1.0.0</version>\n"
+"    <description>The talker_py package</description>\n"
+"    <maintainer email=\"gerkey@example.com\">Brian Gerkey</maintainer>\n"
+"    <license>BSD</license>\n"
+"\n"
+"    <depend>rclpy</depend>\n"
+"    <depend>std_msgs</depend>\n"
+"\n"
+"    <export>\n"
+"        <build_type>ament_python</build_type>\n"
+"    </export>\n"
+"</package>"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:235
+msgid "Delete the ``CMakeLists.txt``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:237
+msgid ""
+"Python packages in ROS 2 do not use CMake, so delete the ``CMakeLists.txt``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:240
+msgid "Migrate the ``setup.py``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:242
+msgid ""
+"The arguments to ``setup()`` in the ``setup.py`` can no longer be "
+"automatically generated with ``catkin_pkg``. You must pass these arguments "
+"manually, which means there will be some duplication with your ``package."
+"xml``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:245
+msgid "Start by deleting the import from ``catkin_pkg``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:247
+msgid ""
+"# Delete this\n"
+"from catkin_pkg.python_setup import generate_distutils_setup"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:252
+msgid ""
+"Move all arguments given to ``generate_distutils_setup()`` to the call to "
+"``setup()``, and then add the ``install_requires`` and ``zip_safe`` "
+"arguments. Your call to ``setup()`` should  look like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:255
+msgid ""
+"setup(\n"
+"    packages=['talker_py'],\n"
+"    package_dir={'': 'src'},\n"
+"    install_requires=['setuptools'],\n"
+"    zip_safe=True,\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:264
+msgid "Delete the call to ``generate_distutils_setup()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:266
+msgid ""
+"# Delete this\n"
+"setup_args = generate_distutils_setup(\n"
+"    packages=['talker_py'],\n"
+"    package_dir={'': 'src'}\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:274
+msgid ""
+"The call to ``setup()`` needs some `additional metadata <https://docs.python."
+"org/3.11/distutils/setupscript.html#additional-meta-data>`__ copied from the "
+"``package.xml``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:276
+msgid "package name via the ``name`` argument"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:277
+msgid "package version via the ``version`` argument"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:278
+msgid "maintainer via the ``maintainer`` and ``maintainer_email`` arguments"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:279
+msgid "description via the ``description`` argument"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:280
+msgid "license via the ``license`` argument"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:282
+msgid ""
+"The package name will be used multiple times. Create a variable called "
+"``package_name`` above the call to ``setup()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:285
+msgid "package_name = 'talker_py'"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:289
+msgid ""
+"Copy all of the remaining information into the arguments of ``setup()`` in "
+"``setup.py``. Your call to ``setup()`` should look like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:292
+msgid ""
+"setup(\n"
+"    name=package_name,\n"
+"    version='1.0.0',\n"
+"    install_requires=['setuptools'],\n"
+"    zip_safe=True,\n"
+"    packages=['talker_py'],\n"
+"    package_dir={'': 'src'},\n"
+"    maintainer='Brian Gerkey',\n"
+"    maintainer_email='gerkey@example.com',\n"
+"    description='The talker_py package',\n"
+"    license='BSD',\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:308
+msgid "ROS 2 packages must install two data files:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:310
+msgid "a ``package.xml``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:311
+msgid "a package marker file"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:313
+msgid ""
+"Your package already has a ``package.xml``. It describes your package's "
+"dependencies. A package marker file tells tools like ``ros2 run`` where to "
+"find your package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:317
+msgid ""
+"Create a directory next to the ``package.xml`` called ``resource``. Create "
+"an empty file in the ``resource`` directory with the same name as the "
+"package."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:324
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:331
+msgid ""
+"$ mkdir resource\n"
+"$ touch resource/talker_py"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:338
+msgid ""
+"$ md resource\n"
+"$ type nul > resource\\talker_py"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:343
+msgid ""
+"The ``setup()`` call in ``setup.py`` must tell ``setuptools`` how to install "
+"these files. Add the following ``data_files`` argument to the call to "
+"``setup()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:346
+msgid ""
+"data_files=[\n"
+"    ('share/ament_index/resource_index/packages',\n"
+"        ['resource/' + package_name]),\n"
+"    ('share/' + package_name, ['package.xml']),\n"
+"],"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:354
+msgid "Your ``setup.py`` is almost complete."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:357
+msgid "Migrate Python scripts and create ``setup.cfg``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:359
+msgid ""
+"ROS 2 Python packages uses ``console_scripts`` `entry points <https://python-"
+"packaging.readthedocs.io/en/latest/command-line-scripts.html#the-console-"
+"scripts-entry-point>`__ to install Python scripts as executables. The "
+"`configuration file <https://setuptools.pypa.io/en/latest/userguide/"
+"declarative_config.html>`__ ``setup.cfg`` tells ``setuptools`` to install "
+"those executables in a package specific directory so that tools like ``ros2 "
+"run`` can find them. Create a ``setup.cfg`` file next to the ``package.xml``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:367
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:373
+msgid "$ touch setup.cfg"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:379
+msgid "$ type nul > touch setup.cfg"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:383
+msgid "Put the following content into it:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:385
+msgid ""
+"[develop]\n"
+"script_dir=$base/lib/talker_py\n"
+"[install]\n"
+"install_scripts=$base/lib/talker_py"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:392
+msgid ""
+"You'll need to use the ``console_scripts`` entry point to define the "
+"executables to be installed. Each entry has the format ``executable_name = "
+"some.module:function``. The first part specifies the name of the executable "
+"to create. The second part specifies the function that should be run when "
+"the executable starts. This package needs to create an executable called "
+"``talker_py_node``, and the executable needs to call the function ``main`` "
+"in the ``talker_py`` module. Add the following entry point specification as "
+"another argument to ``setup()`` in your ``setup.py``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:399
+msgid ""
+"entry_points={\n"
+"    'console_scripts': [\n"
+"        'talker_py_node = talker_py:main',\n"
+"    ],\n"
+"},"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:407
+msgid ""
+"The ``talker_py_node`` file is no longer necessary. Delete the file "
+"``talker_py_node`` and delete the ``scripts/`` directory."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:414
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:421
+msgid ""
+"$ rm scripts/talker_py_node\n"
+"$ rmdir scripts"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:428
+msgid ""
+"$ del scripts/talker_py_node\n"
+"$ rd scripts"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:433
+msgid ""
+"The addition of ``console_scripts`` is the last change to your ``setup.py``. "
+"Your final ``setup.py`` should look like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:436
+msgid ""
+"from setuptools import setup\n"
+"\n"
+"package_name = 'talker_py'\n"
+"\n"
+"setup(\n"
+"    name=package_name,\n"
+"    version='1.0.0',\n"
+"    packages=['talker_py'],\n"
+"    package_dir={'': 'src'},\n"
+"    install_requires=['setuptools'],\n"
+"    zip_safe=True,\n"
+"    data_files=[\n"
+"        ('share/ament_index/resource_index/packages',\n"
+"            ['resource/' + package_name]),\n"
+"        ('share/' + package_name, ['package.xml']),\n"
+"    ],\n"
+"    maintainer='Brian Gerkey',\n"
+"    maintainer_email='gerkey@example.com',\n"
+"    description='The talker_py package',\n"
+"    license='BSD',\n"
+"    entry_points={\n"
+"        'console_scripts': [\n"
+"            'talker_py_node = talker_py:main',\n"
+"        ],\n"
+"    },\n"
+")"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:466
+msgid "Migrate Python code in ``src/talker_py/__init__.py``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:468
+msgid ""
+"ROS 2 changed a lot of the best practices for Python code. Start by "
+"migrating the code as-is. It will be easier to refactor code later after you "
+"have something working."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:473
+msgid "Use ``rclpy`` instead of ``rospy``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:475
+msgid ""
+"ROS 2 packages use `rclpy <https://index.ros.org/p/rclpy>`__ instead of "
+"``rospy``. You must do two things to use ``rclpy``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:478
+msgid "Import ``rclpy``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:479
+msgid "Initialize ``rclpy``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:481
+msgid "Remove the statement that imports ``rospy``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:483
+msgid ""
+"# Remove this\n"
+"import rospy"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:488
+msgid "Replace it with a statement that imports ``rclpy``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:490
+msgid "import rclpy"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:494
+msgid ""
+"Add a call to ``rclpy.init()`` as the very first statement in the ``main()`` "
+"function."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:496
+msgid ""
+"def main():\n"
+"    # Add this line\n"
+"    rclpy.init()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:503
+msgid "Execute callbacks in the background"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:505
+msgid ""
+"Both ROS 1 and ROS 2 use `callbacks <https://en.wikipedia.org/wiki/"
+"Callback_(computer_programming)>`__. In ROS 1, callbacks are always executed "
+"in background threads, and users are free to block the main thread with "
+"calls like ``rate.sleep()``. In ROS 2, ``rclpy`` uses :doc:`Executors <../../"
+"Concepts/Intermediate/About-Executors>` to give users more control over "
+"where callbacks are called. When porting code that uses blocking calls like "
+"``rate.sleep()``, you must make sure that those calls won't interfere with "
+"the executor. One way to do this is to create a dedicated thread for the "
+"executor."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:511
+msgid "First, add these two import statements."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:513
+msgid ""
+"import threading\n"
+"\n"
+"from rclpy.executors import ExternalShutdownException"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:519
+msgid ""
+"Next, add top-level function called ``spin_in_background()``. This function "
+"asks the default executor to execute callbacks until something shuts it down."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:522
+msgid ""
+"def spin_in_background():\n"
+"    executor = rclpy.get_global_executor()\n"
+"    try:\n"
+"        executor.spin()\n"
+"    except ExternalShutdownException:\n"
+"        pass"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:531
+msgid ""
+"Add the following code in the ``main()`` function just after the call to "
+"``rclpy.init()`` to start a thread that calls ``spin_in_background()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:533
+msgid ""
+"# In rospy callbacks are always called in background threads.\n"
+"# Spin the executor in another thread for similar behavior in ROS 2.\n"
+"t = threading.Thread(target=spin_in_background)\n"
+"t.start()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:541
+msgid ""
+"Finally, join the thread when the program ends by putting this statement at "
+"the bottom of the ``main()`` function."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:543
+msgid "t.join()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:549
+msgid "Create a node"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:551
+msgid ""
+"In ROS 1, Python scripts can only create a single node per process, and the "
+"API ``init_node()`` creates it. In ROS 2, a single Python script may create "
+"multiple nodes, and the API to create a node is named ``create_node``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:554
+msgid "Remove the call to ``rospy.init_node()``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:556
+msgid "rospy.init_node('talker')"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:560
+msgid ""
+"Add a new call to ``rclpy.create_node()`` and store the result in a variable "
+"named ``node``:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:562
+msgid "node = rclpy.create_node('talker')"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:566
+msgid ""
+"We must tell the executor about this node. Add the following line just below "
+"the creation of the node:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:569
+msgid "rclpy.get_global_executor().add_node(node)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:574
+msgid "Create a publisher"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:576
+msgid ""
+"In ROS 1, users create publishers by instantiating the ``Publisher`` class. "
+"In ROS 2, users create publishers through a node's ``create_publisher()`` "
+"API. The ``create_publisher()`` API has an unfortunate difference with ROS "
+"1: the topic name and topic type arguments are swapped."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:580
+msgid "Remove the creation of the ``rospy.Publisher`` instance."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:582
+msgid "pub = rospy.Publisher('chatter', String, queue_size=10)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:586
+msgid "Replace it with a call to ``node.create_publisher()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:588
+msgid "pub = node.create_publisher(String, 'chatter', 10)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:594
+msgid "Create a rate"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:596
+msgid ""
+"In ROS 1, users create ``Rate`` instances directly, while in ROS 2 users "
+"create them through a node's ``create_rate()`` API."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:598
+msgid "Remove the creation of the ``rospy.Rate`` instance."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:600
+msgid "rate = rospy.Rate(10)  # 10hz"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:604
+msgid "Replace it with a call to ``node.create_rate()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:606
+msgid "rate = node.create_rate(10)  # 10hz"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:611
+msgid "Loop on ``rclpy.ok()``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:613
+msgid ""
+"In ROS 1, the ``rospy.is_shutdown()`` API indicates if the process has been "
+"asked to shutdown. In ROS 2, the ``rclpy.ok()`` API does this."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:616
+msgid "Remove the statement ``not rospy.is_shutdown()``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:618
+msgid "while not rospy.is_shutdown():"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:622
+msgid "Replace it with a call to ``rclpy.ok()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:624
+msgid "while rclpy.ok():"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:630
+msgid "Create a ``String`` message with the current time"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:632
+msgid "You must make a few changes to this line"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:634
+msgid "hello_str = \"hello world %s\" % rospy.get_time()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:638
+msgid "In ROS 2 you:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:640
+msgid "Must get the time from a ``Clock`` instance"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:641
+msgid ""
+"Should format the ``str`` data using `f-strings <https://docs.python.org/3/"
+"reference/lexical_analysis.html#f-strings>`__ since  `% is discouraged in "
+"active Python versions <https://docs.python.org/3/library/stdtypes."
+"html#printf-style-string-formatting>`__"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:642
+msgid "Must instantiate a ``std_msgs.msg.String`` instance"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:644
+msgid ""
+"Start with getting the time. ROS 2 nodes have a ``Clock`` instance. Replace "
+"the call to ``rospy.get_time()`` with ``node.get_clock().now()`` to get the "
+"current time from the node's clock."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:648
+msgid ""
+"Next, replace the use of ``%`` with an f-string: ``f'hello world {node."
+"get_clock().now()}'``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:650
+msgid ""
+"Finally, instantiate a ``std_msgs.msg.String()`` instance and assign the "
+"above to the ``data`` attribute of that instance. Your final code should "
+"look like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:653
+msgid ""
+"hello_str = String()\n"
+"hello_str.data = f'hello world {node.get_clock().now()}'"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:659
+msgid "Log an informational message"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:661
+msgid ""
+"In ROS 2, you must send log messages through a ``Logger`` instance, and the "
+"node has one."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:663
+msgid "Remove the call to ``rospy.loginfo()``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:665
+msgid "rospy.loginfo(hello_str)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:669
+msgid "Replace it with a call to ``info()`` on the node's ``Logger`` instance."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:671
+msgid "node.get_logger().info(hello_str.data)"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:675
+msgid ""
+"This is the last change to ``src/talker_py/__init__.py``. Your file should "
+"look like the following:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:678
+msgid ""
+"import threading\n"
+"\n"
+"import rclpy\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from std_msgs.msg import String\n"
+"\n"
+"\n"
+"def spin_in_background():\n"
+"    executor = rclpy.get_global_executor()\n"
+"    try:\n"
+"        executor.spin()\n"
+"    except ExternalShutdownException:\n"
+"        pass\n"
+"\n"
+"\n"
+"def main():\n"
+"    rclpy.init()\n"
+"    # In rospy callbacks are always called in background threads.\n"
+"    # Spin the executor in another thread for similar behavior in ROS 2.\n"
+"    t = threading.Thread(target=spin_in_background)\n"
+"    t.start()\n"
+"\n"
+"    node = rclpy.create_node('talker')\n"
+"    rclpy.get_global_executor().add_node(node)\n"
+"    pub = node.create_publisher(String, 'chatter', 10)\n"
+"    rate = node.create_rate(10)  # 10hz\n"
+"\n"
+"    while rclpy.ok():\n"
+"        hello_str = String()\n"
+"        hello_str.data = f'hello world {node.get_clock().now()}'\n"
+"        node.get_logger().info(hello_str.data)\n"
+"        pub.publish(hello_str)\n"
+"        rate.sleep()\n"
+"\n"
+"    t.join()"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:718
+msgid "Build and run ``talker_py_node``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:720
+msgid "Create three terminals:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:722
+msgid "One to build ``talker_py``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:723
+msgid "One to run ``talker_py_node``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:724
+msgid "One to echo the message published by ``talker_py_node``"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:726
+msgid "Build the workspace in the first terminal."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:732
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:740
+msgid ""
+"$ cd ~/ros2_talker_py\n"
+"$ . /opt/ros/rolling/setup.bash\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:748
+msgid ""
+"$ cd \\ros2_talker_py\n"
+"$ call C:\\dev\\ros2\\local_setup.bat\n"
+"$ colcon build"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:754
+msgid ""
+"Source your workspace in the second terminal, and run the ``talker_py_node``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:760
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:768
+msgid ""
+"$ cd ~/ros2_talker_py\n"
+"$ . install/setup.bash\n"
+"$ ros2 run talker_py talker_py_node"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:776
+msgid ""
+"$ cd \\ros2_talker_py\n"
+"$ call install\\setup.bat\n"
+"$ ros2 run talker_py talker_py_node"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:782
+msgid "Echo the message published by the node in the third terminal:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:788
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:795
+msgid ""
+"$ . /opt/ros/rolling/setup.bash\n"
+"$ ros2 topic echo /chatter"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:802
+msgid ""
+"$ call C:\\dev\\ros2\\local_setup.bat\n"
+"$ ros2 topic echo /chatter"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:808
+msgid ""
+"You should see messages with the current time being published in the second "
+"terminal, and those same messages received in the third."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:811
+msgid "Refactor code to use ROS 2 conventions"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:813
+msgid ""
+"You have successfully migrated a ROS 1 Python package to ROS 2! Now that you "
+"have something working, consider refactoring it to align better with ROS 2's "
+"Python APIs. Follow these two principles."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:817
+msgid "Create a class that inherits from ``Node``."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:818
+msgid "Do all work in callbacks, and never block those callbacks."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:820
+msgid ""
+"For example, create a ``Talker`` class that inherits from ``Node``. As for "
+"doing work in callbacks, use a ``Timer`` with a callback instead of ``rate."
+"sleep()``. Make the timer callback publish the message and return. Make "
+"``main()`` create a ``Talker`` instance rather than using ``rclpy."
+"create_node()``, and give the executor the main thread to execute in."
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:825
+msgid "Your refactored code might look like this:"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:827
+msgid ""
+"import rclpy\n"
+"from rclpy.node import Node\n"
+"from rclpy.executors import ExternalShutdownException\n"
+"from std_msgs.msg import String\n"
+"\n"
+"\n"
+"class Talker(Node):\n"
+"\n"
+"    def __init__(self, **kwargs):\n"
+"        super().__init__('talker', **kwargs)\n"
+"\n"
+"        self._pub = self.create_publisher(String, 'chatter', 10)\n"
+"        self._timer = self.create_timer(1 / 10, self.do_publish)\n"
+"\n"
+"    def do_publish(self):\n"
+"        hello_str = String()\n"
+"        hello_str.data = f'hello world {self.get_clock().now()}'\n"
+"        self.get_logger().info(hello_str.data)\n"
+"        self._pub.publish(hello_str)\n"
+"\n"
+"\n"
+"def main():\n"
+"    try:\n"
+"        with rclpy.init():\n"
+"            rclpy.spin(Talker())\n"
+"    except (ExternalShutdownException, KeyboardInterrupt):\n"
+"        pass"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:858
+msgid "Conclusion"
+msgstr ""
+
+#: ../../../source/How-To-Guides/Migrating-from-ROS1/Migrating-Python-Package-Example.rst:860
+msgid ""
+"You have learned how to migrate an example Python ROS 1 package to ROS 2. "
+"From now on, refer to the :doc:`Migrating Python Packages reference page <./"
+"Migrating-Python-Packages>` as you migrate your own Python packages."
+msgstr ""
