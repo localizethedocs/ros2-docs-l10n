@@ -1,0 +1,263 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation humble\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 08:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:2
+msgid "Writing a Composable Node (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:6
+msgid "Table of Contents"
+msgstr "目录"
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:9
+msgid "Starting Place"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:11
+msgid ""
+"Let's assume that you have a regular ``rclcpp::Node`` executable that you "
+"want to run in the same process as other nodes to enable more efficient "
+"communication."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:13
+msgid ""
+"We'll start from having a class that directly inherits from ``Node``, and "
+"that also has a main method defined."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:15
+msgid ""
+"namespace palomino\n"
+"{\n"
+"    class VincentDriver : public rclcpp::Node\n"
+"    {\n"
+"        // ...\n"
+"    };\n"
+"}\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"    rclcpp::init(argc, argv);\n"
+"    rclcpp::spin(std::make_shared<palomino::VincentDriver>());\n"
+"    rclcpp::shutdown();\n"
+"    return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:33
+msgid "This will typically be compiled as an executable in your Cmake."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:35
+msgid ""
+"# ...\n"
+"add_executable(vincent_driver src/vincent_driver.cpp)\n"
+"# ...\n"
+"install(TARGETS vincent_driver\n"
+"    DESTINATION lib/${PROJECT_NAME}\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:45
+msgid "Code Updates"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:48
+msgid "Add the Package Dependency"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:50
+msgid ""
+"Your `package.xml <https://github.com/ros2/demos/tree/rolling/composition/"
+"package.xml>`__ should have a dependency on ``rclcpp_components``, a la"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:52
+msgid "<depend>rclcpp_components</depend>"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:56
+msgid ""
+"Alternatively, you can independently add a ``build_depend/exec_depend``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:59
+msgid "Class Definition"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:61
+msgid ""
+"The only change to your class definition that you may have to do is ensure "
+"that `the constructor for the class <https://github.com/ros2/demos/tree/"
+"rolling/composition/src/talker_component.cpp>`__ takes a ``NodeOptions`` "
+"argument."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:63
+msgid ""
+"VincentDriver(const rclcpp::NodeOptions & options) : "
+"Node(\"vincent_driver\", options)\n"
+"{\n"
+"  // ...\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:71
+msgid "No More Main Method"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:73
+msgid "Replace your main method with a ``pluginlib``-style macro invocation."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:75
+msgid ""
+"#include <rclcpp_components/register_node_macro.hpp>\n"
+"RCLCPP_COMPONENTS_REGISTER_NODE(palomino::VincentDriver)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:81
+msgid ""
+"If the main method you are replacing contains a ``MultiThreadedExecutor``, "
+"be sure to make note and ensure that your container node is multithreaded. "
+"See section below."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:85
+msgid "CMake Changes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:86
+msgid ""
+"First, add ``rclcpp_components`` as a dependency in your CMakeLists.txt with:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:88
+msgid "find_package(rclcpp_components REQUIRED)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:92
+msgid ""
+"Second, we're going to replace our ``add_executable`` with a ``add_library`` "
+"with a new target name."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:94
+msgid "add_library(vincent_driver_component SHARED src/vincent_driver.cpp)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:98
+msgid ""
+"Third, replace other build commands that used the old target to act on the "
+"new target. Don't forget to add ``rclcpp_components`` in "
+"``ament_target_dependencies``. i.e. "
+"``ament_target_dependencies(vincent_driver ...)`` becomes "
+"``ament_target_dependencies(vincent_driver_component "
+"\"rclcpp_components\" ...)``"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:102
+msgid "Fourth, add a new command to declare your component."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:104
+msgid ""
+"rclcpp_components_register_node(\n"
+"    vincent_driver_component\n"
+"    PLUGIN \"palomino::VincentDriver\"\n"
+"    EXECUTABLE vincent_driver\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:112
+msgid ""
+"Fifth and finally, change any installation commands in the CMake that "
+"operated on the old target to install the library version instead. For "
+"instance, do not install either target into ``lib/${PROJECT_NAME}``. Replace "
+"with the library installation."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:116
+msgid ""
+"ament_export_targets(export_vincent_driver_component)\n"
+"install(TARGETS vincent_driver_component\n"
+"        EXPORT export_vincent_driver_component\n"
+"        ARCHIVE DESTINATION lib\n"
+"        LIBRARY DESTINATION lib\n"
+"        RUNTIME DESTINATION bin\n"
+")"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:128
+msgid "Running Your Node"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:130
+msgid ""
+"See the :doc:`Composition tutorial <Composition>` for an in-depth look at "
+"composing nodes. The quick and dirty version is that if you had the "
+"following in your Python launch file,"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:133
+msgid ""
+"from launch_ros.actions import Node\n"
+"\n"
+"# ..\n"
+"\n"
+"ld.add_action(Node(\n"
+"    package='palomino',\n"
+"    executable='vincent_driver',\n"
+"    # ..\n"
+"))"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:145
+msgid "you can replace it with"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:147
+msgid ""
+"from launch_ros.actions import ComposableNodeContainer\n"
+"from launch_ros.descriptions import ComposableNode\n"
+"\n"
+"# ..\n"
+"ld.add_action(ComposableNodeContainer(\n"
+"    name='a_buncha_nodes',\n"
+"    namespace='',\n"
+"    package='rclcpp_components',\n"
+"    executable='component_container',\n"
+"    composable_node_descriptions=[\n"
+"        ComposableNode(\n"
+"            package='palomino',\n"
+"            plugin='palomino::VincentDriver',\n"
+"            name='vincent_driver',\n"
+"            # ..\n"
+"            extra_arguments=[{'use_intra_process_comms': True}],\n"
+"        ),\n"
+"    ]\n"
+"))"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Writing-a-Composable-Node.rst:171
+msgid ""
+"If you need multi-threading, instead of setting your executable to "
+"``component_container``, set it to ``component_container_mt``"
+msgstr ""
