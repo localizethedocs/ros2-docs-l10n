@@ -1,0 +1,1181 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-TW" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    <meta property="og:title" content="Writing a rosidl::Buffer backend" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.ros.org/en/rolling/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Backend.html" />
+<meta property="og:site_name" content="ROS 2 Documentation" />
+<meta property="og:description" content="Goal: Learn how to implement and package a new rosidl::Buffer backend plugin so that a vendor-specific memory domain (GPU, shared memory, accelerator memory, ...) can back uint8[] fields of ROS 2 m..." />
+<meta property="og:image" content="https://docs.ros.org/en/rolling/_static/rolling-small.png" />
+<meta property="og:image:alt" content="ROS 2 Documentation" />
+<meta name="description" content="Goal: Learn how to implement and package a new rosidl::Buffer backend plugin so that a vendor-specific memory domain (GPU, shared memory, accelerator memory, ...) can back uint8[] fields of ROS 2 m..." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing a rosidl::Buffer backend &mdash; ROS 2 documentation  說明文件</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=d85a351e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/adopters.css?v=d001bf74" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Backend.html" />
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=7da51243"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../../_static/translations.js?v=cbf116e0"></script>
+      <script src="../../../../_static/adopters.js?v=a71d1400"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../../genindex.html" />
+    <link rel="search" title="搜尋" href="../../../../search.html" />
+    <link rel="next" title="Writing a rosidl::Buffer compatible conversions package" href="Writing-a-Buffer-Compatible-Conversions-Package.html" />
+    <link rel="prev" title="GPU buffer transport with rosidl::Buffer" href="GPU-Buffer-Transport.html" />
+ 
+<script type="text/javascript" src="../../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../Get-Started.html">Get started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/About-ROS/About-ROS.html">關於 ROS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Installation.html">安裝</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Ubuntu-Install-Debs.html">Installing on Ubuntu - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives.html">Advanced installation options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Ubuntu-Development-Setup-Pixi.html">Ubuntu (source Pixi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/ROS-2-Mirrors.html">Mirrors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Installation-Troubleshooting.html">安裝疑難排解</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Releases.html">散佈版</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Process.html">Development process for a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Lyrical-Luth-Complete-Changelog.html">ROS 2 Lyrical Luth Complete Changelog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/lyrical/release-timeline.html">Lyrical Luth Release Timeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/lyrical/supported-platforms.html">Lyrical Luth Supported Platforms</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Makoa-Mata-mata.html">Makoa Mata-mata (codename <code class="docutils literal notranslate"><span class="pre">makoa</span></code>; May, 2027)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Releases/makoa/release-timeline.html">Makoa Mata-mata Release Timeline</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Releases/makoa/supported-platforms.html">Makoa Mata-mata Supported Platforms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Releases/Alpha-Overview.html">Alpha</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../First-Steps.html">ROS 入門 - 學習路徑</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Configuring-ROS2-Environment.html">組態環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../ROS-Framework.html">ROS framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../About-Nodes.html">節點</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Logging/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/Working-with-nodes.html">Working with nodes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">了解節點</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Managed-Nodes.html">Managing node lifecycles - example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/intra-process/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Writing-An-Async-Node-With-Asyncio-Python.html">Writing an async node with asyncio (Python)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../Interfaces-Topics-Services-Actions.html">介面（主題、服務、動作）</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../About-Interfaces.html">介面</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../About-Tf2/About-Tf2.html">Tf2</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../Working-with-interfaces.html">Working with interfaces</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="../Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Introduction-To-Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="About-Buffer-Backends.html">About <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends</a><ul class="current">
+<li class="toctree-l6"><a class="reference internal" href="Using-Buffer-Backends.html">Using <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends</a></li>
+<li class="toctree-l6"><a class="reference internal" href="GPU-Buffer-Transport.html">GPU buffer transport with <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code></a></li>
+<li class="toctree-l6 current"><a class="current reference internal" href="#">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backend</a></li>
+<li class="toctree-l6"><a class="reference internal" href="Writing-a-Buffer-Compatible-Conversions-Package.html">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> compatible conversions package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../About-Topics.html">話題</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../topics/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../topics/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../topics/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../topics/Working-with-topics.html">Working with topics</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys Tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../topics/Working-with-topics/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../topics/Working-with-topics/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../topics/Working-with-topics/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../About-Services.html">服務</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../services/Working-with-services.html">Working with services</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../services/Working-with-services/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../About-Actions.html">Actions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../actions/Working-with-actions.html">Working with actions</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../About-Parameters.html">參數</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameters/Working-with-parameters.html">Working with parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">了解參數</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../About-Client-Libraries.html">Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Executors/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Internal-Interfaces/About-Internal-Interfaces.html">內部 ROS 2 介面</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Middleware-Implementations.html">ROS 2 中介軟體實現</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries.html">Working with Client libraries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Creating-Your-First-ROS2-Package.html">建立軟體包</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Capabilities.html">Capabilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Simulation.html">Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Exporting-an-URDF-File.html">生成一個 URDF 檔案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Capabilities/Simulation/dummy-robot/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Motion-planning.html">Motion planning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Capabilities/Motion-planning/Real-Time-Programming.html">Understanding real-time programming</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Navigation.html">Navigation</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Manipulation.html">Manipulation</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Perception.html">Perception</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer-Tools.html">Developer tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-introspection-and-analysis.html">Introspection and analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/About-Security.html">ROS 2 安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Tracing/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Access-Controls.html">Setting access controls</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-Debugging.html">Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Debugging-Tf2-Problems/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-Build.html">Building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/About-Cross-Compilation.html">交叉編譯</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/About-Build-System.html">建置系統</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Deployment-Guidelines/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Using-Xacro-to-Clean-Up-a-URDF-File/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.html">Supplementing custom rosdep keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Eclipse-Oxygen-with-ROS-2-and-rviz2/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Ament-CMake-Documentation.html">ament_cmake 使用者文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Ament-CMake-Python-Documentation.html">ament_cmake_python 使用者文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Cross-compilation.html">交叉編譯</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/DDS-tuning.html">DDS 調校資訊</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Package-Docs.html">Package documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Developing-a-ROS-2-Package.html">開發一個 ROS 2 軟體包</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Building-Realtime-rt_preempt-kernel-for-ROS-2/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Building-ROS2-Package-with-eclipse-2021-06/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-visualization.html">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.html">Marker: Sending Basic Shapes (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.html">Marker: Points and Lines (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Visualization/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Visualization/Rqtbag/Create-An-Rqtbag-Plugin.html">Create an rqt_bag Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-package-documentation.html">Package documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Package-documentation/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-Launch.html">Launch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launch-Main.html">Launch files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Using-ROS2-Launch-For-Large-Projects.html">管理大型專案</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-testing.html">測試</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing/Testing-Main.html">測試</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Testing/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Migration-and-Upgrades.html">Migration and Upgrades</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1.html">從 ROS 1 遷移至 ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Migration-and-Upgrades/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Migration-and-Upgrades/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Integrations-and-related.html">Integrations and related projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Simulation-MVSim.html">MVSim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Getting-Started-MVSim.html">Getting started with MVSim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Defining-Worlds-MVSim.html">Defining worlds, robots, and sensors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Integrations-and-related/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects.html">相關專案</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 專案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Visualizing-Data-And-Teleoperating-With-Phantom-Bridge.html">Visualizing Data and Teleoperating with Phantom Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../The-ROS2-Project.html">ROS Community</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Quality-Guide.html">品質指南：確保程式碼品質</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code.html">Contributing to code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Making-a-PR.html">Making a pull request (PR) — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Reviewing-a-PR.html">Reviewing a pull request (PR) — how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-documentation.html">Contributing to documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Documentation/Creating-or-updating-documentation.html">Creating or updating documentation — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Documentation/Documentation-guidelines.html">Documentation guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Platform-EOL-Policy.html">Platform EOL Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Platform-Support-Tiers.html">Platform Support Tiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Release-Schedule.html">Release Schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Adopters.html">ROS 2 Adopters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Adopters/Add-Your-Project.html">Add Your Project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Contact.html">聯絡</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Glossary.html">詞彙表</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Citations.html">引用</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../ROS-Framework.html">ROS framework</a></li>
+          <li class="breadcrumb-item"><a href="../../../Interfaces-Topics-Services-Actions.html">介面（主題、服務、動作）</a></li>
+          <li class="breadcrumb-item"><a href="../../About-Interfaces.html">介面</a></li>
+          <li class="breadcrumb-item"><a href="../../Working-with-interfaces.html">Working with interfaces</a></li>
+          <li class="breadcrumb-item"><a href="About-Buffer-Backends.html">About <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends</a></li>
+      <li class="breadcrumb-item active">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backend</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Backend.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition note">
+        <p class="admonition-title">備註</p>
+        <p>
+          您正在閱讀開發版本的文件。對於最新發行的版本，請參見 <a href="../../../../../../zh-tw/lyrical/index.html">Lyrical</a>。
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="writing-a-rosidl-buffer-backend">
+<h1>Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backend<a class="headerlink" href="#writing-a-rosidl-buffer-backend" title="連結到這個標頭"></a></h1>
+<p><strong>Goal:</strong> Learn how to implement and package a new <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code>
+backend plugin so that a vendor-specific memory domain (GPU, shared memory,
+accelerator memory, ...) can back <code class="docutils literal notranslate"><span class="pre">uint8[]</span></code> fields of ROS 2 messages.</p>
+<p><strong>教學等級：</strong> 進階</p>
+<p><strong>Time:</strong> 60+ minutes</p>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">目次表</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#when-not-to-write-a-backend" id="id2">When <strong>not</strong> to write a backend</a></p></li>
+<li><p><a class="reference internal" href="#reference-implementations" id="id3">Reference implementations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#the-bufferbackend-interface" id="id4">The <code class="docutils literal notranslate"><span class="pre">BufferBackend</span></code> interface</a></p></li>
+<li><p><a class="reference internal" href="#anatomy-of-a-backend-package" id="id5">Anatomy of a backend package</a></p></li>
+<li><p><a class="reference internal" href="#step-1-design-the-descriptor-message" id="id6">Step 1: Design the descriptor message</a></p></li>
+<li><p><a class="reference internal" href="#step-2-implement-bufferimplbase-t" id="id7">Step 2: Implement <code class="docutils literal notranslate"><span class="pre">BufferImplBase&lt;T&gt;</span></code></a></p></li>
+<li><p><a class="reference internal" href="#step-3-implement-bufferbackend" id="id8">Step 3: Implement <code class="docutils literal notranslate"><span class="pre">BufferBackend</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#writing-buffer-backend-type-support" id="id9">Identity and descriptor type support</a></p></li>
+<li><p><a class="reference internal" href="#create-descriptor-with-endpoint-from-descriptor-with-endpoint" id="id10"><code class="docutils literal notranslate"><span class="pre">create_descriptor_with_endpoint</span></code> / <code class="docutils literal notranslate"><span class="pre">from_descriptor_with_endpoint</span></code></a></p></li>
+<li><p><a class="reference internal" href="#discovery-hooks" id="id11">Discovery hooks</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#step-4-register-the-plugin" id="id12">Step 4: Register the plugin</a></p></li>
+<li><p><a class="reference internal" href="#step-5-package-and-build-system" id="id13">Step 5: Package and build system</a></p>
+<ul>
+<li><p><a class="reference internal" href="#package-xml-for-the-plugin-package" id="id14"><code class="docutils literal notranslate"><span class="pre">package.xml</span></code> for the plugin package</a></p></li>
+<li><p><a class="reference internal" href="#cmakelists-txt-for-the-plugin-package" id="id15"><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> for the plugin package</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#step-6-design-a-user-facing-api" id="id16">Step 6: Design a user-facing API</a></p></li>
+<li><p><a class="reference internal" href="#higher-level-libraries-on-top-of-backends" id="id17">Higher-level libraries on top of backends</a></p></li>
+<li><p><a class="reference internal" href="#testing" id="id18">測試</a></p></li>
+<li><p><a class="reference internal" href="#ship-checklist" id="id19">Ship checklist</a></p></li>
+<li><p><a class="reference internal" href="#where-to-go-next" id="id20">Where to go next</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="連結到這個標頭"></a></h2>
+<p><a class="reference internal" href="About-Buffer-Backends.html"><span class="doc">rosidl::Buffer backends</span></a>
+let vendors transport the bytes of a <code class="docutils literal notranslate"><span class="pre">uint8[]</span></code> message field through ROS 2
+pub/sub with as few copies as their memory technology permits.
+A backend is a <code class="docutils literal notranslate"><span class="pre">pluginlib</span></code> plugin that implements the
+<code class="docutils literal notranslate"><span class="pre">rosidl::BufferBackend</span></code> interface from the <code class="docutils literal notranslate"><span class="pre">rosidl_buffer_backend</span></code>
+package.</p>
+<p>This guide shows how to build such a plugin, end to end.
+It uses a hypothetical <code class="docutils literal notranslate"><span class="pre">mydev</span></code> backend in the prose (for a vendor device
+memory domain) and refers to the real CUDA backend, the <code class="docutils literal notranslate"><span class="pre">torch_conversions</span></code>
+helper library, and the demo backend in the reference links for concrete code.</p>
+<p>This guide is intended as a starting point; the existing reference backends
+go into much more detail than is practical to reproduce here.
+The core contract, however, is small: once your plugin can answer the six
+<code class="docutils literal notranslate"><span class="pre">BufferBackend</span></code> virtuals correctly for a single message type, everything
+else is polish.</p>
+<section id="when-not-to-write-a-backend">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">When <strong>not</strong> to write a backend</a><a class="headerlink" href="#when-not-to-write-a-backend" title="連結到這個標頭"></a></h3>
+<p>A backend is the right tool when you want to change the <em>memory domain</em> of variable-length primitive array fields.
+If your goal is to reduce copies within CPU memory, you are almost certainly looking for <a class="reference internal" href="../../../nodes/Working-with-nodes/intra-process/Intra-Process-Communication.html"><span class="doc">intra-process communication</span></a> or <a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Configure-ZeroCopy-loaned-messages.html"><span class="doc">loaned messages</span></a> instead.</p>
+</section>
+<section id="reference-implementations">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Reference implementations</a><a class="headerlink" href="#reference-implementations" title="連結到這個標頭"></a></h3>
+<p>Two open-source backends and one user-level tensor library are good reading.
+All are small enough to read in full:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cuda_buffer_backend</span></code>: a realistic CUDA backend built on CUDA VMM
+and CUDA IPC, with intra-process, inter-process same-host, and CPU-fallback
+paths.
+See <a class="reference external" href="https://github.com/ros2/rosidl_buffer_backends">ros2/rosidl_buffer_backends</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch_conversions</span></code>: a header-only user library, not a backend plugin.
+It converts between <code class="docutils literal notranslate"><span class="pre">tensor_msgs/msg/ExperimentalTensor</span></code> and <code class="docutils literal notranslate"><span class="pre">at::Tensor</span></code>.
+The tensor message's <code class="docutils literal notranslate"><span class="pre">uint8[]</span> <span class="pre">data</span></code> field is transported by an ordinary
+buffer backend such as <code class="docutils literal notranslate"><span class="pre">cuda</span></code> or <code class="docutils literal notranslate"><span class="pre">cpu</span></code>.
+Same repository.</p></li>
+</ul>
+</section>
+</section>
+<section id="the-bufferbackend-interface">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The <code class="docutils literal notranslate"><span class="pre">BufferBackend</span></code> interface</a><a class="headerlink" href="#the-bufferbackend-interface" title="連結到這個標頭"></a></h2>
+<p>The plugin interface is declared in
+<a class="reference external" href="https://github.com/ros2/rosidl/blob/rolling/rosidl_buffer_backend/include/rosidl_buffer_backend/buffer_backend.hpp">rosidl_buffer_backend/buffer_backend.hpp</a>.
+It has six methods you will commonly override, plus a descriptor-size
+constant.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">rosidl</span>
+<span class="p">{</span>
+
+<span class="kr">inline</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">kMaxBufferDescriptorSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4096</span><span class="p">;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BufferBackend</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">BufferBackend</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Identity</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">get_backend_type</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">get_backend_metadata</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Descriptor type support and construction</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">rosidl_message_type_support_t</span><span class="w"> </span><span class="o">*</span>
+<span class="w">  </span><span class="nf">get_descriptor_type_support</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">create_empty_descriptor</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">create_descriptor_with_endpoint</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">impl</span><span class="p">,</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">rmw_topic_endpoint_info_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">endpoint_info</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="w">  </span><span class="n">from_descriptor_with_endpoint</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">descriptor</span><span class="p">,</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">rmw_topic_endpoint_info_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">endpoint_info</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Discovery hooks (optional to override)</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">on_creating_endpoint</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">rmw_topic_endpoint_info_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">endpoint_info</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;&gt;&gt;</span>
+<span class="w">  </span><span class="n">on_discovering_endpoint</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">rmw_topic_endpoint_info_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">endpoint_info</span><span class="p">,</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">rmw_topic_endpoint_info_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">existing_endpoints</span><span class="p">,</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">endpoint_supported_backends</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="p">}</span><span class="w">  </span><span class="c1">// namespace rosidl</span>
+</pre></div>
+</div>
+</section>
+<section id="anatomy-of-a-backend-package">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Anatomy of a backend package</a><a class="headerlink" href="#anatomy-of-a-backend-package" title="連結到這個標頭"></a></h2>
+<p>A complete backend is usually split across three or four ROS 2 packages:</p>
+<ol class="arabic simple">
+<li><p><strong>Core memory-domain library</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">mydev_buffer</span></code>): the non-plugin
+code -- custom allocator, <code class="docutils literal notranslate"><span class="pre">BufferImplBase&lt;T&gt;</span></code> subclass, IPC manager,
+RAII handles.
+This is where most of the vendor's engineering lives.</p></li>
+<li><p><strong>Descriptor message package</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">mydev_buffer_backend_msgs</span></code>): a
+normal ROS 2 <code class="docutils literal notranslate"><span class="pre">.msg</span></code> that describes how to reconstruct the buffer on
+the receiving side.</p></li>
+<li><p><strong>Backend plugin package</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">mydev_buffer_backend</span></code>): a thin
+shared library that implements <code class="docutils literal notranslate"><span class="pre">rosidl::BufferBackend</span></code> and is
+registered via <code class="docutils literal notranslate"><span class="pre">pluginlib</span></code>.</p></li>
+<li><p><strong>User-facing API header</strong> (optional, usually shipped inside the core
+library): helpers like <code class="docutils literal notranslate"><span class="pre">allocate_buffer</span></code>, <code class="docutils literal notranslate"><span class="pre">from_output_buffer</span></code>,
+<code class="docutils literal notranslate"><span class="pre">from_input_buffer</span></code>, and <code class="docutils literal notranslate"><span class="pre">to_buffer</span></code> that application authors use to
+produce and consume backend-native data.</p></li>
+</ol>
+</section>
+<section id="step-1-design-the-descriptor-message">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Step 1: Design the descriptor message</a><a class="headerlink" href="#step-1-design-the-descriptor-message" title="連結到這個標頭"></a></h2>
+<p>The descriptor is the only thing that actually travels over the wire.
+It must contain everything the receiving endpoint needs to reconstruct a
+buffer whose size and contents match the publisher's buffer.</p>
+<p>Two important constraints:</p>
+<ul class="simple">
+<li><p>The serialized descriptor must be no larger than
+<code class="docutils literal notranslate"><span class="pre">rosidl::kMaxBufferDescriptorSize</span></code> bytes (4096).
+The RMW plans its serialization buffers around this bound.</p></li>
+<li><p>The descriptor package must be a plain <code class="docutils literal notranslate"><span class="pre">rosidl_default_generators</span></code>
+message package so that the generic
+<code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_cpp::get_message_type_support_handle&lt;T&gt;()</span></code> returns an
+aggregate handle that contains the FastRTPS C++ sub-handle.
+(Today that sub-handle is the one the RMW layer extracts; see
+<a class="reference internal" href="#writing-buffer-backend-type-support"><span class="std std-ref">Identity and descriptor type support</span></a>.)</p></li>
+</ul>
+<p>A descriptor typically carries either a small reference that the receiving side uses to re-attach to the payload, a serialized copy of the payload for the CPU-fallback case, or both.
+The exact re-attachment mechanism is backend-specific.
+For example, a simplified device-IPC descriptor might look like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># mydev_buffer_backend_msgs/msg/MyDevBufferDescriptor.msg
+uint64 size                       # allocation size in bytes
+int32  device_id                  # producing device
+
+# IPC path (preferred)
+bool   use_ipc
+string ipc_socket_path
+uint32 ipc_block_id
+uint64 ipc_uid                    # unique id for staleness detection
+
+# CPU fallback (empty when IPC is used)
+uint8[] serialized_data
+</pre></div>
+</div>
+<p>The real CUDA backend
+(<code class="docutils literal notranslate"><span class="pre">cuda_buffer_backend_msgs/CudaBufferDescriptor.msg</span></code>) illustrates the
+device-IPC shape: the descriptor carries the publisher process id, block id,
+socket path, and synchronization metadata needed to import a CUDA VMM block.
+The exported file descriptor itself is passed out-of-band over the Unix-domain
+socket named by the descriptor.
+If the backend cannot serve a peer through CUDA IPC, it returns <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> so
+that peer receives the field through CPU fallback instead.</p>
+</section>
+<section id="step-2-implement-bufferimplbase-t">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Step 2: Implement <code class="docutils literal notranslate"><span class="pre">BufferImplBase&lt;T&gt;</span></code></a><a class="headerlink" href="#step-2-implement-bufferimplbase-t" title="連結到這個標頭"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">BufferImplBase&lt;T&gt;</span></code> is the pimpl that lives inside <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer&lt;T&gt;</span></code>.
+Its interface is intentionally minimal:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BufferImplBase</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">BufferImplBase</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">get_backend_type</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">BufferImplBase</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">to_cpu</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">BufferImplBase</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">clone</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">get_backend_type()</span></code> must return the same short name your plugin's XML
+declares (<code class="docutils literal notranslate"><span class="pre">&quot;cuda&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mydev&quot;</span></code>, ...).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size()</span></code> returns the element count (not byte count, unless <code class="docutils literal notranslate"><span class="pre">T</span></code> is
+<code class="docutils literal notranslate"><span class="pre">uint8_t</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">to_cpu()</span></code> is the escape hatch used by <code class="docutils literal notranslate"><span class="pre">Buffer&lt;T&gt;::to_vector()</span></code> when a
+consumer explicitly wants CPU memory; it must return a populated
+<code class="docutils literal notranslate"><span class="pre">CpuBufferImpl&lt;T&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clone()</span></code> produces a deep copy of <code class="docutils literal notranslate"><span class="pre">*this</span></code>; it is used by
+<code class="docutils literal notranslate"><span class="pre">Buffer&lt;T&gt;</span></code>'s copy constructor.</p></li>
+</ul>
+<p>Beyond those four required methods, your implementation will usually hold
+all of your backend's state: device pointers, IPC handles, cached streams,
+staleness counters, and so on.
+The plugin side of the interface then talks to this state through
+<code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> to your concrete type.</p>
+</section>
+<section id="step-3-implement-bufferbackend">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Step 3: Implement <code class="docutils literal notranslate"><span class="pre">BufferBackend</span></code></a><a class="headerlink" href="#step-3-implement-bufferbackend" title="連結到這個標頭"></a></h2>
+<section id="writing-buffer-backend-type-support">
+<span id="identity-and-descriptor-type-support"></span><h3><a class="toc-backref" href="#id9" role="doc-backlink">Identity and descriptor type support</a><a class="headerlink" href="#writing-buffer-backend-type-support" title="連結到這個標頭"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">get_backend_type()</span></code> returns the short name.
+<code class="docutils literal notranslate"><span class="pre">get_descriptor_type_support()</span></code> should return the <strong>generic</strong> aggregate
+type support handle for your descriptor, not a specific typesupport
+library's handle:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">rosidl_message_type_support_t</span><span class="w"> </span><span class="o">*</span>
+<span class="nf">MyDevBufferBackend::get_descriptor_type_support</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">rosidl_typesupport_cpp</span><span class="o">::</span><span class="n">get_message_type_support_handle</span><span class="o">&lt;</span>
+<span class="w">    </span><span class="n">mydev_buffer_backend_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">MyDevBufferDescriptor</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This keeps the plugin RMW-agnostic.
+Current RMW integrations resolve the aggregate to
+<code class="docutils literal notranslate"><span class="pre">rosidl_typesupport_fastrtps_cpp</span></code> at runtime, so any standard
+<code class="docutils literal notranslate"><span class="pre">rosidl_default_generators</span></code> message package will work out of the box.</p>
+</section>
+<section id="create-descriptor-with-endpoint-from-descriptor-with-endpoint">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">create_descriptor_with_endpoint</span></code> / <code class="docutils literal notranslate"><span class="pre">from_descriptor_with_endpoint</span></code></a><a class="headerlink" href="#create-descriptor-with-endpoint-from-descriptor-with-endpoint" title="連結到這個標頭"></a></h3>
+<p>These are the two hot-path methods.</p>
+<p><code class="docutils literal notranslate"><span class="pre">create_descriptor_with_endpoint</span></code> is called on the publisher side once per
+matched remote endpoint.
+It receives a type-erased non-owning pointer to a
+<code class="docutils literal notranslate"><span class="pre">BufferImplBase&lt;uint8_t&gt;</span></code> and the peer's <code class="docutils literal notranslate"><span class="pre">rmw_topic_endpoint_info_t</span></code>.
+Return a filled-in descriptor for that peer, or <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> to tell the RMW
+<em>&quot;I cannot serve this peer with my backend; please fall back to CPU
+serialization.&quot;</em></p>
+<p>Returning <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> is a first-class signal.
+Use it whenever:</p>
+<ul class="simple">
+<li><p>the peer does not support your backend (check
+<code class="docutils literal notranslate"><span class="pre">endpoint_supported_backends</span></code> during discovery and cache the answer);</p></li>
+<li><p>the hardware or environment cannot serve this pair (different device,
+different host, IPC disabled, ...);</p></li>
+<li><p>any other reason a non-CPU path is not available for <em>this</em> peer.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">from_descriptor_with_endpoint</span></code> is the inverse, invoked on the subscriber
+side.
+It must produce a <code class="docutils literal notranslate"><span class="pre">std::unique_ptr&lt;void,</span> <span class="pre">void</span> <span class="pre">(*)(void</span> <span class="pre">*)&gt;</span></code> owning a
+freshly-constructed <code class="docutils literal notranslate"><span class="pre">BufferImplBase&lt;T&gt;</span></code>.
+The custom deleter is <strong>required</strong> because the plugin may be unloaded
+independently of the rest of the process; the deleter ensures destruction
+happens inside the correct shared library.</p>
+<p>A typical deleter looks like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">impl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">MyDevBufferImpl</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;&gt;</span><span class="p">(...);</span>
+<span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">impl</span><span class="p">.</span><span class="n">release</span><span class="p">(),</span><span class="w"> </span><span class="p">[](</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">delete</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">rosidl</span><span class="o">::</span><span class="n">BufferImplBase</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}};</span>
+</pre></div>
+</div>
+</section>
+<section id="discovery-hooks">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Discovery hooks</a><a class="headerlink" href="#discovery-hooks" title="連結到這個標頭"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">on_creating_endpoint</span></code> lets your backend learn about local publishers and
+subscriptions as they are created; this is usually where IPC managers
+register themselves.</p>
+<p><code class="docutils literal notranslate"><span class="pre">on_discovering_endpoint</span></code> is the compatibility negotiation step.
+It returns a <code class="docutils literal notranslate"><span class="pre">std::pair&lt;bool,</span> <span class="pre">std::vector&lt;std::set&lt;uint32_t&gt;&gt;&gt;</span></code>:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">bool</span></code> tells the RMW whether this peer is served by the backend at
+all.
+Returning <code class="docutils literal notranslate"><span class="pre">false</span></code> permanently routes this peer to CPU serialization.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::set&lt;uint32_t&gt;&gt;</span></code> is for backends that need to
+group endpoints (e.g. which subscribers share the same device and can use
+the same IPC handle).
+Most backends leave this empty.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">endpoint_supported_backends</span></code> argument is a map from the peer's
+advertised backend names to their metadata strings.
+A correct backend <strong>must</strong> check that its own name is in this map before
+declaring the peer compatible; otherwise a publisher will waste descriptor
+work on a subscription that cannot consume it.</p>
+<p>Simplified example from the CUDA backend:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;&gt;&gt;</span>
+<span class="n">CudaBufferBackend</span><span class="o">::</span><span class="n">on_discovering_endpoint</span><span class="p">(</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">rmw_topic_endpoint_info_t</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="cm">/*endpoint_info*/</span><span class="p">,</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">rmw_topic_endpoint_info_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="cm">/*existing_endpoints*/</span><span class="p">,</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">endpoint_supported_backends</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">endpoint_supported_backends</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;cuda&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span>
+<span class="w">      </span><span class="n">endpoint_supported_backends</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="p">{}};</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// The full implementation also checks VMM IPC support, endpoint</span>
+<span class="w">  </span><span class="c1">// locality, device id, and user id before returning true.</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="p">{}};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-4-register-the-plugin">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Step 4: Register the plugin</a><a class="headerlink" href="#step-4-register-the-plugin" title="連結到這個標頭"></a></h2>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">pluginlib</span></code> XML file that declares your backend class:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- mydev_buffer_backend/mydev_buffer_plugin.xml --&gt;</span>
+<span class="nt">&lt;library</span><span class="w"> </span><span class="na">path=</span><span class="s">&quot;mydev_buffer_backend&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;class</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mydev&quot;</span>
+<span class="w">         </span><span class="na">type=</span><span class="s">&quot;mydev_buffer_backend::MyDevBufferBackend&quot;</span>
+<span class="w">         </span><span class="na">base_class_type=</span><span class="s">&quot;rosidl::BufferBackend&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Example<span class="w"> </span>backend<span class="w"> </span>for<span class="w"> </span>the<span class="w"> </span>mydev<span class="w"> </span>memory<span class="w"> </span>domain.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/class&gt;</span>
+<span class="nt">&lt;/library&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> attribute is the short name that users put into
+<code class="docutils literal notranslate"><span class="pre">acceptable_buffer_backends</span></code> (see
+<a class="reference internal" href="Using-Buffer-Backends.html"><span class="doc">Using rosidl::Buffer backends</span></a>) and that your
+<code class="docutils literal notranslate"><span class="pre">get_backend_type()</span></code> must return.</p>
+<p>Export it from <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">pluginlib_export_plugin_description_file</span><span class="p">(</span>
+<span class="w">  </span><span class="s">rosidl_buffer_backend</span><span class="w"> </span><span class="s">mydev_buffer_plugin.xml</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and install it:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">install</span><span class="p">(</span>
+<span class="w">  </span><span class="s">FILES</span><span class="w"> </span><span class="s">mydev_buffer_plugin.xml</span>
+<span class="w">  </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">share/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>And register the class in your plugin source file:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pluginlib/class_list_macros.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mydev_buffer_backend/mydev_buffer_backend.hpp&quot;</span>
+
+<span class="n">PLUGINLIB_EXPORT_CLASS</span><span class="p">(</span>
+<span class="w">  </span><span class="n">mydev_buffer_backend</span><span class="o">::</span><span class="n">MyDevBufferBackend</span><span class="p">,</span>
+<span class="w">  </span><span class="n">rosidl</span><span class="o">::</span><span class="n">BufferBackend</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-package-and-build-system">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Step 5: Package and build system</a><a class="headerlink" href="#step-5-package-and-build-system" title="連結到這個標頭"></a></h2>
+<section id="package-xml-for-the-plugin-package">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">package.xml</span></code> for the plugin package</a><a class="headerlink" href="#package-xml-for-the-plugin-package" title="連結到這個標頭"></a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;package</span><span class="w"> </span><span class="na">format=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;name&gt;</span>mydev_buffer_backend<span class="nt">&lt;/name&gt;</span>
+<span class="w">  </span><span class="nt">&lt;version&gt;</span>0.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;description&gt;</span>mydev<span class="w"> </span>backend<span class="w"> </span>for<span class="w"> </span>rosidl::Buffer<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;maintainer</span><span class="w"> </span><span class="na">email=</span><span class="s">&quot;you@example.com&quot;</span><span class="nt">&gt;</span>You<span class="nt">&lt;/maintainer&gt;</span>
+<span class="w">  </span><span class="nt">&lt;license&gt;</span>Apache<span class="w"> </span>License<span class="w"> </span>2.0<span class="nt">&lt;/license&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;buildtool_depend&gt;</span>ament_cmake<span class="nt">&lt;/buildtool_depend&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>rosidl_buffer_backend<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>rosidl_buffer_backend_registry<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>rosidl_runtime_cpp<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>pluginlib<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>mydev_buffer<span class="nt">&lt;/depend&gt;</span>
+<span class="w">  </span><span class="nt">&lt;depend&gt;</span>mydev_buffer_backend_msgs<span class="nt">&lt;/depend&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;export&gt;</span>
+<span class="w">    </span><span class="nt">&lt;build_type&gt;</span>ament_cmake<span class="nt">&lt;/build_type&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/export&gt;</span>
+<span class="nt">&lt;/package&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="cmakelists-txt-for-the-plugin-package">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> for the plugin package</a><a class="headerlink" href="#cmakelists-txt-for-the-plugin-package" title="連結到這個標頭"></a></h3>
+<p>The minimum shape is:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.8</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">mydev_buffer_backend</span><span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span><span class="s">ament_cmake</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">rosidl_buffer_backend</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">rosidl_buffer_backend_registry</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">rosidl_runtime_cpp</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">pluginlib</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">mydev_buffer</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">mydev_buffer_backend_msgs</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+
+<span class="nb">add_library</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">SHARED</span>
+<span class="w">  </span><span class="s">src/mydev_buffer_backend_plugin.cpp</span><span class="p">)</span>
+
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">  </span><span class="o">$&lt;</span><span class="nv">BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include</span><span class="o">&gt;</span>
+<span class="w">  </span><span class="o">$&lt;</span><span class="nv">INSTALL_INTERFACE:include/${PROJECT_NAME}</span><span class="o">&gt;</span><span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">  </span><span class="s">rosidl_buffer_backend::rosidl_buffer_backend</span>
+<span class="w">  </span><span class="s">rosidl_buffer_backend_registry::rosidl_buffer_backend_registry</span>
+<span class="w">  </span><span class="s">rosidl_runtime_cpp::rosidl_runtime_cpp</span>
+<span class="w">  </span><span class="s">pluginlib::pluginlib</span>
+<span class="w">  </span><span class="s">mydev_buffer::mydev_buffer</span>
+<span class="w">  </span><span class="s">mydev_buffer_backend_msgs::mydev_buffer_backend_msgs__rosidl_typesupport_cpp</span><span class="p">)</span>
+
+<span class="nb">install</span><span class="p">(</span>
+<span class="w">  </span><span class="s">TARGETS</span><span class="w"> </span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="s">EXPORT</span><span class="w"> </span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="s">LIBRARY</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">  </span><span class="s">ARCHIVE</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">  </span><span class="s">RUNTIME</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">bin</span>
+<span class="w">  </span><span class="s">INCLUDES</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">include/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+
+<span class="nb">install</span><span class="p">(</span><span class="s">DIRECTORY</span><span class="w"> </span><span class="s">include/</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">include/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">FILES</span><span class="w"> </span><span class="s">mydev_buffer_plugin.xml</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">share/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+
+<span class="nb">pluginlib_export_plugin_description_file</span><span class="p">(</span>
+<span class="w">  </span><span class="s">rosidl_buffer_backend</span><span class="w"> </span><span class="s">mydev_buffer_plugin.xml</span><span class="p">)</span>
+
+<span class="nb">ament_export_targets</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="w"> </span><span class="s">HAS_LIBRARY_TARGET</span><span class="p">)</span>
+<span class="nb">ament_export_dependencies</span><span class="p">(</span>
+<span class="w">  </span><span class="s">rosidl_buffer_backend</span>
+<span class="w">  </span><span class="s">rosidl_buffer_backend_registry</span>
+<span class="w">  </span><span class="s">rosidl_runtime_cpp</span>
+<span class="w">  </span><span class="s">pluginlib</span>
+<span class="w">  </span><span class="s">mydev_buffer</span>
+<span class="w">  </span><span class="s">mydev_buffer_backend_msgs</span><span class="p">)</span>
+
+<span class="nb">ament_package</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>See <code class="docutils literal notranslate"><span class="pre">cuda_buffer_backend/CMakeLists.txt</span></code> for a production-quality
+version that also defines the test targets used by the reference launch
+tests.</p>
+</section>
+</section>
+<section id="step-6-design-a-user-facing-api">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Step 6: Design a user-facing API</a><a class="headerlink" href="#step-6-design-a-user-facing-api" title="連結到這個標頭"></a></h2>
+<p>Application authors do not typically construct <code class="docutils literal notranslate"><span class="pre">BufferImplBase</span></code> subclasses
+by hand; they go through a user-facing API header shipped by the backend.
+A minimal API usually provides three operations:</p>
+<ol class="arabic">
+<li><p><strong>Allocate a buffer</strong> whose storage is already backed by your backend's
+memory:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">rosidl</span><span class="o">::</span><span class="n">Buffer</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">allocate_buffer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">byte_count</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Obtain a writable handle</strong> to a backend-backed buffer so the caller can
+produce data in place (e.g. launch a kernel writing into the device
+pointer):</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">WriteHandle</span><span class="w"> </span><span class="nf">from_output_buffer</span><span class="p">(</span><span class="n">rosidl</span><span class="o">::</span><span class="n">Buffer</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Obtain a readable handle</strong> on the subscriber side, synchronised with
+whatever the publisher's write did (e.g. waiting on a shared event):</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">ReadHandle</span><span class="w"> </span><span class="nf">from_input_buffer</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rosidl</span><span class="o">::</span><span class="n">Buffer</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Typical auxiliary considerations:</p>
+<ul class="simple">
+<li><p><strong>Auto-promotion</strong>: if a caller hands your backend a buffer that happens
+to live in some other backend (CPU, another device backend, ...), a
+helpful pattern is to allocate a new buffer in <em>your</em> domain and copy
+into it transparently, keeping ownership via a <code class="docutils literal notranslate"><span class="pre">get_promoted_buffer()</span></code>
+getter on the returned handle.
+The CUDA backend does this for CPU-to-CUDA inputs.</p></li>
+<li><p><strong>Synchronisation</strong>: if your backend is asynchronous (streams, events,
+queues), encode the synchronisation policy into your handle types rather
+than on the free functions.
+RAII on destruction makes correct use the default.</p></li>
+</ul>
+</section>
+<section id="higher-level-libraries-on-top-of-backends">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Higher-level libraries on top of backends</a><a class="headerlink" href="#higher-level-libraries-on-top-of-backends" title="連結到這個標頭"></a></h2>
+<p>Do not write a new backend just to add application-level metadata such as
+tensor shape, point-cloud fields, or image color-space information.
+Those semantics fit better in a normal ROS 2 message whose payload field is a
+<code class="docutils literal notranslate"><span class="pre">uint8[]</span></code> and therefore a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer&lt;uint8_t&gt;</span></code> in generated C++ code.
+The message can then ride on whichever storage backend is negotiated for that
+field.</p>
+<p>The tensor packages in <code class="docutils literal notranslate"><span class="pre">rosidl_buffer_backends</span></code> follow this model:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tensor_msgs/msg/ExperimentalTensor</span></code> stores DLPack-aligned dtype, shape,
+stride, and byte-offset metadata plus a <code class="docutils literal notranslate"><span class="pre">uint8[]</span> <span class="pre">data</span></code> field.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch_conversions</span></code> converts between that message and <code class="docutils literal notranslate"><span class="pre">at::Tensor</span></code>.
+It allocates CUDA-backed <code class="docutils literal notranslate"><span class="pre">data</span></code> when requested and available, otherwise it
+uses CPU storage.</p></li>
+<li><p>Subscribers opt in to the underlying storage backend (for example
+<code class="docutils literal notranslate"><span class="pre">acceptable_buffer_backends</span> <span class="pre">=</span> <span class="pre">&quot;cuda&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code>), not to a separate
+tensor backend name.</p></li>
+</ul>
+<p>This keeps the backend ecosystem focused on memory transport while allowing
+ordinary user libraries to add richer programming models above it.
+See <a class="reference internal" href="Writing-a-Buffer-Compatible-Conversions-Package.html"><span class="doc">Writing a rosidl::Buffer compatible conversions package</span></a> for a dedicated
+guide to creating <code class="docutils literal notranslate"><span class="pre">*_conversions</span></code> packages on top of buffer-backed message
+fields.</p>
+</section>
+<section id="testing">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">測試</a><a class="headerlink" href="#testing" title="連結到這個標頭"></a></h2>
+<p>The most useful tests for a backend are launch tests that exercise real
+pub/sub topologies.
+The reference CUDA backend ships a representative set:</p>
+<ul class="simple">
+<li><p>intra-process (publisher and subscriber in the same process);</p></li>
+<li><p>inter-process on the same host;</p></li>
+<li><p>mixed intra/inter-process (one publisher, multiple subscribers);</p></li>
+<li><p>multi-publisher (several producers into one topic);</p></li>
+<li><p>CPU fallback (subscriber that does not advertise the backend must still
+receive correct bytes);</p></li>
+<li><p>&quot;mixed / no duplicate&quot; (a subscription that accepts both the backend and
+CPU must not observe duplicated messages).</p></li>
+</ul>
+<p>See <code class="docutils literal notranslate"><span class="pre">cuda_buffer_backend/test/</span></code> for the full set.</p>
+<p>For finer-grained unit tests on the plugin interface itself (descriptor
+round-trip without an RMW), the <code class="docutils literal notranslate"><span class="pre">rosidl_buffer_backend_registry</span></code>
+package's own tests and the <code class="docutils literal notranslate"><span class="pre">test_rosidl_buffer</span></code> system tests are good
+starting points.</p>
+</section>
+<section id="ship-checklist">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Ship checklist</a><a class="headerlink" href="#ship-checklist" title="連結到這個標頭"></a></h2>
+<p>Before releasing a backend, verify that:</p>
+<ul class="simple">
+<li><p>the plugin is discoverable, i.e. <code class="docutils literal notranslate"><span class="pre">rosidl_buffer_backend_registry</span></code>'s
+<code class="docutils literal notranslate"><span class="pre">get_backend_names()</span></code> lists your short name;</p></li>
+<li><p>your descriptor serializes to <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">4096</span></code> bytes for every shape you
+support;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_descriptor_type_support()</span></code> returns the generic aggregate handle,
+not an RMW-specific one;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_descriptor_with_endpoint</span></code> returns <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> on every
+unsupported peer (cross-host, wrong device, IPC disabled, ...), and
+launch tests confirm CPU fallback works;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_descriptor_with_endpoint</span></code>'s returned <code class="docutils literal notranslate"><span class="pre">unique_ptr</span></code> uses a custom
+deleter bound inside your shared library;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">on_discovering_endpoint</span></code> consults <code class="docutils literal notranslate"><span class="pre">endpoint_supported_backends</span></code> and
+refuses peers that do not advertise your backend;</p></li>
+<li><p>your package README includes a <strong>transport-support matrix</strong>
+(intra-process / inter-process same-host / inter-host / ...) so users
+know what to expect.</p></li>
+</ul>
+</section>
+<section id="where-to-go-next">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Where to go next</a><a class="headerlink" href="#where-to-go-next" title="連結到這個標頭"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="About-Buffer-Backends.html"><span class="doc">About rosidl::Buffer backends</span></a> -- conceptual
+overview of the feature.</p></li>
+<li><p><a class="reference internal" href="Using-Buffer-Backends.html"><span class="doc">Using rosidl::Buffer backends</span></a> -- the user-facing side
+of the same feature; useful for understanding what your plugin is
+expected to look like from a subscription's point of view.</p></li>
+<li><p><a class="reference internal" href="GPU-Buffer-Transport.html"><span class="doc">GPU buffer transport with rosidl::Buffer</span></a> -- end-to-end demo of a
+GPU-backed tensor pub/sub pipeline using the CUDA backend and
+<code class="docutils literal notranslate"><span class="pre">torch_conversions</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="GPU-Buffer-Transport.html" class="btn btn-neutral float-left" title="GPU buffer transport with rosidl::Buffer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Writing-a-Buffer-Compatible-Conversions-Package.html" class="btn btn-neutral float-right" title="Writing a rosidl::Buffer compatible conversions package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
