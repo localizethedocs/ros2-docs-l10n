@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,56 +17,88 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:6
-msgid "Building a Custom RViz Panel"
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:8
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "intermediate"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "visualization, tools"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:13
+msgid "Building a Custom RViz Panel - tutorial"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:16
+msgid ""
+"Custom RViz panels let developers display data and trigger ROS actions from "
+"inside the RViz interface. This article explains how to create a Qt-based "
+"panel plugin with topic subscription and publication support. After you "
+"follow it, you can add, test, and polish a custom panel in RViz."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:26
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:28
 msgid ""
 "This tutorial is for people who would like to work within the RViz "
 "environment to either display or interact with some data in a two-"
 "dimensional environment."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:10
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:30
 msgid "In this tutorial you will learn how to do three things within RViz:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:12
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:32
 msgid "Create a new QT panel within RViz."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:13
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:33
 msgid ""
 "Create a topic subscriber within RViz that can monitor messages published on "
 "that topic and display them within the RViz panel."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:14
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:34
 msgid ""
 "Create a topic publisher such button presses within RViz publish to an "
 "output topic in ROS."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:16
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:36
 msgid ""
 "All of the code for this tutorial can be found in `this repository <https://"
 "github.com/MetroRobots/rviz_panel_tutorial>`__."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:19
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:39
 msgid "Boilerplate Code"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:22
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:42
 msgid "Header File"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:24
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:44
 msgid "Here are the contents of ``demo_panel.hpp``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:26
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:46
 msgid ""
 "#ifndef RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_\n"
 "#define RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_\n"
@@ -88,35 +120,35 @@ msgid ""
 "#endif  // RVIZ_PANEL_TUTORIAL__DEMO_PANEL_HPP_"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:47
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:67
 msgid ""
 "We're extending the `rviz_common::Panel <https://github.com/ros2/rviz/"
 "blob/9a94bdf2f5f92ccdac4037c9268b95940845d609/rviz_common/include/"
 "rviz_common/panel.hpp#L46>`__ class."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:48
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:68
 msgid ""
 "`For reasons outside the scope of this tutorial <https://doc.qt.io/qt-5/moc."
 "html>`__, you need the ``Q_OBJECT`` macro in there to get the QT parts of "
 "the GUI to work."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:49
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:69
 msgid ""
 "We start by declaring just a constructor and destructor, implemented in the "
 "cpp file."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:52
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:72
 msgid "Source File"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:54
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:74
 msgid "``demo_panel.cpp``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:56
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:76
 msgid ""
 "#include <rviz_panel_tutorial/demo_panel.hpp>\n"
 "\n"
@@ -133,37 +165,37 @@ msgid ""
 "PLUGINLIB_EXPORT_CLASS(rviz_panel_tutorial::DemoPanel, rviz_common::Panel)"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:72
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:92
 msgid ""
 "Overriding the constructor and deconstructor are not strictly necessary, but "
 "we can do more with them later."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:73
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:93
 msgid ""
 "In order for RViz to find our plugin, we need this ``PLUGINLIB`` invocation "
 "in our code (as well as other things below)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:76
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:96
 msgid "package.xml"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:78
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:98
 msgid "We need the following dependencies in our package.xml:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:80
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:100
 msgid ""
 "<depend>pluginlib</depend>\n"
 "<depend>rviz_common</depend>"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:86
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:106
 msgid "rviz_common_plugins.xml"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:88
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:108
 msgid ""
 "<library path=\"demo_panel\">\n"
 "  <class type=\"rviz_panel_tutorial::DemoPanel\" "
@@ -173,32 +205,32 @@ msgid ""
 "</library>"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:96
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:116
 msgid "This is standard ``pluginlib`` code."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:98
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:118
 msgid ""
 "The library ``path`` is the name of the library we'll assign in the CMake."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:99
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:119
 msgid "The class should match the ``PLUGINLIB`` invocation from above."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:101
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:121
 msgid "We'll come back to the description later, I promise."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:104
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:124
 msgid "CMakeLists.txt"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:106
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:126
 msgid "Add the following lines to the top of the standard boilerplate."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:108
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:128
 msgid ""
 "find_package(ament_cmake_ros REQUIRED)\n"
 "find_package(pluginlib REQUIRED)\n"
@@ -235,50 +267,50 @@ msgid ""
 "pluginlib_export_plugin_description_file(rviz_common rviz_common_plugins.xml)"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:145
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:165
 msgid "To generate the proper Qt files, we need to"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:147
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:167
 msgid "Turn ``CMAKE_AUTOMOC`` on."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:148
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:168
 msgid ""
 "Wrap the headers by calling ``qt5_wrap_cpp`` with each header that has "
 "``Q_OBJECT`` in it."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:149
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:169
 msgid "Include the ``MOC_FILES`` in the library alongside our other cpp files."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:151
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:171
 msgid ""
 "A lot of the other code ensures that the plugin portion works. Namely, "
 "calling ``pluginlib_export_plugin_description_file`` is essential to getting "
 "RViz to find your new plugin."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:155
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:175
 msgid "Testing it out"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:157
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:177
 msgid "Compile your code, source your workspace and run ``rviz2``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:159
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:179
 msgid ""
 "In the top Menu bar, there should be a \"Panels\" menu. Select \"Add New "
 "Panel\" from that menu."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:162
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:182
 msgid "screenshot of Add New Panel dialog"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:166
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:186
 msgid ""
 "A dialog will pop up showing all the panels accessible in your ROS "
 "environment, grouped into folders based on their ROS package. Create a new "
@@ -286,21 +318,21 @@ msgid ""
 "it and clicking OK."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:169
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:189
 msgid ""
 "This should create a new panel in your RViz window, albeit with nothing but "
 "a title bar with the name of your panel."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:171
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:191
 msgid "screenshot of the whole RViz window showing the new simple panel"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:176
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:196
 msgid "Filling in the Panel"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:177
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:197
 msgid ""
 "We're going to update our panel with some very basic ROS/QT interaction. "
 "What we will do, roughly, is access the ROS node from within RViz that can "
@@ -310,16 +342,16 @@ msgid ""
 "to messages published on a ROS topic named ``/output`` ."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:183
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:203
 msgid "Updated Header File"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:185
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:205
 msgid ""
 "Update ``demo_panel.hpp`` to include the following includes and class Body."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:187
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:207
 msgid ""
 "#include <rviz_common/panel.hpp>\n"
 "#include <rviz_common/ros_integration/ros_node_abstraction_iface.hpp>\n"
@@ -355,7 +387,7 @@ msgid ""
 "}  // namespace rviz_panel_tutorial"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:221
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:241
 msgid ""
 "On the ROS side, we declare an abstract node pointer, which we will use to "
 "create interfaces to the wider ROS ecosystem. We have a subscriber which "
@@ -366,21 +398,21 @@ msgid ""
 "(``topicCallback``)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:225
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:245
 msgid ""
 "On the QT side, we declare a label and a button, as well as a callback for "
 "the button (``buttonActivated``)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:228
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:248
 msgid "Updated Source File"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:230
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:250
 msgid "Update ``demo_panel.cpp`` to have the following contents:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:232
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:252
 msgid ""
 "#include <rviz_panel_tutorial/demo_panel.hpp>\n"
 "#include <QVBoxLayout>\n"
@@ -455,98 +487,98 @@ msgid ""
 "PLUGINLIB_EXPORT_CLASS(rviz_panel_tutorial::DemoPanel, rviz_common::Panel)"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:299
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:319
 msgid "Testing with ROS"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:300
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:320
 msgid ""
 "Compile and launch RViz2 with your panel again. You should see your label "
 "and button in the panel now."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:303
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:323
 msgid "screenshot of the RViz panel in its default state"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:307
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:327
 msgid ""
 "To change the label, we simply have to publish a message on the ``/input`` "
 "topic, which you can do with this command:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:309
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:329
 msgid ""
 "$ ros2 topic pub /input std_msgs/msg/String \"{data: 'Please be kind.'}\""
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:313
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:333
 msgid ""
 "Since the widget is subscribed to this topic, it will trigger the callback "
 "and change the text of the label."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:315
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:335
 msgid "screenshot of the RViz panel with custom string message displayed"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:320
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:340
 msgid ""
 "Pressing the button will publish a message, which you can see by echoing the "
 "``/output`` topic, like with this command."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:322
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:342
 msgid "$ ros2 topic echo /output"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:328
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:348
 msgid "Cleanup"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:330
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:350
 msgid ""
 "Now its time to clean it up a bit. This makes things look nicer and be a "
 "little easier to use, but aren't strictly required."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:333
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:353
 msgid ""
 "First, you should update the description of your plugin in "
 "``rviz_common_plugins.xml``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:335
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:355
 msgid ""
 "We also add an icon for the plugin at ``icons/classes/DemoPanel.png``. The "
 "folder is hardcoded, and the filename should match the name from the plugin "
 "declaration (or the name of the class if not specified)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:338
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:358
 msgid "We need to install the image file in the CMake."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:340
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:360
 msgid ""
 "install(FILES icons/classes/DemoPanel.png\n"
 "        DESTINATION share/${PROJECT_NAME}/icons/classes\n"
 ")"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:346
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:366
 msgid ""
 "Now when you add the panel, it should show up with an icon and description."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:348
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:368
 msgid "screenshot of Add New Panel dialog with our custom icon and description"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:352
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:372
 msgid "The panel will also have an updated icon."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:354
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.rst:374
 msgid "screenshot of the RViz panel with custom icon"
 msgstr ""

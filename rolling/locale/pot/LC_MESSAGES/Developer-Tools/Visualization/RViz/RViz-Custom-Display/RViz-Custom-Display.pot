@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:6
-msgid "Building a Custom RViz Display"
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:9
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:-1
+msgid "intermediate"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:-1
+msgid "visualization, tools"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:13
+msgid "Building a Custom RViz Display - tutorial"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:16
+msgid ""
+"Custom RViz displays let developers visualize message types that do not "
+"already have built-in RViz support. This article explains how to create a "
+"display plugin, render incoming messages, and expose user-configurable "
+"properties. After you follow it, you can add a custom display to RViz and "
+"visualize supported topic data."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:26
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:29
 msgid "Background"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:10
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:30
 msgid ""
 "There are many types of data that have existing visualizations in RViz. "
 "However, if there is a message type that does not yet have a plugin to "
 "display it, there are two choices to see it in RViz."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:14
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:34
 msgid ""
 "Convert the message to another type, such as ``visualization_msgs/Marker``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:15
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:35
 msgid "Write a Custom RViz Display."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:17
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:37
 msgid ""
 "With the first option, there is more network traffic and limitations to how "
 "the data can be represented. It is also quick and flexible. The latter "
@@ -49,7 +82,7 @@ msgid ""
 "to much richer visualizations."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:22
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:42
 msgid ""
 "All of the code for this tutorial can be found in `this repository <https://"
 "github.com/MetroRobots/rviz_plugin_tutorial>`__. In order to see the "
@@ -58,42 +91,42 @@ msgid ""
 "and run as you go."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:28
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:48
 msgid "Point2D Message"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:30
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:50
 msgid ""
 "We'll be playing with a toy message defined in the "
 "``rviz_plugin_tutorial_msgs`` package: ``Point2D.msg``:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:32
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:52
 msgid ""
 "std_msgs/Header header\n"
 "float64 x\n"
 "float64 y"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:39
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:59
 msgid "Boilerplate for Basic Plugin"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:41
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:61
 msgid ""
 "Strap in, there's a lot of code. You can view the full version of this code "
 "with the branch name ``step1``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:45
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:65
 msgid "Header File"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:47
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:67
 msgid "Here are the contents of ``point_display.hpp``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:49
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:69
 msgid ""
 "#ifndef RVIZ_PLUGIN_TUTORIAL__POINT_DISPLAY_HPP_\n"
 "#define RVIZ_PLUGIN_TUTORIAL__POINT_DISPLAY_HPP_\n"
@@ -118,7 +151,7 @@ msgid ""
 "#endif  // RVIZ_PLUGIN_TUTORIAL__POINT_DISPLAY_HPP_"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:71
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:91
 msgid ""
 "We're implementing the `MessageFilterDisplay <https://github.com/ros2/rviz/"
 "blob/0ef2b56373b98b5536f0f817c11dc2b5549f391d/rviz_common/include/"
@@ -126,32 +159,32 @@ msgid ""
 "any message with a ``std_msgs/Header``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:72
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:92
 msgid "The class is templated with our ``Point2D`` message type."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:73
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:93
 msgid ""
 "`For reasons outside the scope of this tutorial <https://doc.qt.io/qt-5/moc."
 "html>`__, you need the ``Q_OBJECT`` macro in there to get the QT parts of "
 "the GUI to work."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:74
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:94
 msgid ""
 "``processMessage`` is the only method that needs to be implemented, which "
 "we'll do in the cpp file."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:77
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:97
 msgid "Source File"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:79
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:99
 msgid "``point_display.cpp``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:81
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:101
 msgid ""
 "#include <rviz_plugin_tutorial/point_display.hpp>\n"
 "#include <rviz_common/logging.hpp>\n"
@@ -171,36 +204,36 @@ msgid ""
 "Display)"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:98
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:118
 msgid "The logging is not strictly necessary, but helps with debugging."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:99
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:119
 msgid ""
 "In order for RViz to find our plugin, we need this ``PLUGINLIB`` invocation "
 "in our code (as well as other things below)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:102
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:122
 msgid "package.xml"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:104
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:124
 msgid "We need the following three dependencies in our package.xml:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:106
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:126
 msgid ""
 "<depend>pluginlib</depend>\n"
 "<depend>rviz_common</depend>\n"
 "<depend>rviz_plugin_tutorial_msgs</depend>"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:113
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:133
 msgid "rviz_common_plugins.xml"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:115
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:135
 msgid ""
 "<library path=\"point_display\">\n"
 "  <class type=\"rviz_plugin_tutorial::PointDisplay\" "
@@ -210,32 +243,32 @@ msgid ""
 "</library>"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:124
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:144
 msgid "This is standard ``pluginlib`` code."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:126
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:146
 msgid ""
 "The library ``path`` is the name of the library we'll assign in the CMake."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:127
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:147
 msgid "The class should match the ``PLUGINLIB`` invocation from above."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:129
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:149
 msgid "We'll come back to the description later, I promise."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:132
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:152
 msgid "CMakeLists.txt"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:134
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:154
 msgid "Add the following lines to the top of the standard boilerplate."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:136
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:156
 msgid ""
 "find_package(ament_cmake_ros REQUIRED)\n"
 "find_package(pluginlib REQUIRED)\n"
@@ -274,31 +307,31 @@ msgid ""
 "pluginlib_export_plugin_description_file(rviz_common rviz_common_plugins.xml)"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:175
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:195
 msgid "To generate the proper Qt files, we need to"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:177
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:197
 msgid "Turn ``CMAKE_AUTOMOC`` on."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:178
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:198
 msgid ""
 "Wrap the headers by calling ``qt5_wrap_cpp`` with each header that has "
 "``Q_OBJECT`` in it."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:179
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:199
 msgid "Include the ``MOC_FILES`` in the library alongside our other cpp files."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:181
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:201
 msgid ""
 "Note that if you do NOT wrap your header files, you may get an error message "
 "when attempting to load the plugin at runtime, along the lines of:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:183
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:203
 msgid ""
 "[ERROR] [1746734178.883047840] [rviz2]: PluginlibFactory: The plugin for "
 "class 'Point2D' failed to load. Error: Failed to load library /root/ros2_ws/"
@@ -310,84 +343,84 @@ msgid ""
 "_ZTVN20rviz_plugin_tutorial12PointDisplayE, at ./src/shared_library.c:96"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:187
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:207
 msgid ""
 "A lot of the other code ensures that the plugin portion works. Namely, "
 "calling ``pluginlib_export_plugin_description_file`` is essential to getting "
 "RViz to find your new plugin."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:191
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:211
 msgid "Testing it out"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:193
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:213
 msgid ""
 "Compile your code and run ``rviz2``. You should be able to add your new "
 "plugin by clicking ``Add`` in the bottom left, and then selecting your "
 "package/plugin."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:197
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:217
 msgid "screenshot of adding display"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:202
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:222
 msgid ""
 "Initially, the display will be in an error state because you have yet to "
 "assign a topic."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:204
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:224
 msgid "screenshot of error state"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:209
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:229
 msgid ""
 "If we put the topic ``/point`` in, it should load fine but not display "
 "anything."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:211
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:231
 msgid "screenshot of functioning empty display"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:216
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:236
 msgid "You can publish messages with the following command:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:218
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:238
 msgid ""
 "$ ros2 topic pub /point rviz_plugin_tutorial_msgs/msg/Point2D \"{header: "
 "{frame_id: map}, x: 1, y: 2}\" -r 0.5"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:222
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:242
 msgid ""
 "That should result in the \"We got a message\" logging to appear in the "
 "``stdout`` of RViz."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:225
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:245
 msgid "Actual Visualization"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:227
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:247
 msgid ""
 "You can view the full version of this step with the branch name ``step2``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:229
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:249
 msgid ""
 "First, you need to add a dependency in ``CMakeLists.txt`` and ``package."
 "xml`` on the package ``rviz_rendering``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:231
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:251
 msgid "We need to add three lines to the header file:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:234
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:254
 msgid ""
 "``#include <rviz_rendering/objects/shape.hpp>`` - There's `lots of options "
 "in the rviz_rendering package <https://github.com/ros2/rviz/tree/ros2/"
@@ -395,23 +428,23 @@ msgid ""
 "visualization on. Here we're using a simple shape."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:236
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:256
 msgid ""
 "In the class, we'll add a new ``protected`` virtual method: ``void "
 "onInitialize() override;``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:237
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:257
 msgid ""
 "We also add a pointer to our shape object: ``std::unique_ptr<rviz_rendering::"
 "Shape> point_shape_;``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:239
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:259
 msgid "Then in the cpp file, we define the ``onInitialize`` method:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:241
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:261
 msgid ""
 "void PointDisplay::onInitialize()\n"
 "{\n"
@@ -423,7 +456,7 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:252
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:272
 msgid ""
 "``MFDClass`` is `aliased <https://github.com/ros2/rviz/"
 "blob/0ef2b56373b98b5536f0f817c11dc2b5549f391d/rviz_common/include/"
@@ -431,18 +464,18 @@ msgid ""
 "for convenience."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:253
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:273
 msgid ""
 "The shape object must be constructed here in the ``onInitialize`` method "
 "rather than the constructor because otherwise ``scene_manager_`` and "
 "``scene_node_`` would not be ready."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:255
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:275
 msgid "We also update our ``processMessage`` method:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:257
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:277
 msgid ""
 "void PointDisplay::processMessage(const rviz_plugin_tutorial_msgs::msg::"
 "Point2D::ConstSharedPtr msg)\n"
@@ -469,105 +502,105 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:280
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:300
 msgid ""
 "We need to get the proper frame for our message and transform the "
 "``scene_node_`` accordingly. This ensures that the visualization does not "
 "always appear relative to the fixed frame."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:282
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:302
 msgid ""
 "The actual visualization that we've been building up to is in the last four "
 "lines: we set the position of the visualization to match the message's "
 "position."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:284
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:348
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:304
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:368
 msgid "The result should look like this:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:286
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:306
 msgid "screenshot of functioning display"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:291
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:311
 msgid "If the box does not appear in that location, it might be because:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:293
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:313
 msgid "You are not publishing the topic at this time"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:294
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:314
 msgid "The message hasn't been published in the last 2 seconds."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:295
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:315
 msgid "You did not properly set the topic in RViz."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:298
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:318
 msgid "It's Nice to Have Options."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:300
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:320
 msgid ""
 "If you want to allow users to customize different properties of the "
 "visualization, you need to add `rviz_common::Property objects <https://"
 "github.com/ros2/rviz/tree/ros2/rviz_common/include/rviz_common/properties>`_."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:302
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:322
 msgid ""
 "You can view the full version of this step with the branch name ``step3``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:305
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:325
 msgid "Header Updates"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:309
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:329
 msgid ""
 "Include the header file for color properties: ``#include <rviz_common/"
 "properties/color_property.hpp>``. Color is but one of many properties you "
 "can set."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:312
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:332
 msgid ""
 "Add in the prototype for ``updateStyle``, which is called whenever the GUI "
 "is changed via Qt's SIGNAL/SLOT framework:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:314
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:334
 msgid ""
 "private Q_SLOTS:\n"
 "  void updateStyle();"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:319
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:339
 msgid ""
 "Add in a new property to store the property itself: ``std::"
 "unique_ptr<rviz_common::properties::ColorProperty> color_property_;``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:322
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:342
 msgid "Cpp Updates"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:325
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:345
 msgid ""
 "``#include <rviz_common/properties/parse_color.hpp>`` - Contains helper "
 "function to convert property to OGRE color."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:326
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:346
 msgid "To our ``onInitialize`` we add"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:328
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:348
 msgid ""
 "color_property_ = std::make_unique<rviz_common::properties::ColorProperty>(\n"
 "    \"Point Color\", QColor(36, 64, 142), \"Color to draw the point.\", "
@@ -575,23 +608,23 @@ msgid ""
 "updateStyle();"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:335
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:355
 msgid ""
 "This constructs the object with its name, default value, description and the "
 "callback."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:336
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:356
 msgid ""
 "We call ``updateStyle`` directly so that the color is set at the beginning "
 "even before the property is changed."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:338
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:358
 msgid "Then we define the callback."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:340
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:360
 msgid ""
 "void PointDisplay::updateStyle()\n"
 "{\n"
@@ -601,35 +634,35 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:350
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:370
 msgid "screenshot with color property"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:355
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:375
 msgid "Ooh, pink!"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:357
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:377
 msgid "screenshot with changed color"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:363
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:383
 msgid "Status Report"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:365
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:385
 msgid ""
 "You can view the full version of this step with the branch name ``step4``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:367
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:387
 msgid ""
 "You can also set the status of the display. As an arbitrary example, let's "
 "make our display show a warning when the x coordinate is negative, because "
 "why not? In ``processMessage``:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:371
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:391
 msgid ""
 "if (msg->x < 0) {\n"
 "  setStatus(StatusProperty::Warn, \"Message\",\n"
@@ -639,43 +672,43 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:381
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:401
 msgid ""
 "We're assuming a previous ``using rviz_common::properties::StatusProperty;`` "
 "declaration."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:382
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:402
 msgid ""
 "Think of the status as Key/Value pairs, with the key being some string (here "
 "we're using ``\"Message\"``\\ ) and the values are the status level (error/"
 "warn/ok) and the description (some other string)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:385
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:405
 msgid "screenshot with ok status"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:391
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:411
 msgid "screenshot with warning status"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:397
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:417
 msgid "Cleanup"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:399
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:419
 msgid ""
 "Now its time to clean it up a bit. This makes things look nicer and be a "
 "little easier to use, but aren't strictly required. You can view the full "
 "version of this step with the branch name ``step5``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:403
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:423
 msgid "First, we update the plugin declaration."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:405
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:425
 msgid ""
 "<library path=\"point_display\">\n"
 "  <class name=\"Point2D\" type=\"rviz_plugin_tutorial::PointDisplay\" "
@@ -686,24 +719,24 @@ msgid ""
 "</library>"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:415
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:435
 msgid ""
 "We add the ``name`` field to the ``class`` tag. This changes the name that "
 "is displayed in RViz. In code, it makes sense to call it a ``PointDisplay`` "
 "but in RViz, we want to simplify."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:418
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:438
 msgid "We put actual text into the description. Don't be lazy."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:420
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:440
 msgid ""
 "By declaring the specific message type here, when you attempt to add a "
 "Display by Topic, it will suggest this plugin for the topics of that type."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:422
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:442
 msgid ""
 "We also add an icon for the plugin at ``icons/classes/Point2D.png``. The "
 "folder is hardcoded, and the filename should match the name from the plugin "
@@ -711,43 +744,43 @@ msgid ""
 "<https://commons.wikimedia.org/wiki/File:Free_software_icon.svg>`_"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:426
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:446
 msgid "We need to install the image file in the CMake."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:428
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:448
 msgid ""
 "install(FILES icons/classes/Point2D.png\n"
 "        DESTINATION share/${PROJECT_NAME}/icons/classes\n"
 ")"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:434
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:454
 msgid ""
 "Now when you add the display, it should show up with an icon and description."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:437
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:457
 msgid "screenshot with added icon and description"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:442
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:462
 msgid "Here is the display when attempting to add by topic:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:445
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:465
 msgid "screenshot with add by topic dialog"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:450
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:470
 msgid "And finally, here's the icon in the standard interface:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:453
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:473
 msgid "screenshot with icon in standard interface"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:458
+#: ../../../source/Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.rst:478
 msgid ""
 "Note, if you change the plugins name, previous RViz configurations will no "
 "longer work."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:8
-msgid "DDS tuning information"
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:-1
+msgid "how-to"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:10
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:-1
+msgid "intermediate"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:-1
+msgid "builds, tools"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:15
+msgid "Addressing common DDS tuning issues - how-to"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:18
+msgid ""
+"Data Distribution Service (DDS) tuning can improve communication reliability "
+"and performance in systems that send large messages or use lossy networks. "
+"This article describes Linux kernel, QoS, and vendor-specific parameters for "
+"common DDS issues. After you read it, you can choose starting values for "
+"tuning Fast RTPS, Cyclone DDS, and RTI Connext."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:28
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:30
 msgid ""
 "This page provides some guidance on parameter tunings that were found to "
 "address issues faced while using various DDS implementations on Linux in "
@@ -30,7 +63,7 @@ msgid ""
 "documented here."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:13
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:33
 msgid ""
 "The recommendations below are starting points for tuning; they worked for "
 "specific systems and environments, but the tuning may vary depending on a "
@@ -38,7 +71,7 @@ msgid ""
 "debugging relative to factors like message size, network topology, etc."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:16
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:36
 msgid ""
 "It is important to recognize that tuning parameters can come at a cost to "
 "resources, and may affect parts of your system beyond the scope of the "
@@ -46,18 +79,18 @@ msgid ""
 "weighed against any detriments for each individual case."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:22
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:42
 msgid "Cross-vendor tuning"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:24
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:44
 msgid ""
 "**Issue:** Sending data over lossy (usually WiFi) connections becomes "
 "problematic when some IP fragments are dropped, possibly causing the kernel "
 "buffer on the receiving side to become full."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:26
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:46
 msgid ""
 "When a UDP packet is missing at least one IP fragment, the rest of the "
 "received fragments fill up the kernel buffer. By default, the Linux kernel "
@@ -67,17 +100,17 @@ msgid ""
 "long periods of time."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:30
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:50
 msgid ""
 "This issue is generic across all DDS vendors, so the solutions involve "
 "adjusting kernel parameters."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:32
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:52
 msgid "**Solution:** Use best-effort QoS settings instead of reliable."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:34
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:54
 msgid ""
 "Best-effort settings reduce the amount of network traffic since the DDS "
 "implementation does not have to incur the overhead of reliable "
@@ -85,32 +118,32 @@ msgid ""
 "to subscribers and must resend samples that have not been properly received."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:36
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:56
 msgid ""
 "If the kernel buffer for IP fragments gets full, though, the symptom is "
 "still the same (blocking for 30s). This solution should improve the issue "
 "somewhat without having to adjust parameters."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:39
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:59
 msgid "**Solution:** Reduce the value of the ``ipfrag_time`` parameter."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:41
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:61
 msgid ""
 "``net.ipv4.ipfrag_time / /proc/sys/net/ipv4/ipfrag_time`` (default 30s) : "
 "Time in seconds to keep an IP fragment in memory."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:44
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:64
 msgid "Reduce the value, for example, to 3s, by running:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:46
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:66
 msgid "$ sudo sysctl net.ipv4.ipfrag_time=3"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:50
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:70
 msgid ""
 "Reducing this parameter's value also reduces the window of time where no "
 "fragments are received. The parameter is global for all incoming fragments, "
@@ -118,26 +151,26 @@ msgid ""
 "environment."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:53
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:73
 msgid ""
 "**Solution:** Increase the value of the ``ipfrag_high_thresh`` parameter."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:55
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:75
 msgid ""
 "``net.ipv4.ipfrag_high_thresh / /proc/sys/net/ipv4/ipfrag_high_thresh`` "
 "(default: 262144 bytes): Maximum memory used to reassemble IP fragments."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:58
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:78
 msgid "Increase the value, for example, to 128MB, by running:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:60
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:80
 msgid "$ sudo sysctl net.ipv4.ipfrag_high_thresh=134217728     # (128 MB)"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:64
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:84
 msgid ""
 "Significantly increasing this parameter's value is an attempt to ensure that "
 "the buffer never becomes completely full. However, the value would likely "
@@ -145,7 +178,7 @@ msgid ""
 "window of ``ipfrag_time``, assuming every UDP packet lacks one fragment."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:67
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:87
 msgid ""
 "**Issue:** Sending custom messages with large variable-sized arrays of non-"
 "primitive types causes high serialization/deserialization overhead and CPU "
@@ -158,63 +191,63 @@ msgid ""
 "transitioning custom message types from ROS 1 to ROS 2."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:72
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:92
 msgid ""
 "**Workaround:** Use multiple arrays of primitives instead of a single array "
 "of custom types, or pack into byte array as done e.g. in ``PointCloud2`` "
 "messages. For example, instead of defining a ``FooArray`` message as:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:75
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:95
 msgid "Foo[] my_large_array"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:79
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:99
 msgid "with ``Foo`` is defined as:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:81
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:101
 msgid ""
 "uint64 foo_1\n"
 "uint32 foo_2"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:86
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:106
 msgid "Instead, define ``FooArray`` as:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:88
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:108
 msgid ""
 "uint64[] foo_1_array\n"
 "uint32[] foo_2_array"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:94
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:114
 msgid "Fast RTPS tuning"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:96
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:116
 msgid ""
 "**Issue:** Fast RTPS floods the network with large pieces of data or fast-"
 "published data when operating over WiFi."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:98
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:118
 msgid ""
 "See the solutions under :ref:`Cross-vendor tuning <cross-vendor-tuning>`."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:103
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:123
 msgid "Cyclone DDS tuning"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:105
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:125
 msgid ""
 "**Issue:** Cyclone DDS is not delivering large messages reliably, despite "
 "using reliable settings and transferring over a wired network."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:107
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:127
 msgid ""
 "This issue should be `addressed soon <https://github.com/eclipse-cyclonedds/"
 "cyclonedds/issues/484>`_. Until then, we've come up with the following "
@@ -222,42 +255,42 @@ msgid ""
 "pc_pipe>`_):"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:110
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:130
 msgid ""
 "**Solution:** Increase the maximum Linux kernel receive buffer size and the "
 "minimum socket receive buffer size that Cyclone uses."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:112
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:132
 msgid "*Adjustments to solve for a 9MB message:*"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:114
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:153
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:134
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:173
 msgid "Set the maximum receive buffer size, ``rmem_max``, by running:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:116
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:136
 msgid "$ sudo sysctl -w net.core.rmem_max=2147483647"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:120
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:140
 msgid ""
 "Or permanently set it by editing the ``/etc/sysctl.d/10-cyclone-max.conf`` "
 "file to contain:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:122
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:142
 msgid "net.core.rmem_max=2147483647"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:126
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:146
 msgid ""
 "Next, to set the minimum socket receive buffer size that Cyclone requests, "
 "write out a configuration file for Cyclone to use while starting, like so:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:128
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:148
 msgid ""
 "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
 "<CycloneDDS xmlns=\"https://cdds.io/config\" xmlns:xsi=\"http://www.w3."
@@ -272,44 +305,44 @@ msgid ""
 "</CycloneDDS>"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:140
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:160
 msgid ""
 "Then, whenever you are going to run a node, set the following environment "
 "variable:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:142
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:162
 msgid "CYCLONEDDS_URI=file:///absolute/path/to/config_file.xml"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:147
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:167
 msgid "RTI Connext tuning"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:149
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:169
 msgid ""
 "**Issue:** Connext is not delivering large messages reliably, despite using "
 "reliable settings and transferring over a wired network."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:151
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:171
 msgid ""
 "**Solution:** This `Connext QoS profile <https://github.com/jacobperron/"
 "pc_pipe/blob/master/etc/ROS2TEST_QOS_PROFILES.xml>`_, along with increasing "
 "the ``rmem_max`` parameter."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:155
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:175
 msgid "$ sudo sysctl -w net.core.rmem_max=4194304"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:159
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:179
 msgid ""
 "By tuning ``net.core.rmem_max`` to 4MB in the Linux kernel, the QoS profile "
 "can produce truly reliable behavior."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:161
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:181
 msgid ""
 "This configuration has been proven to reliably deliver messages via SHMEM|"
 "UDPv4, and with just UDPv4 on a single machine. A multi-machine "
@@ -318,21 +351,21 @@ msgid ""
 "average message delivery times of 700ms and 371ms, respectively."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:164
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:184
 msgid ""
 "Without configuring the kernel's ``rmem_max``, the same Connext QoS profile "
 "took up to 12 seconds for the data to be delivered. However, it always at "
 "least managed to complete the delivery."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:167
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:187
 msgid ""
 "**Solution:** Use the `Connext QoS profile <https://github.com/jacobperron/"
 "pc_pipe/blob/master/etc/ROS2TEST_QOS_PROFILES.xml>`_ *without* adjusting "
 "``rmem_max``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:169
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:189
 msgid ""
 "The ROS2TEST_QOS_PROFILES.xml file was configured using RTI's documentation "
 "on `configuring flow controllers <https://community.rti.com/forum-topic/"
@@ -340,7 +373,7 @@ msgid ""
 "controllers (seen in the Connext QoS profile link)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:172
+#: ../../../source/Developer-Tools/Build/DDS-tuning.rst:192
 msgid ""
 "The medium flow controller produced the best results for our case. However, "
 "the controllers will still need to be tuned for the particular machine/"

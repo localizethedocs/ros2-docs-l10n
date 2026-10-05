@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,29 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:8
-msgid "Implementing a custom memory allocator"
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:10
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:-1
+msgid "advanced"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:-1
+msgid "client-libraries, framework"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:15
+msgid "Implementing a custom memory allocator — tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:18
+msgid ""
+"Real-time robot applications often need deterministic memory behaviour "
+"during execution. This article describes how to integrate a custom C++ "
+"memory allocator with ROS publishers, subscribers, executors, and intra-"
+"process communication. After you follow these steps, you will be able to "
+"verify allocator usage and identify remaining runtime allocations."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:26
 msgid ""
 "**Goal:** This tutorial will show how to use a custom memory allocator when "
 "writing ROS 2 C++ code."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:12
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:28
 msgid "**Tutorial level:** Advanced"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:14
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:30
 msgid "**Time:** 20 minutes"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:18
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:34
 msgid "Table of Contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:20
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:36
 msgid ""
 "This tutorial will teach you how to integrate a custom allocator for "
 "publishers and subscribers so that the default heap allocator is never "
@@ -48,18 +77,53 @@ msgid ""
 "src/topics/allocator_tutorial_pmr.cpp>`__."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:24
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:40
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:42
+msgid ""
+"Use a C++ standard library-compatible allocator, such as one based on ``std::"
+"pmr::memory_resource``. Pass the allocator to publishers, subscribers, "
+"message memory strategies, and message deleters."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:45
+msgid ""
+"To support intra-process communication, create the node with "
+"``use_intra_process_comms(true)`` before constructing publishers and "
+"subscribers."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:47
+msgid "You can verify allocator behaviour by counting calls to:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:49
+msgid "Custom ``allocate`` and ``deallocate`` functions."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:50
+msgid "Global ``new`` and ``delete`` operators."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:52
+msgid ""
+"Remaining allocations may originate in the underlying DDS implementation."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:55
 msgid "Background"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:26
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:57
 msgid ""
 "Suppose you want to write real-time safe code, and you've heard about the "
 "many dangers of calling ``new`` during the real-time critical section, "
 "because the default heap allocator on most platforms is nondeterministic."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:28
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:59
 msgid ""
 "By default, many C++ standard library structures will implicitly allocate "
 "memory as they grow, such as ``std::vector``. However, these data structures "
@@ -70,7 +134,7 @@ msgid ""
 "which might be better suited to real-time applications."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:33
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:64
 msgid ""
 "In the ROS 2 C++ client library (rclcpp), we are following a similar "
 "philosophy to the C++ standard library. Publishers, subscribers, and the "
@@ -78,32 +142,32 @@ msgid ""
 "made by that entity during execution."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:37
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:68
 msgid "Writing an allocator"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:39
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:70
 msgid ""
 "To write an allocator compatible with ROS 2's allocator interface, your "
 "allocator must be compatible with the C++ standard library allocator "
 "interface."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:41
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:72
 msgid ""
 "Since C++17, the standard library provides something called ``std::pmr::"
 "memory_resource``. This is a class that can be derived from to create a "
 "custom allocator that fulfills a minimum set of requirements."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:44
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:75
 msgid ""
 "For example, the following declaration for a custom memory resource fulfills "
 "the requirements (of course, you would still need to implement the declared "
 "functions in this class):"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:46
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:77
 msgid ""
 "class CustomMemoryResource : public std::pmr::memory_resource\n"
 "{\n"
@@ -119,31 +183,31 @@ msgid ""
 "};"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:61
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:92
 msgid ""
 "To learn about the full capabilities of ``std::pmr::memory_resource``, see "
 "https://en.cppreference.com/w/cpp/memory/memory_resource."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:63
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:94
 msgid ""
 "The full implementation of the custom allocator for this tutorial is in "
 "https://github.com/ros2/demos/blob/rolling/demo_nodes_cpp/src/topics/"
 "allocator_tutorial_pmr.cpp."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:66
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:97
 msgid "Writing an example main"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:68
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:99
 msgid ""
 "Once you have written a valid C++ allocator, you must pass it as a shared "
 "pointer to your publisher, subscriber, and executor. But first, we'll "
 "declare a few aliases to shorten the names."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:71
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:102
 msgid ""
 "using Alloc = std::pmr::polymorphic_allocator<void>;\n"
 "using MessageAllocTraits =\n"
@@ -155,11 +219,11 @@ msgid ""
 "MessageDeleter>;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:80
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:111
 msgid "Now we can create our resources with the custom allocator:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:82
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:113
 msgid ""
 "CustomMemoryResource mem_resource{};\n"
 "auto alloc = std::make_shared<Alloc>(&mem_resource);\n"
@@ -181,13 +245,13 @@ msgid ""
 "rclcpp::executors::SingleThreadedExecutor executor(options);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:102
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:133
 msgid ""
 "You must also instantiate a custom deleter and allocator for use when "
 "allocating messages:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:104
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:135
 msgid ""
 "MessageDeleter message_deleter;\n"
 "MessageAlloc message_alloc = *alloc;\n"
@@ -195,13 +259,13 @@ msgid ""
 "&message_alloc);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:110
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:141
 msgid ""
 "Once you've add the node to the executor, it is time to spin. We'll use the "
 "custom allocator to allocate each message:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:113
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:144
 msgid ""
 "uint32_t i = 0;\n"
 "while (rclcpp::ok()) {\n"
@@ -216,17 +280,17 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:128
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:159
 msgid "Passing an allocator to the intra-process pipeline"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:130
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:161
 msgid ""
 "Even though we instantiated a publisher and subscriber in the same process, "
 "we aren't using the intra-process pipeline yet."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:132
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:163
 msgid ""
 "The IntraProcessManager is a class that is usually hidden from the user, but "
 "in order to pass a custom allocator to it we need to expose it by getting it "
@@ -235,7 +299,7 @@ msgid ""
 "default ``new``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:135
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:166
 msgid ""
 "auto context = rclcpp::contexts::get_global_default_context();\n"
 "auto options = rclcpp::NodeOptions()\n"
@@ -244,32 +308,32 @@ msgid ""
 "auto node = rclcpp::Node::make_shared(\"allocator_example\", options);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:143
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:174
 msgid ""
 "Make sure to instantiate publishers and subscribers AFTER constructing the "
 "node in this way."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:146
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:177
 msgid "Testing and verifying the code"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:148
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:179
 msgid "How do you know that your custom allocator is actually getting called?"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:150
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:181
 msgid ""
 "The obvious thing to do would be to count the calls made to your custom "
 "allocator's ``allocate`` and ``deallocate`` functions and compare that to "
 "the calls to ``new`` and ``delete``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:152
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:183
 msgid "Adding counting to the custom allocator is easy:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:154
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:185
 msgid ""
 "void * do_allocate(std::size_t size, std::size_t alignment) override\n"
 "{\n"
@@ -288,11 +352,11 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:172
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:203
 msgid "You can also override the global ``new`` and ``delete`` operators:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:174
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:205
 msgid ""
 "void * operator new(std::size_t size)\n"
 "{\n"
@@ -323,29 +387,29 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:204
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:235
 msgid ""
 "where the variables we are incrementing are just global static integers, and "
 "``is_running`` is a global static boolean that gets toggled right before the "
 "call to ``spin``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:206
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:237
 msgid ""
 "The `example executable <https://github.com/ros2/demos/blob/rolling/"
 "demo_nodes_cpp/src/topics/allocator_tutorial_pmr.cpp>`__ prints the value of "
 "the variables. To run the example executable, use:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:209
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:240
 msgid "$ ros2 run demo_nodes_cpp allocator_tutorial"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:213
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:244
 msgid "or, to run the example with the intra-process pipeline on:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:215
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:246
 msgid ""
 "$ ros2 run demo_nodes_cpp allocator_tutorial intra\n"
 "Global new was called 15590 times during spin\n"
@@ -354,19 +418,19 @@ msgid ""
 "Allocator delete was called 27281 times during spin"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:223
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:254
 msgid ""
 "We've caught about 2/3 of the allocations/deallocations that happen on the "
 "execution path, but where do the remaining 1/3 come from?"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:225
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:256
 msgid ""
 "As a matter of fact, these allocations/deallocations originate in the "
 "underlying DDS implementation used in this example."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:227
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:258
 msgid ""
 "Proving this is out of the scope of this tutorial, but you can check out the "
 "test for the allocation path that gets run as part of the ROS 2 continuous "
@@ -375,43 +439,43 @@ msgid ""
 "DDS implementation:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:229
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:260
 msgid ""
 "https://github.com/ros2/realtime_support/blob/rolling/tlsf_cpp/test/"
 "test_tlsf.cpp#L41"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:231
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:262
 msgid ""
 "Note that this test is not using the custom allocator we just created, but "
 "the TLSF allocator (see below)."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:234
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:265
 msgid "The TLSF allocator"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:236
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:267
 msgid ""
 "ROS 2 offers support for the TLSF (Two Level Segregate Fit) allocator, which "
 "was designed to meet real-time requirements:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:238
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:269
 msgid "https://github.com/ros2/realtime_support/tree/rolling/tlsf_cpp"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:240
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:271
 msgid ""
 "For more information about TLSF, see `this page via Universitat Politècnica "
 "de València <http://www.gii.upv.es/tlsf/>`_."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:242
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:273
 msgid "Note that the TLSF allocator is licensed under a dual-GPL/LGPL license."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:244
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.rst:275
 msgid ""
 "A full working example using the TLSF allocator is here: https://github.com/"
 "ros2/realtime_support/blob/rolling/tlsf_cpp/example/allocator_example.cpp"

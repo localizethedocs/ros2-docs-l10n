@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:6
-msgid "Supplementing custom rosdep keys"
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:10
-msgid "Contents"
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:-1
+msgid "expert"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:-1
+msgid "builds, tools"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:-1
+msgid "ROS 2"
 msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:13
+msgid "Supplementing custom ``rosdep`` keys - tutorial"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:16
+msgid ""
+"Custom rosdep keys let ``rosdep`` resolve dependencies that are not suitable "
+"for the shared ``ros/rosdistro`` rules. This article explains how rosdep "
+"sources files work and how to add your own YAML rule file. After you follow "
+"it, ``rosdep`` can resolve additional local or organization-specific "
+"dependency keys."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:26
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:29
 msgid "Overview and motivation"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:15
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:31
 msgid ""
 "As explained in :doc:`../../ROS-Framework/client-libraries/Working-with-"
 "Client-Libraries/Rosdep`, ``rosdep`` looks for rosdep keys in ``package."
@@ -41,33 +70,33 @@ msgid ""
 "package) that you wish to be able to install via ``rosdep``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:19
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:35
 msgid ""
 "However, there are many cases when contributing your keys directly might be "
 "difficult. For example, if the dependency"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:22
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:38
 msgid ""
 "is not available on the target distributions default APT (or pip) "
 "repositories"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:23
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:39
 msgid "is a proprietary library"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:24
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:40
 msgid "is some niche library which is useful only for you or your organization"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:25
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:41
 msgid ""
 "is a ROS package you :doc:`built and packaged yourself <Building-a-Custom-"
 "Deb-Package>`, but don't wish to share with the broader ROS community"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:27
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:43
 msgid ""
 "While the option exists to :doc:`fork rosdistro <../../Migration-and-"
 "Upgrades/Using-Custom-Rosdistro>` in its entirety, this might be overkill if "
@@ -76,7 +105,7 @@ msgid ""
 "this."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:30
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:46
 msgid ""
 "As a word of warning though, please don't use this indiscriminately. It can "
 "cause very hard to debug problems because of binary incompatibilities which "
@@ -85,17 +114,17 @@ msgid ""
 "sure to explain everything that's being added or overridden."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:35
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:51
 msgid "Preliminaries: How ``rosdep`` fetches rosdep keys"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:37
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:53
 msgid ""
 "In order to get a good understanding of what we're about to do, let's first "
 "explore some relevant details about how ``rosdep`` works."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:39
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:55
 msgid ""
 "``rosdep`` is similar to other tools like ``apt`` that use a sources list to "
 "maintain a local index. These sources are stored in ``/etc/ros/rosdep/"
@@ -103,14 +132,14 @@ msgid ""
 "apt/sources.list.d``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:43
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:59
 msgid ""
 "By default (as part of first-time setup, ``rosdep init``), you only have a "
 "single sources file: ``/etc/ros/rosdep/sources.list.d/20-default.list``. "
 "Inspecting its contents, you will see entries like these:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:46
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:62
 msgid ""
 "$ cat /etc/ros/rosdep/sources.list.d/20-default.list\n"
 "...\n"
@@ -121,7 +150,7 @@ msgid ""
 "..."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:54
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:70
 msgid ""
 "These entries are what dictates where ``rosdep`` fetches rosdep keys and "
 "their mappings (rosdep **rules**) from when ``rosdep update`` is called. "
@@ -130,7 +159,7 @@ msgid ""
 "then used when installing or looking up (\"resolving\") rosdep keys."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:58
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:74
 msgid ""
 "For example, the fact that the first entry (``base.yaml``) defines the "
 "``libopencv-dev`` key (see `here <https://github.com/ros/rosdistro/"
@@ -138,7 +167,7 @@ msgid ""
 "resolve it:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:60
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:76
 msgid ""
 "$ rosdep where-defined libopencv-dev\n"
 "https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/base.yaml\n"
@@ -147,37 +176,37 @@ msgid ""
 "libopencv-dev"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:68
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:84
 msgid ""
 "In summary, it allows ``rosdep`` to resolve the ``libopencv-dev`` key to the "
 "``apt`` package of the same name."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:70
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:86
 msgid ""
 "Note that, from the output above, we can deduce that the command was run on "
 "a Ubuntu or Debian OS. On RHEL, the key instead resolves to the DNF package "
 "``opencv-devel``:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:73
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:89
 msgid ""
 "$ rosdep resolve libopencv-dev --os=rhel:9\n"
 "#dnf\n"
 "opencv-devel"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:80
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:96
 msgid "Extending ``rosdep`` with a custom sources file"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:82
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:98
 msgid ""
 "The above hopefully makes it clear what needs to be done to get ``rosdep`` "
 "to understand new keys: add a new custom sources file!"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:84
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:100
 msgid ""
 "As a toy example, let's add a new sources file telling ``rosdep`` to fetch "
 "keys from a YAML file stored on the local machine. Fire up your favorite "
@@ -186,15 +215,15 @@ msgid ""
 "g. via ``sudo``):"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:87
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:103
 msgid "yaml file:///etc/ros/rosdep/custom_rules.yaml"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:91
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:107
 msgid "Now write the following into ``/etc/ros/rosdep/custom_rules.yaml``:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:93
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:109
 msgid ""
 "awesome_library:\n"
 "  ubuntu: [awesome_library]\n"
@@ -204,23 +233,23 @@ msgid ""
 "      packages: [another_library]"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:102
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:118
 msgid "This defines two new rosdep rules:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:104
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:120
 msgid ""
 "The key ``awesome_library``, defined only for Ubuntu, mapping to the ``apt`` "
 "package of the same name"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:105
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:121
 msgid ""
 "The key ``that_other_library``, defined only for Ubuntu, mapping to the "
 "``pip`` package named ``another_library``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:107
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:123
 msgid ""
 "After running ``rosdep update``, ``rosdep`` will detect the new ``30-custom."
 "list``, prompting it to scan the contents of the ``custom_rules.yaml`` file. "
@@ -228,7 +257,7 @@ msgid ""
 "map to:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:110
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:126
 msgid ""
 "$ rosdep resolve awesome_library\n"
 "#apt\n"
@@ -238,23 +267,23 @@ msgid ""
 "another_library"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:119
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:135
 msgid ""
 "Now all you have to do is add ``<depend>awesome_library</depend>`` to your "
 "ROS packages ``package.xml``, and ``rosdep`` will know how to install the "
 "dependency!"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:122
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:138
 msgid "Closing remarks"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:124
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:140
 msgid ""
 "The toy example above only hints at what is possible with custom rosdep keys."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:126
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:142
 msgid ""
 "**Is your dependency an APT package hosted in a third party PPA?** Not a "
 "problem. Since all ``rosdep`` does is converting the key to a ``apt "
@@ -262,13 +291,13 @@ msgid ""
 "(provided you have added the PPA)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:129
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:145
 msgid ""
 "**Is your dependency a pip package hosted in a third party index?** Add the "
 "index to your ``pip.conf`` and you're good to go."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:131
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:147
 msgid ""
 "**Sources files don't have to point to files on the local machine.** Both "
 "``file://`` and ``https://`` syntax is supported (on Linux, absolute paths "
@@ -276,7 +305,7 @@ msgid ""
 "file``)."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:133
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:149
 msgid ""
 "**Sources are loaded in alphabetical order.** If you add a conflicting rule "
 "in the 30 prefix it will not be used. If you created a sources file with a "
@@ -286,7 +315,7 @@ msgid ""
 "binary incompatibilities which can be very hard to debug."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:137
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:153
 msgid ""
 "**Merging keys is not possible.** It is not possible to e.g. only add a "
 "``fedora`` installation rule to an existing rosdep key. Depending on the "
@@ -294,16 +323,16 @@ msgid ""
 "override the whole rosdep key, removing all other installers."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:142
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:158
 msgid "Further reading"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:144
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:160
 msgid ""
 "https://docs.ros.org/en/independent/api/rosdep/html/rosdep_yaml_format.html"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:145
+#: ../../../source/Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.rst:161
 msgid ""
 "https://docs.ros.org/en/independent/api/rosdep/html/contributing_rules.html"
 msgstr ""
