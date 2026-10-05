@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,120 +17,180 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:6
-msgid "Monitoring for parameter changes (Python)"
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:8
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:-1
+msgid "intermediate"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:-1
+msgid "parameters, framework"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:13
+msgid "Monitoring for parameter changes (Python) — tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:16
+msgid ""
+"Parameters let nodes adapt their behaviour while a system is running. This "
+"article shows how to use the Python ``ParameterEventHandler`` class to "
+"monitor local and remote parameter changes. After following the steps, you "
+"can trigger callbacks when selected parameters, or any parameter events, are "
+"updated."
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:24
 msgid ""
 "**Goal:** Learn to use the ParameterEventHandler class to monitor and "
 "respond to parameter changes."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:10
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:26
 msgid "**Tutorial level:** Intermediate"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:12
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:28
 msgid "**Time:** 20 minutes"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:16
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:32
 msgid "Contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:19
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:35
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:476
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:37
+msgid ""
+"Create the package ``python_parameter_event_handler`` with the ``rclpy`` "
+"dependency. In ``parameter_event_handler.py``, declare ``an_int_param`` and "
+"create a ``ParameterEventHandler`` for the node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:40
+msgid "Use callbacks to monitor parameter updates:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:42
+msgid ""
+"``add_parameter_callback`` monitors a selected parameter on a local or "
+"remote node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:43
+msgid ""
+"``add_parameter_event_callback`` monitors parameter events from any node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:45
+msgid "Save each callback handle so the callback remains registered."
+msgstr ""
+
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:48
 msgid "Background"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:21
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:50
 msgid ""
 "Often a node needs to respond to changes to its own parameters or another "
-"node's parameters. The ParameterEventHandler class makes it easy to listen "
-"for parameter changes so that your code can respond to them. This tutorial "
-"will show you how to use the Python version of the ParameterEventHandler "
-"class to monitor for changes to a node's own parameters as well as changes "
-"to another node's parameters."
+"node's parameters. The ``ParameterEventHandler`` class makes it easy to "
+"listen for parameter changes so that your code can respond to them. This "
+"tutorial will show you how to use the Python version of the "
+"``ParameterEventHandler`` class to monitor for changes to a node's own "
+"parameters as well as changes to another node's parameters."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:26
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:55
 msgid "Prerequisites"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:28
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:57
 msgid ""
 "Before starting this tutorial, you should first complete the following "
 "tutorials:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:30
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:59
 msgid ":doc:`Understanding-ROS2-Parameters/Understanding-ROS2-Parameters`"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:31
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:60
 msgid ""
 ":doc:`../../client-libraries/Working-with-Client-Libraries/Using-Parameters-"
 "In-A-Class-Python`"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:34
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:63
 msgid "Tasks"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:36
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:65
 msgid ""
 "In this tutorial, you will create a new package to contain some sample code, "
 "write some Python code to use the ParameterEventHandler class, and test the "
 "resulting code."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:40
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:69
 msgid "1 Create a package"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:42
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:71
 msgid ""
 "First, open a new terminal and :doc:`source your ROS 2 installation "
 "<../../../Get-Started/Configuring-ROS2-Environment>` so that ``ros2`` "
 "commands will work."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:44
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:73
 msgid ""
 "Follow :ref:`these instructions <new-directory>` to create a new workspace "
 "named ``ros2_ws``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:46
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:75
 msgid ""
 "Recall that packages should be created in the ``src`` directory, not the "
 "root of the workspace. So, navigate into ``ros2_ws/src`` and then create a "
 "new package there:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:49
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:78
 msgid ""
 "$ ros2 pkg create --build-type ament_python --license Apache-2.0 "
 "python_parameter_event_handler --dependencies rclpy"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:53
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:82
 msgid ""
 "Your terminal will return a message verifying the creation of your package "
 "``python_parameter_event_handler`` and all its necessary files and folders."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:55
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:84
 msgid ""
 "The ``--dependencies`` argument will automatically add the necessary "
 "dependency lines to ``package.xml`` and ``CMakeLists.txt``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:58
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:87
 msgid "1.1 Update ``package.xml``"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:60
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:89
 msgid ""
 "Because you used the ``--dependencies`` option during package creation, you "
 "don't have to manually add dependencies to ``package.xml``. As always, "
@@ -138,25 +198,25 @@ msgid ""
 "license information to ``package.xml``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:63
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:92
 msgid ""
 "<description>Python parameter events client tutorial</description>\n"
 "<maintainer email=\"you@email.com\">Your Name</maintainer>\n"
 "<license>Apache-2.0</license>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:70
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:99
 msgid "2 Write the Python node"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:72
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:101
 msgid ""
 "Inside the ``ros2_ws/src/python_parameter_event_handler/"
 "python_parameter_event_handler`` directory, create a new file called "
 "``parameter_event_handler.py`` and paste the following code within:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:74
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:103
 msgid ""
 "import rclpy\n"
 "from rclpy.executors import ExternalShutdownException\n"
@@ -194,17 +254,17 @@ msgid ""
 "        pass"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:111
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:140
 msgid "2.1 Examine the code"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:113
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:142
 msgid ""
 "The ``import`` statements at the top are used to import the package "
 "dependencies."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:115
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:144
 msgid ""
 "import rclpy\n"
 "from rclpy.executors import ExternalShutdownException\n"
@@ -214,7 +274,7 @@ msgid ""
 "from rclpy.parameter_event_handler import ParameterEventHandler"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:124
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:153
 msgid ""
 "The next piece of code creates the class ``SampleNodeWithParameters`` and "
 "the constructor. The constructor for the class declares an integer parameter "
@@ -222,7 +282,7 @@ msgid ""
 "``ParameterEventHandler`` that will be used to monitor changes to parameters."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:128
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:157
 msgid ""
 "class SampleNodeWithParameters(Node):\n"
 "    def __init__(self):\n"
@@ -233,20 +293,20 @@ msgid ""
 "        self.handler = ParameterEventHandler(self)"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:139
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:168
 msgid ""
 "Finally, we add a parameter callback and get a callback handler for the new "
 "callback."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:143
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:172
 msgid ""
 "It is very important to save the handle that is returned by "
 "``add_parameter_callback``; otherwise, the callback will not be properly "
 "registered."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:145
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:174
 msgid ""
 "self.callback_handle = self.handler.add_parameter_callback(\n"
 "    parameter_name=\"an_int_param\",\n"
@@ -255,27 +315,27 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:153
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:182
 msgid ""
 "For the callback function, we use the ``callback`` method of the "
 "``SampleNodeWithParameters`` class."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:155
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:184
 msgid ""
 "def callback(self, p: rclpy.parameter.Parameter) -> None:\n"
 "    self.get_logger().info(f\"Received an update to parameter: {p.name}: "
 "{rclpy.parameter.parameter_value_to_python(p.value)}\")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:161
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:190
 msgid ""
 "Following the ``SampleNodeWithParameters`` is a typical ``main`` function "
 "which initializes ROS, spins the sample node so that it can send and receive "
 "messages, and then shuts down after the user enters ^C at the console."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:163
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:192
 msgid ""
 "def main():\n"
 "    try:\n"
@@ -286,18 +346,18 @@ msgid ""
 "        pass"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:175
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:204
 msgid "2.2 Add an entry point"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:177
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:206
 msgid ""
 "Open the ``setup.py`` file. Again, match the ``maintainer``, "
 "``maintainer_email``, ``description`` and ``license`` fields to your "
 "``package.xml``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:180
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:209
 msgid ""
 "maintainer='YourName',\n"
 "maintainer_email='you@email.com',\n"
@@ -305,13 +365,13 @@ msgid ""
 "license='Apache-2.0',"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:187
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:216
 msgid ""
 "Add the following line within the ``console_scripts`` brackets of the "
 "``entry_points`` field:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:189
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:218
 msgid ""
 "entry_points={\n"
 "    'console_scripts': [\n"
@@ -321,134 +381,134 @@ msgid ""
 "},"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:199
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:228
 msgid "3 Build and run"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:201
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:230
 msgid ""
 "It's good practice to run ``rosdep`` in the root of your workspace "
 "(``ros2_ws``) to check for missing dependencies before building:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:205
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:229
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:305
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:390
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:234
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:258
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:334
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:419
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:207
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:236
 msgid "$ rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:211
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:235
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:311
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:396
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:240
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:264
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:340
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:425
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:213
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:217
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:242
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:246
 msgid "rosdep only runs on Linux, so you can skip ahead to next step."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:215
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:241
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:317
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:402
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:244
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:270
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:346
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:431
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:219
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:248
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
 "package:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:221
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:297
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:382
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:250
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:326
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:411
 msgid "$ colcon build --packages-select python_parameter_event_handler"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:225
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:254
 msgid ""
 "Open a new terminal, navigate to ``ros2_ws``, and source the setup files:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:231
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:237
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:307
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:313
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:392
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:398
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:260
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:266
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:336
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:342
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:421
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:427
 msgid "$ . install/setup.bash"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:243
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:319
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:404
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:272
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:348
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:433
 msgid "$ call install\\setup.bat"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:247
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:276
 msgid "Now run the node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:249
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:325
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:410
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:278
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:354
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:439
 msgid "$ ros2 run python_parameter_event_handler node_with_parameters"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:253
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:282
 msgid ""
 "The node is now active and has a single parameter and will print a message "
 "whenever this parameter is updated. To test this, open up another terminal "
 "and source the ROS setup file as before and execute the following command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:256
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:285
 msgid "$ ros2 param set node_with_parameters an_int_param 43"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:260
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:289
 msgid ""
 "The terminal running the node will display a message similar to the "
 "following:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:262
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:291
 msgid ""
 "[INFO] [1698483083.315084660] [node_with_parameters]: Received an update to "
 "parameter: an_int_param: 43"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:266
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:295
 msgid ""
 "The callback we set previously in the node has been invoked and has "
 "displayed the new updated value. You can now terminate the running "
 "parameter_event_handler sample using ^C in the terminal."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:270
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:299
 msgid "Extensions"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:272
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:301
 msgid ""
 "So far, we built and tested a small node that monitors a single parameter "
 "owned by the node itself. Using this node as a base, two other usecases "
 "where the ParameterEventHandler can be useful are presented below."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:276
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:305
 msgid "Monitor changes to another node's parameters"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:278
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:307
 msgid ""
 "You can also use the ParameterEventHandler to monitor parameter changes to "
 "another node's parameters. Let's update the SampleNodeWithParameters class "
@@ -457,13 +517,13 @@ msgid ""
 "will monitor for updates."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:282
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:311
 msgid ""
 "First update the constructor to add the following code after the existing "
 "code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:284
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:313
 msgid ""
 "def __init__(...):\n"
 "    ...\n"
@@ -474,61 +534,61 @@ msgid ""
 "    )"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:295
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:324
 msgid ""
 "In a terminal, navigate back to the root of your workspace, ``ros2_ws``, and "
 "build your updated package as before:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:301
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:386
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:330
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:415
 msgid "Then source the setup files:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:323
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:352
 msgid ""
 "Now, to test monitoring of remote parameters, first run the newly-built "
 "parameter_event_handler code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:329
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:358
 msgid ""
 "Next, from another terminal (with ROS initialized), run the "
 "parameter_blackboard demo application, as follows:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:331
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:360
 msgid "$ ros2 run demo_nodes_cpp parameter_blackboard"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:335
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:364
 msgid ""
 "Finally, from a third terminal (with ROS initialized), let's set a parameter "
 "on the parameter_blackboard node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:337
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:366
 msgid "$ ros2 param set parameter_blackboard a_double_param 3.45"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:341
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:370
 msgid ""
 "Upon executing this command, you should see output in the "
 "parameter_event_handler window, indicating that the callback function was "
 "invoked upon the parameter update:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:343
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:372
 msgid ""
 "[INFO] [1699821958.757770223] [node_with_parameters]: Received an update to "
 "parameter: a_double_param: 3.45"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:348
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:377
 msgid "Monitor all node parameters simultaneously"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:350
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:379
 msgid ""
 "If you need to monitor multiple nodes or parameters at the same time, it "
 "would be cumbersome to have to call ``add_parameter_callback`` once for each "
@@ -537,13 +597,13 @@ msgid ""
 "change."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:353
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:382
 msgid ""
 "To do this, first update the SampleNodeWithParameters constructor to add the "
 "following code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:355
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:384
 msgid ""
 "def __init__(...):\n"
 "    self.declare_parameter(\"another_double_param\", 0.0)\n"
@@ -553,7 +613,7 @@ msgid ""
 "    )"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:364
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:393
 msgid ""
 "This declares a new double parameter ``another_double_param`` and adds an "
 "event callback that will monitor both parameters. The event callback "
@@ -561,7 +621,7 @@ msgid ""
 "we need to define a suitable callback as well:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:367
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:396
 msgid ""
 "def event_callback(self, parameter_event):\n"
 "    self.get_logger().info(f\"Received parameter event from node "
@@ -574,7 +634,7 @@ msgid ""
 "        )"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:377
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:406
 msgid ""
 "Note that the ``parameter_event`` is of type `rcl_interfaces/msg/"
 "ParameterEvent <https://docs.ros.org/en/rolling/p/rcl_interfaces/msg/"
@@ -582,34 +642,34 @@ msgid ""
 "callbacks can also be used to monitor when parameters are added or deleted."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:380
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:409
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and rebuild your "
 "updated package as before:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:408
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:437
 msgid ""
 "To test the new event callback, first run the parameter_event_handler node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:414
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:443
 msgid ""
 "Then, from a second terminal (with ROS sourced), let's set the original int "
 "parameter:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:416
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:445
 msgid "$ ros2 param set node_with_parameters an_int_param 44"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:420
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:449
 msgid ""
 "Upon executing this command, you should see both the single-parameter "
 "callback, as well as the event callback being fired:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:422
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:451
 msgid ""
 "[INFO] [1746414766.240101027] [node_with_parameters]: Received an update to "
 "parameter: an_int_param: 44\n"
@@ -619,22 +679,22 @@ msgid ""
 "an_int_param changed to: 4"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:428
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:457
 msgid "Now set the new double parameter:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:430
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:459
 msgid "$ ros2 param set node_with_parameters another_double_param 4.4"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:434
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:463
 msgid ""
 "Since no single-parameter callback was added (via "
 "``add_parameter_callback``) for the double parameter, we should see only the "
 "event callback fire:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:436
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:465
 msgid ""
 "[INFO] [1746414962.604832196] [node_with_parameters]: Received parameter "
 "event from node /node_with_parameters\n"
@@ -642,18 +702,14 @@ msgid ""
 "another_double_param changed to: 4.4"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:443
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:472
 msgid ""
 "When setting multiple parameters at once, it's best to use "
 "``set_parameters_atomically``, explained in :doc:`../../About-Parameters`. "
 "This way, the event callback is only fired once."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:447
-msgid "Summary"
-msgstr ""
-
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:449
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:478
 msgid ""
 "You created a node with a parameter and used the ParameterEventHandler class "
 "to set a callback to monitor changes to that parameter. You also used the "
@@ -663,11 +719,11 @@ msgid ""
 "to the updated values."
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:454
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:483
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:456
+#: ../../../source/ROS-Framework/parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.rst:485
 msgid ""
 "To learn how to adapt ROS 1 parameter files for ROS 2, see the :doc:"
 "`Migrating YAML parameter files from ROS 1 to ROS2 <../../../Migration-and-"

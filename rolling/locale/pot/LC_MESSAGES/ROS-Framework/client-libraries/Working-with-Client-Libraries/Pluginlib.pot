@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,38 +17,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:7
-msgid "Creating and using plugins (C++)"
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:9
-msgid "**Goal:** Learn to create and load a simple plugin using ``pluginlib``."
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:-1
+msgid "beginner"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:11
-msgid "**Tutorial level:** Beginner"
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:-1
+msgid "client-libraries, framework"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:13
-msgid "**Time:** 20 minutes"
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:14
+msgid "Creating and using plugins (C++) — tutorial"
 msgstr ""
 
 #: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:17
+msgid ""
+"``pluginlib`` lets ROS packages load classes at runtime without directly "
+"linking against their implementations. This tutorial shows how to define a C+"
+"+ base class, export plugin implementations, and load them with "
+"``pluginlib``. After completing it, you can build, register, inspect, and "
+"run a simple plugin-based application."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:25
+msgid "**Goal:** Learn to create and load a simple plugin using ``pluginlib``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:27
+msgid "**Tutorial level:** Beginner"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:29
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:33
 msgid "Contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:20
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:36
 msgid "Background"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:22
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:38
 msgid ""
 "This tutorial is derived from `<http://wiki.ros.org/pluginlib>`_ and "
 "`Writing and Using a Simple Plugin Tutorial <http://wiki.ros.org/pluginlib/"
 "Tutorials/Writing%20and%20Using%20a%20Simple%20Plugin>`_."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:24
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:40
 msgid ""
 "``pluginlib`` is a C++ library for loading and unloading plugins from within "
 "a ROS package. Plugins are dynamically loadable classes that are loaded from "
@@ -61,21 +90,21 @@ msgid ""
 "without needing the application source code."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:30
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:46
 msgid "Prerequisites"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:32
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:48
 msgid ""
 "This tutorial assumes basic C++ knowledge and that you have successfully :"
 "doc:`installed ROS 2 <../../../Get-Started/Installation>`."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:35
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:51
 msgid "Tasks"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:37
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:53
 msgid ""
 "In this tutorial, you will create two new packages, one that defines the "
 "base class, and another that provides the plugins. The base class will "
@@ -83,29 +112,29 @@ msgid ""
 "shapes."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:41
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:57
 msgid "1 Create the Base Class Package"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:43
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:59
 msgid ""
 "Create a new empty package in your ``~/ros2_ws/src`` folder with the "
 "following command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:45
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:61
 msgid ""
 "$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 --"
 "dependencies pluginlib --node-name area_node polygon_base"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:50
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:66
 msgid ""
 "Open your favorite editor, edit ``~/ros2_ws/src/polygon_base/include/"
 "polygon_base/regular_polygon.hpp``, and paste the following inside of it:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:52
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:68
 msgid ""
 "#ifndef POLYGON_BASE_REGULAR_POLYGON_HPP\n"
 "#define POLYGON_BASE_REGULAR_POLYGON_HPP\n"
@@ -143,7 +172,7 @@ msgid ""
 "#endif  // POLYGON_BASE_REGULAR_POLYGON_HPP"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:86
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:102
 msgid ""
 "The code above creates an abstract class called ``RegularPolygon``. One "
 "thing to notice is the presence of the ``class_loader::InterfaceTraits`` "
@@ -154,13 +183,13 @@ msgid ""
 "plugins must be constructible without any arguments."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:92
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:108
 msgid ""
 "Parameters of the base class constructor can be different from what is "
 "declared for the plugins using the ``InterfaceTraits``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:94
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:110
 msgid ""
 "We need to make this header available to other classes by exporting it as an "
 "interface library. To do so, open ``~/ros2_ws/src/polygon_base/CMakeLists."
@@ -168,7 +197,7 @@ msgid ""
 "``find_package(pluginlib REQUIRED)`` command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:98
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:114
 msgid ""
 "# Library (this will be used as the base class for plugins)\n"
 "add_library(${PROJECT_NAME} INTERFACE)\n"
@@ -198,11 +227,11 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:127
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:143
 msgid "And add this commands before the ``ament_package`` command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:129
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:145
 msgid ""
 "# Export old-style CMake variables\n"
 "ament_export_include_directories(\n"
@@ -215,39 +244,39 @@ msgid ""
 ")"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:141
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:157
 msgid "We will return to this package later to write our test node."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:144
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:160
 msgid "2 Create the Plugin Package"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:146
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:162
 msgid ""
 "Now we're going to write two non-virtual implementations of our abstract "
 "class. Create a second empty package in your ``~/ros2_ws/src`` folder with "
 "the following command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:149
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:165
 msgid ""
 "$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 --"
 "dependencies polygon_base pluginlib --library-name polygon_plugins "
 "polygon_plugins"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:154
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:170
 msgid "2.1 Source code for the plugins"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:156
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:172
 msgid ""
 "Open ``~/ros2_ws/src/polygon_plugins/src/polygon_plugins.cpp`` for editing, "
 "and paste the following inside of it:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:158
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:174
 msgid ""
 "#include <polygon_base/regular_polygon.hpp>\n"
 "#include <cmath>\n"
@@ -303,7 +332,7 @@ msgid ""
 "RegularPolygon)"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:210
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:226
 msgid ""
 "The implementation of the Square and Triangle classes is fairly "
 "straightforward: save the side length, and use it to calculate the area. The "
@@ -312,23 +341,23 @@ msgid ""
 "through the arguments to the ``PLUGINLIB_EXPORT_CLASS`` macro:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:214
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:230
 msgid ""
 "The fully-qualified type of the plugin class, in this case, "
 "``polygon_plugins::Square``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:215
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:231
 msgid ""
 "The fully-qualified type of the base class, in this case, ``polygon_base::"
 "RegularPolygon``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:218
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:234
 msgid "2.2 Plugin Declaration XML"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:220
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:236
 msgid ""
 "The steps above enable plugin instances to be created when the containing "
 "library is loaded, but the plugin loader still needs a way to find that "
@@ -338,12 +367,12 @@ msgid ""
 "available to the ROS toolchain."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:223
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:239
 msgid ""
 "Create ``~/ros2_ws/src/polygon_plugins/plugins.xml`` with the following code:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:225
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:241
 msgid ""
 "<library path=\"polygon_plugins\">\n"
 "  <class type=\"polygon_plugins::Square\" base_class_type=\"polygon_base::"
@@ -357,11 +386,11 @@ msgid ""
 "</library>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:236
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:252
 msgid "A couple things to note:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:238
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:254
 msgid ""
 "The ``library`` tag gives the relative path to a library that contains the "
 "plugins that we want to export. In ROS 2, that is just the name of the "
@@ -369,39 +398,39 @@ msgid ""
 "(i.e. ``lib/libpolygon_plugins``), but here it is simpler."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:241
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:257
 msgid ""
 "The ``class`` tag declares a plugin that we want to export from our library. "
 "Let's go through its parameters:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:244
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:260
 msgid ""
 "``type``: The fully qualified type of the plugin. For us, that's "
 "``polygon_plugins::Square``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:246
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:262
 msgid ""
 "``base_class``: The fully qualified base class type for the plugin. For us, "
 "that's ``polygon_base::RegularPolygon``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:248
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:264
 msgid "``description``: A description of the plugin and what it does."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:249
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:265
 msgid ""
 "``name`` (optional): A lookup name (i.e. magic name) used by the class "
 "loader."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:252
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:268
 msgid "2.3 CMake Plugin Declaration"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:254
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:270
 msgid ""
 "The last step is to export your plugins via ``CMakeLists.txt``. This is a "
 "change from ROS 1, where the exporting was done via ``package.xml``. Add the "
@@ -409,36 +438,36 @@ msgid ""
 "after the line reading ``find_package(pluginlib REQUIRED)``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:258
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:274
 msgid "pluginlib_export_plugin_description_file(polygon_base plugins.xml)"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:262
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:278
 msgid ""
 "The arguments to the ``pluginlib_export_plugin_description_file`` command "
 "are:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:264
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:280
 msgid "The package with the base class, i.e. ``polygon_base``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:265
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:281
 msgid "The relative path to the Plugin Declaration xml, i.e. ``plugins.xml``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:268
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:284
 msgid "3 Use the Plugins"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:270
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:286
 msgid ""
 "Now it's time to use the plugins. This can be done in any package, but here "
 "we're going to do it in the base package. Edit ``~/ros2_ws/src/polygon_base/"
 "src/area_node.cpp`` to contain the following:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:274
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:290
 msgid ""
 "#include <pluginlib/class_loader.hpp>\n"
 "#include <polygon_base/regular_polygon.hpp>\n"
@@ -473,31 +502,31 @@ msgid ""
 "}"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:304
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:320
 msgid ""
 "The ``ClassLoader`` is the key class to understand, defined in the "
 "``class_loader.hpp`` `header file <https://github.com/ros/pluginlib/blob/"
 "ros2/pluginlib/include/pluginlib/class_loader.hpp>`_:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:306
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:322
 msgid ""
 "It is templated with the base class, i.e. ``polygon_base::RegularPolygon``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:307
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:323
 msgid ""
 "The first argument is a string for the package name of the base class, i.e. "
 "``polygon_base``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:308
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:324
 msgid ""
 "The second argument is a string with the fully qualified base class type for "
 "the plugin, i.e. ``polygon_base::RegularPolygon``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:310
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:326
 msgid ""
 "There are a number of ways to instantiate an instance of the class. In this "
 "example, we're using shared pointers. We just need to call "
@@ -510,7 +539,7 @@ msgid ""
 "are passed to the constructor of the plugin."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:315
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:331
 msgid ""
 "Important note: the ``polygon_base`` package in which this node is defined "
 "does NOT depend on the ``polygon_plugins`` class. The plugins will be loaded "
@@ -519,66 +548,66 @@ msgid ""
 "also do so dynamically with parameters, etc."
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:320
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:336
 msgid "4 Build and run"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:322
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:338
 msgid ""
 "Navigate back to the root of your workspace, ``ros2_ws``, and build your new "
 "packages:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:324
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:340
 msgid "$ colcon build --packages-select polygon_base polygon_plugins"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:328
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:344
 msgid "From ``ros2_ws``, be sure to source the setup files:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:332
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:348
 msgid "Linux"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:334
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:350
 msgid "$ source install/setup.bash"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:338
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:354
 msgid "macOS"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:340
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:356
 msgid "$ . install/setup.bash"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:344
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:360
 msgid "Windows"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:346
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:362
 msgid "$ call install/setup.bat"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:350
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:366
 msgid ""
 "The ``ros2 plugin`` command is provided by the ``ros2plugin`` package. If "
 "this command is unavailable on a Debian package installation, install it "
 "with:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:353
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:369
 msgid "$ sudo apt install ros-rolling-ros2plugin"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:357
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:373
 msgid ""
 "You can verify that your plugins were successfully registered by listing "
 "them:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:359
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:375
 msgid ""
 "$ ros2 plugin list\n"
 "polygon_plugins:\n"
@@ -588,21 +617,21 @@ msgid ""
 "Triangle', base='polygon_base::RegularPolygon')"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:366
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:382
 msgid "Now run the node:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:368
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:384
 msgid ""
 "$ ros2 run polygon_base area_node\n"
 "Triangle area: 43.30\n"
 "Square area: 100.00"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:375
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:391
 msgid "Summary"
 msgstr ""
 
-#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:377
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Pluginlib.rst:393
 msgid "Congratulations! You've just written and used your first plugins."
 msgstr ""

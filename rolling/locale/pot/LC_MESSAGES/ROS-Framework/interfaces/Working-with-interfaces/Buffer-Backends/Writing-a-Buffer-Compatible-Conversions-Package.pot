@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 11:33+0000\n"
+"POT-Creation-Date: 2026-10-05 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:2
-msgid "Writing a ``rosidl::Buffer`` compatible conversions package"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:-1
+msgid "tutorial"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:4
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:-1
+msgid "expert"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:-1
+msgid "interfaces, framework"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:9
+msgid "Writing a ``rosidl::Buffer`` compatible conversions package - tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:12
+msgid ""
+"Application libraries often need native tensor, image, or point cloud "
+"objects while still exchanging standard ROS messages. This tutorial explains "
+"how to design a conversions package that adapts ``uint8[]`` payload fields "
+"without adding a new backend. After following it, you will be able to "
+"structure conversion APIs that work with CPU or backend-backed storage."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:20
 msgid ""
 "**Goal:** Learn how to create a ``*_conversions`` package that maps between "
 "a ROS 2 message containing ``uint8[]`` payload fields and a library-specific "
@@ -29,23 +58,23 @@ msgid ""
 "backends."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:9
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:25
 msgid "**Tutorial level:** Advanced"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:11
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:27
 msgid "**Time:** 30+ minutes"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:14
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:31
 msgid "Table of Contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:17
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:34
 msgid "Introduction"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:19
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:36
 msgid ""
 "``rosidl::Buffer`` lets generated C++ messages store selected variable-"
 "length primitive array fields, such as ``uint8[]``, in externally managed "
@@ -54,7 +83,7 @@ msgid ""
 "storage such as CUDA memory."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:25
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:42
 msgid ""
 "A conversions package is a user-level library that adapts a ROS message to a "
 "framework-native type. It does not implement a new transport and does not "
@@ -63,30 +92,30 @@ msgid ""
 "object that is natural for a particular library."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:32
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:49
 msgid "Examples include:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:34
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:51
 msgid ""
 "a tensor conversions package that maps ``tensor_msgs/msg/"
 "ExperimentalTensor`` to an ONNX Runtime tensor, NumPy array, CuPy array, or "
 "another framework tensor;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:37
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:54
 msgid ""
 "an image conversions package that maps ``sensor_msgs/msg/Image`` to a "
 "library-specific image view;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:39
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:56
 msgid ""
 "a point cloud conversions package that maps ``sensor_msgs/msg/PointCloud2`` "
 "to a framework-specific point cloud or table representation."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:42
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:59
 msgid ""
 "The purpose is interoperability. Nodes can exchange the same ROS message "
 "type on the wire, while each process uses a conversions package to work with "
@@ -95,34 +124,34 @@ msgid ""
 "selected backend support."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:49
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:66
 msgid "When to write a conversions package"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:51
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:68
 msgid "Write a conversions package when:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:53
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:70
 msgid "the ROS message schema already describes the data you want to exchange;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:54
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:71
 msgid ""
 "one or more ``uint8[]`` fields should be exposed as a library-native object;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:55
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:72
 msgid ""
 "the library can consume CPU storage, or can consume a supported non-CPU "
 "backend such as ``cuda``;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:57
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:74
 msgid "you do not need a new memory transport."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:59
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:76
 msgid ""
 "Do **not** write a new ``rosidl::BufferBackend`` just to add application-"
 "level metadata such as image format, tensor shape, point-field layout, or "
@@ -131,71 +160,71 @@ msgid ""
 "framework-specific APIs."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:67
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:84
 msgid "Package shape"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:69
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:86
 msgid ""
 "A typical conversions package is named after the library it supports: "
 "``torch_conversions``, ``onnx_conversions``, ``numpy_conversions``, and so "
 "on. It usually contains:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:73
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:90
 msgid ""
 "a dependency on the message package whose ``uint8[]`` field is being adapted;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:74
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:91
 msgid ""
 "a dependency on ``rosidl_buffer`` when C++ code needs to inspect the field's "
 "active backend or pass it to backend APIs;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:76
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:93
 msgid "dependencies on the target library;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:77
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:94
 msgid ""
 "optional dependencies on storage backends, such as ``cuda_buffer``, when the "
 "package can produce or consume backend-native storage directly;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:79
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:96
 msgid "tests that round-trip metadata, storage size, and payload contents."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:81
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:98
 msgid ""
 "The package does not add a backend name. Subscribers opt in to the "
 "underlying storage backend, for example ``\"cuda\"`` or ``\"cpu\"``, not to "
 "the conversions package."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:86
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:103
 msgid "Generic API pattern"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:88
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:105
 msgid ""
 "The exact names and return types depend on the message and target library, "
 "but most conversions packages provide four operations. The examples below "
 "use placeholder names for a hypothetical ``mytype_conversions`` package."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:94
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:111
 msgid "Allocate or initialize a message"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:96
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:113
 msgid ""
 "Provide a helper that fills message metadata and sizes the relevant "
 "``uint8[]`` storage:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:99
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:116
 msgid ""
 "MyMsg allocate_msg(\n"
 "  const MyShapeOrLayout & layout,\n"
@@ -203,7 +232,7 @@ msgid ""
 "  std::optional<DeviceKind> device = std::nullopt);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:106
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:123
 msgid ""
 "For CPU storage, resize the message field normally. For a supported non-CPU "
 "storage backend, construct a backend-backed ``rosidl::Buffer<uint8_t>`` and "
@@ -212,21 +241,21 @@ msgid ""
 "storage is different from what the caller requested."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:114
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:131
 msgid "Create a writable native view"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:116
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:133
 msgid ""
 "Provide a publisher-side function that returns a writable native view over "
 "the message storage:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:119
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:136
 msgid "MyNativeType from_output_msg(MyMsg & msg);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:123
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:140
 msgid ""
 "Use this when the application wants to fill the message in place before "
 "publishing. For CPU-backed fields, the view can point at the field's "
@@ -235,21 +264,21 @@ msgid ""
 "view can write through the pointer."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:131
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:148
 msgid "Create a readable native view or copy"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:133
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:150
 msgid ""
 "Provide a subscriber-side function that returns either a read-only view or "
 "an independent copy:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:136
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:153
 msgid "MyNativeType from_input_msg(const MyMsg & msg, bool clone = true);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:140
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:157
 msgid ""
 "The ``clone=true`` default is a useful safety policy because a subscriber "
 "can mutate the returned object without depending on the message lifetime. If "
@@ -258,7 +287,7 @@ msgid ""
 "prove exclusive ownership."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:146
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:163
 msgid ""
 "For non-CPU backends, use the backend's input/read API and keep the read "
 "handle alive for the lifetime of the native view. If your target library "
@@ -266,45 +295,45 @@ msgid ""
 "examples or copy through CPU explicitly and document the cost."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:153
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:170
 msgid "Copy an existing native object into a message"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:155
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:172
 msgid ""
 "Provide a helper that copies an existing native object into preallocated "
 "message storage and refreshes metadata:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:158
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:175
 msgid "void to_msg(MyMsg & msg, const MyNativeType & value);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:162
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:179
 msgid "This helper should:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:164
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:181
 msgid "normalize or preserve the source layout intentionally;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:165
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:182
 msgid "verify that the payload field is large enough;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:166
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:183
 msgid "copy into CPU or backend-native storage as appropriate;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:167
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:184
 msgid "update all message metadata consistently with the copied payload."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:170
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:187
 msgid "Tensor messages"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:172
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:189
 msgid ""
 "``tensor_msgs/msg/ExperimentalTensor`` is the first common tensor message "
 "type built around this pattern. It carries DLPack-aligned metadata (dtype, "
@@ -313,11 +342,11 @@ msgid ""
 "bytes can use CPU storage or another negotiated backend such as ``cuda``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:180
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:197
 msgid "The message schema is:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:182
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:199
 msgid ""
 "uint8  dtype_code\n"
 "uint8  dtype_bits\n"
@@ -330,7 +359,7 @@ msgid ""
 "uint8[] data"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:194
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:211
 msgid ""
 "Device placement is not stored as a separate message field. It is derived "
 "from the storage backend of ``msg.data``. For example, ``msg.data."
@@ -339,52 +368,52 @@ msgid ""
 "installed and negotiated."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:201
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:218
 msgid "Reference: ``torch_conversions``"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:203
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:220
 msgid ""
 "``torch_conversions`` is the first conversions package for ``tensor_msgs/msg/"
 "ExperimentalTensor``. It maps the common tensor message to and from ``at::"
 "Tensor`` without registering a separate buffer backend."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:208
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:225
 msgid "At a high level, it provides:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:210
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:227
 msgid ""
 "``allocate_tensor_msg()`` to fill DLPack metadata and allocate "
 "``ExperimentalTensor.data`` with CPU or CUDA-backed storage;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:212
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:229
 msgid ""
 "``from_output_tensor_msg()`` to create a writable ``at::Tensor`` view over a "
 "publisher-owned message;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:214
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:231
 msgid ""
 "``from_input_tensor_msg()`` to create a subscriber-side ``at::Tensor`` copy "
 "or read-only view;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:216
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:233
 msgid ""
 "``to_tensor_msg()`` to copy an existing ``at::Tensor`` into preallocated "
 "message storage and refresh metadata;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:218
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:235
 msgid ""
 "DLPack import/export helpers so PyTorch can consume the message storage "
 "through its existing DLPack support."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:221
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:238
 msgid ""
 "Because ``torch_conversions`` uses the common ``tensor_msgs/msg/"
 "ExperimentalTensor`` schema, a publisher using PyTorch can communicate with "
@@ -393,11 +422,11 @@ msgid ""
 "the selected storage backend."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:228
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:245
 msgid "Creating a tensor-compatible conversions package"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:230
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:247
 msgid ""
 "To create a conversions package for another tensor library, follow the "
 "generic API pattern above with ``tensor_msgs/msg/ExperimentalTensor`` as the "
@@ -405,15 +434,15 @@ msgid ""
 "``mytensor_conversions`` package."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:237
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:254
 msgid "Allocate a tensor message"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:239
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:256
 msgid "Provide a helper that fills tensor metadata and sizes ``msg.data``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:241
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:258
 msgid ""
 "tensor_msgs::msg::ExperimentalTensor allocate_tensor_msg(\n"
 "  const std::vector<int64_t> & shape,\n"
@@ -421,24 +450,24 @@ msgid ""
 "  std::optional<DeviceKind> device = std::nullopt);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:248
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:265
 msgid ""
 "For CPU storage, resize ``msg.data`` normally. For a supported non-CPU "
 "storage backend, construct a backend-backed ``rosidl::Buffer<uint8_t>`` and "
 "assign it to ``msg.data``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:253
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:270
 msgid "Map metadata"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:255
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:272
 msgid ""
 "Map the target library's dtype to ``{dtype_code, dtype_bits, dtype_lanes}``. "
 "If a dtype cannot be represented, throw a clear unsupported-dtype error."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:259
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:276
 msgid ""
 "``shape`` stores the tensor dimensions. ``strides`` stores element strides; "
 "an empty strides array follows the DLPack convention for contiguous row-"
@@ -446,11 +475,11 @@ msgid ""
 "``data`` and allows zero-copy views into a larger allocation."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:266
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:283
 msgid "Use DLPack when available"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:268
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:285
 msgid ""
 "If the target library supports DLPack, prefer DLPack import/export over a "
 "library-specific metadata encoding. DLPack already describes dtype, shape, "
@@ -459,40 +488,40 @@ msgid ""
 "``DLManagedTensor`` and let the framework consume it."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:275
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:292
 msgid "When building a DLPack view:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:277
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:294
 msgid ""
 "store shape and stride arrays in memory that outlives the "
 "``DLManagedTensor``;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:279
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:296
 msgid "keep any backend read or write handle alive with the DLPack context;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:280
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:297
 msgid "set the DLPack device from ``msg.data.get_backend_type()``;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:281
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:298
 msgid ""
 "provide a deleter that releases all context objects after the framework is "
 "done with the tensor."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:285
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:302
 msgid "Publish and subscribe"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:287
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:304
 msgid ""
 "A publisher should publish ``tensor_msgs/msg/ExperimentalTensor`` directly:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:289
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:306
 msgid ""
 "auto msg = mytensor_conversions::allocate_tensor_msg(\n"
 "  {height, width, channels}, mytensor::uint8, DeviceKind::CUDA);\n"
@@ -502,13 +531,13 @@ msgid ""
 "publisher_->publish(msg);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:297
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:314
 msgid ""
 "A subscriber opts in to the underlying storage backend and then converts the "
 "message:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:300
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:317
 msgid ""
 "rclcpp::SubscriptionOptions sub_opts;\n"
 "sub_opts.acceptable_buffer_backends = \"cuda\";\n"
@@ -524,76 +553,76 @@ msgid ""
 "  sub_opts);"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:314
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:331
 msgid ""
 "If the subscriber cannot consume CUDA-backed storage, set "
 "``acceptable_buffer_backends`` to ``\"cpu\"`` or omit the option. The same "
 "``ExperimentalTensor`` schema is used either way."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:319
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:336
 msgid "Testing checklist"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:321
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:338
 msgid "Before releasing a conversions package, test:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:323
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:340
 msgid ""
 "metadata mapping in both directions, including unsupported metadata errors;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:324
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:341
 msgid ""
 "scalar, vector, matrix, and higher-rank tensor shapes when using "
 "``ExperimentalTensor``;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:326
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:343
 msgid "contiguous and strided payloads;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:327
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:344
 msgid "nonzero offsets or view-like layouts, if supported by the message type;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:328
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:345
 msgid "CPU-backed round trips;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:329
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:346
 msgid "each non-CPU backend the package claims to support;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:330
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:347
 msgid "copy and zero-copy view lifetimes;"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:331
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:348
 msgid ""
 "publisher/subscriber tests with ``rmw_fastrtps_cpp`` and "
 "``acceptable_buffer_backends`` set to the backend names your package "
 "supports."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:336
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:353
 msgid "Where to go next"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:338
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:355
 msgid ""
 ":doc:`About-Buffer-Backends` -- conceptual background on ``rosidl::Buffer`` "
 "and backend negotiation."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:340
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:357
 msgid ""
 ":doc:`Using-Buffer-Backends` -- user-facing examples for publishing and "
 "subscribing with buffer-backed tensor messages."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:342
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.rst:359
 msgid ""
 ":doc:`Writing-a-Buffer-Backend` -- implementer guide for creating a new "
 "storage backend when an existing backend is not enough."
