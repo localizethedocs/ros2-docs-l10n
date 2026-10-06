@@ -1,0 +1,628 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation lyrical\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 14:36+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:6
+msgid "Writing Basic Integration Tests with launch_testing"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:8
+msgid "**Goal:** Create and run integration tests on the ROS 2 turtlesim node."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:10
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:12
+msgid "**Time:** 20 minutes"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:16
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:19
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:21
+msgid ""
+"Before starting this tutorial, it is recommended to have completed the "
+"following tutorials on launching nodes:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:23
+msgid ""
+":doc:`Launching Multiple Nodes <../../../../ROS-Framework/nodes/Working-with-"
+"nodes/Launching-Multiple-Nodes/Launching-Multiple-Nodes>`"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:24
+msgid ":doc:`Creating Launch files <../../Launch/Creating-Launch-Files>`"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:27
+msgid "Background"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:29
+msgid ""
+"Where unit tests focus on validating a very specific piece of functionality, "
+"integration tests focus on validating the interaction between pieces of "
+"code. In ROS 2 this is often accomplished by launching a system of one or "
+"several nodes, for example the `Gazebo simulator <https://gazebosim.org/"
+"home>`__ and the `Nav2 navigation <https://github.com/ros-planning/"
+"navigation2.git>`__ stack. As a result, these tests are more complex both to "
+"set up and to run."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:33
+msgid ""
+"A key aspect of ROS 2 integration testing is that nodes that are part of "
+"different tests shouldn't communicate with each other, even when run in "
+"parallel. This will be achieved here using a specific test runner that picks "
+"unique :doc:`ROS domain IDs <../../../../ROS-Framework/nodes/About-Domain-"
+"ID>`. In addition, integration tests have to fit in the overall testing "
+"workflow. A standardized approach is to ensure each test outputs an XUnit "
+"file, which are easily parsed using common test tooling."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:39
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:41
+msgid ""
+"The main tool in use here is the `launch_testing <https://docs.ros.org/en/"
+"rolling/p/launch_testing/index.html>`_ package (`launch_testing repository "
+"<https://github.com/ros2/launch/tree/rolling/launch_testing>`_). This ROS-"
+"agnostic functionality can extend a Python launch file with both active "
+"tests (that run while the nodes are also running) and post-shutdown tests "
+"(which run once after all nodes have exited). ``launch_testing`` relies on "
+"the Python standard module `unittest <https://docs.python.org/3/library/"
+"unittest.html>`_ for the actual testing. To get our integration tests run as "
+"part of ``colcon test``, we register the launch file in the ``CMakeLists."
+"txt`` or ``setup.py`` file."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:47
+msgid ""
+"For waiting on topics and triggering actions based on publisher "
+"availability, the `launch_testing_ros <https://docs.ros.org/en/rolling/p/"
+"launch_testing_ros/>`_ package provides the `WaitForTopics <https://docs.ros."
+"org/en/rolling/p/launch_testing_ros/launch_testing_ros.wait_for_topics."
+"html>`_ utility, which simplifies topic subscription and waiting logic in "
+"integration tests."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:50
+msgid "Steps"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:53
+msgid "1 Describe the test in the test launch file"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:55
+msgid ""
+"Both the nodes under test and the tests themselves are launched using a "
+"Python launch file, which resembles a ROS 2 Python launch file. It is "
+"customary to make the integration test launch file names follow the pattern "
+"``test/test_*.py``."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:58
+msgid ""
+"There are two common types of tests in integration testing: active tests, "
+"which run while the nodes under test are running, and post-shutdown tests, "
+"which are run after exiting the nodes. We will cover both in this tutorial."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:62
+msgid "1.1 Imports"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:64
+msgid ""
+"We first start by importing the Python modules we will be using. Key modules "
+"for testing include the general-purpose ``unittest``, ``launch_testing``, "
+"and the ``WaitForTopics`` utility from ``launch_testing_ros`` for convenient "
+"topic subscription and waiting logic."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:67
+msgid ""
+"import math\n"
+"import threading\n"
+"import unittest\n"
+"from typing import Any\n"
+"\n"
+"import launch\n"
+"import launch_ros.actions\n"
+"import launch_testing\n"
+"import launch_testing.actions\n"
+"import launch_testing.markers\n"
+"import pytest\n"
+"from geometry_msgs.msg import Twist\n"
+"from launch_testing_ros import WaitForTopics\n"
+"from launch_testing_ros.actions import EnableRmwIsolation\n"
+"from rclpy.node import Node\n"
+"from rclpy.publisher import PublisherEventCallbacks\n"
+"from turtlesim_msgs.msg import Pose"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:88
+msgid "1.2 Generate the test description"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:90
+msgid ""
+"The function ``generate_test_description`` describes what to launch, similar "
+"to ``generate_launch_description`` in a ROS 2 Python launch file. In the "
+"example below, we launch the turtlesim node with immediate test execution "
+"(no arbitrary delays)."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:93
+msgid ""
+"The ``EnableRmwIsolation`` action ensures that ROS communication is isolated "
+"using ``rmw_test_fixture``, preventing test interference. The "
+"``ReadyToTest`` action signals the test framework that the tests should "
+"begin."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:96
+msgid ""
+"@pytest.mark.launch_test\n"
+"@launch_testing.markers.keep_alive\n"
+"def generate_test_description() -> launch.LaunchDescription:\n"
+"    \"\"\"Create the launch description for turtlesim integration tests.\n"
+"\n"
+"    Returns:\n"
+"        launch.LaunchDescription: Launch actions that start turtlesim and\n"
+"            signal when tests can begin.\n"
+"    \"\"\"\n"
+"    return launch.LaunchDescription(\n"
+"        [\n"
+"            # Action which enables isolation of ROS communication using "
+"rmw_test_fixture\n"
+"            EnableRmwIsolation(),\n"
+"            # Node under test: turtlesim_node\n"
+"            launch_ros.actions.Node(\n"
+"                package=\"turtlesim\",\n"
+"                namespace=\"\",\n"
+"                executable=\"turtlesim_node\",\n"
+"                name=\"turtle1\",\n"
+"                output=\"screen\",\n"
+"            ),\n"
+"            launch_testing.actions.ReadyToTest(),\n"
+"        ]\n"
+"    )"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:123
+msgid ""
+"In more complex integration test setups, you will probably want to launch a "
+"system of several nodes, together with additional nodes that perform mocking "
+"or must otherwise interact with the nodes under test."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:126
+msgid "1.3 Active tests using WaitForTopics"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:128
+msgid ""
+"The active tests interact with the running nodes. The ``WaitForTopics`` "
+"utility from ``launch_testing_ros`` provides a convenient way to:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:131
+msgid "Subscribe to topics and wait for them to become available"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:132
+msgid "Receive messages published on those topics"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:133
+msgid "Optionally trigger actions (like publishing control messages)"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:136
+msgid "1.3.1 Basic topic subscription test"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:138
+msgid ""
+"The simplest test verifies that a topic is published and messages are "
+"received:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:140
+msgid ""
+"class TestTurtleSimWithWaitForTopics(unittest.TestCase):\n"
+"    def test_publishes_pose_with_wait_for_topics(self) -> None:\n"
+"        \"\"\"Verify pose messages are received for turtlesim.\"\"\"\n"
+"        with WaitForTopics([(\"turtle1/pose\", Pose)]) as waiter:\n"
+"            assert waiter.topics_received() == {\"turtle1/pose\"}\n"
+"            assert len(waiter.received_messages(\"turtle1/pose\")) >= 1"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:149
+msgid ""
+"This test creates a waiter that subscribes to the ``turtle1/pose`` topic "
+"expecting ``Pose`` messages. The ``WaitForTopics`` class automatically "
+"handles subscription and cleanup. The test asserts that the topic was "
+"received and at least one message was captured."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:154
+msgid "1.3.2 Topic subscription with triggered action"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:156
+msgid ""
+"For more complex tests, you can trigger actions (such as publishing control "
+"messages) using the ``trigger`` parameter. This allows you to verify that "
+"nodes respond appropriately to a stimulus."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:159
+msgid ""
+"First, define a trigger function that will be called once publishers are "
+"available:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:161
+msgid ""
+"def trigger_publish_twist(node: Node, linear_x: float, angular_z: float) -> "
+"None:\n"
+"    \"\"\"Publish Twist commands to trigger turtlesim pose updates.\n"
+"\n"
+"    Args:\n"
+"        node: rclpy node used to create and reuse the cmd_vel publisher.\n"
+"        linear_x: Linear x velocity in m/s\n"
+"        angular_z: Angular z velocity in rad/s\n"
+"\n"
+"    Returns:\n"
+"        None: Publishes messages as a side effect.\n"
+"    \"\"\"\n"
+"    matched_event = threading.Event()\n"
+"\n"
+"    def on_subscriber_matched(info: Any) -> None:\n"
+"        if info.current_count > 0:\n"
+"            matched_event.set()\n"
+"\n"
+"    if hasattr(node, \"cmd_vel_publisher\"):\n"
+"        node.destroy_publisher(node.cmd_vel_publisher)\n"
+"\n"
+"    node.cmd_vel_publisher = node.create_publisher(\n"
+"        Twist,\n"
+"        \"turtle1/cmd_vel\",\n"
+"        10,\n"
+"        event_callbacks=PublisherEventCallbacks(matched=on_subscriber_matched),\n"
+"    )\n"
+"\n"
+"    if not matched_event.wait(timeout=5.0):\n"
+"        raise RuntimeError(\"Timed out waiting for turtlesim cmd_vel "
+"subscriber\")\n"
+"\n"
+"    # Publish a Twist message to move the turtle\n"
+"    msg = Twist()\n"
+"    msg.linear.x = float(linear_x)\n"
+"    msg.angular.z = float(angular_z)\n"
+"    node.cmd_vel_publisher.publish(msg)"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:199
+msgid "Then use this trigger function in your test:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:201
+msgid ""
+"def test_moves_with_triggered_twist(self) -> None:\n"
+"    \"\"\"Verify turtle motion after triggering Twist publication.\"\"\"\n"
+"    waiter = WaitForTopics([(\"turtle1/pose\", Pose)], "
+"trigger=trigger_publish_twist)\n"
+"    try:\n"
+"        while True:\n"
+"            # Wait for the turtle to move by publishing a Twist message with "
+"arguments\n"
+"            # linear_x = 10 m/s and angular_z = 2*pi rad/s\n"
+"            assert waiter.wait(linear_x=10, angular_z=2 * math.pi)\n"
+"            assert waiter.topics_received() == {\"turtle1/pose\"}\n"
+"            poses = waiter.received_messages(\"turtle1/pose\")\n"
+"            assert len(poses) >= 1\n"
+"            # Check that at least one of the received poses indicates motion "
+"compatible with the\n"
+"            # published Twist command\n"
+"            if any(\n"
+"                math.isclose(p.linear_velocity, 10.0, rel_tol=1e-2)\n"
+"                and math.isclose(p.angular_velocity, 2 * math.pi, "
+"rel_tol=1e-2)\n"
+"                for p in poses\n"
+"            ):\n"
+"                break\n"
+"    finally:\n"
+"        waiter.shutdown()"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:225
+msgid "This test demonstrates:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:227
+msgid "Creating a publisher and waiting for subscribers to be available"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:228
+msgid ""
+"Using ``WaitForTopics`` with a trigger function to publish messages and wait "
+"for responses"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:229
+msgid "Verifying that received messages match expected values"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:231
+msgid ""
+"The while loop is necessary because the ``turtlesim`` node is constantly "
+"publishing pose messages, and we want to wait until we receive a pose that "
+"reflects the motion commanded by our published ``Twist`` message."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:234
+msgid "1.4 Post-shutdown tests"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:236
+msgid ""
+"The classes marked with the ``launch_testing.post_shutdown_test`` decorator "
+"are run after letting the nodes under test exit. A typical test here is "
+"whether the nodes exited cleanly, for which ``launch_testing`` provides the "
+"method `asserts.assertExitCodes <https://docs.ros.org/en/rolling/p/"
+"launch_testing/launch_testing.asserts.html#launch_testing.asserts."
+"assertExitCodes>`_."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:240
+msgid ""
+"# Post-shutdown tests\n"
+"@launch_testing.post_shutdown_test()\n"
+"class TestTurtleSimShutdown(unittest.TestCase):\n"
+"    def test_exit_codes(self, proc_info):\n"
+"        \"\"\"Check if the processes exited normally.\"\"\"\n"
+"        launch_testing.asserts.assertExitCodes(proc_info)"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:250
+msgid "2 Register the test in the CMakeLists.txt"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:252
+msgid "Registering the test in the ``CMakeLists.txt`` fulfills two functions:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:254
+msgid ""
+"it integrates it in the ``CTest`` framework ROS 2 CMake-based packages rely "
+"on (and hence it will be called when running ``colcon test``)."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:256
+msgid ""
+"it allows to specify *how* the test is to be run - in this case, with a "
+"unique domain id to ensure test isolation."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:259
+msgid ""
+"This latter aspect is realized using the special test runner "
+"`run_test_isolated.py <https://github.com/ros2/ament_cmake_ros/blob/rolling/"
+"ament_cmake_ros/cmake/run_test_isolated.py>`_. To ease adding several "
+"integration tests, we define the CMake function "
+"``add_ros_isolated_launch_test`` such that each additional test requires "
+"only a single line."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:262
+msgid ""
+"cmake_minimum_required(VERSION 3.20)\n"
+"project(app)\n"
+"\n"
+"########\n"
+"# test #\n"
+"########\n"
+"\n"
+"if(BUILD_TESTING)\n"
+"  # Integration tests\n"
+"  find_package(ament_cmake_ros REQUIRED)\n"
+"  find_package(launch_testing_ament_cmake REQUIRED)\n"
+"  function(add_ros_isolated_launch_test path)\n"
+"    set(RUNNER \"${ament_cmake_ros_DIR}/run_test_isolated.py\")\n"
+"    add_launch_test(\"${path}\" RUNNER \"${RUNNER}\" ${ARGN})\n"
+"  endfunction()\n"
+"  add_ros_isolated_launch_test(test/test_integration.py)\n"
+"endif()"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:283
+msgid "3 Dependencies and package organization"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:285
+msgid "Finally, add the following dependencies to your ``package.xml``:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:287
+msgid ""
+"<test_depend>ament_cmake_ros</test_depend>\n"
+"<test_depend>launch</test_depend>\n"
+"<test_depend>launch_ros</test_depend>\n"
+"<test_depend>launch_testing</test_depend>\n"
+"<test_depend>launch_testing_ament_cmake</test_depend>\n"
+"<test_depend>rclpy</test_depend>\n"
+"<test_depend>turtlesim</test_depend>\n"
+"<test_depend>turtlesim_msgs</test_depend>"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:298
+msgid ""
+"After following the above steps, your package (here named 'app') ought to "
+"look as follows:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:300
+msgid ""
+"app/\n"
+"  CMakeLists.txt\n"
+"  package.xml\n"
+"  tests/\n"
+"      test_integration.py"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:308
+msgid ""
+"Integration tests can be part of any ROS package. One can dedicate one or "
+"more packages to just integration testing, or alternatively add them to the "
+"package of which they test the functionality. In this tutorial, we go with "
+"the first option as we will test the existing turtlesim node."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:313
+msgid "4 Register the test in setup.py"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:315
+msgid ""
+"For Python-based packages, tests are automatically discovered when placed in "
+"a ``test`` directory."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:317
+msgid "Configure pytest discovery in ``setup.cfg``:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:319
+msgid ""
+"[tool:pytest]\n"
+"testpaths = test\n"
+"python_files = test_*.py\n"
+"markers =\n"
+"    launch_test: launch testing integration tests"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:327
+msgid "To run the tests, you can use the command:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:329
+msgid "colcon test --packages-select your_package_name --python-testing pytest"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:334
+msgid "5 Running tests and report generation"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:336
+msgid ""
+"For running the integration test and examining the results, see the "
+"tutorial :doc:`Running Tests in ROS 2 from the Command Line <CLI>`."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:339
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:341
+msgid ""
+"In this tutorial, we explored the process of creating and running "
+"integration tests on the ROS 2 turtlesim node. We discussed the integration "
+"test launch file and covered writing active tests and post-shutdown tests. "
+"To recap, the four key elements of the integration test launch file are:"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:345
+msgid ""
+"The function ``generate_test_description``: This launches our nodes under "
+"test as well as our tests."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:346
+msgid ""
+"``launch_testing.actions.ReadyToTest()``: This alerts the test framework "
+"that the tests should be run, without arbitrary delays."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:347
+msgid ""
+"The ``WaitForTopics`` utility: This provides a convenient way to subscribe "
+"to topics, wait for messages, and optionally trigger actions like publishing "
+"control messages based on publisher availability."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:348
+msgid ""
+"An undecorated class inheriting from ``unittest.TestCase``: This houses the "
+"active tests, and gives access to ROS logging through ``proc_output``."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:349
+msgid ""
+"A second class inheriting from ``unittest.TestCase`` decorated with "
+"``@launch_testing.post_shutdown_test()``: These are tests that run after all "
+"nodes have shutdown; it is common to assert that the nodes exited cleanly."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:351
+msgid ""
+"The launch test is subsequently registered in the ``CMakeLists.txt`` using "
+"the custom cmake macro ``add_ros_isolated_launch_test`` which ensures that "
+"each launch test runs with a unique ``ROS_DOMAIN_ID``, avoiding undesired "
+"cross communication."
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:355
+msgid "Related content"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:357
+msgid ":doc:`Why automatic tests? <../About-testing>`"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:358
+msgid ""
+":doc:`C++ unit testing with GTest <Cpp>` and :doc:`Python unit testing with "
+"Pytest <Python>`"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:360
+msgid ""
+"`launch_pytest documentation <https://docs.ros.org/en/rolling/p/"
+"launch_pytest/index.html>`_, an alternative launch integration testing "
+"package to ``launch_testing``"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Debugging/Testing/Integration.rst:362
+msgid ""
+"`WaitForTopics documentation <https://docs.ros.org/en/rolling/p/"
+"launch_testing_ros/launch_testing_ros.wait_for_topics.html>`_ for more "
+"advanced usage patterns"
+msgstr ""
