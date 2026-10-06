@@ -1,0 +1,1047 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    <meta property="og:title" content="Writing an async node with asyncio (Python)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.ros.org/en/rolling/ROS-Framework/nodes/Working-with-nodes/Writing-An-Async-Node-With-Asyncio-Python.html" />
+<meta property="og:site_name" content="ROS 2 Documentation" />
+<meta property="og:description" content="Goal: Create and run a service and client using AsyncNode, the asyncio-native node API. Tutorial level: Intermediate Time: 20 minutes Contents: Background, Prerequisites, Tasks- 1 Create a package,..." />
+<meta property="og:image" content="https://docs.ros.org/en/rolling/_static/rolling-small.png" />
+<meta property="og:image:alt" content="ROS 2 Documentation" />
+<meta name="description" content="Goal: Create and run a service and client using AsyncNode, the asyncio-native node API. Tutorial level: Intermediate Time: 20 minutes Contents: Background, Prerequisites, Tasks- 1 Create a package,..." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing an async node with asyncio (Python) &mdash; ROS 2 documentation  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d85a351e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/adopters.css?v=d001bf74" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/ROS-Framework/nodes/Working-with-nodes/Writing-An-Async-Node-With-Asyncio-Python.html" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=946197a6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+      <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+      <script src="../../../_static/adopters.js?v=a71d1400"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" />
+    <link rel="next" title="Interfaces (topics, services, actions)" href="../../Interfaces-Topics-Services-Actions.html" />
+    <link rel="prev" title="Using Callback Groups" href="Using-callback-groups.html" />
+ 
+<script type="text/javascript" src="../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../Get-Started.html">Get started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Get-Started/About-ROS/About-ROS.html">About ROS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Get-Started/Installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/Ubuntu-Install-Debs.html">Installing on Ubuntu - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/Windows-Install-Binary.html">Windows (binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/RHEL-Install-RPMs.html">RHEL (RPM packages)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives.html">Advanced installation options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/Ubuntu-Development-Setup.html">Ubuntu (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/Ubuntu-Development-Setup-Pixi.html">Ubuntu (source Pixi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/Ubuntu-Install-Binary.html">Ubuntu (binary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/Windows-Development-Setup.html">Windows (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/RHEL-Development-Setup.html">RHEL (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/RHEL-Install-Binary.html">RHEL (binary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/macOS-Development-Setup.html">macOS (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/Latest-Development-Setup.html">Latest development (source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/Alternatives/Maintaining-a-Source-Checkout.html">Maintain source checkout</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Eclipse Cyclone DDS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">GurumNetworks GurumDDS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">RTI Connext DDS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">eProsima Fast DDS</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Zenoh</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Installation/RMW-Implementations/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/ROS-2-Mirrors.html">Mirrors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/Installing-on-Raspberry-Pi.html">ROS 2 on Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Installation/Installation-Troubleshooting.html">Installation troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Get-Started/Releases.html">Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Release-Process.html">Development process for a release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename 'lyrical'; May, 2026)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Lyrical-Luth-Complete-Changelog.html">ROS 2 Lyrical Luth Complete Changelog</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/lyrical/release-timeline.html">Lyrical Luth Release Timeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/lyrical/supported-platforms.html">Lyrical Luth Supported Platforms</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename 'kilted'; May, 2025)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Makoa-Mata-mata.html">Makoa Mata-mata (codename <code class="docutils literal notranslate"><span class="pre">makoa</span></code>; May, 2027)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Releases/makoa/release-timeline.html">Makoa Mata-mata Release Timeline</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Releases/makoa/supported-platforms.html">Makoa Mata-mata Supported Platforms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Get-Started/Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../Get-Started/Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Get-Started/Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../First-Steps.html">First steps with ROS - learning path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Get-Started/Configuring-ROS2-Environment.html">Configuring environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Get-Started/Introducing-Turtlesim/Introducing-Turtlesim.html">Using <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code>, <code class="docutils literal notranslate"><span class="pre">ros2</span></code>, and <code class="docutils literal notranslate"><span class="pre">rqt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../ROS-Framework.html">ROS framework</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../About-Nodes.html">Nodes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../About-Logging/About-Logging.html">Logging and logger configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../About-Composition.html">Composition</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../Working-with-nodes.html">Working with nodes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Understanding nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Writing-a-Composable-Node.html">Writing a Composable Node (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Composition.html">Composing multiple nodes in a single process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Managed-Nodes.html">Managing node lifecycles - example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="intra-process/Intra-Process-Communication.html">Setting up efficient intra-process communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Using-callback-groups.html">Using Callback Groups</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Writing an async node with asyncio (Python)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Interfaces-Topics-Services-Actions.html">Interfaces (topics, services, actions)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../interfaces/About-Interfaces.html">Interfaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/About-Tf2/About-Tf2.html">Tf2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/Working-with-interfaces.html">Working with interfaces</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Introduction-To-Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Quaternion-Fundamentals.html">Quaternion fundamentals</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Buffer-Backends/About-Buffer-Backends.html">About <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Buffer-Backends/Using-Buffer-Backends.html">Using <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends</a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Buffer-Backends/GPU-Buffer-Transport.html">GPU buffer transport with <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Backend.html">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backend</a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../interfaces/Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.html">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> compatible conversions package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../interfaces/About-Topics.html">Topics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/topics/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html">Understanding topics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/topics/About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/topics/About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/topics/Working-with-topics.html">Working with topics</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/topics/Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys Tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/topics/Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering Tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/topics/Working-with-topics/Content-Filtering-Subscription.html">Creating a content filtering subscription</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/topics/Working-with-topics/Quality-of-Service.html">Using quality-of-service settings for lossy networks</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/topics/Working-with-topics/Wait-for-Acknowledgment.html">Wait for acknowledgment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../interfaces/About-Services.html">Services</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/services/Working-with-services.html">Working with services</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Understanding services</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/services/Working-with-services/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../interfaces/About-Actions.html">Actions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../interfaces/actions/Working-with-actions.html">Working with actions</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/actions/Working-with-actions/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Understanding actions</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/actions/Working-with-actions/Action-Introspection.html">Configure action introspection</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/actions/Working-with-actions/Creating-an-Action.html">Creating an action</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/actions/Working-with-actions/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../interfaces/actions/Working-with-actions/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../About-Parameters.html">Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../parameters/Working-with-parameters.html">Working with parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../parameters/Working-with-parameters/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Understanding parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../parameters/Working-with-parameters/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../About-Client-Libraries.html">Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../client-libraries/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../client-libraries/About-Executors/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../client-libraries/About-Internal-Interfaces/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../client-libraries/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries.html">Working with Client libraries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Pluginlib.html">Creating and using plugins (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Rosdep.html">Managing Dependencies with rosdep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.html">Implementing a custom memory allocator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Capabilities.html">Capabilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Capabilities/About-Simulation.html">Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Capabilities/Simulation/URDF/Exporting-an-URDF-File.html">Generating an URDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Capabilities/Simulation/dummy-robot/dummy-robot-demo.html">Experimenting with a dummy robot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Capabilities/About-Motion-planning.html">Motion planning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Capabilities/Motion-planning/Real-Time-Programming.html">Understanding real-time programming</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Capabilities/About-Navigation.html">Navigation</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Capabilities/About-Manipulation.html">Manipulation</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Capabilities/About-Perception.html">Perception</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer-Tools.html">Developer tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-introspection-and-analysis.html">Introspection and analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/About-Security.html">ROS 2 Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Improved-Dynamic-Discovery.html">Improved Dynamic Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Tracing/ROS2-Tracing-Trace-and-Analyze.html">How to use ros2_tracing to trace and analyze an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Security/Security-Main.html">Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Security/Introducing-ros2-security.html">Setting up security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.html">Ensuring security across machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Security/Examine-Traffic.html">Examining network traffic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Security/Access-Controls.html">Setting access controls</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Service-Introspection.html">Configure service introspection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Introspection-and-analysis/Node-arguments.html">Passing ROS arguments to nodes via the command-line</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-Debugging.html">Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Debugging/Debugging-Tf2-Problems/Debugging-Tf2-Problems.html">Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Debugging/ROS-2-IDEs.html">IDEs and Debugging [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Debugging/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Debugging/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-Build.html">Building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/About-Build-System.html">构建系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Deployment-Guidelines/Deployment-Guidelines.html">Deployment Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/The-Keystore.html">Understanding the security keystore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Using-Xacro-to-Clean-Up-a-URDF-File/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.html">Supplementing custom rosdep keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Ament-Lint-For-Clean-Code.html">Ament Lint CLI Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Eclipse-Oxygen-with-ROS-2-and-rviz2/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Ament-CMake-Documentation.html">ament_cmake user documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Ament-CMake-Python-Documentation.html">ament_cmake_python user documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Building-a-Custom-Deb-Package.html">Building a custom deb package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Cross-compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setup ROS 2 with VSCode and Docker [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Core-maintainer-guide.html">ROS 2 Core Maintainer Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/DDS-tuning.html">DDS tuning information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Using-Variants.html">Using variants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Package-Docs.html">Package documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Using-Python-Packages.html">Using Python Packages with ROS 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Developing-a-ROS-2-Package.html">Developing a ROS 2 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Build/Releasing/Index-Your-Packages.html">Index Your Packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Build/Releasing/First-Time-Release.html">First Time Release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Build/Releasing/Subsequent-Releases.html">Subsequent Releases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Build/Releasing/Release-Team-Repository.html">Release Team / Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Build/Releasing/Release-Track.html">Release Track</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Building-Realtime-rt_preempt-kernel-for-ROS-2/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Building-ROS2-Package-with-eclipse-2021-06/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Build/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-visualization.html">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/RViz-User-Guide/RViz-User-Guide.html">RViz User Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.html">Marker: Sending Basic Shapes (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.html">Marker: Points and Lines (C++)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/Marker-Display-types/Marker-Display-types.html">Marker: Display types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Visualization/About-RQt.html">Overview and usage of RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Visualization/Rqtbag/Create-An-Rqtbag-Plugin.html">Create an rqt_bag Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-package-documentation.html">Package documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Package-documentation/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-Launch.html">Launch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Launch/Launch-Main.html">Launch files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Launch/Creating-Launch-Files.html">Creating a launch file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Launch/Launch-system.html">Integrating launch files into ROS 2 packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Launch/Using-Substitutions.html">Using substitutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Launch/Using-Event-Handlers.html">Using event handlers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Developer-Tools/Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Launch/Launching-composable-nodes.html">Using ROS 2 launch to launch composable nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Launch/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS 2 Launch Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Developer-Tools/About-testing.html">Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing/Testing-Main.html">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing.html">Testing with pre-release binaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing/CLI.html">Running Tests in ROS 2 from the Command Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing/Cpp.html">Writing Basic Tests with C++ with GTest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing/Python.html">Writing Basic Tests with Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing/Integration.html">Writing Basic Integration Tests with launch_testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Developer-Tools/Testing/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding QoS Policies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Migration-and-Upgrades.html">Migration and Upgrades</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Migration-and-Upgrades/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Migration-and-Upgrades/Using-Custom-Rosdistro.html">Using Custom Rosdistro Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Integrations-and-related.html">Integrations and related projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Simulation-Main.html">Simulators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Simulation-Webots.html">Webots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Installation-Windows.html">Installation (Windows)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Installation-MacOS.html">Installation (macOS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Webots/Simulation-Supervisor.html">The Ros2Supervisor Node</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Gazebo/Simulation-Gazebo.html">Gazebo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Simulators/MVSim/Simulation-MVSim.html">MVSim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/MVSim/Installation-Ubuntu.html">Installation (Ubuntu)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/MVSim/Getting-Started-MVSim.html">Getting started with MVSim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../Integrations-and-related/Simulators/MVSim/Defining-Worlds-MVSim.html">Defining worlds, robots, and sensors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Integrations-and-related/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Integrations-and-related/Related-Projects.html">Related Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Related-Projects/Visualizing-Data-And-Teleoperating-With-Phantom-Bridge.html">Visualizing Data and Teleoperating with Phantom Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Integrations-and-related/Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../The-ROS2-Project.html">ROS Community</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Developer-Guide.html">ROS 2 developer guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Quality-Guide.html">Quality guide: ensuring code quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Build-Farms.html">ROS Build Farms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Windows-Tips-and-Tricks.html">Windows Tips and Tricks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-to-code.html">Contributing to code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-to-code/Making-a-PR.html">Making a pull request (PR) — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-to-code/Reviewing-a-PR.html">Reviewing a pull request (PR) — how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Contributing-to-documentation.html">Contributing to documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Documentation/Creating-or-updating-documentation.html">Creating or updating documentation — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../The-ROS2-Project/Contributing/Documentation/Documentation-guidelines.html">Documentation guidelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Features.html">Features Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Feature-Ideas.html">Feature Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/ROSCon-Content.html">ROSCon Talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Governance.html">Project Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Platform-EOL-Policy.html">Platform EOL Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Platform-Support-Tiers.html">Platform Support Tiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Release-Schedule.html">Release Schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../The-ROS2-Project/Adopters.html">ROS 2 Adopters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../The-ROS2-Project/Adopters/Add-Your-Project.html">Add Your Project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Citations.html">Citations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../ROS-Framework.html">ROS framework</a></li>
+          <li class="breadcrumb-item"><a href="../../About-Nodes.html">Nodes</a></li>
+          <li class="breadcrumb-item"><a href="../Working-with-nodes.html">Working with nodes</a></li>
+      <li class="breadcrumb-item active">Writing an async node with asyncio (Python)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/nodes/Working-with-nodes/Writing-An-Async-Node-With-Asyncio-Python.rst" class="fa fa-github"> 在 GitHub 上编辑</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+  
+  
+  
+  <p>
+    <strong>
+      
+      <div class="admonition note">
+        <p class="admonition-title">备注</p>
+        <p>
+          You're reading the documentation for a development version. For the latest released version, please have a look at <a href="../../../../../zh-cn/lyrical/index.html">Lyrical</a>.
+        </p>
+      </div>
+      
+    </strong>
+  </p>
+
+
+  <section id="writing-an-async-node-with-asyncio-python">
+<h1>Writing an async node with asyncio (Python)<a class="headerlink" href="#writing-an-async-node-with-asyncio-python" title="Link to this heading"></a></h1>
+<p><strong>Goal:</strong> Create and run a service and client using <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code>, the asyncio-native node API.</p>
+<p><strong>Tutorial level:</strong> Intermediate</p>
+<p><strong>Time:</strong> 20 minutes</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#background" id="id2">Background</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id3">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#tasks" id="id4">Tasks</a></p>
+<ul>
+<li><p><a class="reference internal" href="#create-a-package" id="id5">1 Create a package</a></p></li>
+<li><p><a class="reference internal" href="#write-the-service-node" id="id6">2 Write the service node</a></p></li>
+<li><p><a class="reference internal" href="#write-the-client-node" id="id7">3 Write the client node</a></p></li>
+<li><p><a class="reference internal" href="#add-entry-points" id="id8">4 Add entry points</a></p></li>
+<li><p><a class="reference internal" href="#build-and-run" id="id9">5 Build and run</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#extensions" id="id10">Extensions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#executing-a-blocking-function-from-a-callback" id="id11">Executing a blocking function from a callback</a></p></li>
+<li><p><a class="reference internal" href="#calling-another-service-from-inside-a-callback" id="id12">Calling another service from inside a callback</a></p></li>
+<li><p><a class="reference internal" href="#handling-requests-concurrently" id="id13">Handling requests concurrently</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#summary" id="id14">Summary</a></p></li>
+</ul>
+</nav>
+<section id="background">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Background</a><a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> is an asyncio-native alternative to the executor based <code class="docutils literal notranslate"><span class="pre">Node</span></code> you used in the beginner tutorial.
+This lets you <code class="docutils literal notranslate"><span class="pre">await</span></code> other async operations from inside a ROS 2 callback without blocking the rest of the node.</p>
+<p>Beyond services and clients, <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> supports timers, subscriptions, and publishers as well.
+Callbacks can be either <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code> coroutines or regular <code class="docutils literal notranslate"><span class="pre">def</span></code> functions.
+Keep in mind that a sync callback can't <code class="docutils literal notranslate"><span class="pre">await</span></code> anything.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Actions are not yet supported.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Async support already exists in <code class="docutils literal notranslate"><span class="pre">Node</span></code>: entities accept <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code> callbacks, and futures from <code class="docutils literal notranslate"><span class="pre">client.call_async()</span></code> can be awaited (see <a class="reference external" href="https://github.com/ros2/examples/blob/rolling/rclpy/services/minimal_client/examples_rclpy_minimal_client/client_async_callback.py">client_async_callback example</a>).
+Where <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> differs is in the underlying runtime: callbacks run on the <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> event loop rather than rclpy's custom executor, allowing it to natively compose with other libraries within the <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> ecosystem.</p>
+</div>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>You should have completed the <a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html"><span class="doc">beginner service and client tutorial</span></a>.</p></li>
+<li><p>You should be comfortable with basic <a class="reference external" href="https://docs.python.org/3/library/asyncio.html">asyncio</a> concepts like <a class="reference external" href="https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html">async def and await</a> and <a class="reference external" href="https://docs.python.org/3/library/asyncio-runner.html#asyncio.run">asyncio.run</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> currently lives in <code class="docutils literal notranslate"><span class="pre">rclpy.experimental</span></code> and requires Python 3.12 or newer.</p></li>
+</ul>
+</section>
+<section id="tasks">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Tasks</a><a class="headerlink" href="#tasks" title="Link to this heading"></a></h2>
+<section id="create-a-package">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">1 Create a package</a><a class="headerlink" href="#create-a-package" title="Link to this heading"></a></h3>
+<p>Open a new terminal and <a class="reference internal" href="../../../Get-Started/Configuring-ROS2-Environment.html"><span class="doc">source your ROS 2 installation</span></a> so that <code class="docutils literal notranslate"><span class="pre">ros2</span></code> commands will work.</p>
+<p>Navigate into the <code class="docutils literal notranslate"><span class="pre">ros2_ws/src</span></code> directory created in a <a class="reference internal" href="../../client-libraries/Working-with-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html#new-directory"><span class="std std-ref">previous tutorial</span></a> and create a new package:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>--build-type<span class="w"> </span>ament_python<span class="w"> </span>python_async_node<span class="w"> </span>--dependencies<span class="w"> </span>rclpy<span class="w"> </span>example_interfaces
+</pre></div>
+</div>
+</section>
+<section id="write-the-service-node">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">2 Write the service node</a><a class="headerlink" href="#write-the-service-node" title="Link to this heading"></a></h3>
+<p>Inside the <code class="docutils literal notranslate"><span class="pre">ros2_ws/src/python_async_node/python_async_node</span></code> directory, create a new file called <code class="docutils literal notranslate"><span class="pre">async_service.py</span></code> and paste the following code within:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">example_interfaces.srv</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trigger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncNode</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TriggerServer</span><span class="p">(</span><span class="n">AsyncNode</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;trigger_server&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_service</span><span class="p">(</span>
+            <span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Incoming trigger request&#39;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clock</span><span class="p">()</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Slept for 2.0s&#39;</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_async_main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">TriggerServer</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">node</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">_async_main</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="examine-the-code">
+<h4>2.1 Examine the code<a class="headerlink" href="#examine-the-code" title="Link to this heading"></a></h4>
+<p>The first <code class="docutils literal notranslate"><span class="pre">import</span></code> statements pull in <code class="docutils literal notranslate"><span class="pre">asyncio</span></code>, <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>, the <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> class from <code class="docutils literal notranslate"><span class="pre">rclpy.experimental</span></code>, and the <code class="docutils literal notranslate"><span class="pre">Trigger</span></code> service type.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">example_interfaces.srv</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trigger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncNode</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TriggerServer</span></code> class inherits from <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Node</span></code>.
+Its constructor initializes the node with the name <code class="docutils literal notranslate"><span class="pre">trigger_server</span></code> and creates a service.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TriggerServer</span><span class="p">(</span><span class="n">AsyncNode</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;trigger_server&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_service</span><span class="p">(</span>
+            <span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>The service callback is a coroutine.
+Inside it you can <code class="docutils literal notranslate"><span class="pre">await</span></code> any async operation — here the node calls <code class="docutils literal notranslate"><span class="pre">self.get_clock().sleep(2.0)</span></code>, similar to <code class="docutils literal notranslate"><span class="pre">asyncio.sleep</span></code> but with ROS sim time support.
+While this coroutine is suspended, the node remains responsive to other callbacks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Incoming trigger request&#39;</span><span class="p">)</span>
+    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clock</span><span class="p">()</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Slept for 2.0s&#39;</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+<p>The bottom of the file defines an <code class="docutils literal notranslate"><span class="pre">async</span></code> helper that initializes <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>, constructs the node, and runs it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_async_main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">TriggerServer</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">node</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To run an <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code>, you need to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">node.run()</span></code> — the equivalent of <code class="docutils literal notranslate"><span class="pre">rclpy.spin(node)</span></code>.</p>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">main</span></code> itself is a regular sync function so that <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> can use it as an entry point — <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> invokes the entry point as a regular function, so it cannot be <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code>.
+It just calls <code class="docutils literal notranslate"><span class="pre">asyncio.run</span></code> to execute the <code class="docutils literal notranslate"><span class="pre">_async_main</span></code> coroutine:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">_async_main</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="write-the-client-node">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">3 Write the client node</a><a class="headerlink" href="#write-the-client-node" title="Link to this heading"></a></h3>
+<p>Inside the <code class="docutils literal notranslate"><span class="pre">ros2_ws/src/python_async_node/python_async_node</span></code> directory, create a new file called <code class="docutils literal notranslate"><span class="pre">async_client.py</span></code> and paste the following code within:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">example_interfaces.srv</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trigger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncNode</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_async_main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">AsyncNode</span><span class="p">(</span><span class="s1">&#39;trigger_client&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">node</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">create_client</span><span class="p">(</span><span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">)</span>
+
+            <span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Waiting for trigger service...&#39;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">()</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Service is available, sending request&#39;</span><span class="p">)</span>
+
+            <span class="n">request</span> <span class="o">=</span> <span class="n">Trigger</span><span class="o">.</span><span class="n">Request</span><span class="p">()</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+            <span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Service responded: success=</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">success</span><span class="si">}</span><span class="s1">, &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;message=&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">_async_main</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="id1">
+<h4>3.1 Examine the code<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<p>As with the service code, the imports pull in <code class="docutils literal notranslate"><span class="pre">asyncio</span></code>, <code class="docutils literal notranslate"><span class="pre">rclpy</span></code>, <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code>, and the <code class="docutils literal notranslate"><span class="pre">Trigger</span></code> type.</p>
+<p>The client uses the second <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> entry point: <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span> <span class="pre">AsyncNode(...)</span> <span class="pre">as</span> <span class="pre">node:</span></code>.
+Entering the <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">with</span></code> block is what actually runs the node — analogous to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">node.run()</span></code> on the server side.
+At that point any subscriptions, services, and timers that were already created on the node start dispatching callbacks.
+The node keeps running for the duration of the block, and when the block exits <code class="docutils literal notranslate"><span class="pre">destroy_node()</span></code> is called automatically and all entities are torn down.
+This is the right choice for short programs like a one shot client.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">with</span> <span class="n">AsyncNode</span><span class="p">(</span><span class="s1">&#39;trigger_client&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">node</span><span class="p">:</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">create_client</span><span class="p">(</span><span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Before sending the request, <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">client.wait_for_service()</span></code> suspends the coroutine until a matching service is discovered (or returns immediately if one is already up) — without blocking the event loop, so other callbacks on the node continue to run.
+This avoids the &quot;client started before the server&quot; failure mode where a request would otherwise be sent into the void.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Waiting for trigger service...&#39;</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">()</span>
+<span class="n">node</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Service is available, sending request&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The actual service call is one line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">request</span> <span class="o">=</span> <span class="n">Trigger</span><span class="o">.</span><span class="n">Request</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> the response is awaited directly — there is no <code class="docutils literal notranslate"><span class="pre">Future</span></code>, and the node continues to process other work while the call is in flight.</p>
+</section>
+</section>
+<section id="add-entry-points">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">4 Add entry points</a><a class="headerlink" href="#add-entry-points" title="Link to this heading"></a></h3>
+<p>To allow the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span></code> command to run your nodes, add entry points to <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> (located in the <code class="docutils literal notranslate"><span class="pre">ros2_ws/src/python_async_node</span></code> directory).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">entry_points</span></code> field of your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> should look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;service = python_async_node.async_service:main&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;client = python_async_node.async_client:main&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</section>
+<section id="build-and-run">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">5 Build and run</a><a class="headerlink" href="#build-and-run" title="Link to this heading"></a></h3>
+<p>It's good practice to run <code class="docutils literal notranslate"><span class="pre">rosdep</span></code> in the root of your workspace (<code class="docutils literal notranslate"><span class="pre">ros2_ws</span></code>) to check for missing dependencies before building:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-0-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-0-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rosdep<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>--from-path<span class="w"> </span>src<span class="w"> </span>--rosdistro<span class="w"> </span>rolling<span class="w"> </span>-y
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><p>rosdep only runs on Linux, so you can skip ahead to the next step.</p>
+</div><div aria-labelledby="tab-0-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><p>rosdep only runs on Linux, so you can skip ahead to next step.</p>
+</div></div>
+<p>Navigate back to the root of your workspace, <code class="docutils literal notranslate"><span class="pre">ros2_ws</span></code>, and build your new package:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>colcon<span class="w"> </span>build<span class="w"> </span>--symlink-install<span class="w"> </span>--packages-select<span class="w"> </span>python_async_node
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--symlink-install</span></code> flag symlinks the Python source files into the install space instead of copying them, so later edits take effect without rebuilding.</p>
+<p>Open a new terminal, navigate to <code class="docutils literal notranslate"><span class="pre">ros2_ws</span></code>, and source the setup files:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-TGludXg=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-TGludXg=" name="TGludXg=" role="tab" tabindex="0">Linux</button><button aria-controls="panel-1-bWFjT1M=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-bWFjT1M=" name="bWFjT1M=" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-1-V2luZG93cw==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-V2luZG93cw==" name="V2luZG93cw==" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-TGludXg=" class="sphinx-tabs-panel group-tab" id="panel-1-TGludXg=" name="TGludXg=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-bWFjT1M=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-bWFjT1M=" name="bWFjT1M=" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>.<span class="w"> </span>install/setup.bash
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-V2luZG93cw==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-V2luZG93cw==" name="V2luZG93cw==" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>call<span class="w"> </span>install/setup.bat
+</pre></div>
+</div>
+</div></div>
+<p>Now run the service node:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>python_async_node<span class="w"> </span>service
+</pre></div>
+</div>
+<p>The node will wait for the client's request.</p>
+<p>Open another terminal and source the setup files from inside <code class="docutils literal notranslate"><span class="pre">ros2_ws</span></code> again.
+Start the client node:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>python_async_node<span class="w"> </span>client
+<span class="go">[INFO] [trigger_client]: Service responded: success=True, message=&quot;Slept for 2.0s&quot;</span>
+</pre></div>
+</div>
+<p>Return to the terminal where your service node is running.
+You will see that it logged the incoming request:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[INFO] [trigger_server]: Incoming trigger request</span>
+</pre></div>
+</div>
+<p>Press <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> in the server terminal to stop the node.</p>
+</section>
+</section>
+<section id="extensions">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Extensions</a><a class="headerlink" href="#extensions" title="Link to this heading"></a></h2>
+<p>The basic <code class="docutils literal notranslate"><span class="pre">Trigger</span></code> server above uses <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">clock.sleep(2.0)</span></code> as an example for async work.
+Two more substantial use cases are shown below — both are straightforward modifications to <code class="docutils literal notranslate"><span class="pre">async_service.py</span></code>.</p>
+<p>Because the package was built with <code class="docutils literal notranslate"><span class="pre">--symlink-install</span></code>, edits to the Python file take effect without rebuilding — stop the running service with <kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd> and start it again to pick up the changes.</p>
+<section id="executing-a-blocking-function-from-a-callback">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Executing a blocking function from a callback</a><a class="headerlink" href="#executing-a-blocking-function-from-a-callback" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Just like <code class="docutils literal notranslate"><span class="pre">asyncio</span></code>, <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> is not thread-safe.
+If you spawn your own thread, do not access <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> API from it.
+Schedule that work back onto the event loop thread with <code class="docutils literal notranslate"><span class="pre">loop.call_soon_threadsafe</span></code> or <code class="docutils literal notranslate"><span class="pre">asyncio.run_coroutine_threadsafe</span></code>.</p>
+</div>
+<p>Many useful libraries are still written with synchronous APIs.
+Calling them directly from an async callback would block the event loop and stall every other callback on the node.
+To work around this, <code class="docutils literal notranslate"><span class="pre">asyncio.to_thread</span></code> runs the sync function on a worker thread and returns an awaitable, allowing the node to stay responsive.</p>
+<p>For example, we can make a synchronous HTTP request to fetch the latest ROS 2 release tag from GitHub through <code class="docutils literal notranslate"><span class="pre">asyncio.to_thread</span></code>.
+Replace the body of <code class="docutils literal notranslate"><span class="pre">async_service.py</span></code> with the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">example_interfaces.srv</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trigger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncNode</span>
+
+<span class="n">ROS2_LATEST_RELEASE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.github.com/repos/ros2/ros2/releases/latest&#39;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TriggerServer</span><span class="p">(</span><span class="n">AsyncNode</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;trigger_server&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_service</span><span class="p">(</span>
+            <span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_latest_release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Fetching latest ROS 2 release from GitHub&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">ROS2_LATEST_RELEASE_URL</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">())[</span><span class="s1">&#39;tag_name&#39;</span><span class="p">]</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fetch_latest_release</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Latest ROS 2 release: </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_async_main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">TriggerServer</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">node</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">_async_main</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Restart the service in one terminal, then run the client in another:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>python_async_node<span class="w"> </span>service
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>python_async_node<span class="w"> </span>client
+<span class="go">[INFO] [trigger_client]: Service responded: success=True, message=&quot;Latest ROS 2 release: &lt;release-tag&gt;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="calling-another-service-from-inside-a-callback">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Calling another service from inside a callback</a><a class="headerlink" href="#calling-another-service-from-inside-a-callback" title="Link to this heading"></a></h3>
+<p>Because callbacks are coroutines, they can <code class="docutils literal notranslate"><span class="pre">await</span></code> other ROS 2 service calls just like any other async operation.</p>
+<p>Replace the body of <code class="docutils literal notranslate"><span class="pre">async_service.py</span></code> so that the <code class="docutils literal notranslate"><span class="pre">Trigger</span></code> callback delegates to <code class="docutils literal notranslate"><span class="pre">demo_nodes_py</span></code>'s <code class="docutils literal notranslate"><span class="pre">add_two_ints</span></code> service:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">example_interfaces.srv</span><span class="w"> </span><span class="kn">import</span> <span class="n">AddTwoInts</span><span class="p">,</span> <span class="n">Trigger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rclpy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rclpy.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncNode</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TriggerServer</span><span class="p">(</span><span class="n">AsyncNode</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;trigger_server&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_client</span><span class="p">(</span><span class="n">AddTwoInts</span><span class="p">,</span> <span class="s1">&#39;add_two_ints&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_service</span><span class="p">(</span>
+            <span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_request</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Waiting for add_two_ints service...&#39;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Calling add_two_ints with a=2, b=2&#39;</span><span class="p">)</span>
+        <span class="n">nested_request</span> <span class="o">=</span> <span class="n">AddTwoInts</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">nested_response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">nested_request</span><span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;2+2=</span><span class="si">{</span><span class="n">nested_response</span><span class="o">.</span><span class="n">sum</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_async_main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">():</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">TriggerServer</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">node</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">_async_main</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The client is created in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and used inside the callback.
+Because the call is awaited, the coroutine doesn't block the node — other callbacks continue to make progress while it waits for <code class="docutils literal notranslate"><span class="pre">add_two_ints</span></code> to respond.</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>The standard <code class="docutils literal notranslate"><span class="pre">Node</span></code> utilizes <a class="reference internal" href="Using-callback-groups.html"><span class="doc">callback groups</span></a> to manage callback execution.
+Any attempt to perform a service call from within a callback with the default <code class="docutils literal notranslate"><span class="pre">MutuallyExclusiveCallbackGroup</span></code> would result in deadlocking the node.
+With <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code>, all callbacks run cooperatively on the <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> event loop, so <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">client.call(request)</span></code> works from any callback without additional configuration.</p>
+</div>
+<p>Run the underlying <code class="docutils literal notranslate"><span class="pre">add_two_ints</span></code> server in one terminal:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>demo_nodes_py<span class="w"> </span>add_two_ints_server
+</pre></div>
+</div>
+<p>Restart your service and run the client as before:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>python_async_node<span class="w"> </span>service
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>python_async_node<span class="w"> </span>client
+<span class="go">[INFO] [trigger_client]: Service responded: success=True, message=&quot;2+2=4&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="handling-requests-concurrently">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Handling requests concurrently</a><a class="headerlink" href="#handling-requests-concurrently" title="Link to this heading"></a></h3>
+<p>By default, async services process one request at a time — if a callback is still running when a new request arrives, the new one waits.</p>
+<p>Passing <code class="docutils literal notranslate"><span class="pre">concurrent=True</span></code> dispatches each incoming request on its own task, enabling multiple callbacks to run in parallel:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_service</span><span class="p">(</span>
+    <span class="n">Trigger</span><span class="p">,</span> <span class="s1">&#39;trigger&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">,</span> <span class="n">concurrent</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>With concurrent dispatch, three clients arriving at the same time each get their response after roughly two seconds rather than queueing up.
+The same flag is available on <code class="docutils literal notranslate"><span class="pre">create_subscription</span></code>.</p>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>You wrote an async service and client using <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code>, with <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code> callbacks that can <code class="docutils literal notranslate"><span class="pre">await</span></code> long running operations.
+Because <code class="docutils literal notranslate"><span class="pre">AsyncNode</span></code> runs on <code class="docutils literal notranslate"><span class="pre">asyncio</span></code>, your node can directly use the rest of the Python async ecosystem — web frameworks, messaging clients, database drivers, and more.</p>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="Using-callback-groups.html" class="btn btn-neutral float-left" title="Using Callback Groups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../../Interfaces-Topics-Services-Actions.html" class="btn btn-neutral float-right" title="Interfaces (topics, services, actions)" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2026, Open Robotics。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
