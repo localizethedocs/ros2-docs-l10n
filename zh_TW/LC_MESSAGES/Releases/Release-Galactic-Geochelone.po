@@ -1,0 +1,354 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, Open Robotics
+# This file is distributed under the same license as the ros2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ros2 documentation eloquent\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 06:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:8
+msgid "ROS 2 Galactic Geochelone (codename 'galactic'; May, 2021)"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:12
+msgid "Table of Contents"
+msgstr "目次表"
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:14
+msgid "*Galactic Geochelone* is the seventh release of ROS 2."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:17
+msgid "Supported Platforms"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:19
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:24
+msgid "TBD"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:22
+msgid "Installation"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:27
+msgid "New features in this ROS 2 release"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:30
+msgid "Ability to specify per-logger log levels"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:32
+msgid ""
+"It is now possible to specify different logging levels for different loggers "
+"on the command line:"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:34
+msgid ""
+"ros2 run demo_nodes_cpp talker --ros-args --log-level WARN --log-level "
+"talker:=DEBUG"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:38
+msgid ""
+"The above command sets a global log level of WARN, but sets the log level of "
+"the talker node messages to DEBUG. The ``--log-level`` command-line option "
+"can be passed an arbitrary number of times to set different log levels for "
+"each logger."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:42
+msgid "Ability to configure logging directory through environment variables"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:44
+msgid ""
+"It is now possible to configure the logging directory through two "
+"environment variables: ``ROS_LOG_DIR`` and ``ROS_HOME``. The logic is as "
+"follows:"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:47
+msgid "Use ``$ROS_LOG_DIR`` if ``ROS_LOG_DIR`` is set and not empty."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:48
+msgid ""
+"Otherwise, use ``$ROS_HOME/log``, using ``~/.ros`` for ``ROS_HOME`` if not "
+"set or if empty."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:50
+msgid "Thus the default value stays the same: ``~/.ros/log``."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:52
+msgid ""
+"Related PRs: `ros2/rcl_logging#53 <https://github.com/ros2/rcl_logging/"
+"pull/53>`_ and `ros2/launch#460 <https://github.com/ros2/launch/pull/460>`_."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:55
+msgid "Changes since the Foxy release"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:58
+msgid "nav2"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:60
+msgid ""
+"Changes include, but are not limited to, a number of stability improvements, "
+"new plugins, interface changes, costmap filters. See `Migration Guides "
+"<https://navigation.ros.org/migration/Foxy.html>`_ for full list"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:64
+msgid "tf2_ros Python split out of tf2_ros"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:66
+msgid ""
+"The Python code that used to live in tf2_ros has been moved into its own "
+"package named tf2_ros_py. Any existing Python code that depends on tf2_ros "
+"will continue to work, but the package.xml of those packages should be "
+"amended to ``exec_depend`` on tf2_ros_py."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:70
+msgid "rclcpp"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:73
+msgid "Change in spin_until_future_complete template parameters"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:75
+msgid ""
+"The first template parameter of ``Executor::spin_until_future_complete`` was "
+"the future result type ``ResultT``, and the method only accepted a ``std::"
+"shared_future<ResultT>``. In order to accept other types of futures (e.g.: "
+"``std::future``), that parameter was changed to the future type itself."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:78
+msgid ""
+"In places where a ``spin_until_future_complete`` call was relying on "
+"template argument deduction, no change is needed. If not, this is an example "
+"diff:"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:81
+msgid ""
+"std::shared_future<MyResultT> future;\n"
+"...\n"
+"-executor.spin_until_future_complete<MyResultT>(future);\n"
+"+executor.spin_until_future_complete<std::shared_future<MyResultT>>(future);"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:89
+msgid ""
+"For more details, see `ros2/rclcpp#1160 <https://github.com/ros2/rclcpp/"
+"pull/1160>`_. For an example of the needed changes in user code, see `ros-"
+"visualization/interactive_markers#72 <https://github.com/ros-visualization/"
+"interactive_markers/pull/72>`_."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:93
+msgid "Change in default ``/clock`` subscription QoS profile"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:95
+msgid ""
+"The default was changed from a reliable communication with history depth 10 "
+"to a best effort communication with history depth 1. See `ros2/rclcpp#1312 "
+"<https://github.com/ros2/rclcpp/pull/1312>`_."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:99
+msgid "Waitable API"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:101
+msgid ""
+"Waitable API was modified to avoid issues with the "
+"``MultiThreadedExecutor``. This only affects users implementing a custom "
+"waitable. See `ros2/rclcpp#1241 <https://github.com/ros2/rclcpp/pull/1241>`_ "
+"for more details."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:106
+msgid "rclpy"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:109
+msgid "Removal of deprecated Node.set_parameters_callback"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:111
+msgid ""
+"Can be replaced with ``Node.add_on_set_parameters_callback``. See `ros2/"
+"rclpy#504 <https://github.com/ros2/rclpy/pull/504>`_ for some examples."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:115
+msgid "rclcpp_action"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:118
+msgid "Action client goal response callback signature changed"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:120
+msgid ""
+"The goal response callback should now take a shared pointer to a goal "
+"handle, instead of a future."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:122
+msgid ""
+"For `example <https://github.com/ros2/examples/pull/291>`_, old signature:"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:124
+msgid ""
+"void goal_response_callback(std::shared_future<GoalHandleFibonacci::"
+"SharedPtr> future)"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:128
+msgid "New signature:"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:130
+msgid "void goal_response_callback(GoalHandleFibonacci::SharedPtr goal_handle)"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:134
+msgid ""
+"Related PR: `ros2/rclcpp#1311 <https://github.com/ros2/rclcpp/pull/1311>`_"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:137
+msgid "rosidl_typesupport_introspection_c"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:140
+msgid "API break in function that gets an element from an array"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:142
+msgid ""
+"The signature of the function was changed because it was semantically "
+"different to all the other functions used to get an element from an array or "
+"sequence. This only affects authors of rmw implementations using the "
+"introspection typesupport."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:145
+msgid ""
+"For further details, see `ros2/rosidl#531 <https://github.com/ros2/rosidl/"
+"pull/531>`_."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:148
+msgid "Known Issues"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:151
+msgid "Timeline before the release"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:153
+msgid "Mon. March 22, 2021 - Alpha"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:154
+msgid "Preliminary testing and stabilization of ROS Core [1]_ packages."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:156
+msgid "Mon. April 5, 2021 - Freeze"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:157
+msgid ""
+"API and feature freeze for ROS Core [1]_ packages in Rolling Ridley. Note "
+"that this includes ``rmw``, which is a recursive dependency of ``ros_core``. "
+"Only bug fix releases should be made after this point. New packages can be "
+"released independently."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:162
+msgid "Mon. April 19, 2021 - Branch"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:163
+msgid ""
+"Branch from Rolling Ridley. ``rosdistro`` is reopened for Rolling PRs for "
+"ROS Core [1]_ packages. Galactic development shifts from ``ros-rolling-*`` "
+"packages to ``ros-galactic-*`` packages."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:167
+msgid "Mon. April 26, 2021 - Beta"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:168
+msgid ""
+"Updated releases of ROS Desktop [2]_ packages available. Call for general "
+"testing."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:171
+msgid "Mon. May 17, 2021 - RC"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:172
+msgid ""
+"Release Candidate packages are built. Updated releases of ROS Desktop [2]_ "
+"packages available."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:175
+msgid "Thu. May 20, 2021 - Distro Freeze"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:176
+msgid ""
+"Freeze rosdistro. No PRs for Galactic on the ``rosdistro`` repo will be "
+"merged (reopens after the release announcement)."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:179
+msgid "Sun. May 23, 2021 - General Availability"
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:180
+msgid "Release announcement. ``rosdistro`` is reopened for Galactic PRs."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:183
+msgid ""
+"The ``ros_core`` variant is described in `REP 2001 (ros-core) <https://www."
+"ros.org/reps/rep-2001.html#ros-core>`_."
+msgstr ""
+
+#: ../../../source/Releases/Release-Galactic-Geochelone.rst:184
+msgid ""
+"The ``desktop`` variant is described in `REP 2001 (desktop-variants) "
+"<https://www.ros.org/reps/rep-2001.html#desktop-variants>`_."
+msgstr ""
