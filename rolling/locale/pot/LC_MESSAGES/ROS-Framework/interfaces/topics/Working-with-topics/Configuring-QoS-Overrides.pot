@@ -1,0 +1,748 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation rolling\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 15:15+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:-1
+msgid "tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:-1
+msgid "intermediate"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:-1
+msgid "interfaces, framework"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:9
+msgid "Configuring QoS overrides using parameters — tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:12
+msgid ""
+"Quality of Service (QoS) overrides allow configuring publisher and "
+"subscription QoS profiles at node startup without modifying application "
+"source code. This tutorial demonstrates how to enable QoS overrides in C++ "
+"and Python nodes and configure them using parameter files. After following "
+"these steps, you will be able to inspect, configure, and validate QoS "
+"policies at runtime."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:20
+msgid ""
+"**Goal:** Enable and configure Quality of Service (QoS) overrides for "
+"publishers and subscriptions using ROS 2 parameters."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:22
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:24
+msgid "**Time:** 15 minutes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:28
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:31
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:33
+msgid ""
+"In ROS 2, Quality of Service (QoS) profiles determine the frequency, "
+"reliability, and overall performance of communication between publishers and "
+"subscribers on a ROS topic. By default, developers specify QoS settings "
+"directly in their application source code when creating publishers and "
+"subscriptions. However, hard-coded QoS settings make it difficult to adapt "
+"nodes to different deployment environments. For example, a robot might use "
+"reliable communications over a wired gigabit network during development, but "
+"require best-effort communications over a lossy wireless connection in "
+"deployment."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:38
+msgid ""
+"To address this challenge, ROS 2 provides **QoS overrides**. QoS overrides "
+"allow developers to expose publisher and subscription QoS configurations as "
+"read-only ROS 2 parameters under a hierarchical parameter prefix "
+"(``qos_overrides.<topic>...``). Users can then change QoS policies at node "
+"startup using YAML parameter files or command-line arguments without "
+"recompiling or altering the node source code."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:43
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:45
+msgid ""
+"This tutorial assumes you have a :doc:`working ROS 2 installation "
+"<../../../../Get-Started/Installation>`. The commands in this tutorial use "
+"the ``quality_of_service_demo_cpp`` and ``quality_of_service_demo_py`` "
+"packages included with the ROS 2 demos repository."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:48
+msgid ""
+"You can verify that these demo packages are available on your system by "
+"checking their executables:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:50
+msgid ""
+"$ ros2 pkg executables quality_of_service_demo_cpp\n"
+"$ ros2 pkg executables quality_of_service_demo_py"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:56
+msgid "Enabling QoS overrides in code"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:58
+msgid ""
+"To allow users to override QoS settings, the node author must opt in when "
+"constructing the publisher or subscription. This opt-in process does not "
+"change the QoS policy itself, but instead provides a way for users to change "
+"the policy via a parameter file specified at execution time. You can enable "
+"default reconfigurable policies (history, depth, and reliability) or specify "
+"a custom list of policy kinds with an optional validation callback."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:64
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:288
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:346
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:362
+msgid "C++"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:66
+msgid ""
+"In C++, include the ``rclcpp/qos_overriding_options.hpp`` header. Set the "
+"``qos_overriding_options`` field on ``rclcpp::PublisherOptions`` or "
+"``rclcpp::SubscriptionOptions``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:69
+msgid ""
+"#include \"rclcpp/logging.hpp\"\n"
+"#include \"rclcpp/node.hpp\"\n"
+"#include \"rclcpp/publisher.hpp\"\n"
+"#include \"rclcpp/publisher_options.hpp\"\n"
+"#include \"rclcpp/qos.hpp\"\n"
+"#include \"rclcpp/qos_overriding_options.hpp\"\n"
+"#include \"rclcpp/subscription.hpp\"\n"
+"#include \"rclcpp/subscription_options.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"class QosConfigurableNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  QosConfigurableNode()\n"
+"  : Node(\"qos_configurable_node\")\n"
+"  {\n"
+"    // Configure publisher options to allow overriding default QoS policies "
+"(history, depth, and reliability)\n"
+"    rclcpp::PublisherOptions pub_opts;\n"
+"    pub_opts.qos_overriding_options = "
+"rclcpp::QosOverridingOptions::with_default_policies(\n"
+"      [](const rclcpp::QoS & qos) {\n"
+"        rclcpp::QosCallbackResult result;\n"
+"        if (qos.depth() > 10u) {\n"
+"          result.successful = false;\n"
+"          result.reason = \"history depth must be 10 or less\";\n"
+"          return result;\n"
+"        }\n"
+"        result.successful = true;\n"
+"        return result;\n"
+"      });\n"
+"\n"
+"    pub_ = this->create_publisher<std_msgs::msg::String>(\"chatter\", 10, "
+"pub_opts);\n"
+"\n"
+"    // Configure subscription options to allow overriding default QoS "
+"policies (history, depth, and reliability)\n"
+"    rclcpp::SubscriptionOptions sub_opts;\n"
+"    sub_opts.qos_overriding_options = "
+"rclcpp::QosOverridingOptions::with_default_policies();\n"
+"\n"
+"    sub_ = this->create_subscription<std_msgs::msg::String>(\n"
+"      \"chatter\",\n"
+"      10,\n"
+"      [this](std_msgs::msg::String::ConstSharedPtr msg) {\n"
+"        RCLCPP_INFO(this->get_logger(), \"Received: '%s'\", msg-"
+">data.c_str());\n"
+"      },\n"
+"      sub_opts);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr pub_;\n"
+"  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_;\n"
+"};"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:122
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:282
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:340
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:356
+msgid "Python"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:124
+msgid ""
+"In Python, import ``QoSOverridingOptions`` from "
+"``rclpy.qos_overriding_options``. Pass ``qos_overriding_options`` when "
+"calling ``create_publisher`` or ``create_subscription``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:127
+msgid ""
+"import rclpy\n"
+"from rclpy.node import Node\n"
+"from rclpy.qos_overriding_options import QoSOverridingOptions, "
+"QosCallbackResult\n"
+"from std_msgs.msg import String\n"
+"\n"
+"\n"
+"class QosConfigurableNode(Node):\n"
+"\n"
+"    def __init__(self):\n"
+"        super().__init__('qos_configurable_node')\n"
+"\n"
+"        # Enable QoS overrides with default policies (history, depth, "
+"reliability) for the publisher\n"
+"        self.pub = self.create_publisher(\n"
+"            String,\n"
+"            'chatter',\n"
+"            10,\n"
+"            # Adding the following line makes the QoS configurable at run "
+"time.\n"
+"            qos_overriding_options=QoSOverridingOptions.with_default_policies(\n"
+"                callback=self.validate_qos,\n"
+"            ),\n"
+"        )\n"
+"\n"
+"        # Enable QoS overrides with default policies (history, depth, "
+"reliability) for the subscription\n"
+"        self.sub = self.create_subscription(\n"
+"            String,\n"
+"            'chatter',\n"
+"            self.listener_callback,\n"
+"            10,\n"
+"            # Adding the following line makes the QoS configurable at run "
+"time.\n"
+"            qos_overriding_options=QoSOverridingOptions.with_default_policies(),\n"
+"        )\n"
+"\n"
+"    def listener_callback(self, msg):\n"
+"        self.get_logger().info(f'Received: \"{msg.data}\"')\n"
+"\n"
+"    def validate_qos(self, qos):\n"
+"        result = QosCallbackResult()\n"
+"        if qos.depth > 10:\n"
+"            result.successful = False\n"
+"            result.reason = 'history depth must be 10 or less'\n"
+"            return result\n"
+"        result.successful = True\n"
+"        return result"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:174
+msgid "Validation callbacks"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:176
+msgid ""
+"A validation callback lets the node author verify whether the user-supplied "
+"QoS profile meets application safety requirements. The callback receives the "
+"final resolved ``QoS`` profile and returns a result containing a boolean "
+"flag ``successful`` and a text ``reason``. If the callback returns "
+"``successful = false``, the node initialization fails with an exception "
+"(``InvalidQosOverridesException`` in C++, ``InvalidQosOverridesError`` in "
+"Python), preventing accidental misconfigurations."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:181
+msgid "Entity identifiers"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:183
+msgid ""
+"When a single node hosts multiple publishers or subscriptions on the same "
+"topic, pass an optional ``id`` or ``entity_id`` to distinguish them. For "
+"example, supplying ``entity_id=\"fast_stream\"`` renames the parameter group "
+"from ``publisher`` to ``publisher_fast_stream``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:187
+msgid "QoS parameter hierarchy"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:189
+msgid ""
+"When QoS overrides are enabled, the node declares read-only parameters under "
+"a hierarchical naming pattern:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:191
+msgid "qos_overrides.<topic_name>.<entity_type>[_<id>].<policy_name>"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:195
+msgid ""
+"``<topic_name>``: The topic name associated with the publisher or "
+"subscription."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:196
+msgid "``<entity_type>``: Either ``publisher`` or ``subscription``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:197
+msgid ""
+"``_<id>``: An optional suffix appended when an entity identifier is "
+"specified."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:198
+msgid "``<policy_name>``: The specific QoS policy to override."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:200
+msgid ""
+"The following table summarizes the supported QoS policies and their "
+"parameter types:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:202
+msgid "Supported QoS override parameters"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:206
+msgid "Policy"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:207
+msgid "Parameter Type"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:208
+msgid "Scope"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:209
+msgid "Possible Values"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:210
+msgid "``history``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:211
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:219
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:223
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:235
+msgid "string"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:212
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:216
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:220
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:224
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:228
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:236
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:240
+msgid "Publisher & Subscription"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:213
+msgid "``system_default``, ``keep_last``, ``keep_all``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:214
+msgid "``depth``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:215
+msgid "integer"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:217
+msgid "Positive integer queue size (e.g., ``10``)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:218
+msgid "``reliability``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:221
+msgid "``system_default``, ``reliable``, ``best_effort``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:222
+msgid "``durability``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:225
+msgid "``system_default``, ``transient_local``, ``volatile``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:226
+msgid "``deadline``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:227
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:231
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:239
+msgid "integer or duration"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:229
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:233
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:241
+msgid "Duration in nanoseconds, or dictionary with ``sec`` and ``nsec``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:230
+msgid "``lifespan``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:232
+msgid "Publisher only"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:234
+msgid "``liveliness``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:237
+msgid "``system_default``, ``automatic``, ``manual_by_topic``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:238
+msgid "``liveliness_lease_duration``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:245
+msgid ""
+"These parameters are declared as read-only. They cannot be modified at "
+"runtime using ``ros2 param set``. They must be supplied at node startup "
+"using parameter files or command-line arguments."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:250
+msgid "Creating a parameter overrides file"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:252
+msgid ""
+"Create a YAML file named ``qos_overrides.yaml`` with your desired QoS "
+"configurations:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:254
+msgid ""
+"qos_overrides_talker:\n"
+"  ros__parameters:\n"
+"    qos_overrides:\n"
+"      /qos_overrides_chatter:\n"
+"        publisher:\n"
+"          reliability: best_effort\n"
+"          depth: 5\n"
+"\n"
+"qos_overrides_listener:\n"
+"  ros__parameters:\n"
+"    qos_overrides:\n"
+"      /qos_overrides_chatter:\n"
+"        subscription:\n"
+"          reliability: best_effort\n"
+"          depth: 5"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:273
+msgid "Running the demonstration"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:276
+msgid "Step 1: Inspect default parameters"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:278
+msgid "Start the talker node in a terminal without any parameter overrides:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:284
+msgid "$ ros2 run quality_of_service_demo_py qos_overrides_talker"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:290
+msgid "$ ros2 run quality_of_service_demo_cpp qos_overrides_talker"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:294
+msgid "In a second terminal, inspect the declared QoS parameters:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:296
+msgid "$ ros2 param list /qos_overrides_talker"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:300
+msgid "You will see parameters under the ``qos_overrides`` namespace:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:302
+msgid ""
+"/qos_overrides_talker:\n"
+"  qos_overrides./qos_overrides_chatter.publisher.depth\n"
+"  qos_overrides./qos_overrides_chatter.publisher.history\n"
+"  qos_overrides./qos_overrides_chatter.publisher.reliability\n"
+"  ..."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:310
+msgid "You can view the default values with ``ros2 param dump``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:312
+msgid "$ ros2 param dump /qos_overrides_talker"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:316
+msgid "The output reveals default values:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:318
+msgid ""
+"/qos_overrides_talker:\n"
+"  ros__parameters:\n"
+"    qos_overrides:\n"
+"      /qos_overrides_chatter:\n"
+"        publisher:\n"
+"          depth: 10\n"
+"          history: keep_last\n"
+"          reliability: reliable"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:329
+msgid "Stop the node using ``Ctrl-C``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:332
+msgid "Step 2: Apply the parameter overrides"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:334
+msgid ""
+"Start the talker and listener passing the parameter file with ``--params-"
+"file``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:336
+msgid "In terminal 1:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:342
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:427
+msgid ""
+"$ ros2 run quality_of_service_demo_py qos_overrides_talker --ros-args --"
+"params-file qos_overrides.yaml"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:348
+msgid ""
+"$ ros2 run quality_of_service_demo_cpp qos_overrides_talker --ros-args --"
+"params-file qos_overrides.yaml"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:352
+msgid "In terminal 2:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:358
+msgid ""
+"$ ros2 run quality_of_service_demo_py qos_overrides_listener --ros-args --"
+"params-file qos_overrides.yaml"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:364
+msgid ""
+"$ ros2 run quality_of_service_demo_cpp qos_overrides_listener --ros-args --"
+"params-file qos_overrides.yaml"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:368
+msgid ""
+"In a third terminal, verify that the endpoint QoS profile has been updated "
+"to best-effort:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:370
+msgid "$ ros2 topic info -v /qos_overrides_chatter"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:374
+msgid ""
+"The output confirms that the publisher and subscription are operating with "
+"the overridden settings:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:376
+msgid ""
+"Type: example_interfaces/msg/String\n"
+"\n"
+"Publisher count: 1\n"
+"\n"
+"Node name: qos_overrides_talker\n"
+"Node namespace: /\n"
+"Topic type: example_interfaces/msg/String\n"
+"Endpoint type: PUBLISHER\n"
+"QoS profile:\n"
+"  Reliability: BEST_EFFORT\n"
+"  History (Depth): UNKNOWN\n"
+"  Durability: VOLATILE\n"
+"  Lifespan: Infinite\n"
+"  Deadline: Infinite\n"
+"  Liveliness: AUTOMATIC\n"
+"  Liveliness lease duration: Infinite\n"
+"\n"
+"Subscription count: 1\n"
+"\n"
+"Node name: qos_overrides_listener\n"
+"Node namespace: /\n"
+"Topic type: example_interfaces/msg/String\n"
+"Endpoint type: SUBSCRIPTION\n"
+"QoS profile:\n"
+"  Reliability: BEST_EFFORT\n"
+"  History (Depth): UNKNOWN\n"
+"  Durability: VOLATILE\n"
+"  Lifespan: Infinite\n"
+"  Deadline: Infinite\n"
+"  Liveliness: AUTOMATIC\n"
+"  Liveliness lease duration: Infinite"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:411
+msgid "Step 3: Test validation callbacks"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:413
+msgid ""
+"The example demo enforces a maximum history depth of 10. Edit "
+"``qos_overrides.yaml`` and change the publisher depth to ``11``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:416
+msgid ""
+"qos_overrides_talker:\n"
+"  ros__parameters:\n"
+"    qos_overrides:\n"
+"      /qos_overrides_chatter:\n"
+"        publisher:\n"
+"          depth: 11"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:425
+msgid "Now launch the talker node again:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:431
+msgid "The node will reject the configuration and terminate with an error:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:433
+msgid ""
+"rclpy.qos_overriding_options.InvalidQosOverridesError: Provided QoS "
+"overrides for publisher `/qos_overrides_chatter` with id `None`, are not "
+"valid: expected qos depth less than 10"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:437
+msgid ""
+"This mechanism ensures that invalid or incompatible QoS combinations are "
+"rejected at startup before communication begins."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:440
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:442
+msgid "In this tutorial, you learned:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:444
+msgid ""
+"How to enable QoS overrides in C++ using ``rclcpp::QosOverridingOptions`` "
+"and in Python using ``rclpy.qos_overriding_options.QoSOverridingOptions``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:445
+msgid ""
+"How ROS 2 organizes override parameters under the ``qos_overrides`` "
+"namespace."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:446
+msgid ""
+"How to override publisher and subscription QoS policies at startup using a "
+"YAML parameter file."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:447
+msgid "How to verify endpoint QoS profiles with ``ros2 topic info -v``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:448
+msgid ""
+"How validation callbacks enforce application safety constraints at "
+"initialization."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:451
+msgid "Related Content"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:453
+msgid ""
+":doc:`About Quality of Service settings <../About-Quality-of-Service-"
+"Settings>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:454
+msgid ""
+":doc:`Using quality-of-service settings for lossy networks — tutorial "
+"<Quality-of-Service>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/topics/Working-with-topics/Configuring-QoS-Overrides.rst:455
+msgid ""
+":doc:`Overriding QoS policies for recording and playback </Developer-Tools/"
+"Debugging/Testing/Overriding-QoS-Policies-For-Recording-And-Playback>`"
+msgstr ""
