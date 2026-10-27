@@ -23,7 +23,7 @@ var CONFIG_OPTIONS = {
     ["Index",     "https://projects.localizethedocs.org"],
     ["Crowdin",   "https://localizethedocs.crowdin.com/ros2-docs-l10n"],
     ["GitHub",    "https://github.com/localizethedocs/ros2-docs-l10n"],
-    ["GitCode",   "https://gitcode.com/localizethedocs/ros2-docs-l10n"],
+    ["AtomGit",   "https://atomgit.com/localizethedocs/ros2-docs-l10n"],
     ["GitFlic",   "https://gitflic.ru/project/localizethedocs/ros2-docs-l10n"],
   ]
 };
