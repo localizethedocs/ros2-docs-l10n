@@ -1,0 +1,519 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation lyrical\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-20 13:07+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:-1
+msgid "tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:-1
+msgid "expert"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:-1
+msgid "client-libraries, framework"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:13
+msgid "Reading from a bag file (C++) — tutorial"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:16
+msgid ""
+"Bag files let you inspect and reuse recorded ROS data from your own "
+"applications. This article shows how to create a C++ node that reads "
+"messages from a bag file, deserialises them, and republishes selected data. "
+"After following these steps, you will be able to build and run a C++ bag "
+"reader."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:24
+msgid "**Goal:** Read data from a bag file to your own C++ node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:26
+msgid "**Tutorial level:** Advanced"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:28
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:32
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:35
+msgid "Background"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:37
+msgid ""
+"``rosbag2`` doesn't just provide the ``ros2 bag`` command line tool. It also "
+"provides a C++ API for reading from and writing to a bag from your own "
+"source code. This allows you to read the contents from a bag without having "
+"to play the bag, which can sometimes be useful."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:42
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:44
+msgid ""
+"You should have the ``rosbag2`` packages installed as part of your regular "
+"ROS 2 setup."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:46
+msgid ""
+"If you need to install ROS 2, see the :doc:`Installation instructions "
+"<../../../Get-Started/Installation>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:48
+msgid ""
+"You should have already completed the :doc:`basic ROS 2 bag tutorial <../../"
+"interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-"
+"And-Playing-Back-Data>`, and we will be using the ``subset`` bag you created "
+"there."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:51
+msgid "Tasks"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:54
+msgid "1 Create a Package"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:56
+msgid ""
+"Open a new terminal and :doc:`source your ROS 2 installation <../../../Get-"
+"Started/Configuring-ROS2-Environment>` so that ``ros2`` commands will work."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:58
+msgid ""
+"In a new or existing :ref:`workspace <new-directory>`, navigate to the "
+"``src`` directory and create a new package:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:61
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake --license Apache-2.0 "
+"bag_reading_cpp --dependencies rclcpp rosbag2_transport turtlesim_msgs"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:65
+msgid ""
+"Your terminal will return a message verifying the creation of your package "
+"``bag_reading_cpp`` and all its necessary files and folders. The ``--"
+"dependencies`` argument will automatically add the necessary dependency "
+"lines to ``package.xml`` and ``CMakeLists.txt``. In this case, the package "
+"will use the ``rosbag2_transport`` package as well as the ``rclcpp`` "
+"package. A dependency on the ``turtlesim_msgs`` package is also required for "
+"working with the custom turtlesim messages."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:71
+msgid "1.1 Update ``package.xml``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:73
+msgid ""
+"Because you used the ``--dependencies`` option during package creation, you "
+"don't have to manually add dependencies to ``package.xml`` or "
+"``CMakeLists.txt``. As always, though, make sure to add the description, "
+"maintainer email and name, and license information to ``package.xml``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:76
+msgid ""
+"<description>C++ bag reading tutorial</description>\n"
+"<maintainer email=\"you@email.com\">Your Name</maintainer>\n"
+"<license>Apache-2.0</license>"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:83
+msgid "2 Write the C++ Reader"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:85
+msgid ""
+"Inside your package's ``src`` directory, create a new file called "
+"``simple_bag_reader.cpp`` and paste the following code into it."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:87
+msgid ""
+"#include <chrono>\n"
+"#include <functional>\n"
+"#include <iostream>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"rclcpp/serialization.hpp\"\n"
+"#include \"rosbag2_transport/reader_writer_factory.hpp\"\n"
+"#include \"turtlesim_msgs/msg/pose.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class PlaybackNode : public rclcpp::Node\n"
+"{\n"
+"  public:\n"
+"    PlaybackNode(const std::string & bag_filename)\n"
+"    : Node(\"playback_node\")\n"
+"    {\n"
+"      publisher_ = this->create_publisher<turtlesim_msgs::msg::Pose>(\"/"
+"turtle1/pose\", 10);\n"
+"\n"
+"      timer_ = this->create_wall_timer(100ms,\n"
+"          [this](){return this->timer_callback();}\n"
+"      );\n"
+"\n"
+"      rosbag2_storage::StorageOptions storage_options;\n"
+"      storage_options.uri = bag_filename;\n"
+"      reader_ = "
+"rosbag2_transport::ReaderWriterFactory::make_reader(storage_options);\n"
+"      reader_->open(storage_options);\n"
+"    }\n"
+"\n"
+"  private:\n"
+"    void timer_callback()\n"
+"    {\n"
+"      while (reader_->has_next()) {\n"
+"        rosbag2_storage::SerializedBagMessageSharedPtr msg = reader_-"
+">read_next();\n"
+"\n"
+"        if (msg->topic_name != \"/turtle1/pose\") {\n"
+"          continue;\n"
+"        }\n"
+"\n"
+"        rclcpp::SerializedMessage serialized_msg(*msg->serialized_data);\n"
+"        turtlesim_msgs::msg::Pose::SharedPtr ros_msg = "
+"std::make_shared<turtlesim_msgs::msg::Pose>();\n"
+"\n"
+"        serialization_.deserialize_message(&serialized_msg, ros_msg.get());\n"
+"\n"
+"        publisher_->publish(*ros_msg);\n"
+"        std::cout << '(' << ros_msg->x << \", \" << ros_msg->y << \")\\n\";\n"
+"\n"
+"        break;\n"
+"      }\n"
+"    }\n"
+"\n"
+"    rclcpp::TimerBase::SharedPtr timer_;\n"
+"    rclcpp::Publisher<turtlesim_msgs::msg::Pose>::SharedPtr publisher_;\n"
+"\n"
+"    rclcpp::Serialization<turtlesim_msgs::msg::Pose> serialization_;\n"
+"    std::unique_ptr<rosbag2_cpp::Reader> reader_;\n"
+"};\n"
+"\n"
+"int main(int argc, char ** argv)\n"
+"{\n"
+"  if (argc != 2) {\n"
+"    std::cerr << \"Usage: \" << argv[0] << \" <bag>\" << std::endl;\n"
+"    return 1;\n"
+"  }\n"
+"\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<PlaybackNode>(argv[1]));\n"
+"  rclcpp::shutdown();\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:3
+msgid ""
+"``rclcpp/rclcpp.hpp`` is a *convenience* header. It pulls in the whole "
+"``rclcpp`` API at once — nodes, publishers, subscriptions, services, timers, "
+"parameters, executors, rates, wait sets, and more — so every translation "
+"unit that includes it is compiled against features it never uses."
+msgstr ""
+
+#: ../../../source/_internal/Rclcpp-Convenience-Header-Note.rst:6
+msgid ""
+"Outside of the tutorials, prefer including only the headers for the specific "
+"API calls you actually use. For example, ``rclcpp::Node`` is declared in "
+"``rclcpp/node.hpp``, ``rclcpp::spin`` in ``rclcpp/executors.hpp``, and "
+"``rclcpp::init`` and ``rclcpp::shutdown`` in ``rclcpp/utilities.hpp``. The "
+"saving is largest in translation units that never create or spin a node — "
+"headers, plugins, and helper libraries that only need something small like "
+"``rclcpp/qos.hpp`` or ``rclcpp/time.hpp`` — because ``rclcpp/node.hpp`` and "
+"``rclcpp/executors.hpp`` are large in their own right. ``rclcpp/rclcpp.hpp`` "
+"is little more than a list of these headers, so it is a good place to start "
+"when working out which ones you need."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:166
+msgid "2.1 Examine the code"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:168
+msgid ""
+"The ``#include`` statements at the top are the package dependencies. Note "
+"the inclusion of headers from the ``rosbag2_transport`` package for the "
+"functions and structures necessary to work with bag files."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:171
+msgid ""
+"The next line creates the node which will read from the bag file and play "
+"back the data."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:173
+msgid "class PlaybackNode : public rclcpp::Node"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:177
+msgid ""
+"Now, we can create a timer callback which will run at 10 hz. Our goal is to "
+"replay one message to the ``/turtle1/pose`` topic each time the callback is "
+"run. Note the constructor takes a path to the bag file as a parameter."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:181
+msgid ""
+"public:\n"
+"  PlaybackNode(const std::string & bag_filename)\n"
+"  : Node(\"playback_node\")\n"
+"  {\n"
+"    publisher_ = this->create_publisher<turtlesim_msgs::msg::Pose>(\"/"
+"turtle1/pose\", 10);\n"
+"\n"
+"    timer_ = this->create_wall_timer(100ms,\n"
+"      [this](){return this->timer_callback();}\n"
+"    );"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:193
+msgid ""
+"We also open the bag in the constructor. The "
+"``rosbag2_transport::ReaderWriterFactory`` is a class that can construct a "
+"compressed or uncompressed reader or writer based on the storage options."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:196
+msgid ""
+"rosbag2_storage::StorageOptions storage_options;\n"
+"storage_options.uri = bag_filename;\n"
+"reader_ = "
+"rosbag2_transport::ReaderWriterFactory::make_reader(storage_options);\n"
+"reader_->open(storage_options);"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:203
+msgid ""
+"Now, inside our timer callback, we loop through messages in the bag until we "
+"read a message recorded from our desired topic. Note that the serialized "
+"message has timestamp metadata in addition to the topic name."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:206
+msgid ""
+"void timer_callback()\n"
+"{\n"
+"  while (reader_->has_next()) {\n"
+"    rosbag2_storage::SerializedBagMessageSharedPtr msg = reader_-"
+">read_next();\n"
+"\n"
+"    if (msg->topic_name != \"/turtle1/pose\") {\n"
+"      continue;\n"
+"    }"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:217
+msgid ""
+"We then construct an ``rclcpp::SerializedMessage`` object from the "
+"serialized data we just read. Additionally, we need to create a ROS 2 "
+"deserialized message which will hold the result of our deserialization. "
+"Then, we can pass both these objects to the "
+"``rclcpp::Serialization::deserialize_message`` method."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:221
+msgid ""
+"rclcpp::SerializedMessage serialized_msg(*msg->serialized_data);\n"
+"turtlesim_msgs::msg::Pose::SharedPtr ros_msg = "
+"std::make_shared<turtlesim_msgs::msg::Pose>();\n"
+"\n"
+"serialization_.deserialize_message(&serialized_msg, ros_msg.get());"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:228
+msgid ""
+"Finally, we publish the deserialized message and print out the xy coordinate "
+"to the terminal. We also break out of the loop so that we publish the next "
+"message during the next timer callback."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:231
+msgid ""
+"  publisher_->publish(*ros_msg);\n"
+"  std::cout << '(' << ros_msg->x << \", \" << ros_msg->y << \")\\n\";\n"
+"\n"
+"  break;\n"
+"}"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:239
+msgid "We must also declare the private variables used throughout the node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:241
+msgid ""
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"  rclcpp::Publisher<turtlesim_msgs::msg::Pose>::SharedPtr publisher_;\n"
+"\n"
+"  rclcpp::Serialization<turtlesim_msgs::msg::Pose> serialization_;\n"
+"  std::unique_ptr<rosbag2_cpp::Reader> reader_;\n"
+"};"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:250
+msgid ""
+"Lastly, we create the main function which will check that the user passes an "
+"argument for the bag file path and spins our node."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:252
+msgid ""
+"int main(int argc, char ** argv)\n"
+"{\n"
+"  if (argc != 2) {\n"
+"    std::cerr << \"Usage: \" << argv[0] << \" <bag>\" << std::endl;\n"
+"    return 1;\n"
+"  }\n"
+"\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<PlaybackNode>(argv[1]));\n"
+"  rclcpp::shutdown();\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:269
+msgid "2.2 Add executable"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:271
+msgid "Now open the ``CMakeLists.txt`` file."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:273
+msgid ""
+"Below the dependencies block, which contains "
+"``find_package(rosbag2_transport REQUIRED)``, add the following lines of "
+"code."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:275
+msgid ""
+"add_executable(simple_bag_reader src/simple_bag_reader.cpp)\n"
+"target_link_libraries(simple_bag_reader PUBLIC rclcpp::rclcpp "
+"rosbag2_transport::rosbag2_transport turtlesim_msgs::turtlesim_msgs)\n"
+"\n"
+"install(TARGETS\n"
+"  simple_bag_reader\n"
+"  DESTINATION lib/${PROJECT_NAME}\n"
+")"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:286
+msgid "3 Build and run"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:288
+msgid "Navigate back to the root of your workspace and build your new package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:292
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:314
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:294
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:300
+msgid "$ colcon build --packages-select bag_reading_cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:298
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:320
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:304
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:326
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:306
+msgid "$ colcon build --merge-install --packages-select bag_reading_cpp"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:310
+msgid "Next, source the setup files."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:316
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:322
+msgid "$ source install/setup.bash"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:328
+msgid "$ call install/setup.bat"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:332
+msgid ""
+"Now, run the script. Make sure to replace ``/path/to/subset`` with the path "
+"to your ``subset`` bag."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:335
+msgid "$ ros2 run bag_reading_cpp simple_bag_reader /path/to/subset"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:339
+msgid ""
+"You should see the (x, y) coordinates of the turtle printed to the console."
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:342
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.rst:344
+msgid ""
+"You created a C++ executable that reads data from a bag. You then compiled "
+"and ran the executable which printed some information from the bag to the "
+"console."
+msgstr ""
