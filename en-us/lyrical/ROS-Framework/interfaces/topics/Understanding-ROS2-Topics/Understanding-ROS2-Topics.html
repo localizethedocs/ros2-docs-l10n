@@ -1,0 +1,1150 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-US" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="tutorial" name="contentType" />
+<meta content="beginner" name="experience" />
+<meta content="interfaces, framework" name="area" />
+<meta content="rolling" name="distribution" />
+<meta content="ROS 2" name="product" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVD5Z6G6NH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EVD5Z6G6NH');
+    </script>
+    <meta property="og:title" content="Learning about topics - tutorial" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.ros.org/en/lyrical/ROS-Framework/interfaces/topics/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html" />
+<meta property="og:site_name" content="ROS 2 Documentation" />
+<meta property="og:description" content="Topics are one of the main ways nodes exchange data in a ROS system. In this article, you will use rqt_graph and command-line tools to inspect topic connections, message types, published data, rate..." />
+<meta property="og:image" content="https://docs.ros.org/en/lyrical/_static/lyrical-small.png" />
+<meta property="og:image:alt" content="ROS 2 Documentation" />
+<meta name="description" content="Topics are one of the main ways nodes exchange data in a ROS system. In this article, you will use rqt_graph and command-line tools to inspect topic connections, message types, published data, rate..." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning about topics - tutorial &mdash; ROS 2 documentation  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=1dd4ef01" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/adopters.css?v=d001bf74" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="canonical" href="https://projects.localizethedocs.org/ros2-docs-l10n/ROS-Framework/interfaces/topics/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html" />
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=e39023b8"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=6dbb43f8"></script>
+      <script src="../../../../_static/adopters.js?v=a71d1400"></script>
+      <script src="../../../../_static/related_articles.js?v=713cc795"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Quality of Service settings" href="../About-Quality-of-Service-Settings.html" />
+    <link rel="prev" title="Topics" href="../../About-Topics.html" />
+ 
+<script type="text/javascript" src="../../../../ltd-provenance.js"></script>
+<script type="text/javascript" src="../../../../ltd-current.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-config.js"></script>
+<script type="text/javascript" src="../../../../../../ltd-flyout.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            ROS 2 documentation
+              <img src="../../../../_static/lyrical-small.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../About-ROS.html">About ROS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Get-Started.html">Get started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Ubuntu-Install-Debs.html">Installing on Ubuntu - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Windows-Install-Binary.html">Installing on Windows (binary) - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/RHEL-Install-RPMs.html">Installing on RHEL / Fedora (RPM packages) - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives.html">Advanced installation options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Ubuntu-Development-Setup.html">Installing on Ubuntu (source) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Ubuntu-Development-Setup-Pixi.html">Installing on Ubuntu (source Pixi) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Ubuntu-Install-Binary.html">Installing on Ubuntu (binary) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Windows-Development-Setup.html">Installing on Windows (source) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/RHEL-Development-Setup.html">Installing on RHEL (source) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/RHEL-Install-Binary.html">Installing on RHEL (binary) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/macOS-Development-Setup.html">Installing on macOS (source) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Latest-Development-Setup.html">Installing latest development (source) - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/Alternatives/Maintaining-a-Source-Checkout.html">Maintaining source checkout - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations.html">RMW implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations.html">DDS implementations</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-Eclipse-CycloneDDS.html">Working with Eclipse Cyclone DDS - how-to</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-GurumNetworks-GurumDDS.html">Working with GurumNetworks GurumDDS - how-to</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-RTI-Connext-DDS.html">Working with RTI Connext DDS - how-to</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/DDS-Implementations/Working-with-eProsima-Fast-DDS.html">Working with eProsima Fast DDS - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/Non-DDS-Implementations.html">Non-DDS-Implementations</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html">Working with Zenoh - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Get-Started/Installation/RMW-Implementations/Working-with-multiple-RMW-implementations.html">Working with multiple ROS 2 middleware implementations - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/ROS-2-Mirrors.html">Mirrors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Snapshot-Repository.html">Installing from the snapshot repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Installing-on-Raspberry-Pi.html">Installing ROS 2 on Raspberry Pi - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Get-Started/Installation/Installation-Troubleshooting.html">Troubleshooting installation - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../First-Steps.html">First steps with ROS - learning path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Configuring-ROS2-Environment.html">Setting up your environment - how-to</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Introducing-Turtlesim/Introducing-Turtlesim.html">Setting up Turtlesim - how-to</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Get-Started/Glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Releases.html">Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Process.html">Development process for a release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Lyrical-Luth.html">Lyrical Luth (codename ‘lyrical’; May, 2026)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Lyrical-Luth-Complete-Changelog.html">ROS 2 Lyrical Luth Complete Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/lyrical/release-timeline.html">Lyrical Luth Release Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/lyrical/supported-platforms.html">Lyrical Luth Supported Platforms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Kilted-Kaiju.html">Kilted Kaiju (codename ‘kilted’; May, 2025)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Kilted-Kaiju-Complete-Changelog.html">ROS 2 Kilted Kaiju Complete Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Jazzy-Jalisco.html">Jazzy Jalisco (<code class="docutils literal notranslate"><span class="pre">jazzy</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Jazzy-Jalisco-Complete-Changelog.html">Jazzy Jalisco changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Humble-Hawksbill.html">Humble Hawksbill (<code class="docutils literal notranslate"><span class="pre">humble</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Humble-Hawksbill-Complete-Changelog.html">Humble Hawksbill changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Release-Rolling-Ridley.html">Rolling Ridley (<code class="docutils literal notranslate"><span class="pre">rolling</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/Development.html">Development Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Makoa-Mata-mata.html">Makoa Mata-mata (codename <code class="docutils literal notranslate"><span class="pre">makoa</span></code>; May, 2027)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/makoa/release-timeline.html">Makoa Mata-mata Release Timeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/makoa/supported-platforms.html">Makoa Mata-mata Supported Platforms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Releases/End-of-Life.html">End-of-Life Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Iron-Irwini.html">Iron Irwini (<code class="docutils literal notranslate"><span class="pre">iron</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/Iron-Irwini-Complete-Changelog.html">Iron Irwini Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Galactic-Geochelone.html">Galactic Geochelone (<code class="docutils literal notranslate"><span class="pre">galactic</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Releases/Galactic-Geochelone-Complete-Changelog.html">Galactic Geochelone changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Foxy-Fitzroy.html">Foxy Fitzroy (<code class="docutils literal notranslate"><span class="pre">foxy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Eloquent-Elusor.html">Eloquent Elusor (<code class="docutils literal notranslate"><span class="pre">eloquent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Dashing-Diademata.html">Dashing Diademata (<code class="docutils literal notranslate"><span class="pre">dashing</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Crystal-Clemmys.html">Crystal Clemmys (<code class="docutils literal notranslate"><span class="pre">crystal</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Bouncy-Bolson.html">Bouncy Bolson (<code class="docutils literal notranslate"><span class="pre">bouncy</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Release-Ardent-Apalone.html">Ardent Apalone (<code class="docutils literal notranslate"><span class="pre">ardent</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta3-Overview.html">Beta 3 (<code class="docutils literal notranslate"><span class="pre">r2b3</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta2-Overview.html">Beta 2 (<code class="docutils literal notranslate"><span class="pre">r2b2</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Beta1-Overview.html">Beta 1 (<code class="docutils literal notranslate"><span class="pre">Asphalt</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Releases/Alpha-Overview.html">Alphas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../ROS-Framework.html">Framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../How-ROS-Works.html">How ROS works</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../About-Nodes.html">Nodes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Discovery.html">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Domain-ID.html">The ROS_DOMAIN_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Logging/About-Logging.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/About-Composition.html">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nodes/Working-with-nodes.html">Working with nodes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html">Learning about nodes - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-Rqt-Console/Using-Rqt-Console.html">Using <code class="docutils literal notranslate"><span class="pre">rqt_console</span></code> to view logs - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Launching-Multiple-Nodes/Launching-Multiple-Nodes.html">Launching multiple nodes — tutorial - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Writing-a-Composable-Node.html">Writing a Composable Node (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Composition.html">Composing multiple nodes in a single process — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-Node-Interfaces-Template-Class.html">Using the Node Interfaces Template Class (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-Node-Interfaces-Template-Class.html#summary">Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Managed-Nodes.html">Managing node lifecycles - example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/intra-process/Intra-Process-Communication.html">Setting up efficient intra-process communication — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Using-callback-groups.html">Using Callback Groups — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nodes/Working-with-nodes/Writing-An-Async-Node-With-Asyncio-Python.html">Writing an async node with asyncio (Python) - tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../Interfaces-Topics-Services-Actions.html">Interfaces (topics, services, actions)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../About-Interfaces.html">Interfaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../Topics-Services-Actions.html">Topics vs Services vs Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../About-Tf2/About-Tf2.html">Tf2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Working-with-interfaces.html">Working with interfaces</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html">Recording and playing back data — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Working-with-interfaces/Introduction-To-Tf2/Introduction-To-Tf2.html">Introducing <code class="docutils literal notranslate"><span class="pre">tf2</span></code> — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Working-with-interfaces/Quaternion-Fundamentals.html">Quaternion fundamentals — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../Working-with-interfaces/Buffer-Backends/About-Buffer-Backends.html">About <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../Working-with-interfaces/Buffer-Backends/Using-Buffer-Backends.html">Using <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backends - how-to</a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../Working-with-interfaces/Buffer-Backends/GPU-Buffer-Transport.html">Transporting GPU buffers with <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> - tutorial</a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Backend.html">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> backend - tutorial</a></li>
+<li class="toctree-l6"><a class="reference internal" href="../../Working-with-interfaces/Buffer-Backends/Writing-a-Buffer-Compatible-Conversions-Package.html">Writing a <code class="docutils literal notranslate"><span class="pre">rosidl::Buffer</span></code> compatible conversions package - tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../About-Topics.html">Topics</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Learning about topics - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../About-Quality-of-Service-Settings.html">Quality of Service settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../About-Topic-Statistics.html">Topic statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Working-with-topics.html">Working with topics</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../Working-with-topics/Topic-Keys/Topic-Keys-Tutorial.html">Topic Keys — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Working-with-topics/Topic-Keys/Filtered-Topic-Keys-Tutorial.html">Topic Keys Subscription Filtering — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Working-with-topics/Content-Filtering-Subscription.html">Creating a content filtering subscription — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Working-with-topics/Quality-of-Service.html">Using quality-of-service settings for lossy networks — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Working-with-topics/Configuring-QoS-Overrides.html">Configuring QoS overrides using parameters — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../Working-with-topics/Wait-for-Acknowledgment.html">Wait for acknowledgment — tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../About-Services.html">Services</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../services/Working-with-services.html">Working with services</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.html">Learning about services - tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../services/Working-with-services/Sync-Vs-Async.html">Synchronous vs. asynchronous service clients — tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../About-Actions.html">Actions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../actions/Working-with-actions.html">Working with actions</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html">Learning about actions - tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Action-Introspection.html">Configure action introspection — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Creating-an-Action.html">Creating an action — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Writing-an-Action-Server-Client/Cpp.html">Writing an action server and client (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../actions/Working-with-actions/Writing-an-Action-Server-Client/Py.html">Writing an action server and client (Python) — tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../About-Parameters.html">Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameters/Working-with-parameters.html">Working with parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html">Learning about parameters - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Using-ros2-param.html">Using the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">param</span></code> command-line tool — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-Python.html">Monitoring for parameter changes (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../parameters/Working-with-parameters/Monitoring-For-Parameter-Changes-CPP.html">Monitoring for parameter changes (C++) — tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../About-Client-Libraries.html">Client libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Different-Middleware-Vendors.html">Different ROS 2 middleware vendors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Executors/About-Executors.html">Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Internal-Interfaces/About-Internal-Interfaces.html">Internal ROS 2 interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/About-Middleware-Implementations.html">ROS 2 middleware implementations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries.html">Working with Client libraries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Colcon-Tutorial.html">Using <code class="docutils literal notranslate"><span class="pre">colcon</span></code> to build packages — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html">Creating a workspace — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Creating-Your-First-ROS2-Package.html">Creating a package — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html">Writing a simple publisher and subscriber (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html">Writing a simple service and client (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Writing-A-Simple-Py-Service-And-Client.html">Writing a simple service and client (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Custom-ROS2-Interfaces.html">Creating custom msg and srv files — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Using-Parameters-In-A-Class-CPP.html">Using parameters in a class (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Using-Parameters-In-A-Class-Python.html">Using parameters in a class (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Getting-Started-With-Ros2doctor.html">Using <code class="docutils literal notranslate"><span class="pre">ros2doctor</span></code> to identify issues — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Pluginlib.html">Creating and using plugins (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Rosdep.html">Managing Dependencies with rosdep — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Tf2-Main.html"><code class="docutils literal notranslate"><span class="pre">tf2</span></code> — learning path</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Static-Broadcaster-Py.html">Writing a static broadcaster (Python) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Static-Broadcaster-Cpp.html">Writing a static broadcaster (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Broadcaster-Py.html">Writing a broadcaster (Python) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Broadcaster-Cpp.html">Writing a broadcaster (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Py.html">Writing a listener (Python) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Writing-A-Tf2-Listener-Cpp.html">Writing a listener (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Adding-A-Frame-Py.html">Adding a frame (Python) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Adding-A-Frame-Cpp.html">Adding a frame (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Learning-About-Tf2-And-Time-Cpp.html">Using time (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Time-Travel-With-Tf2-Cpp.html">Traveling in time (C++) — tutorial</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html">Using stamped datatypes with <code class="docutils literal notranslate"><span class="pre">tf2_ros::MessageFilter</span></code> — tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Allocator-Template-Tutorial.html">Implementing a custom memory allocator — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Recording-A-Bag-From-Your-Own-Node-CPP.html">Recording a bag from a node (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Recording-A-Bag-From-Your-Own-Node-Py.html">Recording a bag from a node (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-CPP.html">Reading from a bag file (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Reading-From-A-Bag-File-Python.html">Reading from a bag file (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Creating-An-RMW-Implementation.html">Creating an <code class="docutils literal notranslate"><span class="pre">rmw</span></code> implementation — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../client-libraries/Working-with-Client-Libraries/Configure-ZeroCopy-loaned-messages.html">Configure Zero Copy Loaned Messages — how-to</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer-Tools.html">Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-introspection-and-analysis.html">Introspection and analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/About-Command-Line-Tools.html">Introspection with command line tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Publishing-Messages-Using-YAML-Files.html">Publishing messages using YAML files - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Topic-Statistics-Tutorial/Topic-Statistics-Tutorial.html">Enabling topic statistics (C++) - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Discovery-Server/Discovery-Server.html">Using Fast DDS Discovery Server as discovery protocol [community-contributed] - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/FastDDS-Configuration.html">Unlocking the potential of Fast DDS middleware [community-contributed] - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Improved-Dynamic-Discovery.html">Using Improved Dynamic Discovery - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Tracing/ROS2-Tracing-Trace-and-Analyze.html">Using ros2_tracing to trace and analyze an application - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/About-Security.html">ROS 2 Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Introducing-ros2-security.html">Setting up security - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Security-on-Two.html">Ensuring security across machines - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Examine-Traffic.html">Examining network traffic - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Security/Access-Controls.html">Setting access controls - tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Logging-and-logger-configuration.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Service-Introspection.html">Configuring service introspection - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Introspection-and-analysis/Node-arguments.html">Passing ROS arguments to nodes via the command-line - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-Launch.html">Node management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launch-Main.html">Working with launch files - tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Creating-Launch-Files.html">Creating a launch file - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launch-system.html">Integrating launch files into ROS 2 packages - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Using-Substitutions.html">Using substitutions - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Using-Event-Handlers.html">Using event handlers - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Launch/Using-ROS2-Launch-For-Large-Projects.html">Managing large projects - tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launching-composable-nodes.html">Using ROS launch to launch composable nodes - how to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Launch/Launch-file-different-formats.html">Using XML, YAML, and Python for ROS Launch Files - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-Debugging.html">Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Debugging-Tf2-Problems/Debugging-Tf2-Problems.html">Debugging - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/ROS-2-IDEs.html">Debugging with IDEs [community-contributed] - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Getting-Backtraces-in-ROS-2.html">Getting Backtraces in ROS 2 - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Building-ROS-2-with-Tracing.html">Building ROS 2 with tracing - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Debugging/About-testing.html">Testing - tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/CLI.html">Running Tests in ROS 2 from the Command Line - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/Cpp.html">Writing Basic Tests with C++ with GTest - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/Python.html">Writing Basic Tests with Python - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/Integration.html">Writing Basic Integration Tests with <code class="docutils literal notranslate"><span class="pre">launch_testing</span></code> - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/BuildFarmTesting.html">Testing Your Code with the ROS Build Farm - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/Overriding-QoS-Policies-For-Recording-And-Playback.html">rosbag2: Overriding Quality of Service (QoS) Policies - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Debugging/Testing/Testing.html">Testing with pre-release binaries</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-Build.html">Builds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/About-Cross-Compilation.html">Cross-compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/About-Build-System.html">The build system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Deployment-Guidelines/Deployment-Guidelines.html">Understanding security-enabled deployments - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/The-Keystore.html">Understanding the security keystore - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Using-Xacro-to-Clean-Up-a-URDF-File/Using-Xacro-to-Clean-Up-a-URDF-File.html">Using Xacro to clean up your code - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Supplementing-Custom-Rosdep-Keys.html">Supplementing custom <code class="docutils literal notranslate"><span class="pre">rosdep</span></code> keys - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Ament-Lint-For-Clean-Code.html">Using ament Lint CLI Utilities - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Eclipse-Oxygen-with-ROS-2-and-rviz2/Eclipse-Oxygen-with-ROS-2-and-rviz2.html">Using Eclipse Oxygen with <code class="docutils literal notranslate"><span class="pre">rviz2</span></code> [community-contributed] - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Ament-CMake-Documentation.html">Building ROS packages with ament_cmake - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Ament-CMake-Python-Documentation.html">Using ament_cmake_python - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Building-a-Custom-Deb-Package.html">Building a custom deb package - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Run-2-nodes-in-single-or-separate-docker-containers.html">Running ROS 2 nodes in Docker [community-contributed] - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.html">Setting up ROS with VSCode and Docker [community-contributed] - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Core-maintainer-guide.html">Maintaining ROS Core Packages - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/DDS-tuning.html">Addressing common DDS tuning issues - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Using-Variants.html">Using variants - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Package-Docs.html">Finding package documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Using-Python-Packages.html">Using Python Packages with ROS 2 - how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Developing-a-ROS-2-Package.html">Developing a ROS package - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Releasing-a-Package.html">Releasing a Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Index-Your-Packages.html">Indexing Your Packages - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/First-Time-Release.html">Releasing first-time packages - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Subsequent-Releases.html">Releasing subsequent package versions - how to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Release-Team-Repository.html">Release Team / Repository - how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Build/Releasing/Release-Track.html">Creating release track prompts - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Building-Realtime-rt_preempt-kernel-for-ROS-2/Building-Realtime-rt_preempt-kernel-for-ROS-2.html">Building a real-time Linux kernel [community-contributed] - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Building-ROS2-Package-with-eclipse-2021-06/Building-ROS2-Package-with-eclipse-2021-06.html">Building a package with Eclipse 2021-06 - tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Build/Single-Package-Define-And-Use-Interface.html">Implementing custom interfaces - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-visualization.html">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-Main.html">RViz</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-User-Guide/RViz-User-Guide.html">Using RViz - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/Marker-Sending-Basic-Shapes/Marker-Sending-Basic-Shapes.html">Marker: Sending Basic Shapes (C++) - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/Marker-Points-and-Lines/Marker-Points-and-Lines.html">Using Marker Points and Lines (C++) - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/Marker-Display-types/Marker-Display-types.html">Using Marker Display Types - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-Custom-Display/RViz-Custom-Display.html">Building a Custom RViz Display - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Developer-Tools/Visualization/RViz/RViz-Custom-Panel/RViz-Custom-Panel.html">Building a Custom RViz Panel - tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Visualization/About-RQt.html">Overview and using RQt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Visualization/Rqtbag/Create-An-Rqtbag-Plugin.html">Creating an rqt_bag Plugin - tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Developer-Tools/About-package-documentation.html">Package documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Developer-Tools/Package-documentation/Documenting-a-ROS-2-Package.html">Documenting a ROS 2 package - how-to</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Capabilities.html">Capabilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Simulation.html">Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/URDF-Main.html">URDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Building-a-Visual-Robot-Model-with-URDF-from-Scratch.html">Building a visual robot model from scratch — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Building-a-Movable-Robot-Model-with-URDF.html">Building a movable robot model — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Adding-Physical-and-Collision-Properties-to-a-URDF-Model.html">Adding physical and collision properties — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Using-URDF-with-Robot-State-Publisher-cpp.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (C++) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Using-URDF-with-Robot-State-Publisher-py.html">Using URDF with <code class="docutils literal notranslate"><span class="pre">robot_state_publisher</span></code> (Python) — tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Capabilities/Simulation/URDF/Exporting-an-URDF-File.html">Generating an URDF File — tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Capabilities/Simulation/dummy-robot/dummy-robot-demo.html">Experimenting with a dummy robot — tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Motion-planning.html">Motion planning and manipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Capabilities/Motion-planning/Real-Time-Programming.html">Understanding real-time programming — tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Navigation.html">Navigation</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Capabilities/About-Perception.html">Perception</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Integrations-and-related.html">Integrations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Simulation-Main.html">Configuring simulators with ROS 2 - learning path</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Simulation-Webots.html">Configuring Webots with ROS 2 - tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Installation-Ubuntu.html">Installing Webots on Ubuntu - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Installation-Windows.html">Installing Webots on Windows - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Installation-MacOS.html">Installing Webots on macOS - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Setting-Up-Simulation-Webots-Basic.html">Setting up a robot simulation (Basic) - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Setting-Up-Simulation-Webots-Advanced.html">Setting up a robot simulation (Advanced) - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Simulation-Reset-Handler.html">Setting up a Reset Handler - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Webots/Simulation-Supervisor.html">Extending the interface with the Ros2Supervisor node - tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Gazebo/Simulation-Gazebo.html">Configuring Gazebo with ROS 2 - tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/Gazebo/Gazebo.html">Setting up a robot simulation (Gazebo) - tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Simulation-MVSim.html">Configuring MVSim with ROS 2 - tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Installation-Ubuntu.html">Installing MVSim on Ubuntu - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Getting-Started-MVSim.html">Getting started with MVSim - tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../Integrations-and-related/Simulators/MVSim/Defining-Worlds-MVSim.html">Defining worlds, robots, and sensors - tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Integrations-and-related/Deploying-ROS-2-on-IBM-Cloud.html">Deploying on IBM Cloud Kubernetes [community-contributed] - tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects.html">Related projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Intel-ROS2-Projects.html">Intel ROS 2 Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Nvidia-ROS2-Projects.html">NVIDIA ROS 2 Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Visualizing-Data-And-Teleoperating-With-Phantom-Bridge.html">Visualizing Data and Teleoperating with Phantom Bridge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Integrations-and-related/Related-Projects/Visualizing-ROS-2-Data-With-Foxglove.html">Visualizing ROS 2 data with Foxglove</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Migration-and-Upgrades.html">Migration and upgrades</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1.html">Migrating from ROS 1 to ROS 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Packages.html">Migrating Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Package-XML.html">Migrating your package.xml to format 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Interfaces.html">Migrating Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-CPP-Package-Example.html">Migrating a C++ Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-CPP-Packages.html">Migrating C++ Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Python-Package-Example.html">Migrating a Python Package Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Python-Packages.html">Migrating Python Packages Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Launch-Files.html">Migrating Launch Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Parameters.html">Migrating Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../Migration-and-Upgrades/Migrating-from-ROS1/Migrating-Scripts.html">Migrating Scripts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Migration-and-Upgrades/Using-ros1_bridge-Jammy-upstream.html">Using <code class="docutils literal notranslate"><span class="pre">ros1_bridge</span></code> with upstream ROS on Ubuntu 22.04 - how-to</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Migration-and-Upgrades/Using-Custom-Rosdistro.html">Using a custom rosdistro version - how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../The-ROS2-Project.html">Community</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing.html">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Developer-Guide.html">Contributing to code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Source-Control-Best-Practices.html">Source control best practices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Build-Farms.html">ROS build farms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Code-Style-Language-Versions.html">Code style and language versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Quality-Guide.html">Code quality guidelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.html">Working with Windows - how to</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Contributing-to-documentation.html">Contributing to documentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Documentation/Creating-or-updating-documentation.html">Creating or updating documentation — how-to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Documentation/Documentation-guidelines.html">Documentation guidelines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Reviewing-a-PR.html">Reviewing a pull request (PR) — how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Making-a-PR.html">Making a pull request (PR) — how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Triaging-an-issue.html">Triaging an issue — how-to</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Contributing/Reporting-an-issue.html">Reporting an issue — how-to</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Features.html">Features status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Feature-Ideas.html">Feature ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Roadmap.html">Roadmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/ROSCon-Content.html">ROSCon talks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Governance.html">Project governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Platform-EOL-Policy.html">Platform EOL policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Platform-Support-Tiers.html">Platform support tiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Release-Schedule.html">Release Schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Marketing.html">Marketing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Metrics.html">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../The-ROS2-Project/Adopters.html">ROS 2 adopters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../The-ROS2-Project/Adopters/Add-Your-Project.html">Add Your Project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Citations.html">Citations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Contributing-To-ROS.html">Contributing to ROS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">ROS 2 documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../ROS-Framework.html">Framework</a></li>
+          <li class="breadcrumb-item"><a href="../../../Interfaces-Topics-Services-Actions.html">Interfaces (topics, services, actions)</a></li>
+          <li class="breadcrumb-item"><a href="../../About-Topics.html">Topics</a></li>
+      <li class="breadcrumb-item active">Learning about topics - tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/interfaces/topics/Understanding-ROS2-Topics/Understanding-ROS2-Topics.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+
+  <section id="learning-about-topics-tutorial">
+<span id="ros2topics"></span><h1>Learning about topics - tutorial<a class="headerlink" href="#learning-about-topics-tutorial" title="Link to this heading"></a></h1>
+<div class="short-description docutils container">
+<p>Topics are one of the main ways nodes exchange data in a ROS system.
+In this article, you will use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> and command-line tools to inspect topic connections, message types, published data, rates, and bandwidth.
+After you follow these steps, you will be able to understand and test how data moves between nodes.</p>
+</div>
+<p class="ros-page-meta-summary" data-pagefind-ignore="all"><strong>Area:</strong> interfaces, framework | <strong>Content type:</strong> tutorial | <strong>Level:</strong> beginner</p><p><strong>Goal:</strong> Use rqt_graph and command line tools to introspect ROS 2 topics.</p>
+<p>Topics are one of the main communication types used for moving data around a ROS system.
+This article walks you through using <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> and other command-line tools to examine how nodes connect over topics.
+A hands-on exercise with Turtlesim helps you understand how data moves around the ROS graph.</p>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#summary" id="id1">Summary</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id2">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#steps" id="id3">Steps</a></p>
+<ul>
+<li><p><a class="reference internal" href="#run-turtlesim-nodes" id="id4">1 Run turtlesim nodes</a></p></li>
+<li><p><a class="reference internal" href="#visualize-the-nodes-with-rqt-graph" id="id5">2 Visualize the nodes with rqt_graph</a></p></li>
+<li><p><a class="reference internal" href="#list-the-active-topics" id="id6">3 List the active topics</a></p></li>
+<li><p><a class="reference internal" href="#view-the-data-being-published-to-a-topic" id="id7">4 View the data being published to a topic</a></p></li>
+<li><p><a class="reference internal" href="#view-the-publisher-and-subscriber-counts-for-a-topic" id="id8">5 View the publisher and subscriber counts for a topic</a></p>
+<ul>
+<li><p><a class="reference internal" href="#view-detailed-topic-information" id="id9">5.1 View detailed topic information</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#view-the-message-definition" id="id10">6 View the message definition</a></p></li>
+<li><p><a class="reference internal" href="#publish-data-to-a-topic" id="id11">7 Publish data to a topic</a></p></li>
+<li><p><a class="reference internal" href="#view-the-rate-at-which-data-is-published" id="id12">8 View the rate at which data is published</a></p></li>
+<li><p><a class="reference internal" href="#view-the-bandwidth-utilization-of-a-topic" id="id13">9 View the bandwidth utilization of a topic</a></p></li>
+<li><p><a class="reference internal" href="#list-available-topics-of-a-specific-type" id="id14">10 List available topics of a specific type</a></p></li>
+<li><p><a class="reference internal" href="#clean-up" id="id15">11 Clean up</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#related-content" id="id16">Related content</a></p></li>
+<li><p><a class="reference internal" href="#faqs" id="id17">FAQs</a></p></li>
+</ul>
+</nav>
+<section id="summary">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>Nodes publish information to topics, which allows any number of other nodes to subscribe to and access that information.
+You can use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> and command-line tools to introspect and examine the connections between nodes that share topics.</p>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../../../../Get-Started/Installation.html"><span class="doc">Install ROS</span></a> and <a class="reference internal" href="../../../../Get-Started/Configuring-ROS2-Environment.html"><span class="doc">set up your workspace</span></a>.</p></li>
+<li><p>Make sure you understand:</p>
+<ul class="simple">
+<li><p>The function of <a class="reference internal" href="../../../nodes/Working-with-nodes/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html"><span class="doc">nodes</span></a> and how to work with them</p></li>
+<li><p>The different <a class="reference internal" href="../../../Interfaces-Topics-Services-Actions.html"><span class="doc">interface types</span></a>, including topics</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="steps">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Steps</a><a class="headerlink" href="#steps" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remember to source ROS in every new terminal you open.
+See <a class="reference internal" href="../../../../Get-Started/Configuring-ROS2-Environment.html"><span class="doc">Configuring environment</span></a>.</p>
+</div>
+<section id="run-turtlesim-nodes">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">1 Run turtlesim nodes</a><a class="headerlink" href="#run-turtlesim-nodes" title="Link to this heading"></a></h3>
+<p>Open a new terminal and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtlesim_node
+</pre></div>
+</div>
+<p>Open another terminal and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>turtlesim<span class="w"> </span>turtle_teleop_key
+</pre></div>
+</div>
+<p>Names of these nodes are <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> and <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> by default.</p>
+</section>
+<section id="visualize-the-nodes-with-rqt-graph">
+<span id="ros2topics-visualize-rqt-graph"></span><h3><a class="toc-backref" href="#id5" role="doc-backlink">2 Visualize the nodes with rqt_graph</a><a class="headerlink" href="#visualize-the-nodes-with-rqt-graph" title="Link to this heading"></a></h3>
+<p>Throughout this tutorial, you use <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> to visualize the changing nodes and topics, as well as the connections between them.
+<code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> is a graphical introspection tool whose highlighting feature is helpful when you examine more complex systems with multiple nodes and topics connected in many different ways.</p>
+<p><a class="reference internal" href="../../../../Get-Started/Introducing-Turtlesim/Introducing-Turtlesim.html"><span class="doc">Using turtlesim, ros2, and rqt</span></a> tells you how to install <code class="docutils literal notranslate"><span class="pre">rqt</span></code> and all its plugins, including <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>.</p>
+<p>To run <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>, open a new terminal and enter the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>run<span class="w"> </span>rqt_graph<span class="w"> </span>rqt_graph
+</pre></div>
+</div>
+<p>You can also open <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> by opening <code class="docutils literal notranslate"><span class="pre">rqt</span></code> and selecting <strong>Plugins</strong> &gt; <strong>Introspection</strong> &gt; <strong>Node Graph</strong>.</p>
+<p>You should see a graph similar to this:</p>
+<img alt="../../../../_images/rqt_graph.png" src="../../../../_images/rqt_graph.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your graph looks different, change the first drop-down to <strong>Nodes/Topics (active)</strong> and click the refresh button to its left.</p>
+</div>
+<p>In the graph, you should see the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> and <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> nodes and the topic connecting them, as well as two actions around the periphery.
+If you hover your mouse over the topic in the center, you should see the colour highlighting shown in the screenshot.</p>
+<p>The graph illustrates how the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node and the <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> node communicate with each other over a topic.
+The <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> node publishes data (the keystrokes you enter to move the turtle around) to the <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> topic, and the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node is subscribed to that topic to receive the data.</p>
+</section>
+<section id="list-the-active-topics">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">3 List the active topics</a><a class="headerlink" href="#list-the-active-topics" title="Link to this heading"></a></h3>
+<p>In a new terminal, run the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span></code> command to list of all the topics currently active in the system:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>list
+</pre></div>
+</div>
+<p>The terminal returns:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/parameter_events</span>
+<span class="go">/rosout</span>
+<span class="go">/turtle1/cmd_vel</span>
+<span class="go">/turtle1/color_sensor</span>
+<span class="go">/turtle1/pose</span>
+</pre></div>
+</div>
+<p>Now run <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code> to get the same list, but with the topic type appended in brackets:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>list<span class="w"> </span>-t
+</pre></div>
+</div>
+<p>The terminal returns:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/parameter_events [rcl_interfaces/msg/ParameterEvent]</span>
+<span class="go">/rosout [rcl_interfaces/msg/Log]</span>
+<span class="go">/turtle1/cmd_vel [geometry_msgs/msg/Twist]</span>
+<span class="go">/turtle1/color_sensor [turtlesim_msgs/msg/Color]</span>
+<span class="go">/turtle1/pose [turtlesim_msgs/msg/Pose]</span>
+</pre></div>
+</div>
+<p>These attributes, particularly the type, are how nodes confirm they are exchanging compatible data.</p>
+<p>To show all of the topics in the <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>, you can clear all of the <strong>Hide</strong> checkboxes.
+For now, leave those options checked to avoid confusion.</p>
+<img alt="../../../../_images/unhide.png" src="../../../../_images/unhide.png" />
+</section>
+<section id="view-the-data-being-published-to-a-topic">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">4 View the data being published to a topic</a><a class="headerlink" href="#view-the-data-being-published-to-a-topic" title="Link to this heading"></a></h3>
+<p>To see the data being published on a topic, use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>&lt;topic_name&gt;
+</pre></div>
+</div>
+<p>In a previous step, you learned that <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> publishes data to <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> over the <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> topic.
+Use <code class="docutils literal notranslate"><span class="pre">echo</span></code> to introspect that topic:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/turtle1/cmd_vel
+</pre></div>
+</div>
+<p>At first, this command won’t return any data.
+That’s because it’s waiting for <code class="docutils literal notranslate"><span class="pre">/teleop_turtle</span></code> to publish something.</p>
+<p>Return to the terminal where <code class="docutils literal notranslate"><span class="pre">turtle_teleop_key</span></code> is running and use the arrow keys to move the turtle around.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">turtle_teleop_key</span></code> terminal must be the active window to capture your key presses.</p>
+</div>
+<p>You should see position data being published for every movement that you make:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">linear:</span>
+<span class="go">  x: 2.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">angular:</span>
+<span class="go">  x: 0.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">  ---</span>
+</pre></div>
+</div>
+<p>Now return to <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>, uncheck the <strong>Debug</strong> box, and select the <strong>Refresh</strong> button.</p>
+<img alt="../../../../_images/debug.png" src="../../../../_images/debug.png" />
+<p>The node created by the <code class="docutils literal notranslate"><span class="pre">echo</span></code> command should appear.
+In this example it is <code class="docutils literal notranslate"><span class="pre">/_ros2cli_26646</span></code>, but the number on your machine will be different.
+You can now see that the publisher is publishing data on the <code class="docutils literal notranslate"><span class="pre">cmd_vel</span></code> topic, and two subscribers are subscribed to it.</p>
+</section>
+<section id="view-the-publisher-and-subscriber-counts-for-a-topic">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">5 View the publisher and subscriber counts for a topic</a><a class="headerlink" href="#view-the-publisher-and-subscriber-counts-for-a-topic" title="Link to this heading"></a></h3>
+<p>Any number of nodes can publish on a topic, and any number of nodes can subscribe to that topic.</p>
+<p>To see the publisher and subscriber counts for a topic, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>info<span class="w"> </span>/turtle1/cmd_vel
+</pre></div>
+</div>
+<p>The terminal returns:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Type: geometry_msgs/msg/Twist</span>
+<span class="go">Publisher count: 1</span>
+<span class="go">Subscription count: 2</span>
+</pre></div>
+</div>
+<section id="view-detailed-topic-information">
+<h4><a class="toc-backref" href="#id9" role="doc-backlink">5.1 View detailed topic information</a><a class="headerlink" href="#view-detailed-topic-information" title="Link to this heading"></a></h4>
+<p>To get more detailed information about a topic, use the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> (or <code class="docutils literal notranslate"><span class="pre">-v</span></code>) flag:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>info<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>--verbose
+</pre></div>
+</div>
+<p>This will return additional details, including:</p>
+<ul class="simple">
+<li><p>Node names and namespaces of publishers and subscribers</p></li>
+<li><p>Topic type</p></li>
+<li><p>QoS profiles</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Type: geometry_msgs/msg/Twist</span>
+
+<span class="go">Publisher count: 1</span>
+
+<span class="go">Node name: teleop_turtle</span>
+<span class="go">Node namespace: /</span>
+<span class="go">Topic type: geometry_msgs/msg/Twist</span>
+<span class="go">Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a</span>
+<span class="go">Endpoint type: PUBLISHER</span>
+<span class="go">GID: 24.ba.3e.e7.c1.51.bb.46.21.41.de.36.1b.14.73.5e</span>
+<span class="go">QoS profile:</span>
+<span class="go">  Reliability: RELIABLE</span>
+<span class="go">  History (Depth): KEEP_LAST (7)</span>
+<span class="go">  Durability: VOLATILE</span>
+<span class="go">  Lifespan: Infinite</span>
+<span class="go">  Deadline: Infinite</span>
+<span class="go">  Liveliness: AUTOMATIC</span>
+<span class="go">  Liveliness lease duration: Infinite</span>
+
+<span class="go">Subscription count: 2</span>
+
+<span class="go">Node name: _ros2cli_300492</span>
+<span class="go">Node namespace: /</span>
+<span class="go">Topic type: geometry_msgs/msg/Twist</span>
+<span class="go">Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a</span>
+<span class="go">Endpoint type: SUBSCRIPTION</span>
+<span class="go">GID: cc.4d.98.79.29.91.fe.25.8a.0a.c9.03.db.1a.ec.81</span>
+<span class="go">QoS profile:</span>
+<span class="go">  Reliability: RELIABLE</span>
+<span class="go">  History (Depth): KEEP_LAST (5)</span>
+<span class="go">  Durability: VOLATILE</span>
+<span class="go">  Lifespan: Infinite</span>
+<span class="go">  Deadline: Infinite</span>
+<span class="go">  Liveliness: AUTOMATIC</span>
+<span class="go">  Liveliness lease duration: Infinite</span>
+
+<span class="go">Node name: turtlesim</span>
+<span class="go">Node namespace: /</span>
+<span class="go">Topic type: geometry_msgs/msg/Twist</span>
+<span class="go">Topic type hash: RIHS01_9c45bf16fe0983d80e3cfe750d6835843d265a9a6c46bd2e609fcddde6fb8d2a</span>
+<span class="go">Endpoint type: SUBSCRIPTION</span>
+<span class="go">GID: 9c.33.59.38.b2.f2.42.47.69.1b.7f.0e.5e.1d.86.f5</span>
+<span class="go">QoS profile:</span>
+<span class="go">  Reliability: RELIABLE</span>
+<span class="go">  History (Depth): KEEP_LAST (7)</span>
+<span class="go">  Durability: VOLATILE</span>
+<span class="go">  Lifespan: Infinite</span>
+<span class="go">  Deadline: Infinite</span>
+<span class="go">  Liveliness: AUTOMATIC</span>
+<span class="go">  Liveliness lease duration: Infinite</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="view-the-message-definition">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">6 View the message definition</a><a class="headerlink" href="#view-the-message-definition" title="Link to this heading"></a></h3>
+<p>Nodes send data over topics by using messages.
+To communicate, publishers and subscribers must send and receive the same type of message.</p>
+<p>The topic types you see after running <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code> tell you what message type is used on each topic.</p>
+<p>For example, the <code class="docutils literal notranslate"><span class="pre">cmd_vel</span></code> topic has the type <code class="docutils literal notranslate"><span class="pre">geometry_msgs/msg/Twist</span></code>.
+Here, <code class="docutils literal notranslate"><span class="pre">geometry_msgs</span></code> is the package and <code class="docutils literal notranslate"><span class="pre">Twist</span></code> is the message definition within it.</p>
+<p>Now you can run <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span> <span class="pre">&lt;msg_type&gt;</span></code> on this type to learn its details.
+Specifically, what structure of data the message expects.</p>
+<p>To learn the details of the <code class="docutils literal notranslate"><span class="pre">Twist</span></code> message, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>interface<span class="w"> </span>show<span class="w"> </span>geometry_msgs/msg/Twist
+</pre></div>
+</div>
+<p>The command will return:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># This expresses velocity in free space broken into its linear and angular parts.
+    Vector3  linear
+            float64 x
+            float64 y
+            float64 z
+    Vector3  angular
+            float64 x
+            float64 y
+            float64 z
+</pre></div>
+</div>
+<p>This tells you that the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node is expecting a message with two vectors, <code class="docutils literal notranslate"><span class="pre">linear</span></code> and <code class="docutils literal notranslate"><span class="pre">angular</span></code>, of three elements each.
+The data that <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span></code> printed earlier follows the same structure:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">linear:</span>
+<span class="go">  x: 2.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">angular:</span>
+<span class="go">  x: 0.0</span>
+<span class="go">  y: 0.0</span>
+<span class="go">  z: 0.0</span>
+<span class="go">  ---</span>
+</pre></div>
+</div>
+</section>
+<section id="publish-data-to-a-topic">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">7 Publish data to a topic</a><a class="headerlink" href="#publish-data-to-a-topic" title="Link to this heading"></a></h3>
+<p>Now that you have the message structure, you can publish data to a topic directly from the command line.</p>
+<p>To do this, use the following syntax:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>&lt;topic_name&gt;<span class="w"> </span>&lt;msg_type&gt;<span class="w"> </span><span class="s1">&#39;&lt;args&gt;&#39;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">'&lt;args&gt;'</span></code> argument is the actual data passed to the topic, in the structure shown by <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span></code> in <a class="reference internal" href="#view-the-message-definition">6 View the message definition</a>.</p>
+<p>There are four main ways to use the <code class="docutils literal notranslate"><span class="pre">pub</span></code> command.</p>
+<ol class="loweralpha simple">
+<li><p><strong>Publish dictionary strings</strong>:</p></li>
+</ol>
+<blockquote>
+<div><p>In order to publish data to a topic, you need to pass the data in the form of YAML strings.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="s2">&quot;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&quot;</span>
+</pre></div>
+</div>
+<p>However, you do not need to specify the entire message.
+If you are only changing the linear or angular velocity, specify just the values you want to change.</p>
+<p>For example, if you want to change the linear velocity to 2.0 and keep the angular velocity at 1.8, you can do the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="s2">&quot;{linear: {x: 2.0}, angular: {z: 1.8}}&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li><p><strong>Publishing an empty message</strong>:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist
+</pre></div>
+</div>
+<p>This will publish the default values for the message type at the default rate of 1 Hz, which is equivalent to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="s2">&quot;{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}&quot;</span><span class="w"> </span>--rate<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="3">
+<li><p><strong>Use auto-complete</strong>:</p></li>
+</ol>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is not supported on Windows.
+For other operating systems, you must configure <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code>.
+<a class="reference internal" href="../../../../Get-Started/Configuring-ROS2-Environment.html"><span class="doc">Sourcing the ROS setup script</span></a> sets this up automatically.
+If <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code> is active in your shell, then <kbd class="kbd docutils literal notranslate">Tab</kbd> completion provides command options, not file paths.</p>
+</div>
+<p>You can trigger the auto-complete feature of your terminal by entering the following, then pressing <kbd class="kbd docutils literal notranslate">Tab</kbd> instead of <kbd class="kbd docutils literal notranslate">Enter</kbd>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist
+</pre></div>
+</div>
+<p>The terminal shows the available options:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">--keep-alive</span>
+<span class="go">--max-wait-time-secs</span>
+<span class="go">--node-name</span>
+<span class="go">--once</span>
+<span class="go">--print</span>
+<span class="go">--qos-depth</span>
+<span class="go">--qos-durability</span>
+<span class="go">--qos-history</span>
+<span class="go">--qos-liveliness</span>
+<span class="go">--qos-liveliness-lease-duration-seconds</span>
+<span class="go">--qos-profile</span>
+<span class="go">--qos-reliability</span>
+<span class="go">--rate</span>
+<span class="go">--spin-time</span>
+<span class="go">--stdin</span>
+<span class="go">--times</span>
+<span class="go">--use-sim-time</span>
+<span class="go">--wait-matching-subscriptions</span>
+<span class="go">--yaml-file</span>
+<span class="go">-1</span>
+<span class="go">-n</span>
+<span class="go">-p</span>
+<span class="go">-r</span>
+<span class="go">-s</span>
+<span class="go">-t</span>
+<span class="go">-w</span>
+<span class="go">\&#39;linear:\^J\ \ x:\ 0.0\^J\ \ y:\ 0.0\^J\ \ z:\ 0.0\^Jangular:\^J\ \ x:\ 0.0\^J\ \ y:\ 0.0\^J\ \ z:\ 0.0\^J\&#39;</span>
+</pre></div>
+</div>
+<p>When you press <kbd class="kbd docutils literal notranslate">Tab</kbd> after entering the first few characters of an option, the terminal auto-completes it.
+The last item in the options list is a YAML template of the message fields with default values.
+To insert that template, enter an escaped single quote, then press <kbd class="kbd docutils literal notranslate">Tab</kbd>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="se">\&#39;</span>
+</pre></div>
+</div>
+<p>The terminal does not recognise an unescaped single quote as part of the auto-complete string, so you need to escape it with <code class="docutils literal notranslate"><span class="pre">\'</span></code>.</p>
+<p>The final auto-completed string should look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist &#39;linear:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+&#39;
+</pre></div>
+</div>
+<p>This string is editable.
+Change the field values as required before you run the command.</p>
+</div></blockquote>
+<ol class="loweralpha simple" start="4">
+<li><p><strong>Use the raw auto-completed string</strong>:</p></li>
+</ol>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is not supported on Windows.
+For other operating systems, you must configure <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code>.
+<a class="reference internal" href="../../../../Get-Started/Configuring-ROS2-Environment.html"><span class="doc">Sourcing the ROS setup script</span></a> sets this up automatically.
+If <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code> is active in your shell, then <kbd class="kbd docutils literal notranslate">Tab</kbd> completion provides command options, not file paths.</p>
+</div>
+<p>The auto-completed string for <code class="docutils literal notranslate"><span class="pre">geometry_msgs/msg/Twist</span></code> looks like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">\&#39;linear:\^J\ \ x:\ 0.0\^J\ \ y:\ 0.0\^J\ \ z:\ 0.0\^Jangular:\^J\ \ x:\ 0.0\^J\ \ y:\ 0.0\^J\ \ z:\ 0.0\^J\&#39;</span>
+</pre></div>
+</div>
+<p>You can use this string directly in place of the YAML string on the command line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="se">\&#39;</span>linear:<span class="se">\^</span>J<span class="se">\ \ </span>x:<span class="se">\ </span><span class="m">0</span>.0<span class="se">\^</span>J<span class="se">\ \ </span>y:<span class="se">\ </span><span class="m">0</span>.0<span class="se">\^</span>J<span class="se">\ \ </span>z:<span class="se">\ </span><span class="m">0</span>.0<span class="se">\^</span>Jangular:<span class="se">\^</span>J<span class="se">\ \ </span>x:<span class="se">\ </span><span class="m">0</span>.0<span class="se">\^</span>J<span class="se">\ \ </span>y:<span class="se">\ </span><span class="m">0</span>.0<span class="se">\^</span>J<span class="se">\ \ </span>z:<span class="se">\ </span><span class="m">0</span>.0<span class="se">\^</span>J<span class="se">\&#39;</span>
+</pre></div>
+</div>
+<p>This publishes the default field values for the message type.
+For <code class="docutils literal notranslate"><span class="pre">Twist</span></code>, those defaults are all zero values, so if you run this command exactly as shown, the turtle doesn’t move.</p>
+<p>To make the turtle move, before you run the command, replace the zero values with the velocities you want.</p>
+</div></blockquote>
+<p>The turtle, like physical robots, requires a steady stream of commands to operate continuously.
+To keep the turtle moving continuously, use non-zero values for the velocities, like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="s2">&quot;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&quot;</span>
+</pre></div>
+</div>
+<img alt="../../../../_images/pub_stream.png" src="../../../../_images/pub_stream.png" />
+<p>Sometimes you may want to publish data to your topic only once rather than continuously.
+To publish your command only once, add the <code class="docutils literal notranslate"><span class="pre">--once</span></code> option.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>--once<span class="w"> </span>-w<span class="w"> </span><span class="m">2</span><span class="w"> </span>/turtle1/cmd_vel<span class="w"> </span>geometry_msgs/msg/Twist<span class="w"> </span><span class="s2">&quot;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--once</span></code> is an optional argument that means “publish one message then exit”.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-w</span> <span class="pre">2</span></code> is an optional argument that means “wait for two matching subscriptions”.
+The argument is needed because you have both <code class="docutils literal notranslate"><span class="pre">turtlesim</span></code> and the topic <code class="docutils literal notranslate"><span class="pre">echo</span></code> subscribed.</p>
+<p>You should see the following output in the terminal:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Waiting for at least 2 matching subscription(s)...</span>
+<span class="go">publisher: beginning loop</span>
+<span class="go">publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))</span>
+</pre></div>
+</div>
+<p>You should see your turtle move like so:</p>
+<img alt="../../../../_images/pub_once.png" src="../../../../_images/pub_once.png" />
+<p>You can refresh <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code> to see what’s happening graphically.
+You should see that the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">pub</span> <span class="pre">...</span></code> node (<code class="docutils literal notranslate"><span class="pre">/_ros2cli_30358</span></code>) is publishing over the <code class="docutils literal notranslate"><span class="pre">/turtle1/cmd_vel</span></code> topic, which is now being received by both the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span> <span class="pre">...</span></code> node (<code class="docutils literal notranslate"><span class="pre">/_ros2cli_26646</span></code>) and the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node.</p>
+<img alt="../../../../_images/rqt_graph2.png" src="../../../../_images/rqt_graph2.png" />
+<p>Finally, to see the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node publishing on the <code class="docutils literal notranslate"><span class="pre">pose</span></code> topic, run <code class="docutils literal notranslate"><span class="pre">echo</span></code> on it and refresh <code class="docutils literal notranslate"><span class="pre">rqt_graph</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/turtle1/pose
+</pre></div>
+</div>
+<img alt="../../../../_images/rqt_graph3.png" src="../../../../_images/rqt_graph3.png" />
+<p>You can see that the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node is also publishing to the <code class="docutils literal notranslate"><span class="pre">pose</span></code> topic, which the new <code class="docutils literal notranslate"><span class="pre">echo</span></code> node has subscribed to.</p>
+<p>When publishing messages with timestamps, <code class="docutils literal notranslate"><span class="pre">pub</span></code> has two methods to automatically fill them out with the current time:</p>
+<ul>
+<li><p>For messages with a <code class="docutils literal notranslate"><span class="pre">std_msgs/msg/Header</span></code>, set the header field to <code class="docutils literal notranslate"><span class="pre">auto</span></code> to fill out the <code class="docutils literal notranslate"><span class="pre">stamp</span></code> field:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/pose<span class="w"> </span>geometry_msgs/msg/PoseStamped<span class="w"> </span><span class="s1">&#39;{header: &quot;auto&quot;, pose: {position: {x: 1.0, y: 2.0, z: 3.0}}}&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>If the message has a <code class="docutils literal notranslate"><span class="pre">builtin_interfaces/msg/Time</span></code> field instead of a full header, set that field to <code class="docutils literal notranslate"><span class="pre">now</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/reference<span class="w"> </span>sensor_msgs/msg/TimeReference<span class="w"> </span><span class="s1">&#39;{header: &quot;auto&quot;, time_ref: &quot;now&quot;, source: &quot;dumy&quot;}&#39;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="view-the-rate-at-which-data-is-published">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">8 View the rate at which data is published</a><a class="headerlink" href="#view-the-rate-at-which-data-is-published" title="Link to this heading"></a></h3>
+<p>To view the rate at which data is published, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>hz<span class="w"> </span>/turtle1/pose
+</pre></div>
+</div>
+<p>You should see output similar to the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">average rate: 59.354</span>
+<span class="go">  min: 0.005s max: 0.027s std dev: 0.00284s window: 58</span>
+</pre></div>
+</div>
+<p>The command will return data on the rate at which the <code class="docutils literal notranslate"><span class="pre">/turtlesim</span></code> node is publishing data to the <code class="docutils literal notranslate"><span class="pre">pose</span></code> topic.</p>
+<p>To check the rate of <code class="docutils literal notranslate"><span class="pre">turtle1/cmd_vel</span></code>, which was set to 1 Hz using <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">pub</span> <span class="pre">--rate</span> <span class="pre">1</span></code>, run <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">hz</span> <span class="pre">/turtle1/cmd_vel</span></code> and the average should reflect that rate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The rate reflects the receiving rate on the subscription created by the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">hz</span></code> command, which might be affected by platform resources and QoS configuration, and may not exactly match the publisher rate.</p>
+</div>
+</section>
+<section id="view-the-bandwidth-utilization-of-a-topic">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">9 View the bandwidth utilization of a topic</a><a class="headerlink" href="#view-the-bandwidth-utilization-of-a-topic" title="Link to this heading"></a></h3>
+<p>To view the bandwidth used by a topic, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>bw<span class="w"> </span>/turtle1/pose
+</pre></div>
+</div>
+<p>You should see output similar to the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Subscribed to [/turtle1/pose]</span>
+<span class="go">1.51 KB/s from 62 messages</span>
+<span class="go">    Message size mean: 0.02 KB min: 0.02 KB max: 0.02 KB</span>
+</pre></div>
+</div>
+<p>The command will return the bandwidth utilization and number of messages being published to the <code class="docutils literal notranslate"><span class="pre">/turtle1/pose</span></code> topic.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The bandwidth reflects the receiving rate on the subscription created by the <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">bw</span></code> command, which might be affected by platform resources and QoS configuration, and may not exactly match the publisher’s bandwidth.</p>
+</div>
+</section>
+<section id="list-available-topics-of-a-specific-type">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">10 List available topics of a specific type</a><a class="headerlink" href="#list-available-topics-of-a-specific-type" title="Link to this heading"></a></h3>
+<p>To list the available topics of a given type, use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>find<span class="w"> </span>&lt;topic_type&gt;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">cmd_vel</span></code> topic has the type:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">geometry_msgs/msg/Twist</span>
+</pre></div>
+</div>
+<p>To list topics with this message type, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ros2<span class="w"> </span>topic<span class="w"> </span>find<span class="w"> </span>geometry_msgs/msg/Twist
+</pre></div>
+</div>
+<p>The terminal returns:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/turtle1/cmd_vel</span>
+</pre></div>
+</div>
+</section>
+<section id="clean-up">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">11 Clean up</a><a class="headerlink" href="#clean-up" title="Link to this heading"></a></h3>
+<p>At this point you’ll have a lot of nodes running.
+Stop them by entering <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> in each terminal.</p>
+</section>
+</section>
+<section id="related-content">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Related content</a><a class="headerlink" href="#related-content" title="Link to this heading"></a></h2>
+<p>More articles:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../../nodes/Working-with-nodes/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html"><span class="doc">Understanding nodes</span></a></p></li>
+<li><p><a class="reference internal" href="../../services/Working-with-services/Understanding-ROS2-Services/Understanding-ROS2-Services.html"><span class="doc">Understanding services</span></a></p></li>
+<li><p><a class="reference internal" href="../../../Interfaces-Topics-Services-Actions.html"><span class="doc">Interfaces (topics, services, actions)</span></a></p></li>
+</ul>
+</section>
+<section id="faqs">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">FAQs</a><a class="headerlink" href="#faqs" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Why does <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span></code> show no data when I first run it?</dt><dd><p>That is expected if nothing is publishing on the topic yet.
+The <code class="docutils literal notranslate"><span class="pre">echo</span></code> command waits for a publisher to send a message.
+Start or use a publisher (for example <code class="docutils literal notranslate"><span class="pre">turtle_teleop_key</span></code>) and move the turtle to see data appear.</p>
+</dd>
+<dt>What is the difference between <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span></code> and <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code>?</dt><dd><p><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span></code> returns the names of all active topics.
+Adding <code class="docutils literal notranslate"><span class="pre">-t</span></code> appends each topic’s message type in brackets, which shows what type of data travels on each topic.</p>
+</dd>
+<dt>Can a topic have more than one publisher or subscriber?</dt><dd><p>Yes.
+Multiple nodes can publish on the same topic, and multiple nodes can subscribe to it at the same time.
+Use <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">info</span></code> to see how many publishers and subscribers are connected to a topic.</p>
+</dd>
+<dt>Why must publishers and subscribers use the same message type?</dt><dd><p>Both sides must agree on the message structure so data can be serialized and interpreted correctly.
+Check a topic’s type with <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">list</span> <span class="pre">-t</span></code> or <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">info</span></code>, then inspect the type with <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">interface</span> <span class="pre">show</span></code>.</p>
+</dd>
+<dt>Why does <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">pub</span></code> auto-complete not work on Windows?</dt><dd><p>The auto-complete options for publishing (dictionary auto-complete and the raw auto-completed string) rely on shell behaviour that is not supported on Windows.
+On Windows, type message data manually as YAML strings instead of using tab completion for the message field template.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../About-Topics.html" class="btn btn-neutral float-left" title="Topics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../About-Quality-of-Service-Settings.html" class="btn btn-neutral float-right" title="Quality of Service settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Open Robotics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
