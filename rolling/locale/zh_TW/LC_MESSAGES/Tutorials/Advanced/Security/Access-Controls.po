@@ -74,8 +74,8 @@ msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:38
 msgid ""
-"Begin by making a backup of your permissions files, and open ``permissions."
-"xml`` for editing:"
+"Begin by making a backup of your permissions files, and open "
+"``permissions.xml`` for editing:"
 msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:40
@@ -85,6 +85,10 @@ msgid ""
 "$ mv permissions.xml permissions.xml~\n"
 "$ vi permissions.xml"
 msgstr ""
+"$ cd ~/sros2_demo/demo_keystore/enclaves/talker_listener/talker\n"
+"$ mv permissions.p7s permissions.p7s~\n"
+"$ mv permissions.xml permissions.xml~\n"
+"$ vi permissions.xml"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:47
 msgid ""
@@ -105,9 +109,9 @@ msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:54
 msgid ""
-"<dds xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:"
-"noNamespaceSchemaLocation=\"http://www.omg.org/spec/DDS-SECURITY/20170901/"
-"omg_shared_ca_permissions.xsd\">\n"
+"<dds xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+"xsi:noNamespaceSchemaLocation=\"http://www.omg.org/spec/DDS-SECURITY/"
+"20170901/omg_shared_ca_permissions.xsd\">\n"
 "  <permissions>\n"
 "    <grant name=\"/talker_listener/talker\">\n"
 "      <subject_name>CN=/talker_listener/talker</subject_name>\n"
@@ -169,10 +173,10 @@ msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:112
 msgid ""
-"This next command creates the new S/MIME signed policy file ``permissions."
-"p7s`` from the updated XML file ``permissions.xml``. The file must be signed "
-"with the Permissions CA certificate, **which requires access to the "
-"Permissions CA private key**. If the private key has been protected, "
+"This next command creates the new S/MIME signed policy file "
+"``permissions.p7s`` from the updated XML file ``permissions.xml``. The file "
+"must be signed with the Permissions CA certificate, **which requires access "
+"to the Permissions CA private key**. If the private key has been protected, "
 "additional steps may be required to unlock and use it according to your "
 "security plan."
 msgstr ""
@@ -183,6 +187,9 @@ msgid ""
 "  --signer permissions_ca.cert.pem \\\n"
 "  -inkey ~/sros2_demo/demo_keystore/private/permissions_ca.key.pem"
 msgstr ""
+"$ openssl smime -sign -text -in permissions.xml -out permissions.p7s \\\n"
+"  --signer permissions_ca.cert.pem \\\n"
+"  -inkey ~/sros2_demo/demo_keystore/private/permissions_ca.key.pem"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:124
 msgid "Launch the node"
@@ -198,6 +205,7 @@ msgstr ""
 msgid ""
 "$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker"
 msgstr ""
+"$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:132
 msgid ""
@@ -212,6 +220,9 @@ msgid ""
 "talker \\\n"
 "  --remap chatter:=not_chatter"
 msgstr ""
+"$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/"
+"talker \\\n"
+"  --remap chatter:=not_chatter"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:141
 msgid "Use the templates"
@@ -234,7 +245,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:149
 msgid "$ git clone https://github.com/ros2/sros2.git /tmp/sros2"
-msgstr ""
+msgstr "$ git clone https://github.com/ros2/sros2.git /tmp/sros2"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:153
 msgid ""
@@ -251,6 +262,12 @@ msgid ""
 "  /talker_listener/listener \\\n"
 "  /tmp/sros2/sros2/test/policies/sample.policy.xml"
 msgstr ""
+"$ ros2 security create_permission demo_keystore \\\n"
+"  /talker_listener/talker \\\n"
+"  /tmp/sros2/sros2/test/policies/sample.policy.xml\n"
+"$ ros2 security create_permission demo_keystore \\\n"
+"  /talker_listener/listener \\\n"
+"  /tmp/sros2/sros2/test/policies/sample.policy.xml"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:164
 msgid ""
@@ -266,7 +283,7 @@ msgstr ""
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:168
 msgid "$ ros2 run demo_nodes_cpp talker --ros-args -e /talker_listener/talker"
-msgstr ""
+msgstr "$ ros2 run demo_nodes_cpp talker --ros-args -e /talker_listener/talker"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:172
 msgid "In another terminal do the same with the ``listener`` program:"
@@ -276,6 +293,7 @@ msgstr ""
 msgid ""
 "$ ros2 run demo_nodes_py listener --ros-args -e /talker_listener/listener"
 msgstr ""
+"$ ros2 run demo_nodes_py listener --ros-args -e /talker_listener/listener"
 
 #: ../../../source/Tutorials/Advanced/Security/Access-Controls.rst:178
 msgid ""
@@ -291,3 +309,6 @@ msgid ""
 "listener \\\n"
 "  --remap chatter:=not_chatter"
 msgstr ""
+"$ ros2 run demo_nodes_py listener --ros-args --enclave /talker_listener/"
+"listener \\\n"
+"  --remap chatter:=not_chatter"

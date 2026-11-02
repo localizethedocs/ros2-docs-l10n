@@ -31,7 +31,7 @@ msgstr ""
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:-1
 msgid "rolling"
-msgstr ""
+msgstr "rolling"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:-1
 msgid "ROS 2"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:26
 msgid "Table of Contents"
-msgstr ""
+msgstr "目次表"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:28
 msgid ""
@@ -65,7 +65,7 @@ msgstr ""
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:33
 msgid "Maximum Path Length"
-msgstr ""
+msgstr "最大路徑長度"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:34
 msgid ""
@@ -76,6 +76,11 @@ msgid ""
 "means that only 256 characters are available for the *sum* of all parts of "
 "the path. This has two practical consequences for ROS 2:"
 msgstr ""
+"預設情況下，Windows 系統的\\ `最大路徑長度< https://docs.microsoft.com/zh-tw/"
+"windows/win32/fileio/maximum-file-path-limitation>`__\\ 為 260 個字元。實際"
+"上，其中 4 個字元總是會被磁碟機代號、冒號、起始反斜線以及結尾的空字元所佔用。"
+"這意味著路徑所有部分的\\ *總和*\\ 僅有 256 個字元可用。這對 ROS 2 產生了兩個"
+"實際的影響："
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:39
 msgid ""
@@ -119,6 +124,9 @@ msgid ""
 "function definition\n"
 "'visibility': identifier not found"
 msgstr ""
+"error C2448: '__attribute__': function-style initializer appears to be a "
+"function definition\n"
+"'visibility': identifier not found"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:61
 msgid ""
@@ -202,6 +210,28 @@ msgid ""
 "#endif\n"
 "#endif  // MY_LIB__VISIBILITY_CONTROL_H_"
 msgstr ""
+"#ifndef MY_LIB__VISIBILITY_CONTROL_H_\n"
+"#define MY_LIB__VISIBILITY_CONTROL_H_\n"
+"#if defined _WIN32 || defined __CYGWIN__\n"
+"#ifdef __GNUC__\n"
+"   #define MY_LIB_EXPORT __attribute__ ((dllexport))\n"
+"   #define MY_LIB_IMPORT __attribute__ ((dllimport))\n"
+"#else\n"
+"   #define MY_LIB_EXPORT __declspec(dllexport)\n"
+"   #define MY_LIB_IMPORT __declspec(dllimport)\n"
+"#endif\n"
+"#ifdef MY_LIB_BUILDING_LIBRARY\n"
+"   #define MY_LIB_PUBLIC MY_LIB_EXPORT\n"
+"#else\n"
+"   #define MY_LIB_PUBLIC MY_LIB_IMPORT\n"
+"#endif\n"
+"#define MY_LIB_PUBLIC_TYPE MY_LIB_PUBLIC\n"
+"#define MY_LIB_LOCAL\n"
+"#else\n"
+" // Linux visibility settings\n"
+"#define MY_LIB_PUBLIC_TYPE\n"
+"#endif\n"
+"#endif  // MY_LIB__VISIBILITY_CONTROL_H_"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:114
 msgid ""
@@ -237,7 +267,7 @@ msgstr ""
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:134
 msgid "WINDOWS_EXPORT_ALL_SYMBOLS Target Property"
-msgstr ""
+msgstr "WINDOWS_EXPORT_ALL_SYMBOLS 目標屬性"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:135
 msgid ""
@@ -253,6 +283,7 @@ msgstr ""
 msgid ""
 "set_target_properties(${LIB_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)"
 msgstr ""
+"set_target_properties(${LIB_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:143
 msgid ""
@@ -276,6 +307,10 @@ msgid ""
 "public:\n"
 "static const int Global_data_num;"
 msgstr ""
+"class Example_class\n"
+"{\n"
+"public:\n"
+"static const int Global_data_num;"
 
 #: ../../../source/The-ROS2-Project/Contributing/Contributing-to-code/Windows-Tips-and-Tricks.rst:158
 msgid ""
