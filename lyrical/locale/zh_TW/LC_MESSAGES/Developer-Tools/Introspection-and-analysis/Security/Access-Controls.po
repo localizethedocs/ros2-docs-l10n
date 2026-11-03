@@ -114,6 +114,10 @@ msgid ""
 "$ mv permissions.xml permissions.xml~\n"
 "$ vi permissions.xml"
 msgstr ""
+"$ cd ~/sros2_demo/demo_keystore/enclaves/talker_listener/talker\n"
+"$ mv permissions.p7s permissions.p7s~\n"
+"$ mv permissions.xml permissions.xml~\n"
+"$ vi permissions.xml"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:63
 msgid ""
@@ -212,6 +216,9 @@ msgid ""
 "  --signer permissions_ca.cert.pem \\\n"
 "  -inkey ~/sros2_demo/demo_keystore/private/permissions_ca.key.pem"
 msgstr ""
+"$ openssl smime -sign -text -in permissions.xml -out permissions.p7s \\\n"
+"  --signer permissions_ca.cert.pem \\\n"
+"  -inkey ~/sros2_demo/demo_keystore/private/permissions_ca.key.pem"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:140
 msgid "Launch the node"
@@ -227,6 +234,7 @@ msgstr ""
 msgid ""
 "$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker"
 msgstr ""
+"$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/talker"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:148
 msgid ""
@@ -241,6 +249,9 @@ msgid ""
 "talker \\\n"
 "  --remap chatter:=not_chatter"
 msgstr ""
+"$ ros2 run demo_nodes_cpp talker --ros-args --enclave /talker_listener/"
+"talker \\\n"
+"  --remap chatter:=not_chatter"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:157
 msgid "Use the templates"
@@ -263,7 +274,7 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:165
 msgid "$ git clone https://github.com/ros2/sros2.git /tmp/sros2"
-msgstr ""
+msgstr "$ git clone https://github.com/ros2/sros2.git /tmp/sros2"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:169
 msgid ""
@@ -280,6 +291,12 @@ msgid ""
 "  /talker_listener/listener \\\n"
 "  /tmp/sros2/sros2/test/policies/sample.policy.xml"
 msgstr ""
+"$ ros2 security create_permission demo_keystore \\\n"
+"  /talker_listener/talker \\\n"
+"  /tmp/sros2/sros2/test/policies/sample.policy.xml\n"
+"$ ros2 security create_permission demo_keystore \\\n"
+"  /talker_listener/listener \\\n"
+"  /tmp/sros2/sros2/test/policies/sample.policy.xml"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:180
 msgid ""
@@ -295,7 +312,7 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:184
 msgid "$ ros2 run demo_nodes_cpp talker --ros-args -e /talker_listener/talker"
-msgstr ""
+msgstr "$ ros2 run demo_nodes_cpp talker --ros-args -e /talker_listener/talker"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:188
 msgid "In another terminal do the same with the ``listener`` program:"
@@ -305,6 +322,7 @@ msgstr ""
 msgid ""
 "$ ros2 run demo_nodes_py listener --ros-args -e /talker_listener/listener"
 msgstr ""
+"$ ros2 run demo_nodes_py listener --ros-args -e /talker_listener/listener"
 
 #: ../../../source/Developer-Tools/Introspection-and-analysis/Security/Access-Controls.rst:194
 msgid ""
@@ -320,3 +338,6 @@ msgid ""
 "listener \\\n"
 "  --remap chatter:=not_chatter"
 msgstr ""
+"$ ros2 run demo_nodes_py listener --ros-args --enclave /talker_listener/"
+"listener \\\n"
+"  --remap chatter:=not_chatter"

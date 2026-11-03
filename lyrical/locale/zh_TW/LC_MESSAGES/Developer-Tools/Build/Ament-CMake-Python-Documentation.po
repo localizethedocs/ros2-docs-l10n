@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation lyrical\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-20 13:07+0000\n"
+"POT-Creation-Date: 2026-10-27 13:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:-1
 msgid "rolling"
-msgstr ""
+msgstr "rolling"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:-1
 msgid "ROS 2"
@@ -96,6 +96,13 @@ msgid ""
 "        ├── __init__.py\n"
 "        └── my_script.py"
 msgstr ""
+".\n"
+"└── my_project\n"
+"    ├── CMakeLists.txt\n"
+"    ├── package.xml\n"
+"    └── my_project\n"
+"        ├── __init__.py\n"
+"        └── my_script.py"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:56
 msgid ""
@@ -131,6 +138,9 @@ msgid ""
 "# ...\n"
 "ament_python_install_package(${PROJECT_NAME})"
 msgstr ""
+"find_package(ament_cmake_python REQUIRED)\n"
+"# ...\n"
+"ament_python_install_package(${PROJECT_NAME})"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:76
 msgid ""
@@ -156,7 +166,7 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:87
 msgid "from my_project.my_script import my_function"
-msgstr ""
+msgstr "from my_project.my_script import my_function"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:91
 msgid "Assuming ``my_script.py`` contains a function called ``my_function()``."
@@ -164,7 +174,7 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:94
 msgid "Using ament_cmake_pytest"
-msgstr ""
+msgstr "使用 ament_cmake_pytest"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:96
 msgid ""
@@ -175,7 +185,7 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:99
 msgid "<test_depend>ament_cmake_pytest</test_depend>"
-msgstr ""
+msgstr "<test_depend>ament_cmake_pytest</test_depend>"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:103
 msgid ""
@@ -194,6 +204,14 @@ msgid ""
 "    ├── test_a.py\n"
 "    └── test_b.py"
 msgstr ""
+".\n"
+"├── CMakeLists.txt\n"
+"├── my_project\n"
+"│   └── my_script.py\n"
+"├── package.xml\n"
+"└── tests\n"
+"    ├── test_a.py\n"
+"    └── test_b.py"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:118
 msgid ""
@@ -214,6 +232,22 @@ msgid ""
 "  endforeach()\n"
 "endif()"
 msgstr ""
+"if(BUILD_TESTING)\n"
+"  find_package(ament_cmake_pytest REQUIRED)\n"
+"  set(_pytest_tests\n"
+"    tests/test_a.py\n"
+"    tests/test_b.py\n"
+"    # Add other test files here\n"
+"  )\n"
+"  foreach(_test_path ${_pytest_tests})\n"
+"    get_filename_component(_test_name ${_test_path} NAME_WE)\n"
+"    ament_add_pytest_test(${_test_name} ${_test_path}\n"
+"      APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}\n"
+"      TIMEOUT 60\n"
+"      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}\n"
+"    )\n"
+"  endforeach()\n"
+"endif()"
 
 #: ../../../source/Developer-Tools/Build/Ament-CMake-Python-Documentation.rst:137
 msgid ""
