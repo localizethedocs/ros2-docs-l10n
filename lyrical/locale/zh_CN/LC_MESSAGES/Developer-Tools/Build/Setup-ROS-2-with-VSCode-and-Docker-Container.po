@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation lyrical\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 13:44+0000\n"
+"POT-Creation-Date: 2026-11-03 15:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,10 @@ msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:-1
 msgid "how-to"
+msgstr ""
+
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:-1
+msgid "beginner, intermediate"
 msgstr ""
 
 #: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:-1
@@ -250,15 +254,14 @@ msgid ""
 "            \"extensions\":[\n"
 "                \"ms-vscode.cpptools\",\n"
 "                \"ms-vscode.cpptools-themes\",\n"
-"                \"twxs.cmake\",\n"
-"                \"donjayamanne.python-extension-pack\",\n"
+"                \"ms-vscode.cmake-tools\",\n"
+"                \"ms-python.python\",\n"
 "                \"eamodio.gitlens\",\n"
-"                \"ms-iot.vscode-ros\"\n"
+"                \"ranch-hand-robotics.rde-pack\"\n"
 "            ]\n"
 "        }\n"
 "    },\n"
 "    \"containerEnv\": {\n"
-"        \"DISPLAY\": \"unix:0\",\n"
 "        \"ROS_AUTOMATIC_DISCOVERY_RANGE\": \"LOCALHOST\",\n"
 "        \"ROS_DOMAIN_ID\": \"42\"\n"
 "    },\n"
@@ -269,16 +272,16 @@ msgid ""
 "        \"-e\", \"DISPLAY=${env:DISPLAY}\"\n"
 "    ],\n"
 "    \"mounts\": [\n"
-"       \"source=/tmp/.X11-unix,target=/tmp/.X11-"
-"unix,type=bind,consistency=cached\",\n"
-"       \"source=/dev/dri,target=/dev/dri,type=bind,consistency=cached\"\n"
+"       \"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind\",\n"
+"       \"source=/dev/dri,target=/dev/dri,type=bind\"\n"
 "    ],\n"
-"    \"postCreateCommand\": \"sudo rosdep update && sudo rosdep install --"
-"from-paths src --ignore-src -y && sudo chown -R $(whoami) /home/ws/\"\n"
+"    \"postCreateCommand\": \"sudo apt-get update && rosdep update && rosdep "
+"install --from-paths src --ignore-src -y && sudo chown -R $(whoami) /home/ws/"
+"\"\n"
 "}"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:189
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:188
 msgid ""
 "Use ``Ctrl+F`` to open the search and replace menu. Search for "
 "``YOUR_USERNAME`` and replace it with your ``Linux username``. If you do not "
@@ -286,15 +289,15 @@ msgid ""
 "terminal."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:195
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:194
 msgid "Edit ``Dockerfile``"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:197
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:196
 msgid "Open the Dockerfile and add the following contents:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:200
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:199
 msgid ""
 "FROM ros:ROS_DISTRO\n"
 "ARG USERNAME=USERNAME\n"
@@ -317,7 +320,7 @@ msgid ""
 "    && chmod 0440 /etc/sudoers.d/$USERNAME\n"
 "RUN apt-get update && apt-get upgrade -y\n"
 "RUN apt-get install -y python3-pip\n"
-"ENV SHELL /bin/bash\n"
+"ENV SHELL=/bin/bash\n"
 "\n"
 "# ********************************************************\n"
 "# * Anything else you want to do like clean up goes here *\n"
@@ -326,20 +329,23 @@ msgid ""
 "# [Optional] Set the default user. Omit if you want to keep the default as "
 "root.\n"
 "USER $USERNAME\n"
+"# VS Code overrides the image entrypoint, so source ROS in every interactive "
+"shell\n"
+"RUN echo \"source /opt/ros/$ROS_DISTRO/setup.bash\" >> ~/.bashrc\n"
 "CMD [\"/bin/bash\"]"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:231
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:232
 msgid ""
 "Replace ``ROS_DISTRO`` with the ROS 2 distribution you wish to use as base "
 "image above, for example ``rolling``."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:235
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:236
 msgid "Open and Build Development Container"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:237
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:238
 msgid ""
 "Use ``View->Command Palette...`` or ``Ctrl+Shift+P`` to open the command "
 "palette. Search for the command ``Dev Containers: Reopen in Container`` and "
@@ -347,21 +353,20 @@ msgid ""
 "will take a while - sit back or go for a coffee."
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:244
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:245
 msgid "Test Container"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:246
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:247
 msgid ""
 "To test if everything worked correctly, open a terminal in the container "
 "using ``View->Terminal`` or ``Ctrl+Shift+``` and ``New Terminal`` in VS "
 "Code. Inside the terminal do the following:"
 msgstr ""
 
-#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:249
+#: ../../../source/Developer-Tools/Build/Setup-ROS-2-with-VSCode-and-Docker-Container.rst:250
 msgid ""
 "$ sudo apt install ros-$ROS_DISTRO-rviz2 -y\n"
-"$ source /opt/ros/$ROS_DISTRO/setup.bash\n"
 "$ rviz2"
 msgstr ""
 
