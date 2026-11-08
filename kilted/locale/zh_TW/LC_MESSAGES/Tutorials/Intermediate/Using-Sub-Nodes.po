@@ -1,0 +1,433 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation kilted\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-03 15:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:2
+msgid "Using Subordinate Nodes (C++)"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:4
+msgid ""
+"**Goal:** Learn how to create and use subordinate nodes "
+"(``create_sub_node``) in ``rclcpp`` to organize topics and services "
+"hierarchically."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:6
+msgid "**Tutorial level:** Intermediate"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:8
+msgid "**Time:** 10 minutes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:12
+msgid "Table of Contents"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:15
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:17
+msgid ""
+"A **subordinate node** (or **sub-node**) is a secondary node instance "
+"created from an existing ``rclcpp::Node`` via ``create_sub_node()``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:18
+msgid ""
+"Sub-nodes share the parent node's underlying context, executor callbacks, "
+"parameter interface, logging interface, and ROS graph identity."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:19
+msgid ""
+"Sub-nodes define an additional relative **sub-namespace** that scopes "
+"entities (publishers, subscriptions, service clients, and service servers) "
+"created through them."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:20
+msgid ""
+"In ROS 1, developers often used ``ros::NodeHandle`` instances to scope "
+"namespaces for internal helper classes; in ROS 2, ``create_sub_node()`` "
+"fulfills a similar role for C++ components within a node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:23
+msgid "Overview"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:25
+msgid ""
+"In ROS 2, a standard node represents a single entity in the computation "
+"graph. However, complex nodes frequently contain internal helper libraries, "
+"device sub-drivers, or modular algorithms that need to publish or subscribe "
+"to topics under their own scoped namespace."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:28
+msgid ""
+"Creating a full separate node for each internal subcomponent incurs "
+"overhead: each node has its own middleware participant and discovery entity, "
+"requires separate executor management or thread scheduling, and clutters the "
+"node graph."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:30
+msgid ""
+"To solve this, ``rclcpp::Node`` provides the ``create_sub_node()`` method. A "
+"subordinate node allows internal components within a single ROS 2 node "
+"process to encapsulate their own relative topic and service namespaces while "
+"reusing all of the parent node's underlying resources."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:34
+msgid "How Subordinate Nodes Work"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:37
+msgid "Namespaces and naming"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:39
+msgid ""
+"When you create a sub-node, you provide a relative sub-namespace string:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:41
+msgid ""
+"auto node = std::make_shared<rclcpp::Node>(\"my_node\", \"/my_ns\");\n"
+"auto sub_node = node->create_sub_node(\"sub_ns\");"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:46
+msgid "The node provides three namespace-related query methods:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:48
+msgid ""
+"``get_namespace()``: Returns the parent node's base namespace (for example, "
+"``\"/my_ns\"``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:49
+msgid ""
+"``get_sub_namespace()``: Returns the accumulated relative sub-namespace (for "
+"example, ``\"sub_ns\"``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:50
+msgid ""
+"``get_effective_namespace()``: Returns the concatenation of the base "
+"namespace and the accumulated sub-namespace (for example, ``\"/my_ns/"
+"sub_ns\"``)."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:52
+msgid "Sub-nodes can also be nested hierarchically:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:54
+msgid ""
+"auto sub_node2 = sub_node->create_sub_node(\"nested\");\n"
+"// sub_node2->get_sub_namespace()       -> \"sub_ns/nested\"\n"
+"// sub_node2->get_effective_namespace() -> \"/my_ns/sub_ns/nested\""
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:61
+msgid "Entity scoping rules"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:63
+msgid ""
+"When you use a sub-node to create publishers, subscriptions, service "
+"clients, or service servers:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:65
+msgid ""
+"**Relative names**: Any relative topic or service name (a name not starting "
+"with ``/``) is resolved relative to the sub-node's *effective namespace*. "
+"For example, creating a publisher for ``\"chatter\"`` on a sub-node with "
+"effective namespace ``\"/my_ns/sub_ns\"`` results in the topic ``\"/my_ns/"
+"sub_ns/chatter\"``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:67
+msgid ""
+"**Absolute names**: Any absolute name (starting with ``/``) bypasses all "
+"namespaces and resolves directly to the global name, identical to standard "
+"ROS 2 naming behavior."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:68
+msgid ""
+"**Relative requirement**: The sub-namespace passed to ``create_sub_node()`` "
+"must be relative (it cannot start with ``/`` and cannot be empty). Passing "
+"an absolute or empty sub-namespace throws "
+"``rclcpp::exceptions::NameValidationError``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:72
+msgid "Shared resources vs. Scoped behavior"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:74
+msgid ""
+"The following table summarizes what is shared with the parent node and what "
+"is scoped by the subordinate node:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:80
+msgid "Aspect"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:81
+msgid "Behavior"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:82
+msgid "**Graph identity**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:83
+msgid ""
+"Shared. The sub-node shares the parent's "
+"``rclcpp::node_interfaces::NodeBaseInterface``. It does not appear as a "
+"separate node in ``ros2 node list``."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:86
+msgid "**Node name**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:87
+msgid "Shared. ``sub_node->get_name()`` returns the parent node's name."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:89
+msgid "**Executor and callbacks**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:90
+msgid ""
+"Shared. Callbacks registered on sub-node entities are dispatched by the "
+"parent node's executor. You spin the parent node, not the sub-node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:93
+msgid "**Parameters**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:94
+msgid ""
+"Shared. The sub-node shares the parent's "
+"``rclcpp::node_interfaces::NodeParametersInterface``. Declaring or querying "
+"parameters operates on the parent node's parameter store."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:97
+msgid "**Logging**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:98
+msgid ""
+"Shared. The sub-node shares the parent's "
+"``rclcpp::node_interfaces::NodeLoggingInterface`` and parent logger."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:100
+msgid "**Clock and timers**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:101
+msgid "Shared. Timers and clock interfaces are shared with the parent node."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:103
+msgid "**Entity namespaces**"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:104
+msgid ""
+"Scoped. Relative publishers, subscriptions, and services use the sub-node's "
+"effective namespace."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:108
+msgid "C++ Example"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:110
+msgid ""
+"The following example demonstrates creating a parent node and two "
+"subordinate nodes to publish telemetry from two sensors:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:112
+msgid ""
+"#include <chrono>\n"
+"#include <memory>\n"
+"#include <string>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"std_msgs/msg/string.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class RobotSystemNode : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  RobotSystemNode()\n"
+"  : Node(\"robot_system\", \"robot\")\n"
+"  {\n"
+"    // Create subordinate nodes for distinct subsystems\n"
+"    imu_subnode_ = this->create_sub_node(\"imu\");\n"
+"    camera_subnode_ = this->create_sub_node(\"camera\");\n"
+"\n"
+"    RCLCPP_INFO(\n"
+"      this->get_logger(),\n"
+"      \"Parent node namespace: %s, effective: %s\",\n"
+"      this->get_namespace(),\n"
+"      this->get_effective_namespace().c_str());\n"
+"\n"
+"    RCLCPP_INFO(\n"
+"      this->get_logger(),\n"
+"      \"IMU sub-node sub_ns: %s, effective: %s\",\n"
+"      imu_subnode_->get_sub_namespace().c_str(),\n"
+"      imu_subnode_->get_effective_namespace().c_str());\n"
+"\n"
+"    RCLCPP_INFO(\n"
+"      this->get_logger(),\n"
+"      \"Camera sub-node sub_ns: %s, effective: %s\",\n"
+"      camera_subnode_->get_sub_namespace().c_str(),\n"
+"      camera_subnode_->get_effective_namespace().c_str());\n"
+"\n"
+"    // Create publishers via subordinate nodes using relative topic names\n"
+"    // Resolved topics will be /robot/imu/data and /robot/camera/status\n"
+"    imu_pub_ = imu_subnode_-"
+">create_publisher<std_msgs::msg::String>(\"data\", 10);\n"
+"    camera_pub_ = camera_subnode_-"
+">create_publisher<std_msgs::msg::String>(\"status\", 10);\n"
+"\n"
+"    timer_ = this->create_wall_timer(\n"
+"      1000ms, std::bind(&RobotSystemNode::publish_data, this));\n"
+"  }\n"
+"\n"
+"private:\n"
+"  void publish_data()\n"
+"  {\n"
+"    auto imu_msg = std_msgs::msg::String();\n"
+"    imu_msg.data = \"imu_ok\";\n"
+"    imu_pub_->publish(imu_msg);\n"
+"\n"
+"    auto cam_msg = std_msgs::msg::String();\n"
+"    cam_msg.data = \"camera_streaming\";\n"
+"    camera_pub_->publish(cam_msg);\n"
+"  }\n"
+"\n"
+"  rclcpp::Node::SharedPtr imu_subnode_;\n"
+"  rclcpp::Node::SharedPtr camera_subnode_;\n"
+"  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr imu_pub_;\n"
+"  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr camera_pub_;\n"
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"};\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  auto node = std::make_shared<RobotSystemNode>();\n"
+"  rclcpp::spin(node);\n"
+"  rclcpp::shutdown();\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:189
+msgid "Verifying Behavior with CLI Tools"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:191
+msgid ""
+"When running this node, you can verify how subordinate nodes appear in the "
+"ROS 2 graph using the standard command-line tools:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:193
+msgid "List the active nodes:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:195
+msgid ""
+"$ ros2 node list\n"
+"/robot/robot_system"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:200
+msgid ""
+"Notice that only the parent node ``/robot/robot_system`` appears in the "
+"graph. The subordinate nodes do not register as separate nodes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:203
+msgid "List the active topics:"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:205
+msgid ""
+"$ ros2 topic list\n"
+"/parameter_events\n"
+"/robot/camera/status\n"
+"/robot/imu/data\n"
+"/rosout"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:213
+msgid ""
+"The topics published by the subordinate nodes are correctly scoped under ``/"
+"robot/camera/`` and ``/robot/imu/`` according to each sub-node's effective "
+"namespace."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:216
+msgid "When to Use Subordinate Nodes"
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:218
+msgid ""
+"**Use subordinate nodes** when you are developing modular C++ classes or "
+"internal helper libraries within a single executable and want each component "
+"to manage its own scoped topic or service namespace without the overhead of "
+"additional ROS 2 nodes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:219
+msgid ""
+"**Use composable nodes (components)** when your components represent "
+"independent units of computation that should be independently discoverable, "
+"dynamically loaded into component containers at launch or runtime, or "
+"composed into separate processes."
+msgstr ""
+
+#: ../../../source/Tutorials/Intermediate/Using-Sub-Nodes.rst:220
+msgid ""
+"**Use standalone nodes** when components require independent operating "
+"system processes, distinct lifecycles, or physical isolation across machines."
+msgstr ""
