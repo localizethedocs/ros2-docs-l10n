@@ -1,0 +1,419 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, Open Robotics
+# This file is distributed under the same license as the ROS 2 documentation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ROS 2 documentation lyrical\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 15:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:-1
+msgid "how-to"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:-1
+msgid "beginner, intermediate"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:-1
+msgid "interfaces, tools"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:-1
+msgid "rolling"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:-1
+msgid "ROS 2"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:20
+msgid "Implementing custom interfaces - how-to"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:23
+msgid ""
+"When predefined interface definitions are not enough, you can create custom "
+"interfaces for your nodes. In this article, you will learn how to define, "
+"build, and use an interface in a single ROS package. After you follow these "
+"steps, you will be able to publish and inspect data using your custom "
+"interface."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:31
+msgid ""
+"When predefined interface definitions are not enough, you need to create "
+"custom interfaces. In this article, you will learn how to define and build "
+"interfaces with different field types. This will help you implement custom "
+"interfaces in ROS to suit your needs."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:37
+msgid "Contents"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:40
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:42
+msgid ""
+"Interfaces define how nodes exchange data. ROS offers three main interface "
+"types:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:45
+msgid "Topics (``.msg`` files)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:46
+msgid "Services (``.srv`` files)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:47
+msgid "Actions (``.action`` files)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:49
+msgid ""
+":doc:`Learn more about interfaces </ROS-Framework/Interfaces-Topics-Services-"
+"Actions>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:51
+msgid "Before creating a custom interface, do the following:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:53
+msgid "Check whether a suitable standard message already exists."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:54
+msgid ""
+"If no single standard message fits your use case, consider creating a new "
+"message composed of standard messages. See standard messages here: https://"
+"github.com/ros2/common_interfaces."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:57
+msgid "Creating a completely custom message should be the last resort."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:59
+msgid ""
+"Creating custom interfaces involves preparing a package, specifying "
+"interface definitions, and registering the interfaces in ``package.xml`` and "
+"``CMakeLists.txt``. Using custom interfaces involves configuring a node to "
+"include the interfaces in its source, and configuring the node to build with "
+"the interfaces in ``CMakeLists.txt``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:64
+msgid ""
+"The best practice is to declare interfaces in dedicated interface packages, "
+"but sometimes it may be more convenient for you to declare, create and use "
+"an interface all in one package. Using a dedicated interface package is "
+"preferred because it allows multiple packages to share message definitions "
+"without sharing any other code contained in the package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:68
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:70
+msgid ""
+":doc:`Install ROS </Get-Started/Installation>`, and create "
+"your :doc:`workspace </ROS-Framework/client-libraries/Working-with-Client-"
+"Libraries/Creating-A-Workspace/Creating-A-Workspace>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:71
+msgid ""
+"Make sure you understand how to :doc:`create packages </ROS-Framework/client-"
+"libraries/Working-with-Client-Libraries/Creating-Your-First-ROS2-Package>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:74
+msgid "Steps"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:78
+msgid ""
+"For our examples, we are using the ``msg`` interface type, but the steps "
+"below apply to all interface types."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:80
+msgid ""
+"In your workspace ``src`` folder, create a ``more_interfaces`` CMake package "
+"with a folder for interface definitions. For example:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:83
+msgid ""
+"$ ros2 pkg create --build-type ament_cmake more_interfaces\n"
+"$ mkdir -p more_interfaces/msg"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:90
+msgid ""
+"In ROS 2, interfaces can only be defined in CMake packages. You can also use "
+"`ament_cmake_python <https://github.com/ament/ament_cmake/tree/rolling/"
+"ament_cmake_python>`__ to include Python libraries and nodes in a CMake "
+"package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:93
+msgid ""
+"In your interface definitions folder, create a file in which you provide the "
+"definitions for the interface. For example, for a message interface, you can "
+"create an ``AddressBook.msg`` file that collects personal data: The "
+"``PHONE_TYPE_*`` constants in this example form an enumerated type pattern "
+"for ``phone_type`` values."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:97
+msgid ""
+"uint8 PHONE_TYPE_HOME=0\n"
+"uint8 PHONE_TYPE_WORK=1\n"
+"uint8 PHONE_TYPE_MOBILE=2\n"
+"string first_name\n"
+"string last_name\n"
+"string phone_number\n"
+"uint8 phone_type\n"
+"geometry_msgs/Point location"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:108
+msgid ""
+"In ``package.xml``, add the following code to register your package as part "
+"of interface groups: ``rosidl_default_generators``: Needed to generate the "
+"code during the build. ``rosidl_default_runtime``: Needed only at run time."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:112
+msgid ""
+"<depend>rclcpp</depend>\n"
+"<buildtool_depend>rosidl_default_generators</buildtool_depend>\n"
+"<exec_depend>rosidl_default_runtime</exec_depend>\n"
+"<depend>geometry_msgs</depend>\n"
+"<member_of_group>rosidl_interface_packages</member_of_group>"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:120
+msgid ""
+"In ``CMakeLists.txt``, add the required code to make the runtime libraries "
+"available and to generate source files from your interface definition. For "
+"example:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:123
+msgid ""
+"find_package(rosidl_default_generators REQUIRED)\n"
+"find_package(geometry_msgs REQUIRED)\n"
+"set(msg_files \"msg/AddressBook.msg\")\n"
+"rosidl_generate_interfaces(${PROJECT_NAME} ${msg_files}\n"
+"  DEPENDENCIES geometry_msgs\n"
+")\n"
+"ament_export_dependencies(rosidl_default_runtime)"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:133
+msgid ""
+"In the ``more_interfaces/src`` folder, create a node to interact with your "
+"new interface. For example, for a message interface, create "
+"``publish_address_book.cpp`` with code to publish the message periodically."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:136
+msgid ""
+"#include <chrono>\n"
+"#include <iostream>\n"
+"#include <memory>\n"
+"\n"
+"#include \"rclcpp/rclcpp.hpp\"\n"
+"#include \"more_interfaces/msg/address_book.hpp\"\n"
+"\n"
+"using namespace std::chrono_literals;\n"
+"\n"
+"class AddressBookPublisher : public rclcpp::Node\n"
+"{\n"
+"public:\n"
+"  AddressBookPublisher()\n"
+"  : Node(\"address_book_publisher\")\n"
+"  {\n"
+"    address_book_publisher_ =\n"
+"      this-"
+">create_publisher<more_interfaces::msg::AddressBook>(\"address_book\", 10);\n"
+"\n"
+"    auto publish_msg = [this]() -> void {\n"
+"        auto message = more_interfaces::msg::AddressBook();\n"
+"\n"
+"        message.first_name = \"John\";\n"
+"        message.last_name = \"Doe\";\n"
+"        message.phone_number = \"1234567890\";\n"
+"        message.phone_type = message.PHONE_TYPE_MOBILE;\n"
+"        message.location.x = 37.7749;\n"
+"        message.location.y = -122.4194;\n"
+"        message.location.z = 0.0;\n"
+"\n"
+"        std::cout << \"Publishing Contact\\nFirst:\" << message.first_name "
+"<<\n"
+"          \"  Last:\" << message.last_name << std::endl;\n"
+"\n"
+"        this->address_book_publisher_->publish(message);\n"
+"      };\n"
+"    timer_ = this->create_wall_timer(1s, publish_msg);\n"
+"  }\n"
+"\n"
+"private:\n"
+"  rclcpp::Publisher<more_interfaces::msg::AddressBook>::SharedPtr "
+"address_book_publisher_;\n"
+"  rclcpp::TimerBase::SharedPtr timer_;\n"
+"};\n"
+"\n"
+"\n"
+"int main(int argc, char * argv[])\n"
+"{\n"
+"  rclcpp::init(argc, argv);\n"
+"  rclcpp::spin(std::make_shared<AddressBookPublisher>());\n"
+"  rclcpp::shutdown();\n"
+"\n"
+"  return 0;\n"
+"}"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:190
+msgid ""
+"In ``CMakeLists.txt``, create a new target so the node builds correctly. For "
+"example:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:193
+msgid ""
+"find_package(rclcpp REQUIRED)\n"
+"add_executable(publish_address_book src/publish_address_book.cpp)\n"
+"target_link_libraries(publish_address_book rclcpp::rclcpp)\n"
+"install(TARGETS publish_address_book DESTINATION lib/${PROJECT_NAME})"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:200
+msgid "In ``CMakeLists.txt``, link the node to your interface. For example:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:203
+msgid ""
+"rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "
+"rosidl_typesupport_cpp)\n"
+"target_link_libraries(publish_address_book \"${cpp_typesupport_target}\")"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:208
+msgid "To test your new interface, do the following:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:210
+msgid "In your workspace root, build the package."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:212
+msgid "Source the workspace and run the node that uses the interface."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:214
+msgid "For example:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:218
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:258
+msgid "Linux"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:220
+msgid ""
+"$ cd ~/ros2_ws\n"
+"$ colcon build --packages-up-to more_interfaces\n"
+"$ source install/local_setup.bash\n"
+"$ ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:227
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:265
+msgid "macOS"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:229
+msgid ""
+"$ cd ~/ros2_ws\n"
+"$ colcon build --packages-up-to more_interfaces\n"
+"$ . install/local_setup.bash\n"
+"$ ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:236
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:272
+msgid "Windows"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:238
+msgid ""
+"$ cd /ros2_ws\n"
+"$ colcon build --merge-install --packages-up-to more_interfaces\n"
+"$ call install/local_setup.bat\n"
+"$ ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:245
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:279
+msgid "Or using Powershell:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:247
+msgid ""
+"$ install/local_setup.ps1\n"
+"$ ros2 run more_interfaces publish_address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:252
+msgid "Check the interface or interact with it."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:254
+msgid ""
+"For example, for a message interface, you could open another terminal and "
+"use the following code:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:260
+msgid ""
+"$ source install/setup.bash\n"
+"$ ros2 topic echo /address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:267
+msgid ""
+"$ . install/setup.bash\n"
+"$ ros2 topic echo /address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:274
+msgid ""
+"$ call install/setup.bat\n"
+"$ ros2 topic echo /address_book"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Single-Package-Define-And-Use-Interface.rst:281
+msgid ""
+"$ install/setup.ps1\n"
+"$ ros2 topic echo /address_book"
+msgstr ""
