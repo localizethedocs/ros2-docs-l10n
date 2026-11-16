@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ROS 2 documentation rolling\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 15:15+0000\n"
+"POT-Creation-Date: 2026-11-16 18:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,101 +38,99 @@ msgid "ROS 2"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:16
-msgid "Recording and playing back data — tutorial"
+msgid "Recording and playing back data - tutorial"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:19
 msgid ""
-"``ros2 bag`` records data from your ROS system so you can inspect, share, "
-"and replay it later. This article shows how to record and play back topic, "
-"service, and action data. After following these steps, you can create bag "
-"files, examine their contents, and replay them for debugging or analysis."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:27
-msgid ""
-"**Goal:** Record data published on a topic, a service and an action so you "
-"can replay and examine it any time."
+"``ros2 bag`` records data from topics, services, and actions so you can save "
+"and replay it later. This tutorial shows you how to record, inspect, and "
+"play back that data with the ``ros2 bag`` command-line tools. After "
+"completing it, you can create bag files, examine their contents, and replay "
+"them for debugging or analysis."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:29
-msgid "**Tutorial level:** Beginner"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:31
-msgid "**Time:** 20 minutes"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:35
 msgid "Contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:38
-msgid "Background"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:32
+msgid "Summary"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:34
+msgid ""
+"Use ``ros2 bag record`` to save data from topics, services, and actions, "
+"``ros2 bag info`` to inspect a recording, and ``ros2 bag play`` to replay "
+"it. Recordings are stored in bag directories that you can share or reuse to "
+"reproduce experiments. By default, recordings use the MCAP (``.mcap``) "
+"storage format. Humble and earlier distributions use SQLite (``.db3``) by "
+"default."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:40
-msgid ""
-"``ros2 bag`` is a command line tool for recording data published on topics, "
-"services and actions in your ROS 2 system. It accumulates the data passed on "
-"any number of topics, services and actions, then saves it in a database. You "
-"can then replay the data to reproduce the results of your tests and "
-"experiments. Recording topics, services and actions is also a great way to "
-"share your work and allow others to recreate it."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:47
 msgid "Prerequisites"
 msgstr ""
 
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:42
+msgid ":doc:`Install ROS <../../../../Get-Started/Installation>`."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:43
+msgid ""
+"If you are not already familiar with topics, complete the :doc:`Learning "
+"about topics <../../topics/Understanding-ROS2-Topics/Understanding-ROS2-"
+"Topics>` tutorial."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:44
+msgid ""
+"This article uses several packages which are included in a typical desktop "
+"installation. If you have a custom installation, ensure you have the "
+"following:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:47
+msgid "``turtlesim``"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:48
+msgid "``demo_nodes_cpp``"
+msgstr ""
+
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:49
-msgid ""
-"You should have ``ros2 bag`` installed as a part of your regular ROS 2 setup."
+msgid "``action_tutorials_py``"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:51
-msgid ""
-"If you need to install ROS 2, see the :doc:`Installation instructions "
-"<../../../../Get-Started/Installation>`."
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:50
+msgid "``action_tutorials_cpp``"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:53
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:52
 msgid ""
-"This tutorial talks about concepts covered in previous tutorials, "
-"like :doc:`nodes <../../../nodes/Working-with-nodes/Understanding-ROS2-Nodes/"
-"Understanding-ROS2-Nodes>`, :doc:`topics <../../topics/Understanding-ROS2-"
-"Topics/Understanding-ROS2-Topics>`, :doc:`services <../../services/Working-"
-"with-services/Understanding-ROS2-Services/Understanding-ROS2-Services>` "
-"and :doc:`actions <../../actions/Working-with-actions/Understanding-ROS2-"
-"Actions/Understanding-ROS2-Actions>`. It also uses the :doc:`turtlesim "
-"package <../../../../Get-Started/Introducing-Turtlesim/Introducing-"
-"Turtlesim>`, :doc:`Service Introspection Demo <../../../../Developer-Tools/"
-"Introspection-and-analysis/Service-Introspection>` and :doc:`Action "
-"Introspection Demo <../../actions/Working-with-actions/Action-"
-"Introspection>`."
+"In every new terminal you open, source ROS. See :doc:`Configuring "
+"environment <../../../../Get-Started/Configuring-ROS2-Environment>`."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:56
+msgid "Record, inspect, and play back topics"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:58
 msgid ""
-"As always, don't forget to source ROS 2 in :doc:`every new terminal you open "
-"<../../../../Get-Started/Configuring-ROS2-Environment>`."
+"This section walks you through recording topic data with ``ros2 bag``, "
+"inspecting the bag, and playing it back. You use Turtlesim so you can see "
+"the recorded keyboard input replayed in the simulator."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:60
-msgid "Managing Topic Data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:62
+msgid "1 Run the Turtlesim nodes"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:63
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:346
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:532
-msgid "1 Setup"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:65
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:64
 msgid ""
-"You'll be recording your keyboard input in the ``turtlesim`` system to save "
-"and replay later on, so begin by starting up the ``/turtlesim`` and ``/"
-"teleop_turtle`` nodes."
+"The topic examples use the ``turtlesim`` package. Run the ``/turtlesim`` and "
+"``/teleop_turtle`` nodes before recording keyboard input."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:67
@@ -148,13 +146,12 @@ msgid "Open another terminal and run:"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:75
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:379
 msgid "$ ros2 run turtlesim turtle_teleop_key"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:79
-msgid ""
-"Let's also make a new directory to store our saved recordings, just as good "
-"practice:"
+msgid "Open a new terminal and create a directory to store recordings:"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:83
@@ -182,19 +179,39 @@ msgid ""
 "$ cd bag_files"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:106
-msgid "2 Choose a topic"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:104
+msgid ""
+"``ros2 bag record`` creates each bag in the directory where you run it, and "
+"``ros2 bag info`` and ``ros2 bag play`` look for bags there too. Run all "
+"``ros2 bag`` commands in this tutorial from the ``bag_files`` directory."
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:108
-msgid ""
-"``ros2 bag`` can record data from messages published to topics. To see the "
-"list of your system's topics, open a new terminal and run the command:"
+msgid "2 Choose a topic to record"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:111
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:110
 msgid ""
-"$ ros2 topic list\n"
+"A bag is a ROS file format for storing message data. ``ros2 bag`` records "
+"data from messages published to topics into bag files."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:113
+msgid "To list active topics, open a new terminal and run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:115
+msgid "$ ros2 topic list"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:119
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:444
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:645
+msgid "The terminal returns:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:121
+msgid ""
 "/parameter_events\n"
 "/rosout\n"
 "/turtle1/cmd_vel\n"
@@ -202,31 +219,44 @@ msgid ""
 "/turtle1/pose"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:120
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:129
 msgid ""
-"In the topics tutorial, you learned that the ``/turtle_teleop`` node "
-"publishes commands on the ``/turtle1/cmd_vel`` topic to make the turtle move "
-"in turtlesim."
+"As shown in :doc:`Understanding topics <../../topics/Understanding-ROS2-"
+"Topics/Understanding-ROS2-Topics>`, the ``/teleop_turtle`` node publishes "
+"commands on the ``/turtle1/cmd_vel`` topic to move the turtle in Turtlesim."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:122
-msgid ""
-"To see the data that ``/turtle1/cmd_vel`` is publishing, run the command:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:131
+msgid "To see the data that ``/turtle1/cmd_vel`` is publishing, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:124
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:133
 msgid "$ ros2 topic echo /turtle1/cmd_vel"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:128
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:137
 msgid ""
-"Nothing will show up at first because no data is being published by the "
-"teleop. Return to the terminal where you ran the teleop and select it so "
-"it's active. Use the arrow keys to move the turtle around, and you will see "
-"data being published on the terminal running ``ros2 topic echo``."
+"Nothing is shown until the teleoperation node begins publishing. Return to "
+"the terminal where you ran the teleoperation node and select it so it is "
+"active. Use the arrow keys to move the turtle around."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:132
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:142
+msgid ""
+"The ``turtle_teleop_key`` terminal must be the active window to capture your "
+"key presses."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:144
+msgid ""
+"Each time you press an arrow key, the teleoperation node publishes a "
+"``geometry_msgs/msg/Twist`` message, and ``ros2 topic echo`` prints it. "
+"``linear.x`` is the forward or backward speed and ``angular.z`` is the "
+"turning rate. For example, pressing the up arrow publishes the following "
+"message, which moves the turtle forward:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:148
 msgid ""
 "linear:\n"
 "  x: 2.0\n"
@@ -236,41 +266,63 @@ msgid ""
 "  x: 0.0\n"
 "  y: 0.0\n"
 "  z: 0.0\n"
-"  ---"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:146
-msgid "3 Record topics"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:149
-msgid "3.1 Record a single topic"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:151
-msgid "To record the data published to a topic use the command syntax:"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:153
-msgid "$ ros2 bag record --topics <topic_name>"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:157
-msgid ""
-"Before running this command on your chosen topic, open a new terminal and "
-"move into the ``bag_files`` directory you created earlier, because the "
-"rosbag file will save in the directory where you run it."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:159
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:427
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:599
-msgid "Run the command:"
+"---"
 msgstr ""
 
 #: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:161
+msgid "3 Record topics"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:163
 msgid ""
-"$ ros2 bag record --topics /turtle1/cmd_vel\n"
+"Use ``ros2 bag record`` to save topic data into a bag directory. You can "
+"record one topic, several topics at once, or split a long recording across "
+"multiple files."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:167
+msgid "3.1 Record a single topic"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:169
+msgid ""
+"Open a new terminal and navigate to the ``bag_files`` directory you created "
+"earlier. ``ros2 bag record`` creates the bag directory in the working "
+"directory where you run the command."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:172
+msgid "To record data published to a topic, use the following syntax:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:174
+msgid "$ ros2 bag record --topics <topic_name>"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:178
+msgid "For example, record ``/turtle1/cmd_vel``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:180
+msgid "$ ros2 bag record --topics /turtle1/cmd_vel"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:184
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:215
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:255
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:332
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:470
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:509
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:534
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:570
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:678
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:739
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:781
+msgid "You should see output similar to:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:186
+msgid ""
 "[INFO] [rosbag2_storage]: Opened database 'rosbag2_2019_10_11-05_18_45'.\n"
 "[INFO] [rosbag2_transport]: Listening for topics...\n"
 "[INFO] [rosbag2_transport]: Subscribed to topic '/turtle1/cmd_vel'\n"
@@ -278,21 +330,19 @@ msgid ""
 "discovery..."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:169
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:193
 msgid ""
-"Now ``ros2 bag`` is recording the data published on the ``/turtle1/cmd_vel`` "
-"topic. Return to the teleop terminal and move the turtle around again. The "
-"movements don't matter, but try to make a recognizable pattern to see when "
-"you replay the data later."
+"Now, ``ros2 bag`` is recording the data published on the ``/turtle1/"
+"cmd_vel`` topic. Return to the teleoperation terminal and move the turtle "
+"around again. The exact path does not matter, but try to make a recognizable "
+"pattern to verify playback later."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:175
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:199
 msgid "Press :kbd:`Ctrl-C` to stop recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:177
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:441
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:618
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:201
 msgid ""
 "The data will be accumulated in a new bag directory with a name in the "
 "pattern of ``rosbag2_year_month_day-hour_minute_second``. This directory "
@@ -300,23 +350,27 @@ msgid ""
 "format."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:181
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:205
 msgid "3.2 Record multiple topics"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:183
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:207
 msgid ""
 "You can also record multiple topics, as well as change the name of the bag "
-"directory ``ros2 bag`` saves to."
+"directory to which ``ros2 bag`` saves the recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:185
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:209
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:564
 msgid "Run the following command:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:187
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:211
+msgid "$ ros2 bag record -o subset --topics /turtle1/cmd_vel /turtle1/pose"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:217
 msgid ""
-"$ ros2 bag record -o subset --topics /turtle1/cmd_vel /turtle1/pose\n"
 "[INFO] [rosbag2_storage]: Opened database 'subset'.\n"
 "[INFO] [rosbag2_transport]: Listening for topics...\n"
 "[INFO] [rosbag2_transport]: Subscribed to topic '/turtle1/cmd_vel'\n"
@@ -325,55 +379,72 @@ msgid ""
 "discovery..."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:196
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:225
 msgid ""
-"The ``-o`` option allows you to choose a unique name for your bag directory. "
-"The following string, in this case ``subset``, is the bag directory name."
+"The ``-o`` option sets the bag directory name. In this example, the "
+"directory is named ``subset``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:199
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:228
 msgid ""
-"To record more than one topic at a time, simply list each topic separated by "
-"a space after ``--topics``. In this case, the command output above confirms "
+"To record more than one topic at a time, list each topic separated by a "
+"space after ``--topics``. In this case, the command output above confirms "
 "that both topics are being recorded."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:202
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:231
 msgid ""
 "You can move the turtle around and press :kbd:`Ctrl-C` when you're finished."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:206
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:235
 msgid ""
-"There is another option you can add to the command, ``-a``, which records "
-"all the topics on your system."
+"There is another option you can add to the command, ``-a`` / ``--all``, "
+"which records all topics, services, and actions. To record only topics, use "
+"``--all-topics``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:209
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:239
 msgid "3.3 Split recording into multiple files"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:211
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:241
 msgid ""
-"You can also split your recording into multiple files, based on either "
-"recording duration or file size. ``-d <max_bag_duration>`` ensures that each "
-"file only lasts ``<max_bag_duration>`` seconds before it starts writing to a "
-"new file, or ``-b <max_bag_size>`` ensures that each file does not exceed "
-"``<max_bag_size>`` bytes in file size. This prevents large and unwieldy file "
-"sizes, and protects against losing all data if the recording operation "
-"becomes corrupted at some point."
+"You can split your recording into multiple files, based on either recording "
+"duration or file size. Splitting the recording keeps individual files "
+"smaller and limits how much data you lose if a recording becomes corrupted."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:215
-msgid ""
-"Run the following for at least 15 seconds, allowing for three 5-second bag "
-"files to be written:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:244
+msgid "Use either of the following options:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:217
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:246
+msgid ""
+"``-d <max_bag_duration>`` ensures that each file only lasts "
+"``<max_bag_duration>`` seconds before it starts writing to a new file."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:247
+msgid ""
+"``-b <max_bag_size>`` ensures that each file does not exceed "
+"``<max_bag_size>`` bytes in file size."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:249
+msgid ""
+"Run this command and keep it recording for at least 15 seconds so that three "
+"5-second bag files are written:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:251
 msgid ""
 "$ ros2 bag record -o subset_split -d 5 --topics /turtle1/cmd_vel /turtle1/"
-"pose\n"
+"pose"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:257
+msgid ""
 "[INFO] [rosbag2_recorder]: Press SPACE for pausing/resuming\n"
 "[INFO] [rosbag2_recorder]: Listening for topics...\n"
 "[INFO] [rosbag2_recorder]: Event publisher thread: Starting\n"
@@ -390,43 +461,58 @@ msgid ""
 "may take a while"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:231
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:270
 msgid ""
-"Press :kbd:`Ctrl-C` when you're finished. You should find a ``subset_split`` "
-"directory with these files inside: ``0_subset_split_YYYY_MM_DD-"
-"HH_MM_SS.mcap``, ``1_subset_split_YYYY_MM_DD-HH_MM_SS.mcap``, and so on."
+"Press :kbd:`Ctrl-C` when you are finished. You should find a "
+"``subset_split`` directory containing numbered files such as "
+"``0_subset_split_YYYY_MM_DD-HH_MM_SS.mcap`` and ``1_subset_split_YYYY_MM_DD-"
+"HH_MM_SS.mcap``."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:235
-msgid "4 Inspect topic data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:275
+msgid ""
+"Split file naming changed in Lyrical. On earlier distributions, the files "
+"may instead look like ``subset_split_0.mcap``, ``subset_split_1.mcap``, and "
+"so on."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:237
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:447
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:624
-msgid "You can see details about your recording by running:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:279
+msgid "4 Inspect a topic recording"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:239
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:281
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:528
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:733
+msgid "To see details about a recording, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:283
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:530
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:735
 msgid "$ ros2 bag info <bag_name>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:243
-msgid ""
-"Running this command on the ``subset`` bag recording will return a list of "
-"information:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:287
+msgid "For the ``subset`` bag from earlier, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:245
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:289
+msgid "$ ros2 bag info subset"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:293
+msgid "Example output:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:295
 msgid ""
-"$ ros2 bag info subset\n"
-"Files:             subset_0.mcap\n"
+"Files:             0_subset_2025_07_07-21_22_41.mcap\n"
 "Bag size:          228.5 KiB\n"
 "Storage id:        mcap\n"
 "ROS Distro:        rolling\n"
 "Duration:          48.47s\n"
-"Start:             Oct 11 2019 06:09:09.12 (1570799349.12)\n"
-"End                Oct 11 2019 06:09:57.60 (1570799397.60)\n"
+"Start:             Jul 07 2025 21:22:41.12 (1751923361.12)\n"
+"End:               Jul 07 2025 21:23:29.59 (1751923409.59)\n"
 "Messages:          3013\n"
 "Topic information: Topic: /turtle1/cmd_vel | Type: geometry_msgs/msg/Twist | "
 "Count: 9 | Serialization Format: cdr\n"
@@ -438,38 +524,46 @@ msgid ""
 "Action information:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:263
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:312
 msgid ""
-"Alternatively, you can also call ``ros2 bag info`` on an individual file, "
-"such as ``subset_split/0_subset_split_YYYY_MM_DD-HH_MM_SS.mcap``, and it "
-"will only show information for that portion of the recording; in this case, "
-"the first 5 seconds."
+"You can also run ``ros2 bag info`` on an individual file to show information "
+"for only that portion of the recording. For example, ``subset_split/"
+"0_subset_split_YYYY_MM_DD-HH_MM_SS.mcap`` is the first 5 seconds of your "
+"recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:266
-msgid "5 Play topic data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:316
+msgid "5 Play back topic data"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:269
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:318
+msgid ""
+"Use ``ros2 bag play`` to replay a recorded bag, or several bags together "
+"with synced timing."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:321
 msgid "5.1 Play a single bag"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:271
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:323
 msgid ""
-"Before replaying the bag, enter :kbd:`Ctrl-C` in the terminal where the "
-"teleop is running. Then make sure your turtlesim window is visible so you "
-"can see the bag file in action."
+"Before replaying the bag, press :kbd:`Ctrl-C` in the terminal where the "
+"teleoperation node is running. That stops live teleop commands from "
+"publishing on ``/turtle1/cmd_vel`` so they do not interfere with the "
+"replayed messages."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:274
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:472
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:657
-msgid "Enter the command:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:326
+msgid "Make sure the Turtlesim window is visible, then run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:276
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:328
+msgid "$ ros2 bag play subset"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:334
 msgid ""
-"$ ros2 bag play subset\n"
 "[INFO] [rosbag2_player]: Set rate to 1\n"
 "[INFO] [rosbag2_player]: Adding keyboard callbacks.\n"
 "[INFO] [rosbag2_player]: Press SPACE for Pause/Resume\n"
@@ -485,157 +579,172 @@ msgid ""
 "[1751923361.427372456] Duration 0.00/48.47 [R]"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:293
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:350
 msgid ""
-"Your turtle will follow the same path you entered while recording (though "
-"not 100% exactly; turtlesim is sensitive to small changes in the system's "
-"timing)."
+"The turtle follows approximately the same path entered during recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:297
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:353
 msgid ""
-"Because the ``subset`` file recorded the ``/turtle1/pose`` topic, the ``ros2 "
-"bag play`` command won't quit for as long as you had turtlesim running, even "
-"if you weren't moving."
+"Turtlesim is sensitive to small changes in system timing, so playback may "
+"not match exactly."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:299
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:357
 msgid ""
-"This is because as long as the ``/turtlesim`` node is active, it publishes "
-"data on the  ``/turtle1/pose`` topic at regular intervals. You may have "
-"noticed in the ``ros2 bag info`` example result above that the  ``/turtle1/"
-"cmd_vel`` topic's ``Count`` information was only 9; that's how many times we "
-"pressed the arrow keys while recording."
+"Playback lasts as long as the original recording, even if the turtle was not "
+"moving for some of that time. This is because the ``subset`` bag also "
+"recorded the ``/turtle1/pose`` topic, which was published throughout the "
+"recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:302
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:360
 msgid ""
-"Notice that ``/turtle1/pose`` has a ``Count`` value of over 3000; while we "
-"were recording, data was published on that topic 3000 times."
+"While the ``/turtlesim`` node is active, it publishes data on the ``/turtle1/"
+"pose`` topic at regular intervals. In the ``ros2 bag info`` example above, "
+"the ``/turtle1/cmd_vel`` topic ``Count`` is 9, matching the number of arrow-"
+"key presses during recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:304
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:363
 msgid ""
-"To get an idea of how often position data is published, you can run the "
-"command:"
+"The ``/turtle1/pose`` topic ``Count`` is over 3000 because data was "
+"published on that topic throughout the recording."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:306
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:365
+msgid "To see how often position data is published, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:367
 msgid "$ ros2 topic hz /turtle1/pose"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:311
-msgid "5.2 Play multiple bags"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:372
+msgid "5.2 Play multiple bags in parallel"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:313
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:374
 msgid ""
-"At times, it is relevant to split the desired recorded topics amongst "
-"multiple recordings, as a way to distribute the recording workload. As an "
-"example, we can record ``/turtle1/cmd_vel`` and ``/turtle1/pose`` each to "
-"their own bag."
+"You can split recorded topics across separate bags to distribute the "
+"recording workload. For example, record ``/turtle1/cmd_vel`` and ``/turtle1/"
+"pose`` in separate terminals."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:316
-msgid "Create two terminal instances. In the first one, run the following:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:377
+msgid ""
+"Restart the teleoperation node in its terminal, because you stopped it "
+"before playback in the previous step:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:319
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:383
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:503
+msgid "In a new terminal, from the ``bag_files`` directory, run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:385
 msgid "$ ros2 bag record -o subset_cmd_vel --topics /turtle1/cmd_vel"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:323
-msgid "In the second terminal, run this:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:389
+msgid "In another new terminal, from the ``bag_files`` directory, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:325
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:391
 msgid "$ ros2 bag record -o subset_pose --topics /turtle1/pose"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:329
-msgid ""
-"Move the turtle around as you did before, then end both recordings "
-"with :kbd:`Ctrl-C` when finished."
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:395
+msgid "Move the turtle around, then stop both recordings with :kbd:`Ctrl-C`."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:331
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:396
 msgid ""
-"To have these two recordings play in parallel with correct timing, call "
-"``ros2 bag play`` with ``-i <bag_name>`` for each bag you want to include. "
-"In this case, run:"
+"To play these recordings together with correct timing, pass ``-i "
+"<bag_name>`` for each bag:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:334
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:398
 msgid "$ ros2 bag play -i subset_cmd_vel -i subset_pose"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:338
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:402
 msgid ""
-"This will play the ``subset_cmd_vel`` and ``subset_pose`` recordings "
-"together, with the playback synced to replicate the original order of "
-"messages. If used, the optional argument ``--message-order {received,sent}`` "
-"determines whether the messages are sequenced according to the time they "
-"were received or published (defaults to received). This applies to playing a "
-"single bag as well."
+"This plays the ``subset_cmd_vel`` and ``subset_pose`` recordings together, "
+"with playback synced to replicate the original message order. The optional "
+"argument ``--message-order {received,sent}`` sets whether messages are "
+"sequenced by receive time or publish time. The default is ``received``. This "
+"option also applies when playing a single bag."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:343
-msgid "Managing Service Data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:408
+msgid "Record, inspect, and play back services"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:348
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:410
 msgid ""
-"You'll be recording service data between ``introspection_client`` and "
-"``introspection_service``, then display and replay that same data later on. "
-"To record service data between service client and server, ``Service "
-"Introspection`` must be enabled on the node."
+"This section walks you through recording service request and response data, "
+"inspecting the bag, and playing those interactions back."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:351
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:414
 msgid ""
-"Let's start ``introspection_client`` and ``introspection_service`` nodes and "
-"enable ``Service Introspection``. You can see more details for :doc:`Service "
-"Introspection Demo <../../../../Developer-Tools/Introspection-and-analysis/"
-"Service-Introspection>`."
+"Recording and playing back services requires a ROS distribution of Jazzy or "
+"later."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:354
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:417
+msgid "1 Run the introspection demo nodes"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:419
 msgid ""
-"Open a new terminal and run ``introspection_service``, enabling ``Service "
-"Introspection``:"
+"The service examples use the :doc:`Service Introspection Demo <../../../../"
+"Developer-Tools/Introspection-and-analysis/Service-Introspection>`. Service "
+"introspection must be enabled on both the client and server nodes to record "
+"service data."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:356
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:422
+msgid ""
+"Open a new terminal and run ``introspection_service`` with service "
+"introspection enabled:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:424
 msgid ""
 "$ ros2 run demo_nodes_cpp introspection_service --ros-args -p "
 "service_configure_introspection:=contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:360
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:428
 msgid ""
-"Open another terminal and run ``introspection_client``, enabling ``Service "
-"Introspection``:"
+"Open another terminal and run ``introspection_client`` with service "
+"introspection enabled:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:362
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:430
 msgid ""
 "$ ros2 run demo_nodes_cpp introspection_client --ros-args -p "
 "client_configure_introspection:=contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:367
-msgid "2 Check service availability"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:435
+msgid "2 Check that services are available"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:369
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:437
 msgid ""
-"``ros2 bag`` can only record data from available services. To see the list "
-"of your system's services, open a new terminal and run the command:"
+"``ros2 bag`` can only record data from available services. To list active "
+"services, open a new terminal and run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:372
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:440
+msgid "$ ros2 service list"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:446
 msgid ""
-"$ ros2 service list\n"
 "/add_two_ints\n"
 "/introspection_client/describe_parameters\n"
 "/introspection_client/get_parameter_types\n"
@@ -653,15 +762,17 @@ msgid ""
 "/introspection_service/set_parameters_atomically"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:391
-msgid ""
-"To check if ``Service Introspection`` is enabled on the client and service, "
-"run the command:"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:464
+msgid "To verify that service introspection is enabled, run:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:393
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:466
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:560
+msgid "$ ros2 service echo --flow-style /add_two_ints"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:472
 msgid ""
-"$ ros2 service echo --flow-style /add_two_ints\n"
 "info:\n"
 "  event_type: REQUEST_SENT\n"
 "  stamp:\n"
@@ -674,39 +785,38 @@ msgid ""
 "---"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:407
-msgid "You should see the service communication."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:410
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:486
 msgid "3 Record services"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:412
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:488
 msgid ""
-"To record service data, the following options are supported. Service data "
-"can be recorded with topics at the same time."
+"Use ``--services`` to record named services, or ``--all-services`` to record "
+"every available service. You can record services and topics at the same time."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:415
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:491
 msgid "To record specific services:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:417
-msgid "$ ros2 bag record --service <service_names>"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:493
+msgid "$ ros2 bag record --services <service_names>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:421
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:497
 msgid "To record all services:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:423
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:499
 msgid "$ ros2 bag record --all-services"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:429
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:505
+msgid "$ ros2 bag record --services /add_two_ints"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:511
 msgid ""
-"$ ros2 bag record --service /add_two_ints\n"
 "[INFO] [1713995957.643573503] [rosbag2_recorder]: Press SPACE for pausing/"
 "resuming\n"
 "[INFO] [1713995957.662067587] [rosbag2_recorder]: Event publisher thread: "
@@ -717,21 +827,27 @@ msgid ""
 "[INFO] [1713995957.666092458] [rosbag2_recorder]: Recording..."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:438
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:519
 msgid ""
 "Now ``ros2 bag`` is recording the service data published on the ``/"
-"add_two_ints`` service. To stop the recording, enter :kbd:`Ctrl-C` in the "
+"add_two_ints`` service. To stop the recording, press :kbd:`Ctrl-C` in the "
 "terminal."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:445
-msgid "4 Inspect service data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:522
+msgid ""
+"The data will be recorded in a new bag directory with a name in the pattern "
+"of ``rosbag2_year_month_day-hour_minute_second``. This directory will "
+"contain a ``metadata.yaml`` along with the bag file in the recorded format."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:449
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:526
+msgid "4 Inspect a service recording"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:536
 msgid ""
-"$ ros2 bag info <bag_file_name>\n"
-"Files:             rosbag2_2024_04_24-14_59_17_0.mcap\n"
+"Files:             0_rosbag2_2024_04_24-14_59_17.mcap\n"
 "Bag size:          15.1 KiB\n"
 "Storage id:        mcap\n"
 "ROS Distro:        rolling\n"
@@ -745,27 +861,36 @@ msgid ""
 "AddTwoInts | Event Count: 78 | Serialization Format: cdr"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:465
-msgid "5 Play service data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:551
+msgid "5 Play back service data"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:467
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:553
 msgid ""
-"Before replaying the bag file, enter :kbd:`Ctrl-C` in the terminal where "
-"``introspection_client`` is running. When ``introspection_client`` stops "
-"running, ``introspection_service`` also stops printing the result because "
-"there are no incoming requests."
+"Playback sends the recorded service requests to ``introspection_service``. "
+"If ``introspection_client`` is still running, its live requests mix with the "
+"replayed ones."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:470
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:556
 msgid ""
-"Replaying the service data from the bag file will start sending the requests "
-"to ``introspection_service``."
+"Press :kbd:`Ctrl-C` in the terminal where ``introspection_client`` is "
+"running. ``introspection_service`` keeps running and stops printing until "
+"playback starts sending requests again."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:474
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:558
 msgid ""
-"$ ros2 bag play --publish-service-requests <bag_file_name>\n"
+"To inspect service communication during playback, run this command in "
+"another terminal before you start ``ros2 bag play``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:566
+msgid "$ ros2 bag play --publish-service-requests <bag_name>"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:572
+msgid ""
 "[INFO] [1713997477.870856190] [rosbag2_player]: Set rate to 1\n"
 "[INFO] [1713997477.877417477] [rosbag2_player]: Adding keyboard callbacks.\n"
 "[INFO] [1713997477.877442404] [rosbag2_player]: Press SPACE for Pause/"
@@ -779,47 +904,26 @@ msgid ""
 "[INFO] [1713997477.877573647] [rosbag2_player]: Playback until timestamp: -1"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:485
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:582
 msgid ""
-"Your ``introspection_service`` terminal will once again start printing the "
-"following service messages:"
+"The ``introspection_service`` terminal starts printing service messages "
+"again:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:487
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:584
 msgid ""
 "[INFO] [1713997478.090466075] [introspection_service]: Incoming request\n"
 "a: 2 b: 3"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:492
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:589
 msgid ""
-"This is because ``ros2 bag play`` sends the service request data from the "
-"bag file to the ``/add_two_ints`` service."
+"``ros2 bag play`` sends the service request data from the bag file to the ``/"
+"add_two_ints`` service. The ``ros2 service echo`` terminal shows the service "
+"request from the bag file and the response from ``introspection_service``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:494
-msgid ""
-"We can also introspect service communication as ``ros2 bag play`` is playing "
-"it back to verify the ``introspection_service``."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:496
-msgid ""
-"Run this command before ``ros2 bag play`` to see the "
-"``introspection_service``:"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:498
-msgid "$ ros2 service echo --flow-style /add_two_ints"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:502
-msgid ""
-"You can see the service request from the bag file and the service response "
-"from  ``introspection_service``."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:504
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:592
 msgid ""
 "info:\n"
 "  event_type: REQUEST_RECEIVED\n"
@@ -842,119 +946,106 @@ msgid ""
 "response: [{sum: 5}]"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:529
-msgid "Managing Action Data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:617
+msgid "Record, inspect, and play back actions"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:534
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:619
 msgid ""
-"You'll be recording action data between ``fibonacci_action_client`` and "
-"``fibonacci_action_server``, then display and replay that same data later "
-"on. To record action data between action client and server, ``Action "
-"Introspection`` must be enabled on the nodes."
+"This section walks you through recording action goals, feedback, and "
+"results, inspecting the bag, and playing that data back. Action recording "
+"needs introspection enabled on the server and client."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:537
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:624
 msgid ""
-"Let's start ``fibonacci_action_client`` and ``fibonacci_action_server`` "
-"nodes and enable ``Action Introspection``. You can see more details "
-"for :doc:`Action Introspection Demo <../../actions/Working-with-actions/"
-"Action-Introspection>`."
+"Recording and playing back actions requires a ROS distribution of Kilted or "
+"later."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:540
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:627
+msgid "1 Run the Fibonacci action server"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:629
 msgid ""
-"Open a new terminal and run ``fibonacci_action_server``, enabling ``Action "
-"Introspection``:"
+"The action examples use the :doc:`Action Introspection Demo <../../actions/"
+"Working-with-actions/Action-Introspection>`. Action introspection must be "
+"enabled on the server and client to record action data."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:542
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:632
+msgid ""
+"Open a new terminal and run ``fibonacci_action_server`` with action "
+"introspection enabled:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:634
 msgid ""
 "$ ros2 run action_tutorials_py fibonacci_action_server --ros-args -p "
 "action_server_configure_introspection:=contents"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:546
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:638
 msgid ""
-"Open another terminal and run ``fibonacci_action_client``, enabling ``Action "
-"Introspection``:"
+"``ros2 bag`` can only record data from available actions. With the server "
+"running, open a new terminal and list active actions:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:548
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:641
+msgid "$ ros2 action list"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:647
+msgid "/fibonacci"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:652
+msgid "2 Record actions"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:654
 msgid ""
-"$ ros2 run action_tutorials_cpp fibonacci_action_client --ros-args -p "
-"action_client_configure_introspection:=contents"
+"Use ``--actions`` to record named actions, or ``--all-actions`` to record "
+"every available action. You can record actions together with topics and "
+"services."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:553
-msgid "2 Check action availability"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:555
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:657
 msgid ""
-"``ros2 bag`` can only record data from available actions. To see the list of "
-"your system's actions, open a new terminal and run the command:"
+"The ``fibonacci_action_client`` sends one goal and then exits. Start "
+"recording before you run the client so the goal, feedback, and result are "
+"captured."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:558
-msgid ""
-"$ ros2 action list\n"
-"/fibonacci"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:563
-msgid ""
-"To check if ``Action Introspection`` is enabled on the action, run the "
-"command:"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:565
-msgid ""
-"$ ros2 action echo --flow-style /fibonacci\n"
-"interface: GOAL_SERVICE\n"
-"info:\n"
-"  event_type: REQUEST_SENT\n"
-"  stamp:\n"
-"    sec: 1744917904\n"
-"    nanosec: 760683446\n"
-"  client_gid: [1, 15, 165, 231, 234, 109, 65, 202, 0, 0, 0, 0, 0, 0, 19, 4]\n"
-"  sequence_number: 1\n"
-"request: [{goal_id: {uuid: [81, 55, 121, 145, 81, 66, 209, 93, 214, 113, "
-"255, 100, 120, 6, 102, 83]}, goal: {order: 10}}]\n"
-"response: []\n"
-"---\n"
-"..."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:582
-msgid "3 Record actions"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:584
-msgid ""
-"To record action data, the following options are supported. Action data can "
-"be recorded with topics and services at the same time."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:587
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:660
 msgid "To record specific actions:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:589
-msgid "$ ros2 bag record --action <action_names>"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:662
+msgid "$ ros2 bag record --actions <action_names>"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:593
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:666
 msgid "To record all actions:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:595
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:668
 msgid "$ ros2 bag record --all-actions"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:601
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:672
 msgid ""
-"$ ros2 bag record --action /fibonacci\n"
+"In a new terminal, from the ``bag_files`` directory, start recording ``/"
+"fibonacci``:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:674
+msgid "$ ros2 bag record --actions /fibonacci"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:680
+msgid ""
 "[INFO] [1744953225.214114862] [rosbag2_recorder]: Press SPACE for pausing/"
 "resuming\n"
 "[INFO] [1744953225.218369761] [rosbag2_recorder]: Listening for topics...\n"
@@ -974,21 +1065,77 @@ msgid ""
 "..."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:615
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:693
 msgid ""
-"Now ``ros2 bag`` is recording the action data for the ``/fibonacci`` action: "
-"goal, result, and feedback. To stop the recording, enter :kbd:`Ctrl-C` in "
-"the terminal."
+"In another terminal, start ``ros2 action echo`` to verify introspection:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:622
-msgid "4 Inspect action data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:695
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:771
+msgid "$ ros2 action echo --flow-style /fibonacci"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:626
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:699
 msgid ""
-"$ ros2 bag info <bag_file_name>\n"
-"Files:             rosbag2_2025_04_17-22_20_40_0.mcap\n"
+"When you run the client in the next step, this terminal shows output similar "
+"to:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:701
+msgid ""
+"interface: GOAL_SERVICE\n"
+"info:\n"
+"  event_type: REQUEST_SENT\n"
+"  stamp:\n"
+"    sec: 1744917904\n"
+"    nanosec: 760683446\n"
+"  client_gid: [1, 15, 165, 231, 234, 109, 65, 202, 0, 0, 0, 0, 0, 0, 19, 4]\n"
+"  sequence_number: 1\n"
+"request: [{goal_id: {uuid: [81, 55, 121, 145, 81, 66, 209, 93, 214, 113, "
+"255, 100, 120, 6, 102, 83]}, goal: {order: 10}}]\n"
+"response: []\n"
+"---\n"
+"..."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:716
+msgid ""
+"While recording is active, open another terminal and run the action client "
+"with introspection enabled:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:718
+msgid ""
+"$ ros2 run action_tutorials_cpp fibonacci_action_client --ros-args -p "
+"action_client_configure_introspection:=contents"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:722
+msgid ""
+"The client sends a goal, receives feedback, then exits. To capture more "
+"action traffic, run the client again while recording is still active."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:725
+msgid ""
+"When you have finished recording, press :kbd:`Ctrl-C` in the ``ros2 bag "
+"record`` terminal."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:727
+msgid ""
+"The data is stored in a new bag directory with a name in the pattern of "
+"``rosbag2_year_month_day-hour_minute_second``. This directory contains a "
+"``metadata.yaml`` file along with the bag file in the recorded format."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:731
+msgid "3 Inspect an action recording"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:741
+msgid ""
+"Files:             0_rosbag2_2025_04_17-22_20_40.mcap\n"
 "Bag size:          20.7 KiB\n"
 "Storage id:        mcap\n"
 "ROS Distro:        rolling\n"
@@ -1010,27 +1157,30 @@ msgid ""
 "    Service: get_result | Event Count: 4"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:650
-msgid "5 Play action data"
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:764
+msgid "4 Play back action data"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:652
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:766
 msgid ""
-"Before replaying the bag file, enter :kbd:`Ctrl-C` in the terminal where "
-"``fibonacci_action_client`` is running. When ``fibonacci_action_client`` "
-"stops running, ``fibonacci_action_server`` also stops printing the result "
-"because there are no incoming requests."
+"Keep ``fibonacci_action_server`` running. Playback sends action goal "
+"requests from the bag file to that server."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:655
-msgid ""
-"Replaying the action data from the bag file will start sending the requests "
-"to ``fibonacci_action_server``."
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:769
+msgid "In another terminal, start introspection before playback:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:659
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:775
+msgid "Then run:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:777
+msgid "$ ros2 bag play --send-actions-as-client <bag_name>"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:783
 msgid ""
-"$ ros2 bag play --send-actions-as-client <bag_file_name>\n"
 "[INFO] [1744953720.691068674] [rosbag2_player]: Set rate to 1\n"
 "[INFO] [1744953720.702365209] [rosbag2_player]: Adding keyboard callbacks.\n"
 "[INFO] [1744953720.702409447] [rosbag2_player]: Press SPACE for Pause/"
@@ -1051,13 +1201,13 @@ msgid ""
 "[1744953656.281683207] Duration 9.02/9.02 [R]"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:676
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:799
 msgid ""
-"Your ``fibonacci_action_server`` terminal will once again start printing the "
-"following service messages:"
+"The ``fibonacci_action_server`` terminal starts printing feedback messages "
+"again:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:678
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:801
 msgid ""
 "[INFO] [1744953720.815577088] [fibonacci_action_server]: Executing goal...\n"
 "[INFO] [1744953720.815927050] [fibonacci_action_server]: Feedback: "
@@ -1080,28 +1230,21 @@ msgid ""
 "array('i', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:691
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:814
 msgid ""
-"This is because ``ros2 bag play`` sends the action goal request data from "
-"the bag file to the ``/fibonacci`` action."
+"``ros2 bag play`` sends the action goal request data from the bag file to "
+"the ``/fibonacci`` action."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:693
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:816
 msgid ""
-"We can also introspect action communication as ``ros2 bag play`` is playing "
-"it back to verify the ``fibonacci_action_server``."
+"If you started ``ros2 action echo`` before playback, the output shows the "
+"action goal request from the bag file and responses from "
+"``fibonacci_action_server``:"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:695
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:818
 msgid ""
-"Run this command before ``ros2 bag play`` to see the "
-"``fibonacci_action_server``. You can see the action goal request from the "
-"bag file and the service response from  ``fibonacci_action_server``:"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:698
-msgid ""
-"$ ros2 action echo --flow-style /fibonacci\n"
 "interface: STATUS_TOPIC\n"
 "status_list: [{goal_info: {goal_id: {uuid: [34, 116, 225, 217, 48, 121, 146, "
 "36, 240, 98, 99, 134, 55, 227, 184, 72]}, stamp: {sec: 1744953720, nanosec: "
@@ -1145,44 +1288,112 @@ msgid ""
 "..."
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:738
-msgid "Summary"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:740
-msgid ""
-"You can record data passed on topics, services and actions in your ROS 2 "
-"system using the ``ros2 bag`` command. Whether you're sharing your work with "
-"others or introspecting your own experiments, it's a great tool to know "
-"about."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:744
-msgid "Next steps"
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:746
-msgid ""
-"You've completed the \"Beginner: CLI Tools\" tutorials! The next step is "
-"tackling the \"Beginner: Client Libraries\" tutorials, starting "
-"with :doc:`../../../client-libraries/Working-with-Client-Libraries/Creating-"
-"A-Workspace/Creating-A-Workspace`."
-msgstr ""
-
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:750
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:857
 msgid "Related content"
 msgstr ""
 
-#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:752
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:859
+msgid "Related articles:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:861
 msgid ""
-"A more thorough explanation of ``ros2 bag`` can be found in the README `here "
-"<https://github.com/ros2/rosbag2>`__. For more information on service "
-"recording and playback can be found in the design document `here <https://"
-"github.com/ros2/rosbag2/blob/rolling/docs/design/"
-"rosbag2_record_replay_service.md>`__. For more information on action "
-"recording and playback can be found in the design document `here <https://"
-"github.com/ros2/rosbag2/blob/rolling/docs/design/"
-"rosbag2_record_replay_action.md>`__. For more information on QoS "
-"compatibility and ``ros2 bag``, see :doc:`../../../../Developer-Tools/"
-"Debugging/Testing/Overriding-QoS-Policies-For-Recording-And-Playback`."
+":doc:`Learning about nodes <../../../nodes/Working-with-nodes/Understanding-"
+"ROS2-Nodes/Understanding-ROS2-Nodes>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:862
+msgid ""
+":doc:`Understanding topics <../../topics/Understanding-ROS2-Topics/"
+"Understanding-ROS2-Topics>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:863
+msgid ""
+":doc:`Understanding services <../../services/Working-with-services/"
+"Understanding-ROS2-Services/Understanding-ROS2-Services>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:864
+msgid ""
+":doc:`Understanding actions <../../actions/Working-with-actions/"
+"Understanding-ROS2-Actions/Understanding-ROS2-Actions>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:865
+msgid ""
+":doc:`Overriding QoS policies for recording and playback <../../../../"
+"Developer-Tools/Debugging/Testing/Overriding-QoS-Policies-For-Recording-And-"
+"Playback>`"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:869
+msgid "External resources:"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:871
+msgid ""
+"`rosbag2 README <https://github.com/ros2/rosbag2>`__: thorough explanation "
+"of ``ros2 bag``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:872
+msgid ""
+"`Service recording and playback design <https://github.com/ros2/rosbag2/blob/"
+"rolling/docs/design/rosbag2_record_replay_service.md>`__: design details for "
+"services."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:873
+msgid ""
+"`Action recording and playback design <https://github.com/ros2/rosbag2/blob/"
+"rolling/docs/design/rosbag2_record_replay_action.md>`__: design details for "
+"actions."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:876
+msgid "FAQs"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:878
+msgid "What does ``ros2 bag`` record?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:879
+msgid ""
+"It can record data from topics, services, and actions in your ROS system. "
+"You choose which interfaces to record with options such as ``--topics``, ``--"
+"services``, and ``--actions``."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:882
+msgid "Where are recordings saved?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:883
+msgid ""
+"In a bag directory created in the working directory where you run ``ros2 bag "
+"record``. Use ``-o`` to set a custom directory name. Each bag directory "
+"contains metadata and the recorded data files."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:887
+msgid "How do I inspect a recording before playing it back?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:888
+msgid ""
+"Run ``ros2 bag info <bag_name>``. The output lists duration, message counts, "
+"and which topics, services, and actions were recorded."
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:891
+msgid "How do I play back service or action data?"
+msgstr ""
+
+#: ../../../source/ROS-Framework/interfaces/Working-with-interfaces/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.rst:892
+msgid ""
+"For services, use ``ros2 bag play --publish-service-requests <bag_name>``. "
+"For actions, use ``ros2 bag play --send-actions-as-client <bag_name>``. "
+"Topic playback uses ``ros2 bag play <bag_name>``."
 msgstr ""
